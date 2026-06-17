@@ -1,26 +1,210 @@
 @import "tailwindcss";
 
+/*
+ * Ocean depth design system.
+ *
+ * Colors here are the SAME values encoded in src/lib/depth.ts. The CSS variables
+ * drive DOM surfaces (sections, static gradient, chrome); depth.ts drives the
+ * WebGL fog. If you change a zone color, change it in BOTH places.
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surface (0m) */
+  --surface-sky: #bfe9f0;
+  --surface-water: #5fc2d6;
+  --surface-deep: #2a8fb0;
+  --surface-sun: #ffe9a8;
+  --surface-foam: #ffffff;
+
+  /* Upper midwater */
+  --mid-top: #0e4d63;
+  --mid-body: #0a3a52;
+  --mid-deep: #072a42;
+
+  /* Deep / midnight */
+  --deep-top: #051f33;
+  --deep-body: #03162a;
+  --deep-floor: #020e1f;
+
+  /* Abyss / seabed */
+  --abyss-top: #010a19;
+  --abyss-body: #01060f;
+  --abyss-void: #000308;
+  --abyss-silt: #0b1420;
+
+  /* Bioluminescent accents (brighter the deeper you go) */
+  --bio-cyan: #3fe0e6; /* primary glow / links / active */
+  --bio-aqua: #5ff2c8; /* secondary */
+  --bio-lumen: #8fe8ff; /* light shafts / deep headings */
+  --bio-violet: #7b8cff; /* rare */
+  --bio-hot: #36f5b0; /* single hot CTA per viewport */
+
+  /* Text on dark zones */
+  --ink-heading: #eaf6fb;
+  --ink-body: #c2d6e0;
+  --ink-muted: #8aa3b2;
+  --ink-faint: #54707f;
+
+  /* Text on the light surface zone (dark text on light) */
+  --ink-light-primary: #04222e;
+  --ink-light-secondary: #0b3a48;
+
+  --background: var(--abyss-body);
+  --foreground: var(--ink-body);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-surface-sky: var(--surface-sky);
+  --color-surface-water: var(--surface-water);
+  --color-surface-deep: var(--surface-deep);
+  --color-surface-sun: var(--surface-sun);
+  --color-surface-foam: var(--surface-foam);
+
+  --color-mid-top: var(--mid-top);
+  --color-mid-body: var(--mid-body);
+  --color-mid-deep: var(--mid-deep);
+
+  --color-deep-top: var(--deep-top);
+  --color-deep-body: var(--deep-body);
+  --color-deep-floor: var(--deep-floor);
+
+  --color-abyss-top: var(--abyss-top);
+  --color-abyss-body: var(--abyss-body);
+  --color-abyss-void: var(--abyss-void);
+  --color-abyss-silt: var(--abyss-silt);
+
+  --color-bio-cyan: var(--bio-cyan);
+  --color-bio-aqua: var(--bio-aqua);
+  --color-bio-lumen: var(--bio-lumen);
+  --color-bio-violet: var(--bio-violet);
+  --color-bio-hot: var(--bio-hot);
+
+  --color-ink-heading: var(--ink-heading);
+  --color-ink-body: var(--ink-body);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-ink-light-primary: var(--ink-light-primary);
+  --color-ink-light-secondary: var(--ink-light-secondary);
+
+  /* Fonts: variables are bound in layout.tsx via next/font. */
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-hanken);
+  --font-mono: var(--font-jetbrains);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--abyss-body);
+  /* Smooth scroll only as a fallback; Lenis drives the real thing. */
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: transparent;
+  color: var(--ink-body);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* When Lenis is active it adds .lenis to <html>. Keep native smooth scroll off
+   so the two engines don't fight; Lenis handles smoothing itself. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Body copy column target ~68ch. */
+.measure {
+  max-width: 68ch;
+}
+
+/* Display headings use Fraunces with optical sizing on. */
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-optical-sizing: auto;
+}
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* A soft bioluminescent text glow utility for deep headings/links. */
+.glow-cyan {
+  text-shadow:
+    0 0 12px color-mix(in srgb, var(--bio-cyan) 55%, transparent),
+    0 0 32px color-mix(in srgb, var(--bio-cyan) 25%, transparent);
+}
+.glow-hot {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--bio-hot) 60%, transparent),
+    0 0 24px color-mix(in srgb, var(--bio-hot) 35%, transparent),
+    0 0 56px color-mix(in srgb, var(--bio-hot) 18%, transparent);
+}
+
+/* Visible focus ring for keyboard users on dark backgrounds. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--bio-cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Screen-reader-only utility (skip link sits here until focused). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.focus\:not-sr-only:focus {
+  position: fixed;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Gentle vertical drift used by section reveals when motion is allowed. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+/* Respect OS reduced-motion: kill all non-essential animation/transition. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
