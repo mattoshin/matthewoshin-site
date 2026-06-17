@@ -16,13 +16,22 @@
  */
 
 import WaterColumn from "./elements/WaterColumn";
+import BioParticles from "./elements/BioParticles";
+import Kelp from "./elements/Kelp";
+import FishSchool from "./elements/FishSchool";
+import Sharks from "./elements/Sharks";
+import CausticsLight from "./elements/CausticsLight";
+import WaterSurface from "./elements/WaterSurface";
+import Sailboats from "./elements/Sailboats";
 import type { SceneElementEntry } from "./types";
 
 export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
   { id: "water-column", Component: WaterColumn },
-  // { id: "water-surface", Component: WaterSurface },
-  // { id: "bioluminescent-particles", Component: BioParticles },
-  // { id: "kelp", Component: Kelp },
-  // { id: "fish", Component: Fish },
-  // { id: "sharks", Component: Sharks },
+  { id: "bioparticles", Component: BioParticles },
+  { id: "kelp", Component: Kelp },
+  { id: "fishschool", Component: FishSchool },
+  { id: "sharks", Component: Sharks },
+  { id: "caustics-light", Component: CausticsLight },
+  { id: "water-surface", Component: WaterSurface },
+  { id: "sailboats", Component: Sailboats },
 ];
