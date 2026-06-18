@@ -34,20 +34,67 @@ export const SITE = {
 } as const;
 
 /**
- * The bucket nav. Order is fixed by the brief. `id` is the immutable zone id;
- * `label` is the display label (also the source of truth in depth.ts, repeated
- * here so the nav can render without importing the full ZONES array).
+ * The site map. Each bucket is its OWN PAGE at its own ocean depth.
  *
- * "surface" (Home) is intentionally NOT in this list: the wordmark returns home.
+ *   `id`      immutable zone id (WebGL creatures gate on it; never rename)
+ *   `label`   nav + header display label
+ *   `href`    the route this bucket lives at
+ *   `teaser`  one-line preview shown on the home launchpad card
+ *
+ * Order is fixed by the brief: Experience -> Entrepreneurship -> Skills ->
+ * Education -> Interests -> Contact, descending from the sunlit shallows to the
+ * floor. "surface" (Home, "/") is intentionally NOT in this list: the wordmark
+ * returns home.
  */
-export const BUCKETS: readonly { id: ZoneId; label: string }[] = [
-  { id: "about", label: "Experience" },
-  { id: "projects", label: "Entrepreneurship" },
-  { id: "ventures", label: "Skills" },
-  { id: "writing", label: "Education" },
-  { id: "skills", label: "Interests" },
-  { id: "contact", label: "Contact" },
+export interface Bucket {
+  id: ZoneId;
+  label: string;
+  href: string;
+  teaser: string;
+}
+
+export const BUCKETS: readonly Bucket[] = [
+  {
+    id: "about",
+    label: "Experience",
+    href: "/experience",
+    teaser: "CAIO at BrachyClip, VP of AI at ICR, equity research before that.",
+  },
+  {
+    id: "projects",
+    label: "Entrepreneurship",
+    href: "/entrepreneurship",
+    teaser: "Mocean, Element Underground, and the products I'm shipping now.",
+  },
+  {
+    id: "ventures",
+    label: "Skills",
+    href: "/skills",
+    teaser: "AI engineering, full-stack, markets, data and product.",
+  },
+  {
+    id: "writing",
+    label: "Education",
+    href: "/education",
+    teaser: "University of Michigan, B.A. Economics.",
+  },
+  {
+    id: "skills",
+    label: "Interests",
+    href: "/interests",
+    teaser: "DJ rig, sneakers, markets, networking, emerging tech.",
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    href: "/contact",
+    teaser: "Email, LinkedIn, GitHub, or book a time.",
+  },
 ] as const;
+
+/** Quick lookups for the nav active-state + page headers. */
+export const BUCKET_BY_HREF: Readonly<Record<string, Bucket>> =
+  Object.fromEntries(BUCKETS.map((b) => [b.href, b]));
 
 export const HERO = {
   name: "Matthew Oshin",
@@ -59,7 +106,7 @@ export const HERO = {
   // One concise bio for the front page, kept distinct from the hook so nothing
   // repeats. The full story lives in the deeper sections.
   bio: "Today I'm Chief AI Officer at BrachyClip and most recently led the AI & Intelligence Lab at ICR. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders.",
-  scrollHint: "Scroll to descend",
+  scrollHint: "Pick a depth to dive",
 } as const;
 
 /**

@@ -1,9 +1,22 @@
 /**
  * store.ts - the single zustand store for the descent.
  *
- * This is the runtime source of truth that bridges three worlds that must never
- * SSR-couple: the Lenis/GSAP scroll driver (writes), the DOM chrome like the
- * depth gauge (reads), and the WebGL canvas (reads every frame in useFrame).
+ * MULTI-PAGE / ROUTE-DRIVEN DEPTH
+ * --------------------------------
+ * Depth is no longer scroll-driven. The site is multi-page, and the ocean is a
+ * single persistent canvas in the root layout. Each route declares its zone id;
+ * a tiny <ZoneSetter> on the page sets `targetProgress` to that zone's center.
+ * The canvas DepthController LERPs the camera + fog from where it is toward
+ * `targetProgress`, so navigating between pages DIVES the camera through the
+ * water to the new depth (the signature mechanic).
+ *
+ * Three worlds bridge through this store, none SSR-coupled:
+ *   - route ZoneSetters (write `targetProgress`)
+ *   - DOM chrome like the depth gauge (read `scrollProgress`, the live smoothed
+ *     depth, mirrored back from the canvas each frame; reduced-motion path sets
+ *     it directly so the gauge still moves with no canvas)
+ *   - the WebGL canvas (reads `targetProgress` every frame in useFrame, lerps,
+ *     and reports the smoothed value back via setScrollProgress)
  *
  * Read patterns:
  *   const progress  = useDescentStore((s) => s.scrollProgress)  // re-renders DOM
@@ -12,20 +25,31 @@
  *
  * Inside useFrame (canvas), DO NOT subscribe with a selector (that would force
  * React re-renders 60x/sec). Instead read the latest value imperatively:
- *   const p = useDescentStore.getState().scrollProgress
+ *   const target = useDescentStore.getState().targetProgress
  *
- * Write patterns (scroll driver only):
- *   useDescentStore.getState().setScrollProgress(p)
+ * Write patterns:
+ *   useDescentStore.getState().setTargetProgress(p)   // route ZoneSetter
+ *   useDescentStore.getState().setScrollProgress(p)   // canvas feedback / RM
  */
 
 "use client";
 
 import { create } from "zustand";
-import { type ZoneId, zoneAtProgress } from "./depth";
+import { type ZoneId, clamp01, zoneAtProgress } from "./depth";
 
 export interface DescentState {
-  /** Normalized 0 (surface) .. 1 (seabed). Written by the scroll driver. */
+  /**
+   * Live smoothed depth, 0 (surface) .. 1 (seabed). In the WebGL path the canvas
+   * lerps toward `targetProgress` and writes the smoothed value here each frame
+   * so the depth gauge and any DOM readouts track the dive. In the reduced-motion
+   * path it is set directly to the route's target (no canvas to lerp it).
+   */
   scrollProgress: number;
+  /**
+   * The depth the ocean is diving TOWARD, set by the active route's ZoneSetter to
+   * the center of that route's zone. The canvas lerps `scrollProgress` to this.
+   */
+  targetProgress: number;
   /** Derived from scrollProgress; the zone currently in view. */
   activeZone: ZoneId;
   /**
@@ -42,6 +66,7 @@ export interface DescentState {
   webglAvailable: boolean;
 
   setScrollProgress: (p: number) => void;
+  setTargetProgress: (p: number) => void;
   setReducedMotion: (reduced: boolean) => void;
   toggleReducedMotion: () => void;
   setManualReducedMotion: (reduced: boolean) => void;
@@ -51,6 +76,7 @@ export interface DescentState {
 
 export const useDescentStore = create<DescentState>((set, get) => ({
   scrollProgress: 0,
+  targetProgress: 0,
   activeZone: "surface",
   reducedMotion: false,
   manualReducedMotion: false,
@@ -60,10 +86,29 @@ export const useDescentStore = create<DescentState>((set, get) => ({
   setScrollProgress: (p) => {
     // Cheap guard: only touch state when the value (or derived zone) changes.
     const prev = get();
-    const next = p < 0 ? 0 : p > 1 ? 1 : p;
+    const next = clamp01(p);
     const zone = zoneAtProgress(next).id;
     if (next === prev.scrollProgress && zone === prev.activeZone) return;
     set({ scrollProgress: next, activeZone: zone });
+  },
+
+  setTargetProgress: (p) => {
+    const next = clamp01(p);
+    const prev = get();
+    if (next === prev.targetProgress) return;
+    // Set the dive target. The active zone (for nav highlight / gauge label)
+    // tracks the DESTINATION immediately so chrome reflects the new page even
+    // while the camera is still sinking toward it. In the reduced-motion path
+    // there is no canvas to lerp, so jump the live depth to the target too.
+    if (prev.reducedMotion) {
+      set({
+        targetProgress: next,
+        scrollProgress: next,
+        activeZone: zoneAtProgress(next).id,
+      });
+    } else {
+      set({ targetProgress: next, activeZone: zoneAtProgress(next).id });
+    }
   },
 
   setReducedMotion: (reduced) => set({ reducedMotion: reduced }),

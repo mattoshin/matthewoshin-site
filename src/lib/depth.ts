@@ -190,6 +190,28 @@ export function zoneIndex(id: ZoneId): number {
   return ZONE_IDS.indexOf(id);
 }
 
+/** Look up a zone by id (falls back to the surface). */
+export function zoneById(id: ZoneId): DepthZone {
+  return ZONES.find((z) => z.id === id) ?? ZONES[0];
+}
+
+/**
+ * The normalized progress (0..1) at the CENTER of a zone's depth band.
+ *
+ * Route-driven depth: each page declares its zone id and the camera dives to the
+ * center of that band, so the right creatures (which zone-gate on this same
+ * progress) are in view and the fog matches the zone. Surface sits at the very
+ * top (0) so the launchpad reads as the open surface; the contact floor sits at
+ * the very bottom (1) so the closing page reads as the seabed. Every interior
+ * zone targets its midpoint.
+ */
+export function zoneCenterProgress(id: ZoneId): number {
+  const zone = zoneById(id);
+  if (id === ZONES[0].id) return 0;
+  if (id === ZONES[ZONES.length - 1].id) return 1;
+  return (zone.start + zone.end) / 2;
+}
+
 /**
  * Parse a hex color (#rgb or #rrggbb) into [r,g,b] in 0..1.
  * Used by the canvas fog lerp. Kept here so the color targets and the parser

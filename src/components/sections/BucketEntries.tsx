@@ -1,30 +1,39 @@
-"use client";
-
-/**
- * BucketEntries - the large entry-point buttons echoed on the front page hero,
- * in addition to the sticky top BucketNav. Each is a real <button> that
- * smooth-scrolls to its mapped zone via scrollToZone. Styled for the BRIGHT
- * surface (dark text on light), since the hero sits over the sunlit band.
- *
- * Active state isn't shown here (you're at the surface when you read these); the
- * top BucketNav owns the active/aria-current state during the dive.
- */
-
-import { scrollToZone } from "@/lib/scroll";
+import Link from "next/link";
 import { BUCKETS } from "@/data/content";
 
+/**
+ * BucketEntries - the home launchpad's primary navigation: the six bucket cards.
+ *
+ * Each card is a Next <Link> to its own route. Clicking one navigates
+ * client-side and the persistent ocean dives the camera down to that page's
+ * depth. Styled for the BRIGHT surface (dark text on light), since the hero sits
+ * over the sunlit band. Each card carries a one-line teaser so the home reads as
+ * a real launchpad, not just a label wall.
+ */
 export default function BucketEntries() {
   return (
-    <ul className="mx-auto mt-12 grid w-full max-w-2xl grid-cols-2 gap-3 sm:grid-cols-3">
+    <ul className="mx-auto mt-12 grid w-full max-w-3xl grid-cols-1 gap-3 text-left sm:grid-cols-2">
       {BUCKETS.map((bucket) => (
         <li key={bucket.id}>
-          <button
-            type="button"
-            onClick={() => scrollToZone(bucket.id)}
-            className="group flex w-full items-center justify-center rounded-xl border border-ink-light-primary/20 bg-white/40 px-4 py-3.5 text-sm font-semibold text-ink-light-primary backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-ink-light-primary/45 hover:bg-white/65 sm:text-base"
+          <Link
+            href={bucket.href}
+            className="group flex h-full flex-col rounded-2xl border border-ink-light-primary/20 bg-white/45 px-5 py-4 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-ink-light-primary/45 hover:bg-white/70"
           >
-            {bucket.label}
-          </button>
+            <span className="flex items-center justify-between gap-2">
+              <span className="font-display text-lg font-semibold text-ink-light-primary sm:text-xl">
+                {bucket.label}
+              </span>
+              <span
+                aria-hidden="true"
+                className="font-mono text-ink-light-primary/70 transition-transform group-hover:translate-x-0.5"
+              >
+                -&gt;
+              </span>
+            </span>
+            <span className="mt-1.5 text-sm leading-snug text-ink-light-secondary">
+              {bucket.teaser}
+            </span>
+          </Link>
         </li>
       ))}
     </ul>

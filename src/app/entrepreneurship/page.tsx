@@ -1,30 +1,31 @@
 import Link from "next/link";
-import Section from "./Section";
+import type { Metadata } from "next";
+import PageShell from "@/components/page/PageShell";
 import { BUILDS, ENTREPRENEURSHIP, VENTURES } from "@/data/content";
 
 /**
- * ProjectsSection / Twilight = ENTREPRENEURSHIP (zone id stays "projects").
- *
- * Two parts:
- *   - Ventures and companies: the things I founded or co-founded, roughly in
- *     order, rendered as a list.
- *   - Building now: current products (Sigma, Galactic Signals) as glass cards
- *     linking to their case-study pages at /projects/[slug].
+ * /entrepreneurship - ventures + current builds, at the twilight depth (zone id
+ * "projects"). Two parts: the things I founded or co-founded, roughly in order,
+ * then the products I'm building now (Sigma, Galactic Signals) as cards linking
+ * to their case-study pages at /projects/[slug].
  */
-export default function ProjectsSection() {
-  return (
-    <Section id="projects">
-      <h2 className="font-display text-3xl font-semibold leading-tight text-ink-heading sm:text-5xl">
-        {ENTREPRENEURSHIP.heading}
-      </h2>
-      <p className="measure mt-4 text-base text-ink-muted sm:text-lg">
-        {ENTREPRENEURSHIP.blurb}
-      </p>
+export const metadata: Metadata = {
+  title: "Entrepreneurship",
+  description:
+    "Mocean Technologies, Element Underground, Profit Paradise, Ocean Supply, Resell Network, plus current builds Sigma and Galactic Signals.",
+};
 
+export default function EntrepreneurshipPage() {
+  return (
+    <PageShell
+      zone="projects"
+      heading={ENTREPRENEURSHIP.heading}
+      intro={ENTREPRENEURSHIP.blurb}
+    >
       {/* Ventures and companies */}
-      <h3 className="mt-10 font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+      <h2 className="mt-10 font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
         {ENTREPRENEURSHIP.venturesLabel}
-      </h3>
+      </h2>
       <ol className="mt-4 space-y-4">
         {VENTURES.map((venture) => (
           <li
@@ -32,9 +33,9 @@ export default function ProjectsSection() {
             className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h4 className="font-display text-xl font-semibold text-ink-heading sm:text-2xl">
+              <h3 className="font-display text-xl font-semibold text-ink-heading sm:text-2xl">
                 {venture.name}
-              </h4>
+              </h3>
               <span className="font-mono text-[11px] uppercase tracking-wider text-bio-cyan/80">
                 {venture.era}
               </span>
@@ -46,9 +47,9 @@ export default function ProjectsSection() {
       </ol>
 
       {/* Building now */}
-      <h3 className="mt-12 font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+      <h2 className="mt-12 font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
         {ENTREPRENEURSHIP.buildsLabel}
-      </h3>
+      </h2>
       <ul className="mt-4 grid gap-5 sm:grid-cols-2">
         {BUILDS.map((build) => (
           <li key={build.slug}>
@@ -57,9 +58,9 @@ export default function ProjectsSection() {
               className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/40 hover:bg-white/[0.06]"
             >
               <div className="flex items-center justify-between gap-3">
-                <h4 className="font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
+                <h3 className="font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
                   {build.name}
-                </h4>
+                </h3>
                 <span className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
                   {build.status}
                 </span>
@@ -80,6 +81,6 @@ export default function ProjectsSection() {
           </li>
         ))}
       </ul>
-    </Section>
+    </PageShell>
   );
 }

@@ -5,20 +5,23 @@
  * bright surface and the dark deep, so it uses translucent pill backgrounds with
  * a backdrop blur and ink tokens that read either way.
  *
+ * MULTI-PAGE: every bucket is a Next <Link> to its own route. The active page is
+ * resolved from usePathname (aria-current). Clicking a deeper bucket navigates
+ * client-side and the persistent ocean dives the camera to that page's depth.
+ *
  * Responsive behavior:
- *   - md and up: the full hugged pill row (wordmark left, six bucket pills
- *     centered, motion + "read flat" controls right), exactly as before.
- *   - below md: the six pills + controls cannot fit one phone row without
+ *   - lg and up: the full hugged pill row (wordmark left, six bucket links
+ *     centered, motion + "read flat" controls right).
+ *   - below lg: the six links + controls cannot fit one phone row without
  *     clipping, so they collapse to a clean MENU. The wordmark stays at left and
  *     a compact hamburger button sits at right. Tapping it opens an accessible
  *     sheet listing every bucket plus "Skip the dive, read flat" and the motion
- *     toggle. Tapping a bucket scrolls to it and closes the sheet.
+ *     toggle. Tapping a link navigates and closes the sheet.
  *
  * Accessibility:
- *   - Every control is a real <button>, keyboard reachable, with a focus-visible
- *     ring from globals.css.
- *   - The active bucket carries aria-current (in BOTH the desktop row and the
- *     mobile sheet).
+ *   - Bucket links are real <a> (Next Link); controls are real <button>, all
+ *     keyboard reachable, with a focus-visible ring from globals.css.
+ *   - The active bucket carries aria-current="page" (desktop row + mobile sheet).
  *   - The hamburger has aria-expanded + aria-controls pointing at the sheet.
  *   - On open, focus moves into the sheet (first item) and Esc / a backdrop tap
  *     closes it; on close focus returns to the hamburger button.
@@ -27,13 +30,13 @@
  */
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useDescentStore } from "@/lib/store";
-import { scrollToTop, scrollToZone } from "@/lib/scroll";
 import { BUCKETS, SITE } from "@/data/content";
-import type { ZoneId } from "@/lib/depth";
 
 export default function BucketNav() {
-  const activeZone = useDescentStore((s) => s.activeZone);
+  const pathname = usePathname();
   const manualReduced = useDescentStore((s) => s.manualReducedMotion);
   const reducedMotion = useDescentStore((s) => s.reducedMotion);
   const toggleReducedMotion = useDescentStore((s) => s.toggleReducedMotion);
@@ -44,15 +47,6 @@ export default function BucketNav() {
   const panelRef = useRef<HTMLDivElement>(null);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
-
-  // Navigate to a zone, then close the mobile sheet if it was open.
-  const goToZone = useCallback(
-    (id: ZoneId) => {
-      scrollToZone(id);
-      setMenuOpen(false);
-    },
-    [],
-  );
 
   // When the sheet is open: lock the focus inside it, Esc closes, focus the
   // first control on open, and restore focus to the button on close.
@@ -114,19 +108,18 @@ export default function BucketNav() {
   return (
     <header className="fixed inset-x-0 top-0 z-40">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-3 py-3 sm:px-5">
-        {/* Wordmark -> surface. Carries a subtle glass chip so the light wordmark
-            reads over BOTH the bright surface and the dark deep. */}
-        <button
-          type="button"
-          onClick={scrollToTop}
-          aria-current={activeZone === "surface" ? "page" : undefined}
+        {/* Wordmark -> home (surface). Carries a subtle glass chip so the light
+            wordmark reads over BOTH the bright surface and the dark deep. */}
+        <Link
+          href="/"
+          aria-current={pathname === "/" ? "page" : undefined}
           className="min-w-0 shrink rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-left backdrop-blur-md transition-colors hover:border-reef-coral/50"
-          aria-label="Matthew Oshin, return to the top"
+          aria-label="Matthew Oshin, return home"
         >
           <span className="block truncate font-display text-base font-semibold tracking-tight text-ink-heading sm:text-lg">
             {SITE.name}
           </span>
-        </button>
+        </Link>
 
         {/* DESKTOP pill row (lg+). HUGS its content, stays centered, never wraps.
             Hidden below lg, where the hamburger menu takes over: the wordmark +
@@ -138,21 +131,20 @@ export default function BucketNav() {
         >
           <ul className="flex w-auto max-w-full items-center gap-1 rounded-full border border-white/15 bg-deep-body/70 px-1 py-1 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-md">
             {BUCKETS.map((bucket) => {
-              const active = bucket.id === activeZone;
+              const active = bucket.href === pathname;
               return (
                 <li key={bucket.id} className="shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => scrollToZone(bucket.id)}
-                    aria-current={active ? "true" : undefined}
-                    className={`rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+                  <Link
+                    href={bucket.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
                       active
                         ? "glow-coral bg-reef-coral text-abyss-void"
                         : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                     }`}
                   >
                     {bucket.label}
-                  </button>
+                  </Link>
                 </li>
               );
             })}
@@ -161,13 +153,12 @@ export default function BucketNav() {
 
         {/* DESKTOP motion / flat controls (lg+). */}
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
-          <button
-            type="button"
-            onClick={() => scrollToZone("about")}
+          <Link
+            href="/experience"
             className="hidden rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-xs font-medium text-ink-body backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan lg:inline-flex"
           >
             Skip the dive, read flat
-          </button>
+          </Link>
           <button
             type="button"
             onClick={toggleReducedMotion}
@@ -233,21 +224,21 @@ export default function BucketNav() {
             <nav aria-label="Sections">
               <ul className="flex flex-col gap-1">
                 {BUCKETS.map((bucket) => {
-                  const active = bucket.id === activeZone;
+                  const active = bucket.href === pathname;
                   return (
                     <li key={bucket.id}>
-                      <button
-                        type="button"
-                        onClick={() => goToZone(bucket.id)}
-                        aria-current={active ? "true" : undefined}
-                        className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
+                      <Link
+                        href={bucket.href}
+                        onClick={closeMenu}
+                        aria-current={active ? "page" : undefined}
+                        className={`block w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
                           active
                             ? "bg-reef-coral text-abyss-void"
                             : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                         }`}
                       >
                         {bucket.label}
-                      </button>
+                      </Link>
                     </li>
                   );
                 })}
@@ -257,13 +248,13 @@ export default function BucketNav() {
             <div className="my-2 h-px bg-white/10" />
 
             <div className="flex flex-col gap-1">
-              <button
-                type="button"
-                onClick={() => goToZone("about")}
-                className="w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-ink-body transition-colors hover:bg-white/10 hover:text-bio-cyan"
+              <Link
+                href="/experience"
+                onClick={closeMenu}
+                className="block w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-ink-body transition-colors hover:bg-white/10 hover:text-bio-cyan"
               >
                 Skip the dive, read flat
-              </button>
+              </Link>
               <button
                 type="button"
                 onClick={toggleReducedMotion}

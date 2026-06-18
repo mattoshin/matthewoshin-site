@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/data/content";
+import DescentChrome from "@/components/chrome/DescentChrome";
 
 // Display: Fraunces (variable, optical sizing, warm). Large headings only.
 const fraunces = Fraunces({
@@ -55,9 +56,34 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${fraunces.variable} ${hanken.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        {/* Skip link: first focusable element, jumps past the ocean chrome to
+            the page content. */}
+        <a
+          href="#content"
+          className="sr-only left-4 top-4 z-50 rounded-md bg-bio-cyan px-4 py-2 font-medium text-abyss-void focus:not-sr-only"
+        >
+          Skip to content
+        </a>
+
+        {/*
+          THE PERSISTENT OCEAN. Lives in the layout, so the WebGL canvas + every
+          chrome piece persist across client-side route navigations (no
+          unmount/remount, no flash). The page content below swaps; the ocean
+          stays, and the camera dives between depths as each route's ZoneSetter
+          changes the target. DescentChrome is a Client Component that does the
+          ssr:false dynamic import of the canvas internally (ssr:false is not
+          allowed directly in this Server Component layout).
+        */}
+        <DescentChrome />
+
+        {/* Page content rides on top of the fixed ocean (z auto > -z-10). The
+            #content anchor is the skip-link target. */}
+        <div id="content">{children}</div>
+      </body>
     </html>
   );
 }

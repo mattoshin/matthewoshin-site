@@ -67,16 +67,24 @@ const INITIAL_FOG = hexToRgb01(ZONES[0].palette.fog);
  */
 function DepthController() {
   const fogRef = useRef<THREE.FogExp2>(null);
-  const smoothed = useRef(0);
+  // Seed the smoothed depth from the route's initial target so the first paint
+  // is already at the right depth (e.g. landing directly on /contact).
+  const smoothed = useRef(useDescentStore.getState().targetProgress);
   // Scratch color reused each frame so we never allocate inside useFrame.
   const targetColor = useRef(new THREE.Color());
 
   useFrame((state, delta) => {
-    const target = useDescentStore.getState().scrollProgress;
-    // Critically-damped-ish lerp: snappy but never teleporting.
+    // Route-driven: dive TOWARD the active page's zone center, never scroll.
+    const target = useDescentStore.getState().targetProgress;
+    // Critically-damped-ish lerp: a graceful sink, never a snap.
     const k = Math.min(1, delta * 2.5);
     smoothed.current = lerp(smoothed.current, target, k);
     const p = smoothed.current;
+
+    // Report the live smoothed depth back to the store so the depth gauge and
+    // any DOM readouts track the dive in real time. Cheap-guarded inside the
+    // store; we round to avoid churning React on imperceptible deltas.
+    useDescentStore.getState().setScrollProgress(Math.round(p * 1000) / 1000);
 
     // Camera sinks.
     state.camera.position.y = cameraYForProgress(p);

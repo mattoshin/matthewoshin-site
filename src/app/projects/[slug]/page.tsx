@@ -50,10 +50,10 @@ export default async function ProjectPage({
 
       <main className="mx-auto w-full max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
         <Link
-          href="/#projects"
+          href="/entrepreneurship"
           className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-bio-cyan hover:underline"
         >
-          <span aria-hidden="true">&lt;-</span> Back to the descent
+          <span aria-hidden="true">&lt;-</span> Back to entrepreneurship
         </Link>
 
         <header className="mt-8">
@@ -120,7 +120,7 @@ export default async function ProjectPage({
 
         <footer className="mt-16 border-t border-white/10 pt-8">
           <Link
-            href="/#contact"
+            href="/contact"
             className="font-mono text-xs uppercase tracking-wider text-ink-muted hover:text-bio-cyan"
           >
             Want to talk about this? Surface a signal -&gt;

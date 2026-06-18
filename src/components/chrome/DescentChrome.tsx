@@ -1,22 +1,23 @@
 "use client";
 
 /**
- * DescentChrome - mounts every client-only piece of the descent in one place so
- * the home page (a server component) stays clean. None of these render section
- * content; they are the engine + overlay UI that sit around the server-rendered
- * sections.
+ * DescentChrome - the persistent ocean chrome. Mounted ONCE in the root layout,
+ * so the canvas + every overlay piece persist across client-side route
+ * navigations (no unmount/remount, no flash). None of these render page content;
+ * they are the engine + overlay UI that sit around the per-route content.
  *
  *   MotionController   - resolves reduced-motion, marks store hydrated
- *   ScrollController   - Lenis + GSAP ScrollTrigger -> store progress
  *   DescentBackground  - the fixed canvas (or static ocean) behind everything
- *   BucketNav          - sticky top bucket nav: wordmark + section pills + motion
+ *   BucketNav          - sticky top nav: wordmark + section links + motion toggle
  *   DepthGauge         - the right-rail depth progress indicator
- *   OceanAI            - floating deep-sea chat widget (manages its own
- *                        fixed position + pointer-events; sits on top)
+ *   OceanAI            - floating deep-sea chat widget, on every page (manages
+ *                        its own fixed position + pointer-events; sits on top)
+ *
+ * Depth is ROUTE-DRIVEN now (each page's ZoneSetter writes targetProgress and the
+ * canvas lerps to it), so there is no scroll engine here anymore.
  */
 
 import MotionController from "./MotionController";
-import ScrollController from "./ScrollController";
 import DescentBackground from "./DescentBackground";
 import BucketNav from "./BucketNav";
 import DepthGauge from "./DepthGauge";
@@ -26,7 +27,6 @@ export default function DescentChrome() {
   return (
     <>
       <MotionController />
-      <ScrollController />
       <DescentBackground />
       <BucketNav />
       <DepthGauge />
