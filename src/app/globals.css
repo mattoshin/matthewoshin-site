@@ -47,15 +47,20 @@
   --reef-coral: #ff9b5a; /* base coral/sun accent */
   --reef-coral-soft: #ffb877; /* lighter coral for hovers / on dark glows */
 
-  /* Text on dark zones */
+  /* Text on dark zones. Brightened for legibility over the moving deep water:
+     body copy is lifted toward the heading tone and "muted" (section subheads,
+     metadata) is no longer a low-contrast grey. With the layered scrim halo
+     these clear WCAG AA across every deep zone. */
   --ink-heading: #eaf6fb;
-  --ink-body: #c2d6e0;
-  --ink-muted: #8aa3b2;
-  --ink-faint: #54707f;
+  --ink-body: #d4e4ec;
+  --ink-muted: #a7c0cd;
+  --ink-faint: #6c8696;
 
-  /* Text on the light surface zone (dark text on light) */
-  --ink-light-primary: #04222e;
-  --ink-light-secondary: #0b3a48;
+  /* Text on the light surface zone (dark text on light). Both deepened so the
+     bare hero copy reads strongly over the bright sunlit surface; the hero halo
+     does the rest. */
+  --ink-light-primary: #03191f;
+  --ink-light-secondary: #062c38;
 
   --background: var(--abyss-body);
   --foreground: var(--ink-body);
@@ -215,12 +220,36 @@ html.lenis body {
 
 /* Legibility: with the veil kept intentionally light so the ocean reads
    through, a soft text-shadow makes the copy pop on its own. Dark zones get a
-   dark halo (light ink); the light surface variant gets a light halo (dark ink). */
+   dark halo (light ink); the light surface variant gets a light halo (dark ink).
+   The dark-zone halo is layered (a tight dark ring + a softer spread) so deep
+   body copy clears AA even where bright bioluminescence drifts behind it. */
 .section-scrim :where(h1, h2, h3, h4, p, li, a, span) {
-  text-shadow: 0 1px 3px color-mix(in srgb, var(--abyss-void) 72%, transparent);
+  text-shadow:
+    0 1px 2px color-mix(in srgb, var(--abyss-void) 88%, transparent),
+    0 0 14px color-mix(in srgb, var(--abyss-void) 60%, transparent);
 }
 .section-scrim--light :where(h1, h2, h3, h4, p, li, a, span) {
   text-shadow: 0 1px 2px color-mix(in srgb, var(--surface-foam) 75%, transparent);
+}
+
+/*
+ * Hero halo - the surface hero renders BARE (no scrim), so its dark type sits
+ * directly on the bright, variable, sunlit ocean. A light text-shadow halo
+ * (white blur) lifts the dark ink off the surface without darkening the
+ * background. Two layered shadows: a tight luminous ring for crisp edges + a
+ * softer spread so the copy stays readable even over the brightest god rays.
+ */
+.hero-halo {
+  text-shadow:
+    0 1px 2px color-mix(in srgb, var(--surface-foam) 92%, transparent),
+    0 0 18px color-mix(in srgb, var(--surface-foam) 78%, transparent),
+    0 0 40px color-mix(in srgb, var(--surface-foam) 55%, transparent);
+}
+/* A lighter halo for the big display name, which is already high-contrast. */
+.hero-halo-soft {
+  text-shadow:
+    0 1px 2px color-mix(in srgb, var(--surface-foam) 80%, transparent),
+    0 0 22px color-mix(in srgb, var(--surface-foam) 50%, transparent);
 }
 
 /* Visible focus ring for keyboard users on dark backgrounds. */
