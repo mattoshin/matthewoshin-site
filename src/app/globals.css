@@ -9,28 +9,29 @@
  */
 
 :root {
-  /* Surface (0m) */
-  --surface-sky: #bfe9f0;
-  --surface-water: #5fc2d6;
-  --surface-deep: #2a8fb0;
+  /* Surface (0m) - bright, friendly, sunlit light-blue/aqua per the reference. */
+  --surface-sky: #d6f4fb;
+  --surface-water: #9be0ee;
+  --surface-deep: #5cc6e0;
   --surface-sun: #ffe9a8;
   --surface-foam: #ffffff;
 
-  /* Upper midwater */
-  --mid-top: #0e4d63;
-  --mid-body: #0a3a52;
-  --mid-deep: #072a42;
+  /* Upper midwater (sunlit shallows -> twilight): saturated medium ocean teal,
+     dark enough that the light type on these zones stays WCAG AA. */
+  --mid-top: #0a3b4e;
+  --mid-body: #093647;
+  --mid-deep: #082a39;
 
-  /* Deep / midnight */
-  --deep-top: #051f33;
-  --deep-body: #03162a;
-  --deep-floor: #020e1f;
+  /* Deep / midnight - rich dark TEAL-NAVY, not a black void. */
+  --deep-top: #082633;
+  --deep-body: #0a2532;
+  --deep-floor: #091f2b;
 
-  /* Abyss / seabed */
-  --abyss-top: #010a19;
-  --abyss-body: #01060f;
-  --abyss-void: #000308;
-  --abyss-silt: #0b1420;
+  /* Abyss / seabed - deepest teal-navy, still holding a blue-green cast. */
+  --abyss-top: #081c27;
+  --abyss-body: #071824;
+  --abyss-void: #071824;
+  --abyss-silt: #0d3144;
 
   /* Bioluminescent accents (brighter the deeper you go) */
   --bio-cyan: #3fe0e6; /* primary glow / links / active */

@@ -45,10 +45,11 @@ function swell(x: number, z: number, t: number): number {
   );
 }
 
-// Silhouette tone: a very dark cool navy rather than pure black, so it still
-// reads as "ocean dark" and not a hole punched in the scene.
-const HULL_RGB = hexToRgb01("#03162A"); // deep
-const SAIL_RGB = hexToRgb01("#020E1F"); // deep-er, sails sit slightly darker
+// Silhouette tone: a deep TEAL-navy rather than pure black, drawn from the new
+// brighter palette so the cut-outs still read as "ocean dark" against the bright
+// surface band without punching a black hole in the friendlier scene.
+const HULL_RGB = hexToRgb01("#0A2532"); // deep teal-navy (writing body)
+const SAIL_RGB = hexToRgb01("#07212D"); // a touch deeper, sails sit darker
 
 // Where the fleet lives on the descent axis. The surface zone is 0..0.16; we let
 // the boats linger a hair past it then fully clear by FADE_END.
@@ -66,16 +67,22 @@ interface BoatSpec {
   phase: number; // time offset into the swell sampling
 }
 
+// Placement FRAMES the centered hero headline rather than colliding with it:
+// the fleet is pushed well back (more negative z -> smaller on screen), spread
+// wide to the left and right flanks (large |x|), and lifted into the bright
+// surface band above the headline. Nothing sits in the central column where the
+// type lives. The camera is at [0, 0, 8] / fov 55, so at these depths the visible
+// half-width is large and ±x of 12-17 reads as "out at the edges".
 const BOATS: readonly BoatSpec[] = [
-  { x: -3.4, z: -2.0, scale: 1.0, heading: 0.35, phase: 0.0 },
-  { x: 2.8, z: -3.4, scale: 0.82, heading: -0.6, phase: 1.7 },
-  { x: 6.2, z: -6.0, scale: 0.66, heading: 0.15, phase: 3.1 },
+  { x: -13.5, z: -13.0, scale: 0.6, heading: 0.4, phase: 0.0 },
+  { x: 12.5, z: -15.0, scale: 0.52, heading: -0.55, phase: 1.7 },
+  { x: -16.5, z: -18.0, scale: 0.42, heading: 0.2, phase: 3.1 },
 ];
 
 // World height of the resting waterline. The camera starts at y=0 looking
-// roughly level (z=8), so floating the fleet a touch above 0 puts it on the
-// horizon-ish line where it silhouettes cleanly against the bright column.
-const WATERLINE_Y = 1.6;
+// roughly level (z=8); lifting the fleet higher floats it into the bright
+// surface band ABOVE the centered headline so the boats frame, not overlap, it.
+const WATERLINE_Y = 3.6;
 
 /** Build the hull geometry once: a lathed, Z-squashed tapered boat shell. */
 function makeHullGeometry(): THREE.BufferGeometry {
@@ -221,8 +228,9 @@ export default function Sailboats({ progress }: SceneElementProps) {
     }
 
     // The whole fleet drifts up and out of frame slightly as it fades, selling
-    // the camera leaving the surface behind.
-    group.position.y = THREE.MathUtils.lerp(2.4, WATERLINE_Y, eased);
+    // the camera leaving the surface behind. The faded target sits ABOVE the
+    // resting waterline so the boats lift away rather than sink as they vanish.
+    group.position.y = THREE.MathUtils.lerp(WATERLINE_Y + 1.6, WATERLINE_Y, eased);
     const s = THREE.MathUtils.lerp(0.85, 1, eased);
     group.scale.setScalar(s);
 

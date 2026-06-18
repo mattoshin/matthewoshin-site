@@ -54,94 +54,108 @@ export interface DepthZone {
  */
 export const ZONES: readonly DepthZone[] = [
   {
+    // Bright, friendly, sunlit light-blue surface echoing the reference shot:
+    // airy aqua sky fading into clean tropical water. Dark text rides on top.
     id: "surface",
     label: "Surface",
     depthLabel: "0m",
     start: 0.0,
     end: 0.16,
     palette: {
-      top: "#BFE9F0",
-      body: "#5FC2D6",
-      deep: "#2A8FB0",
-      fog: "#7FD0E0",
+      top: "#D6F4FB",
+      body: "#9BE0EE",
+      deep: "#5CC6E0",
+      fog: "#A8E6F2",
     },
   },
   {
+    // Sunlit shallows: a saturated, colorful teal-cyan where the god rays still
+    // reach. Brighter/more alive in hue than the old muddy band, but kept dark
+    // enough in luminance that the zone's LIGHT body/heading type stays WCAG AA.
     id: "about",
     label: "About",
     depthLabel: "Sunlit shallows",
     start: 0.16,
     end: 0.32,
     palette: {
-      top: "#2A8FB0",
-      body: "#0E4D63",
-      deep: "#0A3A52",
-      fog: "#155873",
+      top: "#0A3B4E",
+      body: "#093647",
+      deep: "#082F3F",
+      fog: "#0A3849",
     },
   },
   {
+    // Midwater: a clean, confident medium ocean teal-blue. The descent visibly
+    // deepens here but the water stays colorful, never murky-grey or black.
     id: "projects",
     label: "Projects",
     depthLabel: "Twilight",
     start: 0.32,
     end: 0.5,
     palette: {
-      top: "#0A3A52",
-      body: "#072A42",
-      deep: "#051F33",
-      fog: "#0a3147",
+      top: "#082F3F",
+      body: "#0A2E3F",
+      deep: "#082A39",
+      fog: "#093140",
     },
   },
   {
+    // Deeper midwater rolling into the moody band: a rich ocean teal-blue.
     id: "ventures",
     label: "Ventures",
     depthLabel: "Midnight",
     start: 0.5,
     end: 0.66,
     palette: {
-      top: "#051F33",
-      body: "#03162A",
-      deep: "#020E1F",
-      fog: "#04182c",
+      top: "#082A39",
+      body: "#082633",
+      deep: "#07212D",
+      fog: "#082834",
     },
   },
   {
+    // Deep zone: moody for contrast, but a RICH dark teal-navy, not a black
+    // void — so the bioluminescence pops against a colored deep, not nothing.
     id: "writing",
     label: "Writing",
     depthLabel: "Abyss",
     start: 0.66,
     end: 0.8,
     palette: {
-      top: "#020E1F",
-      body: "#010A19",
-      deep: "#01060F",
-      fog: "#020b18",
+      top: "#07212D",
+      body: "#0A2532",
+      deep: "#091F2B",
+      fog: "#0A2531",
     },
   },
   {
+    // Seabed: deepest teal-navy, still holding a clear blue-green cast so the
+    // floor reads as deep ocean rather than ink.
     id: "skills",
     label: "Skills",
     depthLabel: "Seabed",
     start: 0.8,
     end: 0.92,
     palette: {
-      top: "#01060F",
-      body: "#01060F",
-      deep: "#000308",
-      fog: "#010610",
+      top: "#091F2B",
+      body: "#081C27",
+      deep: "#071824",
+      fog: "#091E29",
     },
   },
   {
+    // The floor: lifts back to a warmer, lighter dark teal-navy to seat the reef
+    // and give the closing zone a settled, grounded — not pitch-black — base.
     id: "contact",
     label: "Contact",
     depthLabel: "The Floor",
     start: 0.92,
     end: 1.0,
     palette: {
-      top: "#000308",
-      body: "#01060F",
-      deep: "#0B1420",
-      fog: "#020912",
+      top: "#071824",
+      body: "#0A2735",
+      deep: "#0D3144",
+      fog: "#0A2A3A",
     },
   },
 ] as const;
@@ -212,8 +226,8 @@ export function cameraYForProgress(progress: number): number {
  * Fog density target. Deeper water is murkier, so density grows with depth.
  * Returned in a range tuned for THREE.FogExp2.
  */
-export const FOG_DENSITY_TOP = 0.012;
-export const FOG_DENSITY_BOTTOM = 0.055;
+export const FOG_DENSITY_TOP = 0.01;
+export const FOG_DENSITY_BOTTOM = 0.048;
 
 export function fogDensityForProgress(progress: number): number {
   return lerp(FOG_DENSITY_TOP, FOG_DENSITY_BOTTOM, clamp01(progress));

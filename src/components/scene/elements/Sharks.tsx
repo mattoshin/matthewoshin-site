@@ -295,7 +295,7 @@ const fragmentShader = /* glsl */ `
     float ndv = clamp(dot(N, V), 0.0, 1.0);
 
     // Fresnel rim: hot at grazing angles -> the cyan silhouette edge.
-    float fres = pow(1.0 - ndv, 3.0);
+    float fres = pow(1.0 - ndv, 4.5);
 
     // Base near-black body with a hair of vertical falloff so it reads volumetric.
     vec3 col = uBody;
@@ -326,7 +326,7 @@ function buildLoop(seed: number): THREE.CatmullRomCurve3 {
   const radiusZ = 6 + rng(2) * 4;
   const yBase = (rng(3) - 0.5) * 5; // spread the pod vertically a little
   const yWobble = 1.2 + rng(4) * 1.4;
-  const zOff = -10 - rng(5) * 8; // keep them out in front of the camera (-z)
+  const zOff = -17 - rng(5) * 10; // push the pod further out so they read as distant
   const tilt = (rng(6) - 0.5) * 0.5;
 
   const pts: THREE.Vector3[] = [];
@@ -405,7 +405,7 @@ export default function Sharks({ progress }: SceneElementProps) {
         curve: buildLoop(i * 2.4 + 1),
         speed: 0.012 + r(1) * 0.01, // very slow, ominous cruise
         offset: r(2),
-        scale: 1.5 + r(3) * 1.1, // ~4-7 world units long
+        scale: 0.85 + r(3) * 0.5, // smaller, distant silhouettes
         swayPhase: r(4) * Math.PI * 2,
         swayAmp: 0.1 + r(5) * 0.05,
         roll: 0.1 + r(6) * 0.06,
@@ -449,7 +449,7 @@ export default function Sharks({ progress }: SceneElementProps) {
     group.position.z = state.camera.position.z;
 
     // Rim glow strengthens with depth (matches the bio-glow-with-depth aesthetic).
-    const rimStrength = lerp(0.5, 1.6, clamp01(p)) * vis;
+    const rimStrength = lerp(0.2, 0.6, clamp01(p)) * vis;
     const opacity = lerp(0.0, 0.92, vis);
 
     for (let i = 0; i < rigs.length; i++) {

@@ -33,25 +33,36 @@ function buildGradient(): string {
 export default function StaticOcean() {
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10">
-      {/* Base depth gradient. */}
+      {/* Base depth gradient (data-driven from the zone palette in depth.ts, so
+          it always matches the WebGL fog and stays a smooth light->deep descent). */}
       <div
         className="absolute inset-0"
         style={{ backgroundImage: buildGradient() }}
       />
-      {/* Soft surface sunlight glow at the very top. */}
+      {/* Bright, friendly god-ray wash at the surface: warm sun core fading into
+          the airy aqua of the surface band, echoing the reference shot. */}
       <div
-        className="absolute inset-x-0 top-0 h-[40vh]"
+        className="absolute inset-x-0 top-0 h-[48vh]"
         style={{
           background:
-            "radial-gradient(120% 80% at 50% -10%, color-mix(in srgb, var(--surface-sun) 55%, transparent), transparent 60%)",
+            "radial-gradient(130% 90% at 50% -12%, color-mix(in srgb, var(--surface-sun) 70%, transparent), color-mix(in srgb, var(--surface-sky) 45%, transparent) 42%, transparent 70%)",
         }}
       />
-      {/* Faint bioluminescent haze toward the floor. */}
+      {/* A couple of soft slanted light shafts to keep the surface lively. */}
       <div
-        className="absolute inset-x-0 bottom-0 h-[35vh]"
+        className="absolute inset-x-0 top-0 h-[55vh] opacity-70"
         style={{
           background:
-            "radial-gradient(120% 90% at 50% 110%, color-mix(in srgb, var(--bio-cyan) 14%, transparent), transparent 65%)",
+            "linear-gradient(105deg, transparent 38%, color-mix(in srgb, var(--surface-foam) 16%, transparent) 46%, transparent 54%), linear-gradient(80deg, transparent 60%, color-mix(in srgb, var(--surface-foam) 12%, transparent) 67%, transparent 74%)",
+        }}
+      />
+      {/* Bioluminescent haze toward the floor - now sitting over a rich teal-navy
+          deep rather than near-black, so the cyan glow reads as life, not noise. */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-[38vh]"
+        style={{
+          background:
+            "radial-gradient(120% 90% at 50% 110%, color-mix(in srgb, var(--bio-cyan) 18%, transparent), transparent 65%)",
         }}
       />
     </div>
