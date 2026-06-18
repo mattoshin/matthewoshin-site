@@ -1,72 +1,32 @@
 import Section from "./Section";
-import { EDUCATION, HOBBIES, SKILL_GROUPS } from "@/data/content";
+import { INTERESTS, INTERESTS_META } from "@/data/content";
 
 /**
- * SkillsSection / Seabed. Education + hobbies + skills as grouped chips. No star
- * ratings.
+ * SkillsSection / Seabed = INTERESTS (zone id stays "skills").
+ *
+ * What I do off the clock, as chips. DJ rig, sneakers, markets, networking,
+ * emerging tech.
  */
 export default function SkillsSection() {
   return (
     <Section id="skills">
       <h2 className="font-display text-3xl font-semibold leading-tight text-ink-heading sm:text-5xl">
-        On the seabed.
+        {INTERESTS_META.heading}
       </h2>
       <p className="measure mt-4 text-base text-ink-muted sm:text-lg">
-        What I work with, where I learned, and what I do when I am not building.
+        {INTERESTS_META.blurb}
       </p>
 
-      {/* Skills */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {SKILL_GROUPS.map((group) => (
-          <div key={group.title}>
-            <h3 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
-              {group.title}
-            </h3>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {group.items.map((item) => (
-                <li
-                  key={item}
-                  className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-ink-body"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+      <ul className="mt-10 flex flex-wrap gap-2.5">
+        {INTERESTS.map((interest) => (
+          <li
+            key={interest}
+            className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-ink-body sm:text-base"
+          >
+            {interest}
+          </li>
         ))}
-      </div>
-
-      {/* Education + hobbies */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        <div>
-          <h3 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
-            Education
-          </h3>
-          <ul className="mt-3 space-y-2">
-            {EDUCATION.map((e) => (
-              <li key={e.school} className="text-ink-body">
-                <span className="font-medium text-ink-heading">{e.school}</span>{" "}
-                <span className="text-ink-muted">{e.detail}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h3 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
-            Off the clock
-          </h3>
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {HOBBIES.map((h) => (
-              <li
-                key={h}
-                className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-ink-body"
-              >
-                {h}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      </ul>
     </Section>
   );
 }

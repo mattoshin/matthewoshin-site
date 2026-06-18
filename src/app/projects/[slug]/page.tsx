@@ -1,26 +1,27 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PROJECTS } from "@/data/content";
+import { BUILDS } from "@/data/content";
 
 /**
- * /projects/[slug] - a calm, fast, depth-themed case-study shell.
+ * /projects/[slug] - a calm, fast, depth-themed case-study shell for the current
+ * builds (Sigma, Galactic Signals).
  *
  * Deliberately NO second 3D scene: this is a reading surface. It reuses the
  * static depth-gradient feel via a fixed CSS background so it still belongs to
  * the ocean, but it carries zero WebGL weight. Fully server-rendered and
- * statically generated for every known project.
+ * statically generated for every known build.
  */
 
 export function generateStaticParams() {
-  return PROJECTS.map((p) => ({ slug: p.slug }));
+  return BUILDS.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: PageProps<"/projects/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const project = PROJECTS.find((p) => p.slug === slug);
+  const project = BUILDS.find((p) => p.slug === slug);
   if (!project) return { title: "Project not found" };
   return {
     title: project.name,
@@ -32,7 +33,7 @@ export default async function ProjectPage({
   params,
 }: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
-  const project = PROJECTS.find((p) => p.slug === slug);
+  const project = BUILDS.find((p) => p.slug === slug);
   if (!project) notFound();
 
   return (
@@ -66,19 +67,6 @@ export default async function ProjectPage({
           </h1>
           <p className="mt-4 text-lg text-ink-body sm:text-xl">{project.hook}</p>
         </header>
-
-        {/* Placeholder hero metric. */}
-        <div className="mt-10 rounded-2xl border border-dashed border-white/15 p-6">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-ink-faint">
-            {project.metricLabel}
-          </p>
-          <p className="mt-1 font-display text-3xl text-ink-muted sm:text-4xl">
-            [ metric to come ]
-          </p>
-          <p className="mt-1 text-sm text-ink-faint">
-            Matthew will drop the real number in here.
-          </p>
-        </div>
 
         <section className="mt-12">
           <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">

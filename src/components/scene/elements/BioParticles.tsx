@@ -159,7 +159,7 @@ const fragmentShader = /* glsl */ `
     float core = smoothstep(1.0, 0.0, d);  // 0 edge .. 1 center
     float halo = pow(core, 1.6);
     float glow = pow(core, 4.0);           // tight bright nucleus
-    float alpha = halo * 0.55 + glow * 0.9;
+    float alpha = halo * 0.3 + glow * 0.5;
 
     // Pick the bio color: cyan -> aqua -> lumen across aColorMix.
     vec3 col;
@@ -169,10 +169,10 @@ const fragmentShader = /* glsl */ `
       col = mix(uAqua, uLumen, (vColorMix - 0.5) * 2.0);
     }
     // Hot white-ish core so overlapping points read as luminous, not flat.
-    col = mix(col, vec3(1.0), glow * 0.5);
+    col = mix(col, vec3(1.0), glow * 0.32);
 
     // Brightness ramps with depth + twinkle. Additive blend handles the bloom.
-    float bright = (0.35 + uIntensity * 1.15) * vTwinkle;
+    float bright = (0.22 + uIntensity * 0.68) * vTwinkle;
 
     gl_FragColor = vec4(col * bright, alpha);
   }

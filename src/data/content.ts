@@ -1,23 +1,31 @@
 /**
- * content.ts - seed copy for the site. Server-importable plain data.
+ * content.ts - the site's real content. Server-importable plain data.
  *
  * HARD RULES baked into this copy:
  *  - No em dashes anywhere. Use commas, periods, or "to" / "and".
- *  - No exact revenue or profit figures. Mocean is framed as
- *    "founded and sold a software company at 19", nothing more specific.
- *  - No phone numbers, NDA references, or venue/party details.
+ *  - Voice: confident, warm, direct. First person where it reads as Matthew.
+ *  - All figures here are public and approved to publish (sourced from LinkedIn).
  *
- * Metrics on project cards are intentional placeholders (Matthew supplies the
- * real numbers). They are marked with `metricPlaceholder: true` so a later pass
- * can find and fill them.
+ * Structure mirrors the bucket nav:
+ *   surface  -> Home (HERO + ABOUT)
+ *   about    -> Experience (EXPERIENCE)
+ *   projects -> Entrepreneurship (VENTURES past + BUILDS current)
+ *   ventures -> Skills (SKILL_GROUPS)
+ *   writing  -> Education (EDUCATION)
+ *   skills   -> Interests (INTERESTS)
+ *   contact  -> Contact (CONTACT)
+ *
+ * The zone IDs above are immutable (WebGL creatures gate on them). Only the
+ * labels and the content mapped onto each zone change.
  */
+
+import type { ZoneId } from "@/lib/depth";
 
 export const SITE = {
   name: "Matthew Oshin",
-  role: "Serial entrepreneur and builder",
+  role: "Builder",
   tagline:
-    "I build AI products and trading research tools, and I have founded and sold companies along the way.",
-  // The single, working contact email (secondary CTA). Calendly is primary.
+    "I build AI products, trading research tools, and companies.",
   email: "matthewoshin@gmail.com",
   linkedin: "https://www.linkedin.com/in/mattoshin",
   github: "https://github.com/mattoshin",
@@ -25,43 +33,171 @@ export const SITE = {
   calendlyUrl: "CALENDLY_URL",
 } as const;
 
+/**
+ * The bucket nav. Order is fixed by the brief. `id` is the immutable zone id;
+ * `label` is the display label (also the source of truth in depth.ts, repeated
+ * here so the nav can render without importing the full ZONES array).
+ *
+ * "surface" (Home) is intentionally NOT in this list: the wordmark returns home.
+ */
+export const BUCKETS: readonly { id: ZoneId; label: string }[] = [
+  { id: "about", label: "Experience" },
+  { id: "projects", label: "Entrepreneurship" },
+  { id: "ventures", label: "Skills" },
+  { id: "writing", label: "Education" },
+  { id: "skills", label: "Interests" },
+  { id: "contact", label: "Contact" },
+] as const;
+
 export const HERO = {
-  // The one giant headline. Light text is allowed here over the bright surface.
-  headline: "Builder of AI products, trading tools, and companies.",
-  positioning:
-    "Serial entrepreneur. Chief AI Officer at BrachyClip. Previously VP of AI and Innovation at ICR. University of Michigan economics.",
+  name: "Matthew Oshin",
+  // Short punchy positioning line.
+  positioning: "Builder. Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
+  // One-sentence hook drawn from the About paragraph.
+  hook: "I'm a builder. It's the throughline of everything I've done, from scaling my first companies in high school to shipping AI products today.",
   scrollHint: "Scroll to descend",
 } as const;
 
+/**
+ * The About paragraph, in Matthew's voice, largely verbatim. Split into
+ * sentences-as-paragraphs for a readable column on the front page.
+ */
 export const ABOUT = {
-  heading: "I have been swimming in this water a long time.",
+  heading: "About me",
   paragraphs: [
-    "I started young. Reselling candy at summer camp, then washing dishes, then sneaker arbitrage under a banner I called Ocean Supply. The pattern was set early: find the gap, move fast, ship the thing.",
-    "That turned into Profit Paradise, a paid community that grew to about 3,500 members, and Resell Network, an 11,000 member community. At 19 I founded and sold a software company, Mocean Technologies. I owned all of it. Its logo was a shark, which felt right.",
-    "Then I went deep on fundamentals. Economics at the University of Michigan, equity research at Manatuck Hill Partners, and a coding habit that turned into a craft. Most recently I was VP of AI and Innovation at ICR, where I led an AI lab building tools and driving adoption across the firm.",
-    "Today I am independent and building. Chief AI Officer at BrachyClip, plus a steady stream of new products. The water keeps getting deeper, and I keep diving.",
+    "I'm a builder. It's the throughline of everything I've done, from scaling my first companies in high school to shipping AI products today.",
+    "I'm the Chief AI Officer at BrachyClip, an early-stage cancer medical device company, and most recently I was VP of AI & Innovation at ICR, one of the leading investor relations and strategic communications firms, where I led the AI & Intelligence Lab: building internal tools and client-facing products, driving firm-wide AI adoption, and finding new applications across the business.",
+    "My foundation is in markets. I cut my teeth in equity research at Manatuck Hill, a hedge fund, developing investment strategies across AI, nuclear energy, and precious metals that the firm put into practice. That lens still shapes how I build, with an eye on where value is heading.",
+    "On the side, I co-founded Element Underground, a hospitality group running large-scale events across NYC, Miami, Boston, and Ann Arbor that have drawn 17,000+ attendees. Before all this, I founded Mocean Technologies, a research platform I scaled to $400K in revenue and 100,000+ users across 1,000+ investor communities before its acquisition.",
+    "University of Michigan econ grad. Always up for connecting with other builders, especially around AI, investing, and emerging tech.",
   ],
 } as const;
 
-export interface Project {
+/* -------------------------------------------------------------------------- */
+/* EXPERIENCE (jobs)                                                          */
+/* -------------------------------------------------------------------------- */
+
+export interface Job {
+  role: string;
+  org: string;
+  period: string;
+  points: readonly string[];
+}
+
+export const EXPERIENCE: readonly Job[] = [
+  {
+    role: "Chief AI Officer",
+    org: "BrachyClip",
+    period: "2025 to present",
+    points: [
+      "Built brand, positioning, and the investor narrative from scratch.",
+      "Stood up AI infrastructure that cut time on research, content, and ops.",
+      "Builds internal AI tools for market analysis, regulatory research, and outreach.",
+    ],
+  },
+  {
+    role: "VP, AI & Innovation",
+    org: "ICR",
+    period: "Recent",
+    points: [
+      "Headed the firm's AI & Intelligence Lab.",
+      "Built and shipped internal AI tools and client-facing products.",
+      "Drove firm-wide AI adoption through training and embedded sessions.",
+      "Set and executed the firm's AI strategy.",
+    ],
+  },
+  {
+    role: "Equity Research Analyst",
+    org: "Manatuck Hill Partners",
+    period: "2024",
+    points: [
+      "Thematic research across AI infrastructure, nuclear energy, and precious metals that informed portfolio decisions.",
+      "Conducted management interviews.",
+      "Built an automated intelligence aggregation system.",
+    ],
+  },
+  {
+    role: "AI Project Manager",
+    org: "Qult.ai",
+    period: "2023, internship",
+    points: [
+      "Led 4 developers building an AI healthcare career platform.",
+      "Shipped on Python, React Native, and MongoDB.",
+    ],
+  },
+  {
+    role: "Software Product Manager",
+    org: "Top Floor",
+    period: "2022 to 2023, internship",
+    points: [
+      "Built community and marketing infrastructure for AI companies.",
+      "Automated marketing products sold to 3 clients.",
+    ],
+  },
+] as const;
+
+/* -------------------------------------------------------------------------- */
+/* ENTREPRENEURSHIP (ventures + current builds)                              */
+/* -------------------------------------------------------------------------- */
+
+export interface Venture {
+  name: string;
+  oneLiner: string;
+  era: string;
+  note: string;
+}
+
+export const VENTURES: readonly Venture[] = [
+  {
+    name: "Mocean Technologies",
+    oneLiner:
+      "A research platform I founded at 19 and scaled before its acquisition.",
+    era: "Founded and acquired",
+    note: "$400K in revenue, 100,000+ users, and 1,000+ investor communities.",
+  },
+  {
+    name: "Element Underground",
+    oneLiner:
+      "A hospitality group running large-scale events, co-founded.",
+    era: "Co-founder",
+    note: "Events across NYC, Miami, Boston, and Ann Arbor that have drawn 17,000+ attendees.",
+  },
+  {
+    name: "Profit Paradise",
+    oneLiner: "A paid community I grew to about 3,500 members.",
+    era: "Community",
+    note: "Built it as a paid community, then later made it free.",
+  },
+  {
+    name: "Ocean Supply",
+    oneLiner: "Sneaker arbitrage, my first real operation.",
+    era: "Early venture",
+    note: "Where the ocean theme started. Buying low, selling high, learning logistics one pair at a time.",
+  },
+  {
+    name: "Resell Network",
+    oneLiner: "An 11,000 member community, sold alongside Mocean.",
+    era: "Community",
+    note: "Built and scaled a large membership community, then sold it with the software business.",
+  },
+] as const;
+
+/**
+ * Current builds. These also back the /projects/[slug] case-study route, so they
+ * carry the richer fields that page reads.
+ */
+export interface Build {
   slug: string;
   name: string;
   hook: string;
-  /** Longer one-paragraph description for the case-study shell. */
   summary: string;
-  /** What the work actually involved. Short, concrete. */
-  highlights: string[];
-  stack: string[];
-  /** Placeholder hero metric. Matthew supplies the real number. */
-  metricLabel: string;
-  metricPlaceholder: true;
-  /** Status badge for the card. */
+  highlights: readonly string[];
+  stack: readonly string[];
   status: string;
-  /** Optional external link (omit if none). */
   href?: string;
 }
 
-export const PROJECTS: readonly Project[] = [
+export const BUILDS: readonly Build[] = [
   {
     slug: "sigma",
     name: "Sigma",
@@ -75,16 +211,14 @@ export const PROJECTS: readonly Project[] = [
       "Terminal-style UI with an anchored AI analyst.",
     ],
     stack: ["Next.js", "TypeScript", "Python", "Options math"],
-    metricLabel: "Headline metric",
-    metricPlaceholder: true,
-    status: "Active build",
+    status: "Current build",
   },
   {
     slug: "galactic-signals",
     name: "Galactic Signals",
     hook: "A trading-signals platform that turns market data into alerts.",
     summary:
-      "Galactic Signals watches markets and ships signals to the people who need them. The work spanned the full stack: data pipelines that ingest and monitor feeds, a Next.js application layer, encrypted key management, and a Discord delivery surface.",
+      "Galactic Signals watches markets and ships signals to the people who need them. The work spans the full stack: data pipelines that ingest and monitor feeds, a Next.js application layer, encrypted key management, and a Discord delivery surface.",
     highlights: [
       "Real-time data pipelines feeding a signal engine.",
       "Full-stack application with an admin and monitor builder.",
@@ -92,79 +226,21 @@ export const PROJECTS: readonly Project[] = [
       "Discord bot for delivery to the community.",
     ],
     stack: ["Next.js", "PostgreSQL", "Python workers", "Discord"],
-    metricLabel: "Headline metric",
-    metricPlaceholder: true,
-    status: "Live",
-  },
-  {
-    slug: "brachyclip",
-    name: "BrachyClip",
-    hook: "A medical-device venture, affiliated with Brown University and Rhode Island Hospital.",
-    summary:
-      "BrachyClip is an early-stage medical-device company built around a clip-based delivery system for brachytherapy. I serve as Chief AI Officer, leading marketing and the AI side of the business while the clinical and engineering work advances with partners at Brown University and Rhode Island Hospital.",
-    highlights: [
-      "Clip-based brachytherapy delivery system.",
-      "Affiliated with Brown University and Rhode Island Hospital.",
-      "Chief AI Officer role spanning marketing and AI.",
-      "Next.js company site and product positioning.",
-    ],
-    stack: ["Medical device", "Next.js", "Positioning", "AI"],
-    metricLabel: "Headline metric",
-    metricPlaceholder: true,
-    status: "Early stage",
-  },
-  {
-    slug: "icr-ai-tools",
-    name: "ICR AI Tools and Beacon",
-    hook: "An internal AI platform for an investor-relations firm.",
-    summary:
-      "At ICR I led the AI and Intelligence Lab and built Beacon, an internal platform of AI tools used across service lines. The work covered research and development of shipped tools, firm-wide adoption through hands-on training, and discovery of new applications across the business.",
-    highlights: [
-      "Built and shipped internal AI tools on the Beacon platform.",
-      "Drove firm-wide adoption through embedded training.",
-      "Owned the data pipeline behind the lab.",
-      "Translated firm needs into shipped products.",
-    ],
-    stack: ["Next.js", "Supabase", "Agents", "RAG"],
-    metricLabel: "Headline metric",
-    metricPlaceholder: true,
-    status: "Past role",
+    status: "Current build",
   },
 ] as const;
 
-export interface Venture {
-  name: string;
-  oneLiner: string;
-  era: string;
-  note: string;
-}
+export const ENTREPRENEURSHIP = {
+  heading: "What I've built.",
+  blurb:
+    "The ventures, in roughly the order they happened, and the products I'm building now.",
+  venturesLabel: "Ventures and companies",
+  buildsLabel: "Building now",
+} as const;
 
-export const VENTURES: readonly Venture[] = [
-  {
-    name: "Mocean Technologies",
-    oneLiner: "A software company I founded and sold at 19.",
-    era: "Founded young, sold 2023",
-    note: "I owned all of it. The name was M. Oshin plus Ocean, and the logo was a shark.",
-  },
-  {
-    name: "Resell Network",
-    oneLiner: "An 11,000 member community, sold alongside Mocean.",
-    era: "Community",
-    note: "Built and scaled a large membership community, then sold it with the software business.",
-  },
-  {
-    name: "Profit Paradise",
-    oneLiner: "A paid community that grew to about 3,500 members.",
-    era: "Community",
-    note: "A paid Discord community with a palm-tree logo. An early lesson in retention and value.",
-  },
-  {
-    name: "Ocean Supply",
-    oneLiner: "Sneaker arbitrage, my first real operation.",
-    era: "Early venture",
-    note: "Where the ocean theme started. Buying low, selling high, learning logistics one pair at a time.",
-  },
-] as const;
+/* -------------------------------------------------------------------------- */
+/* SKILLS                                                                      */
+/* -------------------------------------------------------------------------- */
 
 export interface SkillGroup {
   title: string;
@@ -177,42 +253,62 @@ export const SKILL_GROUPS: readonly SkillGroup[] = [
     items: ["Claude Code", "Agents", "RAG", "Evals", "Prompt design"],
   },
   {
-    title: "Full stack",
-    items: ["Next.js", "TypeScript", "Supabase", "Vercel", "Tailwind"],
+    title: "Full-stack",
+    items: ["Next.js", "TypeScript", "React", "Supabase", "Vercel", "Python", "MongoDB"],
   },
   {
     title: "Markets",
-    items: ["Equity research", "Financial modeling", "Options", "Valuation"],
+    items: ["Equity research", "Financial modeling", "Valuation", "Thematic investing"],
   },
   {
-    title: "Data and product",
-    items: ["Data pipelines", "Product strategy", "Distribution", "Go to market"],
+    title: "Data & product",
+    items: ["Data pipelines", "Product strategy", "Go-to-market"],
   },
 ] as const;
+
+export const SKILLS = {
+  heading: "What I work with.",
+  blurb: "The toolkit, grouped by where it lives.",
+} as const;
+
+/* -------------------------------------------------------------------------- */
+/* EDUCATION                                                                   */
+/* -------------------------------------------------------------------------- */
 
 export const EDUCATION: readonly { school: string; detail: string }[] = [
   { school: "University of Michigan", detail: "B.A. Economics" },
-  { school: "Georgia Tech OMSCS", detail: "Pursuing" },
+  { school: "Weston High School", detail: "" },
 ] as const;
 
-export const HOBBIES: readonly string[] = [
-  "DJ with a real rig",
-  "Sneakers",
-  "Networking",
-  "Markets",
-] as const;
-
-export const WRITING = {
-  heading: "Dispatches from the deep.",
-  blurb:
-    "A log book is coming. Notes on building with AI, on markets, and on the unglamorous parts of shipping. Nothing fabricated here yet, real entries land soon.",
-  cta: "Visit the log book",
+export const EDUCATION_META = {
+  heading: "Where I studied.",
 } as const;
 
+/* -------------------------------------------------------------------------- */
+/* INTERESTS                                                                   */
+/* -------------------------------------------------------------------------- */
+
+export const INTERESTS: readonly string[] = [
+  "DJ with a real rig",
+  "Sneakers",
+  "Markets and investing",
+  "Networking",
+  "Emerging tech",
+] as const;
+
+export const INTERESTS_META = {
+  heading: "Off the clock.",
+  blurb: "What I do when I'm not building.",
+} as const;
+
+/* -------------------------------------------------------------------------- */
+/* CONTACT                                                                     */
+/* -------------------------------------------------------------------------- */
+
 export const CONTACT = {
-  heading: "Surface a signal.",
+  heading: "Let's talk.",
   blurb:
-    "If you are building something at the intersection of AI, markets, or medicine, let us talk. Book a time or send a note.",
+    "If you're building something at the intersection of AI, markets, or medicine, I'd love to connect. Book a time or send a note.",
   primaryLabel: "Book a time",
   secondaryLabel: "Email me",
 } as const;

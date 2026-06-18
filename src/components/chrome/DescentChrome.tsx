@@ -9,14 +9,14 @@
  *   MotionController   - resolves reduced-motion, marks store hydrated
  *   ScrollController   - Lenis + GSAP ScrollTrigger -> store progress
  *   DescentBackground  - the fixed canvas (or static ocean) behind everything
- *   TopBar             - wordmark + skip/flat + motion toggle
- *   DepthGauge         - the right-rail depth navigation
+ *   BucketNav          - sticky top bucket nav: wordmark + section pills + motion
+ *   DepthGauge         - the right-rail depth progress indicator
  */
 
 import MotionController from "./MotionController";
 import ScrollController from "./ScrollController";
 import DescentBackground from "./DescentBackground";
-import TopBar from "./TopBar";
+import BucketNav from "./BucketNav";
 import DepthGauge from "./DepthGauge";
 
 export default function DescentChrome() {
@@ -25,7 +25,7 @@ export default function DescentChrome() {
       <MotionController />
       <ScrollController />
       <DescentBackground />
-      <TopBar />
+      <BucketNav />
       <DepthGauge />
     </>
   );

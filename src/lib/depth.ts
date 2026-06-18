@@ -57,7 +57,7 @@ export const ZONES: readonly DepthZone[] = [
     // Bright, friendly, sunlit light-blue surface echoing the reference shot:
     // airy aqua sky fading into clean tropical water. Dark text rides on top.
     id: "surface",
-    label: "Surface",
+    label: "Home",
     depthLabel: "0m",
     start: 0.0,
     end: 0.16,
@@ -73,7 +73,7 @@ export const ZONES: readonly DepthZone[] = [
     // reach. Brighter/more alive in hue than the old muddy band, but kept dark
     // enough in luminance that the zone's LIGHT body/heading type stays WCAG AA.
     id: "about",
-    label: "About",
+    label: "Experience",
     depthLabel: "Sunlit shallows",
     start: 0.16,
     end: 0.32,
@@ -88,7 +88,7 @@ export const ZONES: readonly DepthZone[] = [
     // Midwater: a clean, confident medium ocean teal-blue. The descent visibly
     // deepens here but the water stays colorful, never murky-grey or black.
     id: "projects",
-    label: "Projects",
+    label: "Entrepreneurship",
     depthLabel: "Twilight",
     start: 0.32,
     end: 0.5,
@@ -102,7 +102,7 @@ export const ZONES: readonly DepthZone[] = [
   {
     // Deeper midwater rolling into the moody band: a rich ocean teal-blue.
     id: "ventures",
-    label: "Ventures",
+    label: "Skills",
     depthLabel: "Midnight",
     start: 0.5,
     end: 0.66,
@@ -115,9 +115,9 @@ export const ZONES: readonly DepthZone[] = [
   },
   {
     // Deep zone: moody for contrast, but a RICH dark teal-navy, not a black
-    // void — so the bioluminescence pops against a colored deep, not nothing.
+    // void, so the bioluminescence pops against a colored deep, not nothing.
     id: "writing",
-    label: "Writing",
+    label: "Education",
     depthLabel: "Abyss",
     start: 0.66,
     end: 0.8,
@@ -132,7 +132,7 @@ export const ZONES: readonly DepthZone[] = [
     // Seabed: deepest teal-navy, still holding a clear blue-green cast so the
     // floor reads as deep ocean rather than ink.
     id: "skills",
-    label: "Skills",
+    label: "Interests",
     depthLabel: "Seabed",
     start: 0.8,
     end: 0.92,
@@ -145,7 +145,7 @@ export const ZONES: readonly DepthZone[] = [
   },
   {
     // The floor: lifts back to a warmer, lighter dark teal-navy to seat the reef
-    // and give the closing zone a settled, grounded — not pitch-black — base.
+    // and give the closing zone a settled, grounded, not pitch-black, base.
     id: "contact",
     label: "Contact",
     depthLabel: "The Floor",

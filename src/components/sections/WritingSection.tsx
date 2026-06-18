@@ -1,27 +1,34 @@
-import Link from "next/link";
 import Section from "./Section";
-import { WRITING } from "@/data/content";
+import { EDUCATION, EDUCATION_META } from "@/data/content";
 
 /**
- * WritingSection / Abyss. Deferred for v1: a tasteful "log book coming from the
- * deep" placeholder with a link to /writing. No fabricated posts.
+ * WritingSection / Abyss = EDUCATION (zone id stays "writing").
+ *
+ * The old "dispatches from the deep" placeholder is gone. This zone now holds
+ * education: school + detail, simple and clean.
  */
 export default function WritingSection() {
   return (
     <Section id="writing">
-      <h2 className="font-display text-3xl font-semibold leading-tight text-ink-heading glow-cyan sm:text-5xl">
-        {WRITING.heading}
+      <h2 className="font-display text-3xl font-semibold leading-tight text-ink-heading sm:text-5xl">
+        {EDUCATION_META.heading}
       </h2>
-      <p className="measure mt-6 text-base text-ink-body sm:text-lg">
-        {WRITING.blurb}
-      </p>
-      <Link
-        href="/writing"
-        className="mt-8 inline-flex items-center gap-2 rounded-full border border-bio-cyan/40 px-5 py-2.5 text-sm font-medium text-bio-cyan transition-colors hover:bg-bio-cyan/10"
-      >
-        {WRITING.cta}
-        <span aria-hidden="true">-&gt;</span>
-      </Link>
+
+      <ul className="mt-10 space-y-4">
+        {EDUCATION.map((e) => (
+          <li
+            key={e.school}
+            className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
+          >
+            <h3 className="font-display text-xl font-semibold text-ink-heading sm:text-2xl">
+              {e.school}
+            </h3>
+            {e.detail ? (
+              <p className="mt-1 text-base text-ink-body">{e.detail}</p>
+            ) : null}
+          </li>
+        ))}
+      </ul>
     </Section>
   );
 }
