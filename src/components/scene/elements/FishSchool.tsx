@@ -1,21 +1,29 @@
 "use client";
 
 /**
- * FishSchool - a school of ~320 silvery fish that swims and turns together
- * across the sunlit-shallows-to-twilight band (zones `about` + `projects`).
+ * FishSchool - a calm, cohesive school of ~160 sleek silver-blue fish that drifts
+ * and banks together across the sunlit-shallows-to-twilight band (zones `about` +
+ * `projects`). The brief: it must READ AS FISH at a glance, never a glowing cloud.
  *
  * Everything is ONE InstancedMesh:
- *   - geometry: a procedural low-poly fish body (a flattened, elongated diamond
- *     with a tiny tail flick), built in a BufferGeometry. No external assets.
+ *   - geometry: a procedural low-poly fish with a recognizable SIDE PROFILE - a
+ *     rounded front tapering to a forked tail, a small dorsal-fin hint, and a tiny
+ *     bit of belly volume. Built nose(+x) to tail(-x), legible at a glance.
  *   - per-instance simulation: curl-noise drift + soft cohesion toward a slowly
  *     wandering school center, so the shoal banks and turns as one. Each fish is
  *     oriented to its own velocity each frame, then written into instanceMatrix.
- *   - material: a custom ShaderMaterial giving brushed-silver bodies with a faint
- *     cyan fresnel rim that strengthens with depth, a subtle counter-shading
- *     (darker belly), and a per-fish tail wiggle baked into the vertex shader.
+ *   - material: OPAQUE silver-blue bodies (pale steel ~#AEC6D6) painted in the
+ *     fragment shader: a subtly darker back, a lighter belly (counter-shading), a
+ *     tiny dark eye, and only a WHISPER of cool rim. NOT additive, NOT a glow.
+ *     `depthWrite` stays ON so fish sort correctly; `transparent` is used ONLY to
+ *     fade the whole school in/out at the band's feathered edges (alpha rides the
+ *     fade uniform and is ~1 through the body of the band).
  *
- * Zone-gating: the school is only simulated + visible inside its depth band and
- * a small feather around it. Off-band the group goes `.visible = false` and the
+ * Placement: the school is biased toward the SIDES / mid-background so it reads as
+ * ambient life AROUND the centered content column, never piled on top of the text.
+ *
+ * Zone-gating: the school is only simulated + visible inside its depth band and a
+ * small feather around it. Off-band the group goes `.visible = false` and the
  * heavy per-instance loop early-returns, so it costs ~nothing elsewhere.
  *
  * Self-contained SceneElement per the contract in scene/types.ts. Reads the
@@ -28,7 +36,8 @@ import * as THREE from "three";
 import { clamp01, hexToRgb01, lerp } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
-const COUNT = 320;
+// Fewer, larger fish so each one reads (brief: ~140-180, down from ~320).
+const COUNT = 160;
 
 // Deterministic PRNG (mulberry32). The React Compiler forbids Math.random()
 // during render, and a fixed seed makes the initial shoal layout reproducible.
@@ -53,98 +62,120 @@ const FEATHER = 0.06;
 // descends y: 0 -> -60 across progress 0..1, so the band centers near y ~ -19.8.
 // We keep the school roughly camera-locked in y (re-centered each frame) so it is
 // always in view while within the band, and let it drift in a wide x/z volume.
-const VOL_X = 26; // horizontal spread
-const VOL_Y = 11; // vertical spread (kept shallow: a flat shoal reads better)
+const VOL_X = 30; // horizontal spread (wide: the shoal lives out to the sides)
+const VOL_Y = 12; // vertical spread (kept shallow: a flat shoal reads better)
 const VOL_Z = 22; // depth spread (camera looks down -z toward the school)
-const Z_CENTER = -16; // sit in front of the camera (camera z = 8)
+const Z_CENTER = -18; // sit a touch further back so fish read as ambient depth
 
-// Palette.
-const SILVER = hexToRgb01("#BFD8E0"); // cool silvery body
-const BELLY = hexToRgb01("#23566B"); // shaded belly for counter-shading
-const RIM = hexToRgb01("#3FE0E6"); // bio-cyan fresnel rim
-const HILITE = hexToRgb01("#8FE8FF"); // bio-lumen specular pop
+// Keep the school OUT of the centered content column. Fish inside this central
+// half-width get a gentle outward bias so they part around the text/cards.
+const CLEAR_HALF_X = 7; // half-width of the kept-clear central corridor
+
+// Palette: sleek silver-blue / pale steel, NOT cyan.
+const STEEL = hexToRgb01("#AEC6D6"); // pale steel mid-tone (the body's key color)
+const BACK = hexToRgb01("#6E94AB"); // subtly darker top/back for counter-shading
+const BELLY = hexToRgb01("#E4EEF4"); // lighter belly
+const EYE = hexToRgb01("#16242C"); // tiny dark eye
+const RIM = hexToRgb01("#BFE6EE"); // a WHISPER of cool rim (no glow)
 
 // ---------------------------------------------------------------------------
-// Procedural low-poly fish geometry: a flattened elongated diamond + tail fin.
-// Built nose(+x) to tail(-x); thin in z. A `vSeg` attribute (0 at nose .. 1 at
-// tail tip) lets the vertex shader add a travelling tail wiggle.
+// Procedural low-poly fish geometry: a recognizable side profile.
+//
+// Built nose(+x) to tail(-x). Cross-sections are 4-vertex diamond rings stitched
+// into quads; the profile is rounded at the front and tapers to a thin peduncle,
+// then a forked tail fin and a small dorsal-fin hint are welded on. The body is
+// slightly chunkier than a flat diamond so it reads as a solid shape, not a sliver.
+//
+// Two attributes ride along:
+//   aBody : 0 at the nose .. 1 at the tail tip -> drives the tail wiggle + eye.
+//   aFin  : 1 on fin geometry, 0 on the body  -> lets the shader shade fins.
 // ---------------------------------------------------------------------------
 function buildFishGeometry(): THREE.BufferGeometry {
-  // Spine cross-sections from nose to tail-base: [x, halfHeight, halfWidth].
+  // Spine cross-sections nose -> tail base: [x, halfHeight, halfWidth].
+  // Rounded front, deepest just behind the head, tapering to a thin tail base.
+  // halfWidth (z) is kept modest so the fish stays sleek but not paper-thin.
   const sections: Array<[number, number, number]> = [
-    [0.5, 0.0, 0.0], // nose
-    [0.34, 0.12, 0.05], // head
-    [0.1, 0.2, 0.09], // shoulders (widest)
-    [-0.16, 0.15, 0.07], // mid
-    [-0.4, 0.07, 0.03], // peduncle (tail base)
+    [0.52, 0.03, 0.02], // rounded nose tip
+    [0.42, 0.13, 0.06], // head
+    [0.24, 0.21, 0.09], // shoulders (deepest, widest)
+    [0.0, 0.19, 0.08], // mid
+    [-0.24, 0.12, 0.05], // rear
+    [-0.42, 0.05, 0.025], // peduncle (tail base)
   ];
 
   const positions: number[] = [];
   const normals: number[] = [];
-  const segs: number[] = [];
+  const body: number[] = [];
+  const fin: number[] = [];
 
-  // Each cross-section is a 4-vertex diamond ring: top, right, bottom, left.
+  // 4-vertex diamond ring (top, right, bottom, left) for a cross-section.
   const ringFor = (s: [number, number, number]) => {
     const [x, h, w] = s;
     return [
-      [x, h, 0], // top
+      [x, h, 0], // top (back)
       [x, 0, w], // right
-      [x, -h, 0], // bottom
+      [x, -h, 0], // bottom (belly)
       [x, 0, -w], // left
     ] as const;
   };
 
-  const segParam = (i: number) => i / (sections.length - 1); // 0..1 along body
+  const bodyParam = (i: number) => i / (sections.length - 1); // 0..1 along body
 
   // Stitch quads (two tris) between consecutive rings.
   for (let i = 0; i < sections.length - 1; i++) {
     const a = ringFor(sections[i]);
     const b = ringFor(sections[i + 1]);
-    const sa = segParam(i);
-    const sb = segParam(i + 1);
+    const ba = bodyParam(i);
+    const bb = bodyParam(i + 1);
     for (let k = 0; k < 4; k++) {
       const k2 = (k + 1) % 4;
-      // quad: a[k], a[k2], b[k2], b[k]
       const quad = [
-        [a[k], sa],
-        [a[k2], sa],
-        [b[k2], sb],
-        [b[k], sb],
+        [a[k], ba],
+        [a[k2], ba],
+        [b[k2], bb],
+        [b[k], bb],
       ] as const;
       const tris = [quad[0], quad[1], quad[2], quad[0], quad[2], quad[3]];
-      for (const [v, seg] of tris) {
+      for (const [v, bp] of tris) {
         positions.push(v[0], v[1], v[2]);
         normals.push(0, 0, 0); // recomputed below
-        segs.push(seg);
+        body.push(bp);
+        fin.push(0);
       }
     }
   }
 
-  // Tail fin: a flat forked triangle pair from the peduncle back to the tail tip.
-  const peduncleX = sections[sections.length - 1][0];
-  const tailTipX = -0.62;
-  const finH = 0.2;
   const addTri = (
     p0: readonly [number, number, number],
     p1: readonly [number, number, number],
     p2: readonly [number, number, number],
-    seg: number,
+    bp: number,
+    isFin: number,
   ) => {
     for (const v of [p0, p1, p2]) {
       positions.push(v[0], v[1], v[2]);
       normals.push(0, 0, 0);
-      segs.push(seg);
+      body.push(bp);
+      fin.push(isFin);
     }
   };
-  // upper fin lobe
-  addTri([peduncleX, 0.05, 0], [tailTipX, finH, 0], [tailTipX, 0.02, 0], 1.0);
-  // lower fin lobe
-  addTri([peduncleX, -0.05, 0], [tailTipX, -0.02, 0], [tailTipX, -finH, 0], 1.0);
+
+  // Forked tail fin (flat, in the z=0 plane), from the peduncle to the tail tip.
+  // Two lobes with a notch between -> a clearly forked, triangular tail.
+  const peduncleX = sections[sections.length - 1][0];
+  const tailTipX = -0.66;
+  const finH = 0.2;
+  addTri([peduncleX, 0.045, 0], [tailTipX, finH, 0], [tailTipX, 0.02, 0], 1.0, 1);
+  addTri([peduncleX, -0.045, 0], [tailTipX, -0.02, 0], [tailTipX, -finH, 0], 1.0, 1);
+
+  // Small dorsal-fin hint: a low triangle along the back over the shoulders.
+  addTri([0.28, 0.21, 0], [-0.04, 0.19, 0], [0.12, 0.31, 0], 0.4, 1);
 
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  geo.setAttribute("aSeg", new THREE.Float32BufferAttribute(segs, 1));
-  // Per-face normals from the geometry so the low-poly facets catch light.
+  geo.setAttribute("aBody", new THREE.Float32BufferAttribute(body, 1));
+  geo.setAttribute("aFin", new THREE.Float32BufferAttribute(fin, 1));
+  // Per-face normals so the low-poly facets catch the top-down key light.
   geo.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
   geo.computeVertexNormals();
   geo.computeBoundingSphere();
@@ -152,11 +183,13 @@ function buildFishGeometry(): THREE.BufferGeometry {
 }
 
 // ---------------------------------------------------------------------------
-// Shaders. Vertex bakes a per-instance tail wiggle (stronger toward the tail).
-// Fragment does counter-shaded silver + depth-driven cyan fresnel rim.
+// Shaders. Vertex bakes a gentle per-instance tail wiggle (stronger toward the
+// tail). Fragment paints an OPAQUE counter-shaded silver-blue body with a tiny
+// dark eye, shaded fins, and only a whisper of cool rim (no additive glow).
 // ---------------------------------------------------------------------------
 const vertexShader = /* glsl */ `
-  attribute float aSeg;       // 0 nose .. 1 tail tip
+  attribute float aBody;      // 0 nose .. 1 tail tip
+  attribute float aFin;       // 1 on fins, 0 on body
   attribute float aPhase;     // per-instance swim phase
   attribute float aSpeed;     // per-instance tail beat speed
 
@@ -164,17 +197,22 @@ const vertexShader = /* glsl */ `
 
   varying vec3 vNormalW;
   varying vec3 vViewDir;
-  varying float vBelly;       // -1 belly .. +1 back, in local space
+  varying float vBody;        // pass-through nose..tail
+  varying float vFin;         // pass-through fin flag
+  varying vec3 vLocalPos;     // local position (for eye + belly shading)
 
   void main() {
     vec3 pos = position;
 
     // Travelling body wave: yaw the body left/right, ramping toward the tail.
-    float wave = sin(uTime * aSpeed + aPhase + aSeg * 3.4);
-    float amp = aSeg * aSeg * 0.16;       // negligible at the nose, max at tail
+    // Gentle amplitude -> a calm cruise, not a frantic flap.
+    float wave = sin(uTime * aSpeed + aPhase + aBody * 3.2);
+    float amp = aBody * aBody * 0.13;     // negligible at the nose, max at tail
     pos.z += wave * amp;
 
-    vBelly = clamp(position.y / 0.2, -1.0, 1.0);
+    vBody = aBody;
+    vFin = aFin;
+    vLocalPos = position;
 
     // Instance + model transforms (instanceMatrix is provided by InstancedMesh).
     vec4 worldPos = modelMatrix * instanceMatrix * vec4(pos, 1.0);
@@ -190,37 +228,52 @@ const vertexShader = /* glsl */ `
 const fragmentShader = /* glsl */ `
   precision highp float;
 
-  uniform vec3 uSilver;
-  uniform vec3 uBelly;
-  uniform vec3 uRim;
-  uniform vec3 uHilite;
-  uniform float uDepth;   // 0 (shallow) .. 1 (deep): rim glow grows with depth
-  uniform float uFade;    // 0..1 group opacity
+  uniform vec3 uSteel;    // pale steel mid body
+  uniform vec3 uBack;     // darker top/back
+  uniform vec3 uBelly;    // lighter belly
+  uniform vec3 uEye;      // tiny dark eye
+  uniform vec3 uRim;      // whisper of cool rim
+  uniform float uFade;    // 0..1 group opacity (band-edge fade ONLY)
 
   varying vec3 vNormalW;
   varying vec3 vViewDir;
-  varying float vBelly;
+  varying float vBody;
+  varying float vFin;
+  varying vec3 vLocalPos;
 
   void main() {
     vec3 N = normalize(vNormalW);
     vec3 V = normalize(vViewDir);
 
-    // Soft top-down key light (sun filtering from the surface).
-    vec3 L = normalize(vec3(0.15, 1.0, 0.35));
+    // Soft top-down key light (sun filtering down from the bright surface).
+    vec3 L = normalize(vec3(0.18, 1.0, 0.35));
     float diff = clamp(dot(N, L), 0.0, 1.0);
 
-    // Counter-shading: darker belly, brighter back -> classic fish silvering.
-    vec3 base = mix(uBelly, uSilver, smoothstep(-1.0, 1.0, vBelly));
-    vec3 col = base * (0.45 + 0.55 * diff);
+    // Counter-shading from local height: darker back (top), lighter belly
+    // (bottom), steel through the middle -> classic fish silvering, reads solid.
+    float h = clamp(vLocalPos.y / 0.21, -1.0, 1.0); // -1 belly .. +1 back
+    vec3 base = mix(uBelly, uSteel, smoothstep(-1.0, 0.0, h));
+    base = mix(base, uBack, smoothstep(0.0, 1.0, h));
 
-    // Brushed-silver glints: a tight spec lobe gives a metallic flash as fish bank.
-    float spec = pow(clamp(dot(reflect(-L, N), V), 0.0, 1.0), 24.0);
-    col += uHilite * spec * 0.6;
+    // OPAQUE diffuse shading with a solid ambient floor so the shaded side never
+    // goes muddy (and never disappears into the water).
+    vec3 col = base * (0.6 + 0.45 * diff);
 
-    // Fresnel cyan rim, strengthening as we descend into twilight.
-    float fres = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 2.5);
-    col += uRim * fres * (0.35 + uDepth * 0.85);
+    // Tiny dark eye: a small dot just behind/above the nose, on the upper flank.
+    vec2 eyeC = vec2(0.32, 0.07);            // (along-body, height) in local units
+    float eyeD = distance(vec2(vLocalPos.x, vLocalPos.y), eyeC);
+    float eye = 1.0 - smoothstep(0.024, 0.034, eyeD);
+    col = mix(col, uEye, eye * (1.0 - vFin)); // never paint eyes on the fins
 
+    // Fins: shade the membrane a touch darker so the silhouette reads.
+    col = mix(col, uBack, vFin * 0.35);
+
+    // A WHISPER of cool rim to lift the fish off the blue water - low, NOT a glow,
+    // and capped so additive build-up can't bloom into a cloud.
+    float fres = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 3.0);
+    col += uRim * fres * 0.12;
+
+    // OPAQUE through the band; alpha rides uFade ONLY to feather in/out at edges.
     gl_FragColor = vec4(col, uFade);
   }
 `;
@@ -242,7 +295,11 @@ function buildSim(): Sim {
   const speed = new Float32Array(COUNT);
   const scale = new Float32Array(COUNT);
   for (let i = 0; i < COUNT; i++) {
-    pos[i * 3] = (rng() - 0.5) * VOL_X;
+    // Bias the starting x toward the sides (push out of the central corridor) so
+    // the school reads as ambient life flanking the content, not over it.
+    const side = rng() < 0.5 ? -1 : 1;
+    const xOut = CLEAR_HALF_X + rng() * (VOL_X * 0.5 - CLEAR_HALF_X);
+    pos[i * 3] = side * xOut;
     pos[i * 3 + 1] = (rng() - 0.5) * VOL_Y;
     pos[i * 3 + 2] = (rng() - 0.5) * VOL_Z;
     // Initial velocity heading roughly +x with small jitter.
@@ -250,8 +307,8 @@ function buildSim(): Sim {
     vel[i * 3 + 1] = (rng() - 0.5) * 0.1;
     vel[i * 3 + 2] = (rng() - 0.5) * 0.3;
     phase[i] = rng() * Math.PI * 2;
-    speed[i] = 6 + rng() * 4; // tail-beat frequency
-    scale[i] = 0.7 + rng() * 0.7; // size variety
+    speed[i] = 5 + rng() * 3.5; // tail-beat frequency (calm cruise)
+    scale[i] = 0.95 + rng() * 0.85; // larger fish, with size variety
   }
   return { pos, vel, phase, speed, scale };
 }
@@ -311,11 +368,11 @@ export default function FishSchool({ progress }: SceneElementProps) {
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uSilver: { value: new THREE.Color(SILVER[0], SILVER[1], SILVER[2]) },
+      uSteel: { value: new THREE.Color(STEEL[0], STEEL[1], STEEL[2]) },
+      uBack: { value: new THREE.Color(BACK[0], BACK[1], BACK[2]) },
       uBelly: { value: new THREE.Color(BELLY[0], BELLY[1], BELLY[2]) },
+      uEye: { value: new THREE.Color(EYE[0], EYE[1], EYE[2]) },
       uRim: { value: new THREE.Color(RIM[0], RIM[1], RIM[2]) },
-      uHilite: { value: new THREE.Color(HILITE[0], HILITE[1], HILITE[2]) },
-      uDepth: { value: 0 },
       uFade: { value: 0 },
     }),
     [],
@@ -350,7 +407,7 @@ export default function FishSchool({ progress }: SceneElementProps) {
 
     // Fade rises inside the band, eases to 0 at the feathered edges.
     const edgeIn = clamp01((p - (BAND_START - FEATHER)) / FEATHER);
-    const edgeOut = clamp01(((BAND_END + FEATHER) - p) / FEATHER);
+    const edgeOut = clamp01((BAND_END + FEATHER - p) / FEATHER);
     const targetFade = inFeatheredBand ? Math.min(edgeIn, edgeOut) : 0;
     fade.current = lerp(fade.current, targetFade, Math.min(1, delta * 3));
 
@@ -382,20 +439,17 @@ export default function FishSchool({ progress }: SceneElementProps) {
     const t = state.clock.elapsedTime;
     mat.uniforms.uTime.value = t;
     mat.uniforms.uFade.value = fade.current;
-    // Depth term: 0 at band top (sunlit) -> 1 at band bottom (twilight).
-    mat.uniforms.uDepth.value = clamp01(
-      (p - BAND_START) / (BAND_END - BAND_START),
-    );
 
     // Keep the shoal centered on the camera's depth so it stays in frame while
     // we pass through. Group y tracks the camera y; x/z volume is local.
     group.position.y = state.camera.position.y;
     group.position.z = Z_CENTER;
 
-    // Wandering school attractor (cohesion target) inside the local volume.
+    // Wandering school attractor (cohesion target). Kept biased to one flank and
+    // out of the central corridor so the shoal stays beside the content column.
     const cp = (centerPhase.current += delta * 0.12);
     scratch.center.set(
-      Math.sin(cp * 0.7) * VOL_X * 0.32,
+      Math.sin(cp * 0.7) * VOL_X * 0.4,
       Math.sin(cp * 0.5 + 1.3) * VOL_Y * 0.3,
       Math.cos(cp * 0.6) * VOL_Z * 0.32,
     );
@@ -420,7 +474,15 @@ export default function FishSchool({ progress }: SceneElementProps) {
       ay += (scratch.center.y - py) * 0.22;
       az += (scratch.center.z - pz) * 0.22;
 
-      // 3) Soft containment: turn back before leaving the volume.
+      // 3) Central-corridor clearance: if a fish strays into the kept-clear band
+      // around the content column, nudge it outward so the school parts around
+      // the text/cards instead of swimming over them.
+      if (Math.abs(px) < CLEAR_HALF_X) {
+        const dir = px >= 0 ? 1 : -1;
+        ax += dir * (CLEAR_HALF_X - Math.abs(px)) * 0.55;
+      }
+
+      // 4) Soft containment: turn back before leaving the volume.
       ax += -px * (Math.abs(px) > VOL_X * 0.5 ? 0.9 : 0.04);
       ay += -py * (Math.abs(py) > VOL_Y * 0.5 ? 0.9 : 0.06);
       az += -pz * (Math.abs(pz) > VOL_Z * 0.5 ? 0.9 : 0.04);
@@ -436,8 +498,8 @@ export default function FishSchool({ progress }: SceneElementProps) {
 
       // Clamp speed so fish keep a believable, even cruising pace.
       const sp = Math.hypot(vx, vy, vz);
-      const maxSp = 3.2;
-      const minSp = 1.0;
+      const maxSp = 3.0;
+      const minSp = 0.9;
       if (sp > maxSp) {
         const k = maxSp / sp;
         vx *= k;
@@ -493,6 +555,13 @@ export default function FishSchool({ progress }: SceneElementProps) {
         args={[geometry, undefined, COUNT]}
         frustumCulled={false}
       >
+        {/*
+          OPAQUE bodies: depthWrite ON so fish sort correctly and never stack
+          into a glowing cloud. `transparent` is kept solely so the whole school
+          can feather in/out at the band edges via the uFade-driven alpha; alpha
+          is ~1 through the body of the band. Single-sided is fine for a solid,
+          closed body and halves overdraw vs DoubleSide.
+        */}
         <shaderMaterial
           ref={matRef}
           attach="material"
@@ -500,8 +569,8 @@ export default function FishSchool({ progress }: SceneElementProps) {
           fragmentShader={fragmentShader}
           uniforms={uniforms}
           transparent
-          depthWrite={false}
-          side={THREE.DoubleSide}
+          depthWrite
+          side={THREE.FrontSide}
           fog={false}
         />
       </instancedMesh>

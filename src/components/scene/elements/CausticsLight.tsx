@@ -33,8 +33,10 @@ import { clamp01, hexToRgb01, lerp } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
 // --- palette ---------------------------------------------------------------
-const SUN = hexToRgb01("#FFE9A8"); // warm sun core
-const SKY = hexToRgb01("#BFE9F0"); // cool surface sky tint
+// Sunlit aqua + white, deliberately blue-biased (NOT green) so the shafts read
+// as clean light through clear water, never a green murk over the content.
+const SUN = hexToRgb01("#FFF1CC"); // pale warm sun core (was #FFE9A8)
+const SKY = hexToRgb01("#CFEAFF"); // clean cool sky tint, blue not green (was #BFE9F0)
 const FOAM = hexToRgb01("#FFFFFF"); // bright highlight
 
 // --- tuning ----------------------------------------------------------------
@@ -77,17 +79,20 @@ const rayFragment = /* glsl */ `
   void main() {
     // vUv.y: 0 bottom (deep) -> 1 top (surface). vUv.x: 0..1 across the shaft.
 
-    // Vertical falloff: bright at the surface, feathering to nothing as it sinks.
-    float topGlow = pow(clamp(vUv.y, 0.0, 1.0), 1.35);
+    // Vertical falloff: concentrate the glow up near the surface so the shafts
+    // read as atmosphere from above, and fade out well before mid-screen rather
+    // than washing down over the content. Higher exponent = faster decay down.
+    float topGlow = pow(clamp(vUv.y, 0.0, 1.0), 2.1);
     // Also feather the very top edge so it doesn't look like a hard ceiling.
     topGlow *= smoothstep(1.0, 0.86, vUv.y);
 
     // Horizontal profile: a soft Gaussian-ish core that gently wanders sideways,
-    // giving the shaft a living, refracted wobble.
-    float wobble = sin(vUv.y * 3.0 + uTime * 0.35 + uSeed) * 0.06
-                 + sin(vUv.y * 7.3 - uTime * 0.22 + uSeed * 1.7) * 0.03;
+    // giving the shaft a living, refracted wobble. Tighter falloff = crisper,
+    // thinner shafts that don't smear sideways into the content column.
+    float wobble = sin(vUv.y * 3.0 + uTime * 0.35 + uSeed) * 0.05
+                 + sin(vUv.y * 7.3 - uTime * 0.22 + uSeed * 1.7) * 0.025;
     float dx = (vUv.x - 0.5 + wobble) / uWidth;
-    float core = exp(-dx * dx * 4.0);
+    float core = exp(-dx * dx * 7.0);
 
     // Slow brightness breathing per shaft.
     float breathe = 0.78 + 0.22 * sin(uTime * 0.5 + uSeed * 2.3);
@@ -97,7 +102,8 @@ const rayFragment = /* glsl */ `
     // Warm sun core blended toward cool sky at the shaft edges/depth.
     vec3 col = mix(uSky, uSun, clamp(core * topGlow + 0.15, 0.0, 1.0));
 
-    float alpha = intensity * uFade;
+    // Lower additive strength so the rays stay subtle atmosphere, never a wash.
+    float alpha = intensity * uFade * 0.45;
     // Additive blend: premultiply color by alpha, output alpha 1 is irrelevant
     // but we keep it tidy for correctness with AdditiveBlending.
     gl_FragColor = vec4(col * alpha, alpha);
@@ -141,16 +147,19 @@ const causticFragment = /* glsl */ `
     float web = n1 * 0.6 + n2 * 0.4;
 
     // Sharpen into bright filaments: caustics are thin bright lines, dark between.
-    float lines = pow(clamp(web * 0.25 + 0.5, 0.0, 1.0), 6.0);
+    // Higher exponent = thinner, sparser filaments and far less overall coverage.
+    float lines = pow(clamp(web * 0.25 + 0.5, 0.0, 1.0), 8.0);
 
-    // Radial vignette so the dapple fades out at the plane edges (no hard square).
+    // Tighter radial vignette so the net stays a small shimmer near the surface
+    // and dies out well before it can drift over the content (no broad wash).
     vec2 c = uv - 0.5;
-    float vign = smoothstep(0.72, 0.18, length(c));
+    float vign = smoothstep(0.5, 0.12, length(c));
 
     float intensity = lines * vign;
 
     vec3 col = mix(uSun, uFoam, lines);
-    float alpha = intensity * uFade * 0.85;
+    // Much lower additive strength: a faint dapple, not a glow over everything.
+    float alpha = intensity * uFade * 0.35;
     gl_FragColor = vec4(col * alpha, alpha);
   }
 `;
@@ -168,17 +177,24 @@ export default function CausticsLight({ progress }: SceneElementProps) {
   // a small z jitter for depth, a slight tilt so they "angle down" from the
   // surface, and its own seed/width.
   const shafts = useMemo(() => {
-    const divisor = Math.max(1, RAY_COUNT - 1);
+    // Bias the curtain to the LEFT and RIGHT periphery, leaving a clear central
+    // gap so no shaft sits directly behind the centered content column. Half the
+    // shafts go left, half right; none land in the protected middle band.
+    const GAP = 13; // half-width of the protected central column (world units)
+    const SPAN_OUTER = 30; // how far out the curtain reaches
     return Array.from({ length: RAY_COUNT }, (_, i) => {
-      const t = i / divisor; // 0..1
-      // Spread horizontally across a wide curtain, centered on x=0.
-      const x = lerp(-26, 26, t) + (i % 2 === 0 ? 2.2 : -2.2);
+      const side = i % 2 === 0 ? -1 : 1; // alternate left / right
+      const rank = Math.floor(i / 2); // 0..(RAY_COUNT/2 - 1) outward index
+      const lanes = Math.max(1, Math.ceil(RAY_COUNT / 2) - 1);
+      const u = lanes === 0 ? 0 : rank / lanes; // 0 (near gap) .. 1 (far edge)
+      // Place from just outside the gap to the outer span, with a little jitter.
+      const x = side * (GAP + u * (SPAN_OUTER - GAP)) + (i % 2 === 0 ? 1.4 : -1.4);
       const z = RAY_Z - (i % 3) * 3.5; // staggered depth
-      // Tilt each shaft slightly so the curtain fans, angling down/outward.
-      const tilt = lerp(0.16, -0.16, t); // radians around Z
-      const width = 0.34 + ((i * 37) % 11) / 40; // 0.34 .. ~0.6 core width
+      // Tilt each shaft so the curtain fans outward, away from center.
+      const tilt = side * lerp(0.05, 0.2, u); // radians around Z, fans outward
+      const width = 0.24 + ((i * 37) % 11) / 60; // narrower core: ~0.24 .. ~0.4
       const seed = i * 1.618; // golden-ish phase offset
-      const widthScale = lerp(5.5, 8.5, ((i * 53) % 7) / 6); // plane width
+      const widthScale = lerp(4.5, 6.8, ((i * 53) % 7) / 6); // plane width
       return {
         position: [x, RAY_TOP_Y - RAY_HEIGHT / 2, z] as [number, number, number],
         rotation: [0, 0, tilt] as [number, number, number],
@@ -305,7 +321,7 @@ export default function CausticsLight({ progress }: SceneElementProps) {
         rotation={[-Math.PI / 2, 0, 0]}
         renderOrder={-6}
       >
-        <planeGeometry args={[110, 90, 1, 1]} />
+        <planeGeometry args={[80, 64, 1, 1]} />
         <shaderMaterial
           ref={causticMatRef}
           vertexShader={causticVertex}

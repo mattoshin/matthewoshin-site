@@ -51,10 +51,14 @@ export const BUCKETS: readonly { id: ZoneId; label: string }[] = [
 
 export const HERO = {
   name: "Matthew Oshin",
-  // Short punchy positioning line.
+  // Short punchy positioning line (eyebrow).
   positioning: "Builder. Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
-  // One-sentence hook drawn from the About paragraph.
+  // One-sentence hook. This is the single strong instance of the "builder is the
+  // throughline" line; the About block no longer repeats it.
   hook: "I'm a builder. It's the throughline of everything I've done, from scaling my first companies in high school to shipping AI products today.",
+  // One concise bio for the front page, kept distinct from the hook so nothing
+  // repeats. The full story lives in the deeper sections.
+  bio: "Today I'm Chief AI Officer at BrachyClip and most recently led the AI & Intelligence Lab at ICR. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders.",
   scrollHint: "Scroll to descend",
 } as const;
 

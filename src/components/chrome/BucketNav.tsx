@@ -34,12 +34,13 @@ export default function BucketNav() {
   return (
     <header className="fixed inset-x-0 top-0 z-40">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-3 py-3 sm:px-5">
-        {/* Wordmark -> surface */}
+        {/* Wordmark -> surface. Carries a subtle glass chip so the light wordmark
+            reads over BOTH the bright surface and the dark deep. */}
         <button
           type="button"
           onClick={scrollToTop}
           aria-current={activeZone === "surface" ? "page" : undefined}
-          className="shrink-0 rounded-md px-1 text-left"
+          className="shrink-0 rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-left backdrop-blur-md transition-colors hover:border-reef-coral/50"
           aria-label="Matthew Oshin, return to the top"
         >
           <span className="font-display text-base font-semibold tracking-tight text-ink-heading sm:text-lg">
@@ -47,12 +48,14 @@ export default function BucketNav() {
           </span>
         </button>
 
-        {/* Bucket pills */}
+        {/* Bucket pills. The bar HUGS its content (inline-flex, w-auto) instead of
+            stretching half-empty across the row; it stays centered on wide
+            screens and scrolls horizontally on narrow ones. */}
         <nav
           aria-label="Sections"
-          className="min-w-0 flex-1"
+          className="flex min-w-0 flex-1 justify-center"
         >
-          <ul className="flex items-center gap-1.5 overflow-x-auto rounded-full border border-white/12 bg-black/35 px-1.5 py-1.5 backdrop-blur-md [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:justify-center">
+          <ul className="flex w-auto max-w-full items-center gap-1 overflow-x-auto rounded-full border border-white/15 bg-deep-body/70 px-1 py-1 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-md [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {BUCKETS.map((bucket) => {
               const active = bucket.id === activeZone;
               return (
@@ -63,7 +66,7 @@ export default function BucketNav() {
                     aria-current={active ? "true" : undefined}
                     className={`rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors sm:text-sm ${
                       active
-                        ? "bg-bio-cyan/90 text-abyss-void shadow-[0_0_14px_color-mix(in_srgb,var(--bio-cyan)_45%,transparent)]"
+                        ? "glow-coral bg-reef-coral text-abyss-void"
                         : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                     }`}
                   >
@@ -80,7 +83,7 @@ export default function BucketNav() {
           <button
             type="button"
             onClick={() => scrollToZone("about")}
-            className="hidden rounded-full border border-white/15 bg-black/35 px-3 py-1.5 text-xs font-medium text-ink-body backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan lg:inline-flex"
+            className="hidden rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-xs font-medium text-ink-body backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan lg:inline-flex"
           >
             Skip the dive, read flat
           </button>
@@ -98,7 +101,7 @@ export default function BucketNav() {
                 ? "Motion reduced. Click to re-enable the dive."
                 : "Reduce motion (static background)."
             }
-            className="flex items-center gap-1.5 rounded-full border border-white/15 bg-black/35 px-3 py-1.5 text-xs font-medium text-ink-body backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan"
+            className="flex items-center gap-1.5 rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-xs font-medium text-ink-body backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan"
           >
             <span
               aria-hidden="true"

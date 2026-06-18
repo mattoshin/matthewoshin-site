@@ -40,6 +40,13 @@
   --bio-violet: #7b8cff; /* rare */
   --bio-hot: #36f5b0; /* single hot CTA per viewport */
 
+  /* THE ONE warm accent, pulled from the reef reference (coral + sun against
+     cool water). Used with restraint as the secondary accent: section eyebrows,
+     the ACTIVE nav pill, link/hover/focus warmth, small markers. bio-cyan stays
+     the cool primary. Do NOT splash this everywhere. */
+  --reef-coral: #ff9b5a; /* base coral/sun accent */
+  --reef-coral-soft: #ffb877; /* lighter coral for hovers / on dark glows */
+
   /* Text on dark zones */
   --ink-heading: #eaf6fb;
   --ink-body: #c2d6e0;
@@ -82,6 +89,9 @@
   --color-bio-lumen: var(--bio-lumen);
   --color-bio-violet: var(--bio-violet);
   --color-bio-hot: var(--bio-hot);
+
+  --color-reef-coral: var(--reef-coral);
+  --color-reef-coral-soft: var(--reef-coral-soft);
 
   --color-ink-heading: var(--ink-heading);
   --color-ink-body: var(--ink-body);
@@ -149,6 +159,58 @@ html.lenis body {
     0 0 0 1px color-mix(in srgb, var(--bio-hot) 60%, transparent),
     0 0 24px color-mix(in srgb, var(--bio-hot) 35%, transparent),
     0 0 56px color-mix(in srgb, var(--bio-hot) 18%, transparent);
+}
+/* Warm coral glow for the single ACTIVE nav pill, so the warmth reads as a
+   deliberate wayfinding cue rather than decoration. */
+.glow-coral {
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--reef-coral) 45%, transparent),
+    0 0 34px color-mix(in srgb, var(--reef-coral) 18%, transparent);
+}
+
+/*
+ * Section scrim - the readability backbone.
+ *
+ * Every section's content column rides over a moving WebGL ocean whose luminance
+ * is unpredictable (bright sunlit surface, dark deep). This is a refined glass
+ * panel, NOT an opaque box: the ocean still glows through and around it, but a
+ * darkening veil + soft top-down gradient guarantees light type clears WCAG AA
+ * over ANY zone. The bright surface zone (dark text on light) opts into the
+ * lighter `.section-scrim--light` variant instead.
+ */
+.section-scrim {
+  position: relative;
+  isolation: isolate;
+  border-radius: 1.75rem;
+  /* A teal-tinted dark veil that pulls toward the deep palette so light ink
+     stays AA even against the bright surface glow bleeding behind it. */
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--deep-body) 66%, transparent),
+      color-mix(in srgb, var(--abyss-body) 74%, transparent)
+    );
+  border: 1px solid color-mix(in srgb, var(--bio-cyan) 12%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--bio-lumen) 7%, transparent) inset,
+    0 24px 70px -40px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(7px) saturate(125%);
+  -webkit-backdrop-filter: blur(7px) saturate(125%);
+}
+
+/* Light variant for the bright surface zone (dark text on light): a luminous
+   pane of glass instead of a dark veil, so the dark hero type stays AA. */
+.section-scrim--light {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-sky) 60%, transparent),
+      color-mix(in srgb, var(--surface-foam) 52%, transparent)
+    );
+  border: 1px solid color-mix(in srgb, var(--surface-foam) 55%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--surface-foam) 60%, transparent) inset,
+    0 24px 70px -44px rgba(4, 34, 46, 0.45);
 }
 
 /* Visible focus ring for keyboard users on dark backgrounds. */
