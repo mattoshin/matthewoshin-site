@@ -187,8 +187,8 @@ html.lenis body {
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--deep-body) 66%, transparent),
-      color-mix(in srgb, var(--abyss-body) 74%, transparent)
+      color-mix(in srgb, var(--deep-body) 44%, transparent),
+      color-mix(in srgb, var(--abyss-body) 52%, transparent)
     );
   border: 1px solid color-mix(in srgb, var(--bio-cyan) 12%, transparent);
   box-shadow:
@@ -204,13 +204,23 @@ html.lenis body {
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--surface-sky) 60%, transparent),
-      color-mix(in srgb, var(--surface-foam) 52%, transparent)
+      color-mix(in srgb, var(--surface-sky) 40%, transparent),
+      color-mix(in srgb, var(--surface-foam) 34%, transparent)
     );
   border: 1px solid color-mix(in srgb, var(--surface-foam) 55%, transparent);
   box-shadow:
     0 1px 0 color-mix(in srgb, var(--surface-foam) 60%, transparent) inset,
     0 24px 70px -44px rgba(4, 34, 46, 0.45);
+}
+
+/* Legibility: with the veil kept intentionally light so the ocean reads
+   through, a soft text-shadow makes the copy pop on its own. Dark zones get a
+   dark halo (light ink); the light surface variant gets a light halo (dark ink). */
+.section-scrim :where(h1, h2, h3, h4, p, li, a, span) {
+  text-shadow: 0 1px 3px color-mix(in srgb, var(--abyss-void) 72%, transparent);
+}
+.section-scrim--light :where(h1, h2, h3, h4, p, li, a, span) {
+  text-shadow: 0 1px 2px color-mix(in srgb, var(--surface-foam) 75%, transparent);
 }
 
 /* Visible focus ring for keyboard users on dark backgrounds. */
