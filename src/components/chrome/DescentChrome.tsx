@@ -11,6 +11,8 @@
  *   DescentBackground  - the fixed canvas (or static ocean) behind everything
  *   BucketNav          - sticky top bucket nav: wordmark + section pills + motion
  *   DepthGauge         - the right-rail depth progress indicator
+ *   OceanAI            - floating deep-sea chat widget (manages its own
+ *                        fixed position + pointer-events; sits on top)
  */
 
 import MotionController from "./MotionController";
@@ -18,6 +20,7 @@ import ScrollController from "./ScrollController";
 import DescentBackground from "./DescentBackground";
 import BucketNav from "./BucketNav";
 import DepthGauge from "./DepthGauge";
+import OceanAI from "./OceanAI";
 
 export default function DescentChrome() {
   return (
@@ -27,6 +30,7 @@ export default function DescentChrome() {
       <DescentBackground />
       <BucketNav />
       <DepthGauge />
+      <OceanAI />
     </>
   );
 }
