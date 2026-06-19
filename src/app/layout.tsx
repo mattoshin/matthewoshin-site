@@ -40,6 +40,17 @@ export const metadata: Metadata = {
     description:
       "Serial entrepreneur and builder. AI products, trading research tools, and companies.",
     type: "website",
+    url: "https://matthewoshin.com",
+    images: [
+      { url: "/og.png", width: 1200, height: 630, alt: "Matthew Oshin" },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Matthew Oshin",
+    description:
+      "Builder. Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
+    images: ["/og.png"],
   },
 };
 
