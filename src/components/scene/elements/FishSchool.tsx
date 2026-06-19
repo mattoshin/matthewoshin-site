@@ -54,7 +54,7 @@ function makeRng(seed: number): () => number {
 
 // The school lives across `about` (0.16..0.32) and `projects` (0.32..0.5).
 // Feather a little past each edge so fish swim in/out rather than pop.
-const BAND_START = 0.16;
+const BAND_START = 0.10; // start near the surface so fish are visible earlier
 const BAND_END = 0.5;
 const FEATHER = 0.06;
 

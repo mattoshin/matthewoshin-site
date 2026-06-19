@@ -55,8 +55,8 @@ const BIO_LUMEN = hexToRgb01("#8FE8FF"); // pale electric blue
 // Depth ramp: progress at which plankton first appear, and where they hit full
 // strength. Projects begins at 0.32; we let a faint dusting begin there and
 // crescendo into the abyss.
-const RAMP_START = 0.3; // ~ start of projects: barely there
-const RAMP_FULL = 0.82; // ~ seabed: full density + brightness
+const RAMP_START = 0.27; // start faintly as caustics are still fading (0–0.42)
+const RAMP_FULL = 0.72;  // reach full density earlier for a stronger dark-deep beat
 
 // ---------------------------------------------------------------------------
 // Shaders
@@ -259,8 +259,11 @@ export default function BioParticles({ progress }: SceneElementProps) {
 
     const p = progress.get();
 
-    // Depth ramp 0..1 across [RAMP_START, RAMP_FULL]; 0 above projects.
-    const targetIntensity = clamp01((p - RAMP_START) / (RAMP_FULL - RAMP_START));
+    // Depth ramp 0..1 across [RAMP_START, RAMP_FULL]. Power curve makes the
+    // particles punch in fast at the start of the dark zone (more dramatic contrast
+    // with the surface caustics that just faded out at ~0.42).
+    const linear = clamp01((p - RAMP_START) / (RAMP_FULL - RAMP_START));
+    const targetIntensity = Math.pow(linear, 0.65);
 
     // ZONE-GATE: fully above the field's band -> hide + bail before any work.
     // We keep a small epsilon so it doesn't flicker right at the boundary.

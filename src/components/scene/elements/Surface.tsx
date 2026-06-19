@@ -187,7 +187,11 @@ const fragmentShader = /* glsl */ `
 export default function Surface({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
+  const flashMatRef = useRef<THREE.MeshBasicMaterial>(null);
   const smoothedOpacity = useRef(1);
+  // Plunge flash: triggered once when progress crosses ~0.11 (the dive-under moment).
+  const flashVal = useRef(0);
+  const lastP = useRef(0);
 
   const uniforms = useMemo(
     () => ({
@@ -201,12 +205,12 @@ export default function Surface({ progress }: SceneElementProps) {
       uSkyHaze: { value: C("#d4925a") }, // muted amber-copper at the horizon
       uLine:    { value: C("#f0d8a0") }, // warm cream waterline
       uSun:     { value: C("#f5c060") }, // golden sun
-      // Water keeps tropical teal — the warm sky reflects off the top layer.
-      uW0: { value: C("#c4f1ea") },
-      uW1: { value: C("#6fdadf") },
-      uW2: { value: C("#36c0d6") },
-      uW3: { value: C("#179fc1") },
-      uW4: { value: C("#0b7aa2") },
+      // Ocean water — darker, desaturated vs. the old pool-blue, warm golden-hour cast.
+      uW0: { value: C("#72b4b0") }, // horizon water: muted sea-green catches sky warmth
+      uW1: { value: C("#3890a8") }, // mid surface: real ocean teal-blue
+      uW2: { value: C("#1e6e98") }, // below surface: deeper blue
+      uW3: { value: C("#145680") }, // dark blue
+      uW4: { value: C("#0b3e68") }, // darkest band, approaches abyss
     }),
     [],
   );
@@ -233,6 +237,15 @@ export default function Surface({ progress }: SceneElementProps) {
     mat.uniforms.uTime.value += delta;
     mat.uniforms.uAspect.value = state.size.width / state.size.height;
 
+    // Plunge flash: single warm-white burst the moment we cross the waterline.
+    const prevP = lastP.current;
+    if (prevP < 0.11 && p >= 0.11) flashVal.current = 1.0;
+    lastP.current = p;
+    flashVal.current = Math.max(0, flashVal.current - delta * 2.8);
+    if (flashMatRef.current) {
+      flashMatRef.current.opacity = flashVal.current * 0.52;
+    }
+
     // Camera-lock: keep the backdrop centered on the camera so the horizon holds
     // a fixed screen height as the camera sinks.
     group.position.copy(state.camera.position);
@@ -253,6 +266,18 @@ export default function Surface({ progress }: SceneElementProps) {
           uniforms={uniforms}
           depthWrite={false}
           transparent
+          fog={false}
+        />
+      </mesh>
+      {/* Plunge flash: warm-white full-screen burst on crossing the waterline. */}
+      <mesh position={[0, 0, -78]} renderOrder={-8}>
+        <planeGeometry args={[150, 92]} />
+        <meshBasicMaterial
+          ref={flashMatRef}
+          color={new THREE.Color(1.0, 0.96, 0.88)}
+          transparent
+          opacity={0}
+          depthWrite={false}
           fog={false}
         />
       </mesh>
