@@ -54,11 +54,9 @@ interface BoatSpec {
   phase: number; // swell time offset so they don't bob in lockstep
 }
 
-// Two boats framing the LEFT flank (the WaterSkier owns the right). A nearer,
-// larger boat and a smaller one set further back + higher (toward the horizon).
+// One clean sailboat on the LEFT flank — uncluttered, sits clearly on the horizon.
 const BOATS: readonly BoatSpec[] = [
-  { x: -13.0, z: -13.0, scale: 0.92, phase: 0.0 },
-  { x: -16.6, z: -17.5, scale: 0.66, phase: 2.3 },
+  { x: -12.5, z: -13.0, scale: 1.05, phase: 0.0 },
 ];
 
 const C = (hex: string) => new THREE.Color(hex);

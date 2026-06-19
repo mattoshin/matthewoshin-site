@@ -224,8 +224,11 @@ export default function WaterSurface({ progress }: SceneElementProps) {
     }
     if (!group.visible) group.visible = true;
 
-    // Target opacity: full at surface, easing to 0 by FADE_END.
-    const targetOpacity = 1 - clamp01(p / FADE_END);
+    // Fade IN from progress 0.06 → 0.12 so it's invisible on the surface view
+    // (where the Moana sky + cloud backdrop should dominate), then OUT by FADE_END.
+    const fadeIn = clamp01((p - 0.06) / 0.06);
+    const fadeOut = 1 - clamp01(p / FADE_END);
+    const targetOpacity = fadeIn * fadeOut;
     const k = Math.min(1, delta * 3);
     smoothedOpacity.current = lerp(smoothedOpacity.current, targetOpacity, k);
 

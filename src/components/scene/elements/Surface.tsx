@@ -82,43 +82,33 @@ const fragmentShader = /* glsl */ `
     return 1.0 - smoothstep(r * 0.75, r, aDist(p, c));
   }
 
-  // Distance to a flying-V bird centered at (bx,by): two line segments going
-  // upward and outward from the center point. hw = half wingspan, rise = height.
-  float birdDist(vec2 p, float bx, float by, float hw, float rise) {
-    vec2 d = vec2((p.x - bx) * uAspect, p.y - by);
-    float wLen = length(vec2(hw * uAspect, rise));
-    vec2 lv = vec2(-hw * uAspect, rise) / wLen;
-    float lt = clamp(dot(d, lv), 0.0, wLen);
-    float ld = length(d - lv * lt);
-    vec2 rv = vec2( hw * uAspect, rise) / wLen;
-    float rt = clamp(dot(d, rv), 0.0, wLen);
-    float rd = length(d - rv * rt);
-    return min(ld, rd);
-  }
-
   void main() {
     float x = vUv.x;
     float y = vUv.y;
     vec2 uv = vec2(x, y);
     float hor = uHorizon;
 
-    // --- SKY ---
+    // --- SKY (sunset) ---
     float skyT = clamp((y - hor) / (1.0 - hor), 0.0, 1.0);
-    vec3 sky = mix(uSkyHaze, uSkyTop, smoothstep(0.0, 0.8, skyT));
+    // Three-stop gradient: warm amber haze → coral-pink mid → deep indigo apex.
+    vec3 pink = vec3(0.88, 0.35, 0.62);   // coral-magenta mid band
+    vec3 sky = mix(uSkyHaze, pink,    smoothstep(0.0,  0.40, skyT));
+    sky       = mix(sky,     uSkyTop, smoothstep(0.30, 0.85, skyT));
 
-    // Soft sun halo resting on the horizon.
+    // Big warm sun halo on the right, resting on the horizon.
     float haloD = aDist(uv, vec2(uSunX, hor + 0.02));
-    sky += uSun * pow(smoothstep(0.42, 0.0, haloD), 1.7) * 0.6;
+    sky += uSun * pow(smoothstep(0.44, 0.0, haloD), 1.6) * 0.75;
 
-    // Sun disk (crisp circle above the haze).
-    vec2 sunC = vec2(uSunX, hor + 0.058);
-    float sunDisk = disk(uv, sunC, 0.036) * step(hor, y);
-    sky = mix(sky, vec3(1.0, 0.97, 0.82), sunDisk);
+    // Sun disk (crisp warm-white circle).
+    vec2 sunC = vec2(uSunX, hor + 0.060);
+    float sunDisk = disk(uv, sunC, 0.038) * step(hor, y);
+    sky = mix(sky, vec3(1.0, 0.95, 0.80), sunDisk);
 
-    // Clouds: papercut blobs on the FLANKS (where sky is visible beside the card)
-    // and one small one high in the center (above the card top edge ~UV y 0.88).
+    // Clouds: five papercut blobs — two on each flank (visible beside the hero
+    // card) and one high in the center (peeks above the card top edge).
+    // All drift very slowly left so the scene feels alive without being distracting.
     float cd = uTime * 0.004;
-    // LEFT FLANK cloud (x~0.08, visible at screen x < ~260px)
+    // Cloud 1 — LEFT FLANK, lower (above the sailboat)
     float c1x = 0.08 - cd * 0.3;
     float c1y = hor + 0.095;
     float cl1 = clamp(
@@ -126,37 +116,40 @@ const fragmentShader = /* glsl */ `
       disk(uv, vec2(c1x + 0.028 / uAspect,  c1y + 0.016), 0.042) +
       disk(uv, vec2(c1x + 0.052 / uAspect,  c1y - 0.004), 0.038),
       0.0, 1.0);
-    // RIGHT FLANK cloud (x~0.88, visible at screen x > ~1170px, near the sun)
-    float c2x = 0.90 - cd * 0.2;
-    float c2y = hor + 0.118;
+    // Cloud 2 — LEFT FLANK, higher (card-top level, adds depth)
+    float c2x = 0.13 - cd * 0.22;
+    float c2y = hor + 0.155;
     float cl2 = clamp(
-      disk(uv, vec2(c2x,                    c2y        ), 0.046) +
-      disk(uv, vec2(c2x - 0.030 / uAspect,  c2y + 0.015), 0.037) +
-      disk(uv, vec2(c2x - 0.055 / uAspect,  c2y - 0.002), 0.033),
+      disk(uv, vec2(c2x,                    c2y        ), 0.034) +
+      disk(uv, vec2(c2x + 0.022 / uAspect,  c2y + 0.011), 0.027),
       0.0, 1.0);
-    // CENTER HIGH cloud (x~0.50, y high enough to peek above the card top)
-    float c3x = 0.48 - cd * 0.15;
-    float c3y = hor + 0.178;
+    // Cloud 3 — RIGHT FLANK, near the sun
+    float c3x = 0.91 - cd * 0.18;
+    float c3y = hor + 0.120;
     float cl3 = clamp(
-      disk(uv, vec2(c3x,                    c3y        ), 0.032) +
-      disk(uv, vec2(c3x + 0.022 / uAspect,  c3y + 0.012), 0.026),
+      disk(uv, vec2(c3x,                    c3y        ), 0.046) +
+      disk(uv, vec2(c3x - 0.030 / uAspect,  c3y + 0.015), 0.037) +
+      disk(uv, vec2(c3x - 0.055 / uAspect,  c3y - 0.002), 0.033),
       0.0, 1.0);
-    float allClouds = clamp(cl1 + cl2 + cl3, 0.0, 1.0) * step(hor + 0.006, y);
-    sky = mix(sky, vec3(1.0, 0.985, 0.96), allClouds * 0.88);
-
-    // Birds: V-silhouettes on the LEFT FLANK (3) and RIGHT FLANK (2) where
-    // sky is visible beside the hero card.
-    float bThick = 0.0042;
-    float birds = 0.0;
-    // Left flank flock
-    birds = max(birds, 1.0 - smoothstep(bThick * 0.3, bThick, birdDist(uv, 0.065, hor + 0.076, 0.020, 0.013)));
-    birds = max(birds, 1.0 - smoothstep(bThick * 0.3, bThick, birdDist(uv, 0.105, hor + 0.098, 0.016, 0.010)));
-    birds = max(birds, 1.0 - smoothstep(bThick * 0.3, bThick, birdDist(uv, 0.145, hor + 0.082, 0.018, 0.012)));
-    // Right flank pair (near the sun and speedboat)
-    birds = max(birds, 1.0 - smoothstep(bThick * 0.3, bThick, birdDist(uv, 0.835, hor + 0.072, 0.015, 0.010)));
-    birds = max(birds, 1.0 - smoothstep(bThick * 0.3, bThick, birdDist(uv, 0.875, hor + 0.092, 0.013, 0.009)));
-    birds *= step(hor + 0.004, y);
-    sky = mix(sky, vec3(0.06, 0.10, 0.20), birds);
+    // Cloud 4 — RIGHT FLANK, above the speedboat (different height for variety)
+    float c4x = 0.84 - cd * 0.28;
+    float c4y = hor + 0.080;
+    float cl4 = clamp(
+      disk(uv, vec2(c4x,                    c4y        ), 0.036) +
+      disk(uv, vec2(c4x - 0.024 / uAspect,  c4y + 0.012), 0.028),
+      0.0, 1.0);
+    // Cloud 5 — CENTER HIGH (above the card top, visible even in center strip)
+    float c5x = 0.48 - cd * 0.12;
+    float c5y = hor + 0.182;
+    float cl5 = clamp(
+      disk(uv, vec2(c5x,                    c5y        ), 0.038) +
+      disk(uv, vec2(c5x + 0.025 / uAspect,  c5y + 0.013), 0.030) +
+      disk(uv, vec2(c5x - 0.018 / uAspect,  c5y + 0.008), 0.024),
+      0.0, 1.0);
+    float allClouds = clamp(cl1 + cl2 + cl3 + cl4 + cl5, 0.0, 1.0) * step(hor + 0.006, y);
+    // Sunset clouds: warm rose/lavender tinted (not plain white).
+    vec3 cloudCol = vec3(1.0, 0.82, 0.88) + uSkyTop * 0.12;
+    sky = mix(sky, cloudCol, allClouds * 0.90);
 
     // --- WATER ---
     float b1 = wave(hor - 0.05, x, 0.012, 22.0, 0.0,  0.5);
@@ -202,10 +195,12 @@ export default function Surface({ progress }: SceneElementProps) {
       uHorizon: { value: HORIZON },
       uSunX: { value: SUN_X },
       uAspect: { value: 1.6 }, // updated each frame from state.size
-      uSkyTop: { value: C("#1f9fe0") },
-      uSkyHaze: { value: C("#f4f7df") },
-      uLine: { value: C("#ffffff") },
-      uSun: { value: C("#ffe6a0") },
+      // Sunset palette: deep indigo apex → coral-pink mid → warm amber haze.
+      uSkyTop:  { value: C("#2c1654") }, // deep indigo-purple at zenith
+      uSkyHaze: { value: C("#ff9240") }, // warm amber/coral at the horizon
+      uLine:    { value: C("#ffe8c0") }, // warm golden waterline
+      uSun:     { value: C("#ffcc66") }, // golden sun
+      // Water keeps tropical teal — the warm sky reflects off the top layer.
       uW0: { value: C("#c4f1ea") },
       uW1: { value: C("#6fdadf") },
       uW2: { value: C("#36c0d6") },
