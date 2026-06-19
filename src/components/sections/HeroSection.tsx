@@ -1,9 +1,10 @@
+import Image from "next/image";
 import { HERO } from "@/data/content";
 
 /**
  * HeroSection - the SURFACE (0m). Shows the full ocean scene; text rides a
  * compact frosted pill so the sky, boats, and water show all around it.
- * No photo — the ocean is the hero.
+ * Photo sits as a bare circular headshot above the name — no card, no border.
  */
 export default function HeroSection() {
   return (
@@ -12,6 +13,18 @@ export default function HeroSection() {
       className="relative z-10 flex min-h-screen items-center justify-center px-4 py-20"
     >
       <div className="mx-auto w-full max-w-xl text-center">
+        {/* Circular headshot — no box, no border, just the face */}
+        <div className="mx-auto mb-5 h-24 w-24 overflow-hidden rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+          <Image
+            src="/matthew.jpg"
+            alt="Matthew Oshin"
+            width={933}
+            height={1400}
+            priority
+            className="h-full w-full object-cover object-top"
+          />
+        </div>
+
         {/* Positioning tag */}
         <p className="inline-flex items-center gap-2 rounded-full border border-reef-coral/30 bg-abyss-void/50 px-4 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-reef-coral backdrop-blur-sm">
           <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-reef-coral" />
