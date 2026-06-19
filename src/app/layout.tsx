@@ -3,6 +3,7 @@ import { Fraunces, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/data/content";
 import DescentChrome from "@/components/chrome/DescentChrome";
+import SiteFooter from "@/components/chrome/SiteFooter";
 
 // Display: Fraunces (variable, optical sizing, warm). Large headings only.
 const fraunces = Fraunces({
@@ -93,7 +94,10 @@ export default function RootLayout({
 
         {/* Page content rides on top of the fixed ocean (z auto > -z-10). The
             #content anchor is the skip-link target. */}
-        <div id="content">{children}</div>
+        <div id="content">
+          {children}
+          <SiteFooter />
+        </div>
       </body>
     </html>
   );

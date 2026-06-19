@@ -311,3 +311,61 @@ html.lenis body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Blog post body (rendered markdown from trusted repo files). Light type on the
+   dark scrim, Georgia headings, cyan links, comfortable reading rhythm. */
+.prose-ocean {
+  color: var(--ink-body);
+  font-size: 1.05rem;
+  line-height: 1.78;
+}
+.prose-ocean h2 {
+  font-family: var(--font-display), Georgia, serif;
+  color: var(--ink-heading);
+  font-size: 1.65rem;
+  font-weight: 600;
+  margin: 2rem 0 0.75rem;
+}
+.prose-ocean h3 {
+  font-family: var(--font-display), Georgia, serif;
+  color: var(--ink-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 1.75rem 0 0.5rem;
+}
+.prose-ocean p {
+  margin: 0 0 1.15rem;
+}
+.prose-ocean a {
+  color: var(--bio-cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-ocean a:hover {
+  color: var(--bio-aqua);
+}
+.prose-ocean ul,
+.prose-ocean ol {
+  margin: 0 0 1.15rem 1.25rem;
+}
+.prose-ocean li {
+  margin: 0.35rem 0;
+}
+.prose-ocean strong {
+  color: var(--ink-heading);
+  font-weight: 600;
+}
+.prose-ocean blockquote {
+  border-left: 3px solid var(--bio-cyan);
+  padding-left: 1rem;
+  margin: 1.25rem 0;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+.prose-ocean code {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.9em;
+  background: color-mix(in srgb, var(--bio-cyan) 10%, transparent);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
