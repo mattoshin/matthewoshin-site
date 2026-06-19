@@ -194,8 +194,8 @@ export default function WaterSkier({ progress }: SceneElementProps) {
       if (m) m.opacity = eased * shimmer;
     }
 
-    // Whole rig lifts + shrinks slightly as it fades, leaving the surface behind.
-    group.position.y = (1 - eased) * 1.4;
+    // Camera-lock in Y: keeps the rig at the visual waterline as the camera descends.
+    group.position.y = state.camera.position.y + (1 - eased) * 1.4;
     group.scale.setScalar(THREE.MathUtils.lerp(0.85, 1, eased));
 
     // Carve: a slow lateral drift along the flank + ride/bank on the swell.

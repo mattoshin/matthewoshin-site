@@ -162,6 +162,10 @@ export default function Dolphin({ progress }: SceneElementProps) {
     const dyDphase = Math.PI * Math.cos(jumpPhase * Math.PI);
     const pitch = Math.atan2(dyDphase * JUMP_HEIGHT, JUMP_DURATION) * 0.55;
 
+    // Camera-lock group in Y so dolphin stays at the visual waterline as camera descends.
+    const groupNode = groupRef.current;
+    if (groupNode) groupNode.position.y = state.camera.position.y;
+
     rig.position.set(DOL_X, worldY, DOL_Z);
     rig.rotation.set(0, 0, clamp01(pitch / EXIT_ANGLE) * EXIT_ANGLE * Math.sign(pitch));
     rig.scale.setScalar(DOL_SCALE);

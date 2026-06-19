@@ -129,8 +129,9 @@ export default function Sailboats({ progress }: SceneElementProps) {
       if (m) m.opacity = eased;
     }
 
-    // Lift the fleet slightly as it fades (camera leaving the surface).
-    group.position.y = (1 - eased) * 1.4;
+    // Camera-lock in Y: keeps boats at the visual waterline as the camera descends.
+    // Surface.tsx does the same with group.position.copy(camera.position) for the backdrop.
+    group.position.y = state.camera.position.y + (1 - eased) * 1.4;
 
     const t = state.clock.elapsedTime;
     for (let i = 0; i < BOATS.length; i++) {
