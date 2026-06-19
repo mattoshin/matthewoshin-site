@@ -13,15 +13,15 @@ export default function HeroSection() {
       className="relative z-10 flex min-h-screen items-center justify-center px-4 py-20"
     >
       <div className="mx-auto w-full max-w-xl text-center">
-        {/* Circular headshot — no box, no border, just the face */}
-        <div className="mx-auto mb-5 h-24 w-24 overflow-hidden rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+        {/* Circular headshot — no box, ring at 20% white to lift it off the sky */}
+        <div className="mx-auto mb-5 h-28 w-28 overflow-hidden rounded-full ring-2 ring-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.7)]">
           <Image
             src="/matthew.jpg"
             alt="Matthew Oshin"
             width={933}
             height={1400}
             priority
-            className="h-full w-full object-cover object-top"
+            className="h-full w-full object-cover object-[center_12%]"
           />
         </div>
 
