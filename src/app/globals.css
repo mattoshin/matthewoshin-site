@@ -105,8 +105,9 @@
   --color-ink-light-primary: var(--ink-light-primary);
   --color-ink-light-secondary: var(--ink-light-secondary);
 
-  /* Fonts: variables are bound in layout.tsx via next/font. */
-  --font-display: var(--font-fraunces);
+  /* Fonts. Headings are Georgia (classic, legible, what Matthew wants); body is
+     Hanken Grotesk (clean DigitalOcean-style sans); mono for metric labels. */
+  --font-display: Georgia, "Times New Roman", "Times", serif;
   --font-sans: var(--font-hanken);
   --font-mono: var(--font-jetbrains);
 }
@@ -188,19 +189,21 @@ html.lenis body {
   isolation: isolate;
   border-radius: 1.75rem;
   /* A teal-tinted dark veil that pulls toward the deep palette so light ink
-     stays AA even against the bright surface glow bleeding behind it. */
+     stays sharply legible. Kept strong (high opacity) on purpose: legibility
+     beats letting the ocean bleed through. The water still shows AROUND the
+     panel, which is enough to keep the immersion. */
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--deep-body) 44%, transparent),
-      color-mix(in srgb, var(--abyss-body) 52%, transparent)
+      color-mix(in srgb, var(--deep-body) 88%, transparent),
+      color-mix(in srgb, var(--abyss-body) 93%, transparent)
     );
-  border: 1px solid color-mix(in srgb, var(--bio-cyan) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bio-cyan) 16%, transparent);
   box-shadow:
-    0 1px 0 color-mix(in srgb, var(--bio-lumen) 7%, transparent) inset,
-    0 24px 70px -40px rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(7px) saturate(125%);
-  -webkit-backdrop-filter: blur(7px) saturate(125%);
+    0 1px 0 color-mix(in srgb, var(--bio-lumen) 9%, transparent) inset,
+    0 30px 80px -42px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
 }
 
 /* Light variant for the bright surface zone (dark text on light): a luminous
@@ -224,9 +227,7 @@ html.lenis body {
    The dark-zone halo is layered (a tight dark ring + a softer spread) so deep
    body copy clears AA even where bright bioluminescence drifts behind it. */
 .section-scrim :where(h1, h2, h3, h4, p, li, a, span) {
-  text-shadow:
-    0 1px 2px color-mix(in srgb, var(--abyss-void) 88%, transparent),
-    0 0 14px color-mix(in srgb, var(--abyss-void) 60%, transparent);
+  text-shadow: 0 1px 2px color-mix(in srgb, var(--abyss-void) 55%, transparent);
 }
 .section-scrim--light :where(h1, h2, h3, h4, p, li, a, span) {
   text-shadow: 0 1px 2px color-mix(in srgb, var(--surface-foam) 75%, transparent);
