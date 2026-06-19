@@ -3,7 +3,7 @@ title: Home
 tags: [matthewoshin-site, moc, index]
 ---
 
-# matthewoshin-site Wiki
+# Ocean OSHIN personal site
 
 The project wiki for **The Descent**, Matthew Oshin's personal hub and portfolio: an ocean you move down through, where navigating between pages dives the camera from a sunlit surface to a bioluminescent abyss. This is the map of content. Open any page below in Obsidian.
 
