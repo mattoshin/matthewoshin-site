@@ -88,16 +88,17 @@ const fragmentShader = /* glsl */ `
     vec2 uv = vec2(x, y);
     float hor = uHorizon;
 
-    // --- SKY (sunset) ---
+    // --- SKY (golden hour — muted, real-world undertones) ---
     float skyT = clamp((y - hor) / (1.0 - hor), 0.0, 1.0);
-    // Three-stop gradient: warm amber haze → coral-pink mid → deep indigo apex.
-    vec3 pink = vec3(0.88, 0.35, 0.62);   // coral-magenta mid band
-    vec3 sky = mix(uSkyHaze, pink,    smoothstep(0.0,  0.40, skyT));
-    sky       = mix(sky,     uSkyTop, smoothstep(0.30, 0.85, skyT));
+    // Three-stop gradient: warm amber haze → dusty lavender-rose mid → soft indigo apex.
+    // Palette is intentionally de-saturated (golden hour, not blazing civil twilight).
+    vec3 lavender = vec3(0.60, 0.52, 0.74);  // dusty lavender-rose mid band
+    vec3 sky = mix(uSkyHaze, lavender, smoothstep(0.0,  0.42, skyT));
+    sky       = mix(sky,     uSkyTop,  smoothstep(0.32, 0.88, skyT));
 
-    // Big warm sun halo on the right, resting on the horizon.
+    // Soft sun glow on the right — kept subtle so the sky reads golden-hour, not blazing.
     float haloD = aDist(uv, vec2(uSunX, hor + 0.02));
-    sky += uSun * pow(smoothstep(0.44, 0.0, haloD), 1.6) * 0.75;
+    sky += uSun * pow(smoothstep(0.38, 0.0, haloD), 2.0) * 0.45;
 
     // Sun disk (crisp warm-white circle).
     vec2 sunC = vec2(uSunX, hor + 0.060);
@@ -147,9 +148,9 @@ const fragmentShader = /* glsl */ `
       disk(uv, vec2(c5x - 0.018 / uAspect,  c5y + 0.008), 0.024),
       0.0, 1.0);
     float allClouds = clamp(cl1 + cl2 + cl3 + cl4 + cl5, 0.0, 1.0) * step(hor + 0.006, y);
-    // Sunset clouds: warm rose/lavender tinted (not plain white).
-    vec3 cloudCol = vec3(1.0, 0.82, 0.88) + uSkyTop * 0.12;
-    sky = mix(sky, cloudCol, allClouds * 0.90);
+    // Golden-hour clouds: soft cream with just a hint of peach/lavender.
+    vec3 cloudCol = vec3(0.97, 0.92, 0.90) + uSkyTop * 0.08;
+    sky = mix(sky, cloudCol, allClouds * 0.88);
 
     // --- WATER ---
     float b1 = wave(hor - 0.05, x, 0.012, 22.0, 0.0,  0.5);
@@ -195,11 +196,11 @@ export default function Surface({ progress }: SceneElementProps) {
       uHorizon: { value: HORIZON },
       uSunX: { value: SUN_X },
       uAspect: { value: 1.6 }, // updated each frame from state.size
-      // Sunset palette: deep indigo apex → coral-pink mid → warm amber haze.
-      uSkyTop:  { value: C("#2c1654") }, // deep indigo-purple at zenith
-      uSkyHaze: { value: C("#ff9240") }, // warm amber/coral at the horizon
-      uLine:    { value: C("#ffe8c0") }, // warm golden waterline
-      uSun:     { value: C("#ffcc66") }, // golden sun
+      // Golden-hour palette: muted, real-world tones (not blazing civil twilight).
+      uSkyTop:  { value: C("#1e1748") }, // soft indigo at zenith
+      uSkyHaze: { value: C("#d4925a") }, // muted amber-copper at the horizon
+      uLine:    { value: C("#f0d8a0") }, // warm cream waterline
+      uSun:     { value: C("#f5c060") }, // golden sun
       // Water keeps tropical teal — the warm sky reflects off the top layer.
       uW0: { value: C("#c4f1ea") },
       uW1: { value: C("#6fdadf") },
