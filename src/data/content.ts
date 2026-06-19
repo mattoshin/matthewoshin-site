@@ -29,8 +29,7 @@ export const SITE = {
   email: "matthewoshin@gmail.com",
   linkedin: "https://www.linkedin.com/in/mattoshin",
   github: "https://github.com/mattoshin",
-  // Placeholder for Matthew to fill in. Kept obvious so it cannot ship live.
-  calendlyUrl: "CALENDLY_URL",
+  calendlyUrl: "https://calendly.com/mattoshin/1",
 } as const;
 
 /**
