@@ -14,7 +14,7 @@ import { CONTACT, SITE } from "@/data/content";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Email matthewoshin@gmail.com, LinkedIn linkedin.com/in/mattoshin, GitHub mattoshin, or book a time.",
+    "Connect with Matthew Oshin on LinkedIn or GitHub, or book a time.",
 };
 
 export default function ContactPage() {
@@ -51,10 +51,12 @@ export default function ContactPage() {
         )}
 
         <a
-          href={`mailto:${SITE.email}`}
+          href={SITE.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
           className="rounded-full border border-bio-cyan/40 px-7 py-3.5 text-base font-medium text-bio-cyan transition-colors hover:bg-bio-cyan/10"
         >
-          {CONTACT.secondaryLabel}
+          Connect on LinkedIn
         </a>
       </div>
 
@@ -77,12 +79,6 @@ export default function ContactPage() {
           className="hover:text-bio-cyan"
         >
           GitHub
-        </a>
-        <span aria-hidden="true" className="text-ink-faint">
-          /
-        </span>
-        <a href={`mailto:${SITE.email}`} className="hover:text-bio-cyan">
-          {SITE.email}
         </a>
       </div>
 

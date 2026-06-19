@@ -23,8 +23,10 @@ export default function CalendlyInline({ url }: { url: string }) {
     document.body.appendChild(script);
   }, []);
 
+  // hide_event_type_details keeps Matthew's phone/email (in the event
+  // description) off the public page; the date/time picker still works.
   const themed =
-    `${url}?hide_gdpr_banner=1` +
+    `${url}?hide_gdpr_banner=1&hide_event_type_details=1` +
     "&background_color=0a2532&text_color=eaf6fb&primary_color=3fe0e6";
 
   return (

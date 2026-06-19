@@ -134,10 +134,12 @@ export default function HomePage() {
               {CONTACT.primaryLabel}
             </a>
             <a
-              href={`mailto:${SITE.email}`}
+              href={SITE.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-full border border-bio-cyan/40 px-6 py-3 text-base font-medium text-bio-cyan transition-colors hover:bg-bio-cyan/10"
             >
-              {CONTACT.secondaryLabel}
+              Connect on LinkedIn
             </a>
           </div>
         </HomeSection>
