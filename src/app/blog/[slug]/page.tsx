@@ -5,6 +5,10 @@ import { marked } from "marked";
 import ZoneSetter from "@/components/page/ZoneSetter";
 import { getPost, getPostSlugs } from "@/lib/posts";
 
+// Only serve posts that exist at build time; any other slug 404s (defense in
+// depth against path traversal via the route param).
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return getPostSlugs().map((slug) => ({ slug }));
 }

@@ -52,8 +52,16 @@ export function getPostSlugs(): string[] {
     .map((f) => f.replace(/\.md$/, ""));
 }
 
+// Slugs are simple kebab/alphanumeric only. Reject anything else so a route
+// param can never traverse outside the posts directory.
+const SLUG_RE = /^[a-z0-9-]+$/i;
+
 export function getPost(slug: string): Post | null {
+  if (!SLUG_RE.test(slug)) return null;
   const file = `${slug}.md`;
-  if (!fs.existsSync(path.join(POSTS_DIR, file))) return null;
+  const resolved = path.resolve(POSTS_DIR, file);
+  if (resolved !== path.join(POSTS_DIR, file)) return null;
+  if (!resolved.startsWith(POSTS_DIR + path.sep)) return null;
+  if (!fs.existsSync(resolved)) return null;
   return readPost(file);
 }
