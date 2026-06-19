@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageShell from "@/components/page/PageShell";
+import CalendlyInline from "@/components/contact/CalendlyInline";
 import { CONTACT, SITE } from "@/data/content";
 
 /**
@@ -84,6 +85,16 @@ export default function ContactPage() {
           {SITE.email}
         </a>
       </div>
+
+      {/* Pick a time without leaving the page. */}
+      {calendlyReady ? (
+        <div className="mt-12">
+          <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
+            Or grab a time right here
+          </p>
+          <CalendlyInline url={calendlyUrl} />
+        </div>
+      ) : null}
     </PageShell>
   );
 }
