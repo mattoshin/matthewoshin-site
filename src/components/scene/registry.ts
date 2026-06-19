@@ -29,11 +29,11 @@ import CausticsLight from "./elements/CausticsLight";
 import WaterSurface from "./elements/WaterSurface";
 import Sailboats from "./elements/Sailboats";
 import WaterSkier from "./elements/WaterSkier";
-import Sky from "./elements/Sky";
+import Surface from "./elements/Surface";
 import type { SceneElementEntry } from "./types";
 
 export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
-  { id: "sky", Component: Sky },
+  { id: "surface", Component: Surface },
   { id: "water-column", Component: WaterColumn },
   { id: "bioparticles", Component: BioParticles },
   { id: "coral-reef", Component: CoralReef },

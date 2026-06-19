@@ -54,14 +54,15 @@ const FOAM_RGB = hexToRgb01("#EAFBFF"); // bright cool-white spray
 const FADE_START = 0.08;
 const FADE_END = 0.2;
 
-// Resting waterline height (shared with the sailboats so they sit on one sea).
-const WATERLINE_Y = 3.6;
+// Seat the rig on the painted horizon (Surface.tsx): y scales with distance from
+// the camera (at z=8). HORIZON_K matches the sailboats so they share one sea.
+const CAM_Z = 8;
+const HORIZON_K = 0.272; // seats hull bottom on the painted waterline (K=0.265 is true horizon; +0.007 for hull depth)
 
-// Where the rig lives: out on the right flank, clear of the centered hero panel,
-// a touch closer than the sailboats so it reads as the larger foreground action.
-const RIG_X = 11.5;
+// Where the rig lives: out on the right flank, clear of the centered hero panel.
+const RIG_X = 12.5;
 const RIG_Z = -12.0;
-const RIG_SCALE = 0.62;
+const RIG_SCALE = 0.9;
 const HEADING = 0.18; // mostly side-on so the speedboat profile reads cleanly
 
 // Local layout inside the rig (unit space; bow at -x, stern + tow at +x). Kept
@@ -194,15 +195,16 @@ export default function WaterSkier({ progress }: SceneElementProps) {
     }
 
     // Whole rig lifts + shrinks slightly as it fades, leaving the surface behind.
-    group.position.y = THREE.MathUtils.lerp(WATERLINE_Y + 1.6, WATERLINE_Y, eased);
+    group.position.y = (1 - eased) * 1.4;
     group.scale.setScalar(THREE.MathUtils.lerp(0.85, 1, eased));
 
     // Carve: a slow lateral drift along the flank + ride/bank on the swell.
     const drift = Math.sin(t * 0.25) * 0.5;
     const x = RIG_X + drift;
     rig.position.x = x;
+    // Seat on the painted horizon (scales with distance), then bob on the swell.
     const h = swell(x, RIG_Z, t);
-    rig.position.y = h;
+    rig.position.y = HORIZON_K * (CAM_Z - RIG_Z) + h;
 
     // Pitch/roll from the local swell slope so the hull leans into the carve.
     const eps = 0.6;
@@ -216,7 +218,7 @@ export default function WaterSkier({ progress }: SceneElementProps) {
   });
 
   return (
-    <group ref={groupRef} position={[0, WATERLINE_Y, 0]} renderOrder={-4}>
+    <group ref={groupRef} position={[0, 0, 0]} renderOrder={-4}>
       <group
         ref={rigRef}
         position={[RIG_X, 0, RIG_Z]}
