@@ -73,9 +73,10 @@ interface BoatSpec {
 // surface band above the headline. Nothing sits in the central column where the
 // type lives. The camera is at [0, 0, 8] / fov 55, so at these depths the visible
 // half-width is large and ±x of 12-17 reads as "out at the edges".
+// The right flank now belongs to the WaterSkier (powerboat + skier action), so
+// the sail fleet frames the LEFT: a near boat and a smaller one set further back.
 const BOATS: readonly BoatSpec[] = [
   { x: -13.5, z: -13.0, scale: 0.6, heading: 0.4, phase: 0.0 },
-  { x: 12.5, z: -15.0, scale: 0.52, heading: -0.55, phase: 1.7 },
   { x: -16.5, z: -18.0, scale: 0.42, heading: 0.2, phase: 3.1 },
 ];
 

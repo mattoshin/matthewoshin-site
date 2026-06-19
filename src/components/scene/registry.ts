@@ -28,6 +28,7 @@ import Clownfish from "./elements/Clownfish";
 import CausticsLight from "./elements/CausticsLight";
 import WaterSurface from "./elements/WaterSurface";
 import Sailboats from "./elements/Sailboats";
+import WaterSkier from "./elements/WaterSkier";
 import Sky from "./elements/Sky";
 import type { SceneElementEntry } from "./types";
 
@@ -46,4 +47,5 @@ export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
   { id: "caustics-light", Component: CausticsLight },
   { id: "water-surface", Component: WaterSurface },
   { id: "sailboats", Component: Sailboats },
+  { id: "water-skier", Component: WaterSkier },
 ];
