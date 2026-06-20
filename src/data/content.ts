@@ -56,37 +56,37 @@ export const BUCKETS: readonly Bucket[] = [
   {
     id: "about",
     label: "Experience",
-    href: "/experience",
-    teaser: "CAIO at BrachyClip, VP of AI at ICR, hedge-fund equity research before that.",
+    href: "/#about",
+    teaser: "CAIO at BrachyClip, ex-VP AI at ICR, hedge-fund equity research at Manatuck Hill.",
   },
   {
     id: "projects",
     label: "Entrepreneurship",
-    href: "/entrepreneurship",
+    href: "/#projects",
     teaser: "Five ventures so far, from sneaker arbitrage to Mocean, plus the products I ship now.",
   },
   {
     id: "ventures",
     label: "Skills",
-    href: "/skills",
+    href: "/#ventures",
     teaser: "AI engineering, full-stack, markets and quant, data, product, and design.",
   },
   {
     id: "writing",
     label: "Education",
-    href: "/education",
+    href: "/#writing",
     teaser: "University of Michigan, B.A. Economics.",
   },
   {
     id: "skills",
     label: "Interests",
-    href: "/interests",
+    href: "/#skills",
     teaser: "Markets, a real DJ rig, sneakers, networking, and emerging tech.",
   },
   {
     id: "contact",
     label: "Contact",
-    href: "/contact",
+    href: "/#contact",
     teaser: "Email, LinkedIn, GitHub, or book a time.",
   },
 ] as const;
@@ -98,7 +98,7 @@ export const BUCKET_BY_HREF: Readonly<Record<string, Bucket>> =
 export const HERO = {
   name: "Matthew Oshin",
   // Short punchy positioning line (eyebrow).
-  positioning: "Builder. Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
+  positioning: "Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
   // One-sentence hook. This is the single strong instance of the "builder is the
   // throughline" line; the About block no longer repeats it.
   hook: "I'm a builder. It's the throughline of everything I've done, from scaling my first companies in high school to shipping AI products today.",
@@ -132,6 +132,7 @@ export const ABOUT = {
 /* -------------------------------------------------------------------------- */
 
 export interface Job {
+  slug: string;
   role: string;
   org: string;
   period: string;
@@ -140,20 +141,22 @@ export interface Job {
 
 export const EXPERIENCE: readonly Job[] = [
   {
+    slug: "brachyclip",
     role: "Chief AI Officer & Director of Marketing",
     org: "BrachyClip",
     period: "2025 to present",
     points: [
-      "Built the brand, positioning, and investor narrative from scratch for an early-stage cancer medical device.",
-      "Built and ship the marketing and gated investor site at brachyclip.com on Next.js 16, with a password-and-approval investor flow for fundraising.",
-      "Set the digital-marketing strategy for a pre-clearance device, designing around FDA-compliant content as a hard constraint, not an afterthought.",
-      "Help on investor relations directly, including setting up meetings with potential investors.",
+      "BrachyClip is an early-stage medical device company (Brown University / Rhode Island Hospital affiliation) building a clip-based intraoperative permanent seed brachytherapy applicator for minimally invasive cancer surgery. $6.8B TAM across nine solid-tumor categories, 510(k) predicate pathway.",
+      "Built the brand, positioning, and investor narrative from scratch for a pre-clearance device: Series A pitch deck, the brachyclip.com marketing site, and a gated investor portal on Next.js 16 with an approval-based access flow.",
+      "Set digital-marketing strategy designed around FDA-compliant content as a hard constraint, not an afterthought.",
+      "Driving AI integration into clinical and operational workflows, and supporting investor relations directly.",
     ],
   },
   {
+    slug: "icr",
     role: "VP, AI & Innovation",
     org: "ICR",
-    period: "Recent",
+    period: "2025 to 2026",
     points: [
       "Stood up the firm's AI function from scratch and led its AI & Intelligence Lab across three pillars: R&D, Education, and Discovery.",
       "Built and shipped the flagship internal AI platform: a Next.js app on Supabase and Vercel spanning IR, legal, project management, and intelligence, with Claude streaming under the hood.",
@@ -162,6 +165,7 @@ export const EXPERIENCE: readonly Job[] = [
     ],
   },
   {
+    slug: "manatuck-hill",
     role: "Equity Research Analyst",
     org: "Manatuck Hill Partners",
     period: "2024",
@@ -172,6 +176,7 @@ export const EXPERIENCE: readonly Job[] = [
     ],
   },
   {
+    slug: "qult",
     role: "AI Product Manager",
     org: "Qult.ai",
     period: "2023, internship",
@@ -182,6 +187,7 @@ export const EXPERIENCE: readonly Job[] = [
     ],
   },
   {
+    slug: "top-floor",
     role: "Software Product Manager",
     org: "Top Floor",
     period: "2022 to 2023, internship",
@@ -197,6 +203,7 @@ export const EXPERIENCE: readonly Job[] = [
 /* -------------------------------------------------------------------------- */
 
 export interface Venture {
+  slug: string;
   name: string;
   oneLiner: string;
   era: string;
@@ -205,36 +212,41 @@ export interface Venture {
 
 export const VENTURES: readonly Venture[] = [
   {
+    slug: "mocean",
     name: "Mocean Technologies",
     oneLiner:
-      "Bloomberg for Discord, founded at 19 and scaled before its acquisition.",
-    era: "Founded and acquired",
-    note: "40-plus analysts producing alpha that my software reformatted, branded, and white-labeled to client businesses. $400K in revenue, 100,000+ users, 1,000+ investor communities. It taught me that distribution beats production.",
+      "Bloomberg for Discord. Founded at 19 on a gap year, scaled to acquisition.",
+    era: "Founded and acquired, 2021 to 2023",
+    note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. The insight was simple: 1,000+ Discord servers were selling their own research to subscribers, but all the alpha was scattered. I built proprietary software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. The distribution edge was the moat. $400K in all-time revenue, peaking at $50K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
   },
   {
+    slug: "element-underground",
     name: "Element Underground",
     oneLiner:
-      "A dance-music events and content-capture media group, co-founded.",
-    era: "Co-founder",
-    note: "17,000+ attendees across NYC, Miami, Boston, and Ann Arbor. We retain rights to the photo and video we shoot, so every client job also builds our own owned media library. Do the service, keep the asset.",
+      "Underground music events across four cities, co-founded in 2023.",
+    era: "Co-founder, 2023 to 2026",
+    note: "Co-founded with two partners at U of M. My role was the back-end: ops, taxes, legal, and venue negotiations. The brand was built around exclusive underground events and female-forward DJ curation, modeled after Cercle. 17,000+ attendees, $117,000+ in all-time revenue, 1,540,000 social media views in 2025 alone. Events in NYC, Miami, Boston, and Ann Arbor. The NYC debut at The Crown cleared $5,000+ profit. Music for a While pulled 1,200+ RSVPs. We retained rights to every photo and video we shot, so every event built our owned media library. Do the service, keep the asset.",
   },
   {
+    slug: "profit-paradise",
     name: "Profit Paradise",
-    oneLiner: "A paid alpha community I built and ran in college.",
-    era: "Community",
-    note: "Gave members what to buy, what to sell, discount codes, releases, and the playbook to do it themselves across sneakers, cards, collectibles, and stocks. Give people the fishing rod, don't fish for them.",
+    oneLiner: "A paid alpha community for resellers, $7K/month at peak. Founded and acquired.",
+    era: "Co-founder, founded and acquired, 2019 to 2023",
+    note: "Co-founded with my friend Peter. $35/month subscription Discord: guides, discount codes, release calendars, and the playbook to make money across sneakers, sports cards, Pokemon, toys, and collectibles. Grew to 200 paying members at peak, which is $7,000/month in recurring revenue. By 2023 there were 3,500+ members on the server. Made it free in 2023. Acquired. The lesson: when you know the edge, teach it. Members collectively generated over $2.1 million in profits from what we gave them.",
   },
   {
+    slug: "ocean-supply",
     name: "Ocean Supply",
     oneLiner: "Sneaker arbitrage, my first real operation.",
-    era: "Early venture",
-    note: "Where the ocean theme on this whole site comes from. Buying mispriced, selling into demand, and learning the lesson that shaped everything after: the edge was the signal, not the shoe.",
+    era: "Early venture, started at 16",
+    note: "Where the ocean theme on this whole site comes from. I was buying 20 to 50 pairs of low-cost sneakers every week and flipping them for $10 to $20 a pair. Joined every Discord server that posted discount codes and early releases, including paid ones. It was arbitrage in the most literal sense: buying mispriced, selling into demand. The lesson that shaped everything after: the edge was the signal, not the shoe.",
   },
   {
+    slug: "resell-network",
     name: "Resell Network",
-    oneLiner: "An 11,000-member community, sold alongside Mocean.",
-    era: "Community",
-    note: "The business of the business: where group owners and resellers across the industry came to market themselves and find each other. Years of brand recognition and a dense network money couldn't buy.",
+    oneLiner: "An 11,000-member networking community. Founded and acquired.",
+    era: "Founded and acquired, 2019 to 2023",
+    note: "Built this alongside Mocean as the connective tissue of the reselling industry. The goal was to connect the researchers and subcontractors I worked with to the server owners and employers who needed them, and to give the broader reselling community access to the exclusive resources and people I had relationships with. Grew to 11,000+ Discord members organically. Sold as part of the Mocean deal. Years of compound brand recognition and a dense industry network are the kind of asset that looks quiet from the outside.",
   },
 ] as const;
 
@@ -272,14 +284,16 @@ export const BUILDS: readonly Build[] = [
   {
     slug: "galactic-signals",
     name: "Galactic Signals",
-    hook: "A Discord-first monitoring platform delivering AI-powered, cross-asset alerts into communities.",
+    hook: "Cross-asset monitoring for communities, built toward the AI agent data layer that sits underneath them.",
     summary:
-      "Cross-asset monitoring is fragmented: stocks, crypto, sports betting, trading cards, real estate, macro, and news rarely live in one place, delivered where a community already is. Galactic unifies that monitoring with multi-channel delivery and a creator-driven marketplace. The smartest call was killing the Discord bot for pure webhooks: a user activates the data they want behind Stripe, pastes a webhook URL, and starts receiving branded embed alerts in about thirty seconds.",
+      "Cross-asset monitoring is fragmented across dozens of vertical tools: stocks, crypto, sports betting, trading cards, real estate, macro, and news rarely live in one place, delivered where a community already is. Galactic unifies that monitoring behind a single subscription and fires branded webhook alerts into Discord, Telegram, Slack, email, or any endpoint the user points at it. Setup is thirty seconds: activate the feeds, paste a webhook URL, start receiving. The monitoring tool is the consumer wedge. The longer thesis is the marketplace and what comes after it: an MCP server that turns every Galactic feed into a structured stream any AI agent can natively consume. That is the 'Plaid for alternative data' bet, starting with a product that already has near-zero delivery costs and no direct cross-asset competitor.",
     highlights: [
-      "A fleet of around 79 async Python workers, one per feed, each with market-hours gating, a per-worker circuit breaker, and heartbeats.",
+      "A fleet of ~79 async Python workers, one per feed, each with market-hours gating, a per-worker circuit breaker, and heartbeats.",
       "A delivery engine that renders branded embeds and fans them out behind a token-bucket rate limiter tuned to Discord's limits.",
       "Next.js 16 web app with Stripe billing, a category store, NextAuth, and an admin surface.",
       "Self-hosted via Docker Compose behind nginx, with GitHub Actions auto-deploying on push to main.",
+      "$35-40B TAM across five underserved verticals with no dominant cross-asset competitor.",
+      "AI agent data layer roadmap: MCP integration turns every feed into a structured stream any agent on Claude, ChatGPT, or a custom system can natively consume.",
     ],
     stack: ["Next.js 16", "Prisma", "PostgreSQL", "Python workers", "Stripe", "Docker"],
     status: "Current build",
@@ -349,7 +363,7 @@ export const BUILDS: readonly Build[] = [
 export const ENTREPRENEURSHIP = {
   heading: "What I've built.",
   blurb:
-    "Five ventures so far, in roughly the order they happened, and the products I'm building now. One thread runs through all of it: find an edge, package it, and get it to the people who'll pay for the signal.",
+    "Five ventures so far, in roughly the order they happened, and the products I'm building now. The thread: find an edge, package it, and get it to the people who need it. Sometimes that's software. Sometimes it's a community. Sometimes it's a room full of people who wouldn't have found each other otherwise.",
   venturesLabel: "Ventures and companies",
   buildsLabel: "Building now",
 } as const;

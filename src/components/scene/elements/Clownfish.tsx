@@ -2,33 +2,23 @@
 
 /**
  * Clownfish - a small, playful group of 6 orange-and-white clownfish darting in
- * the sunlit shallows (the `about` zone), loosely huddled around a hint of a
- * swaying sea anemone.
+ * the sunlit shallows (the `about` zone).
  *
- * Two things live in one element:
+ * ONE InstancedMesh of a procedural low-poly clownfish body (a flattened,
+ * friendly teardrop with a small forked tail). The body is painted in the
+ * fragment shader from a `vBody` coordinate (0 nose .. 1 tail): a saturated
+ * orange (#FF7A3C) base with two crisp white bands and a thin dark edge on each
+ * band, plus tiny dark fin tips. A per-instance tail wiggle is baked into the
+ * vertex shader so the swim is free, and we drive a *quick, playful* darting
+ * motion in JS: short bursts of speed, loose cohesion toward a wandering huddle
+ * point, and gentle containment so they never wander off-screen.
  *
- *   1. The fish: ONE InstancedMesh of a procedural low-poly clownfish body
- *      (a flattened, friendly teardrop with a small forked tail). The body is
- *      painted in the fragment shader from a `vBody` coordinate (0 nose .. 1
- *      tail): a saturated orange (#FF7A3C) base with two crisp white bands and
- *      a thin dark edge on each band, plus tiny dark fin tips. A per-instance
- *      tail wiggle is baked into the vertex shader so the swim is free, and we
- *      drive a *quick, playful* darting motion in JS: short bursts of speed,
- *      loose cohesion toward a wandering huddle point, and gentle containment so
- *      they never wander off-screen.
- *
- *   2. The anemone: a handful (10) of soft pinkish (#E59BB0) tentacle blades on
- *      a second small InstancedMesh, rooted just below the huddle and swaying in
- *      the current via a height-weighted vertex sway (same trick as the kelp).
- *      The fish hover near it the way real clownfish shelter in an anemone.
- *
- * Zone-gating: the whole thing is only simulated + visible inside the `about`
- * band (0.16..0.32) plus a soft feather into surface (above) and projects
- * (below). Off-band the group goes `.visible = false` and the heavy per-frame
+ * Zone-gating: visible only inside the `about` band (0.16..0.32) plus a soft
+ * feather. Off-band the group goes `.visible = false` and the heavy per-frame
  * loop early-returns, so it costs ~nothing elsewhere.
  *
  * Self-contained SceneElement per scene/types.ts. Reads the shared `progress`
- * accessor imperatively each frame; never subscribes. Procedural only - no
+ * accessor imperatively each frame; never subscribes. Procedural only — no
  * external models, textures, or network.
  */
 
@@ -41,9 +31,7 @@ import type { SceneElementProps } from "../types";
 // ---------------------------------------------------------------------------
 // Tuning
 // ---------------------------------------------------------------------------
-const FISH_COUNT = 6; // a small, friendly group (brief: 5-8)
-const TENT_COUNT = 10; // soft anemone tentacle blades
-const TENT_SEGMENTS = 8; // vertical subdivisions per blade (smooth bend)
+const FISH_COUNT = 6; // a small, friendly group
 
 // The `about` zone is 0.16..0.32 (sunlit shallows). Feather into surface and
 // projects so the fish swim in/out rather than popping at the band edges.
@@ -51,23 +39,21 @@ const BAND_START = 0.16;
 const BAND_END = 0.32;
 const FEATHER = 0.055;
 
-// World-space volume the huddle occupies. The camera descends y: 0 -> -60 across
-// progress 0..1, so the `about` band centers near y ~ -10.8. We keep the group
-// camera-locked in y (re-centered each frame) so it's framed throughout the
-// band, and let the fish dart within a compact local volume around the anemone.
+// World-space volume the huddle occupies. The camera descends y: 0 -> -60
+// across progress 0..1, so the `about` band centers near y ~ -10.8. We keep
+// the group camera-locked in y (re-centered each frame) so it's framed
+// throughout the band, and let the fish dart within a compact local volume.
 const VOL_X = 14; // horizontal spread (kept tight: a cohesive little group)
 const VOL_Y = 8; // vertical spread
 const VOL_Z = 12; // depth spread
 const Z_CENTER = -13; // sit in front of the camera (camera z = 8)
-const ANEMONE_Y = -4.2; // the anemone sits a bit below the huddle center
+const CLEAR_HALF_X = 10; // keep fish out of centered card column
 
 // Palette.
 const ORANGE = hexToRgb01("#FF7A3C"); // saturated clownfish body
 const ORANGE_DEEP = hexToRgb01("#E85F23"); // shaded flank for a touch of form
 const WHITE = hexToRgb01("#FBF4EC"); // warm white bands (not clinical white)
 const EDGE = hexToRgb01("#241008"); // thin dark band/fin edges
-const ANEMONE = hexToRgb01("#E59BB0"); // soft pink tentacles
-const ANEMONE_TIP = hexToRgb01("#FBC9DA"); // brighter, slightly glowing tips
 
 // Deterministic PRNG (mulberry32). React Compiler forbids Math.random() during
 // render; a fixed seed makes the layout reproducible across reloads.
@@ -93,8 +79,8 @@ function makeRng(seed: number): () => number {
 // ---------------------------------------------------------------------------
 function buildClownfishGeometry(): THREE.BufferGeometry {
   // Spine cross-sections nose -> tail base: [x, halfHeight, halfWidth].
-  // A rounded teardrop: small head, deep belly just behind the head, tapering to
-  // a thin peduncle. Clownfish read "friendly" because they're tall and stubby.
+  // A rounded teardrop: small head, deep belly just behind the head, tapering
+  // to a thin peduncle. Clownfish read "friendly" because they're tall and stubby.
   const sections: Array<[number, number, number]> = [
     [0.5, 0.04, 0.03], // blunt nose
     [0.38, 0.16, 0.07], // head
@@ -292,85 +278,6 @@ const fishFragment = /* glsl */ `
   }
 `;
 
-// ---------------------------------------------------------------------------
-// Anemone tentacle shaders. A height-weighted sway (root anchored, tip sways
-// most), pink body deepening at the root with a softly glowing tip. One blade
-// instanced TENT_COUNT times around a small clump.
-// ---------------------------------------------------------------------------
-const tentVertex = /* glsl */ `
-  precision highp float;
-
-  uniform float uTime;
-  uniform float uPresence;  // 0 hidden .. 1 full (drives grow + alpha)
-
-  attribute float aPhase;   // per-instance phase offset
-  attribute float aHeight;  // per-instance blade height
-  attribute float aFacing;  // per-instance sway/facing direction (radians)
-
-  varying float vUp;        // 0 root .. 1 tip along the blade
-  varying float vEdge;      // 0..1 across the blade width (for soft edges)
-
-  void main() {
-    vUp = uv.y;
-    vEdge = uv.x + 0.5;
-
-    // Grow out of the rock as the band fades in.
-    float grow = mix(0.18, 1.0, uPresence);
-    float up = uv.y * aHeight * grow;
-
-    // Width tapers to a soft point at the tip.
-    float widthTaper = mix(1.0, 0.12, uv.y * uv.y);
-    float across = position.x * widthTaper;
-
-    // Lazy current sway, weighted quadratically by height (rooted base).
-    float h = uv.y;
-    float weight = h * h;
-    float primary = sin(uTime * 0.9 + aPhase + h * 1.4);
-    float ripple = sin(uTime * 2.1 + aPhase * 1.6 + h * 4.0) * 0.3;
-    float bend = (primary + ripple) * weight;
-
-    vec2 dir = vec2(cos(aFacing), sin(aFacing));
-    float swayAmp = aHeight * 0.22;
-    vec2 swayXZ = dir * bend * swayAmp;
-
-    vec2 rightXZ = vec2(-dir.y, dir.x); // in-plane width direction
-    vec3 local = vec3(
-      rightXZ.x * across + swayXZ.x,
-      up,
-      rightXZ.y * across + swayXZ.y
-    );
-
-    vec4 world = instanceMatrix * vec4(local, 1.0);
-    gl_Position = projectionMatrix * modelViewMatrix * world;
-  }
-`;
-
-const tentFragment = /* glsl */ `
-  precision highp float;
-
-  uniform vec3 uBody;
-  uniform vec3 uTip;
-  uniform float uPresence;
-
-  varying float vUp;
-  varying float vEdge;
-
-  void main() {
-    // Pink body deepening slightly at the root, glowing toward the tip.
-    vec3 col = mix(uBody * 0.7, uBody, smoothstep(0.0, 0.4, vUp));
-    col = mix(col, uTip, smoothstep(0.55, 1.0, vUp));
-    col += uTip * smoothstep(0.78, 1.0, vUp) * 0.4;
-
-    // Soft edges + soft tip so blades feather into the water.
-    float edgeFade = smoothstep(0.0, 0.22, vEdge) * smoothstep(1.0, 0.78, vEdge);
-    float tipFade = 1.0 - smoothstep(0.9, 1.0, vUp) * 0.6;
-    float alpha = edgeFade * tipFade * uPresence * 0.92;
-
-    if (alpha < 0.01) discard;
-    gl_FragColor = vec4(col, alpha);
-  }
-`;
-
 // Per-instance fish simulation buffers (mutated every frame; held in a ref).
 interface Sim {
   pos: Float32Array;
@@ -394,9 +301,10 @@ function buildSim(): Sim {
   const burst = new Float32Array(FISH_COUNT);
   const burstDir = new Float32Array(FISH_COUNT * 3);
   for (let i = 0; i < FISH_COUNT; i++) {
-    // Start clustered near the anemone.
-    pos[i * 3] = (rng() - 0.5) * VOL_X * 0.5;
-    pos[i * 3 + 1] = ANEMONE_Y + 1 + (rng() - 0.5) * VOL_Y * 0.4;
+    // Bias fish to left/right flanks so they stay visible outside the card.
+    const side = i < FISH_COUNT / 2 ? -1 : 1;
+    pos[i * 3] = side * (CLEAR_HALF_X + rng() * (VOL_X * 0.5 - CLEAR_HALF_X));
+    pos[i * 3 + 1] = 1 + (rng() - 0.5) * VOL_Y * 0.4;
     pos[i * 3 + 2] = (rng() - 0.5) * VOL_Z * 0.5;
     vel[i * 3] = (rng() - 0.5) * 0.6;
     vel[i * 3 + 1] = (rng() - 0.5) * 0.3;
@@ -446,41 +354,8 @@ export default function Clownfish({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const fishMeshRef = useRef<THREE.InstancedMesh>(null);
   const fishMatRef = useRef<THREE.ShaderMaterial>(null);
-  const tentMeshRef = useRef<THREE.InstancedMesh>(null);
-  const tentMatRef = useRef<THREE.ShaderMaterial>(null);
 
-  // --- Fish geometry (built once) ---
   const fishGeometry = useMemo(() => buildClownfishGeometry(), []);
-
-  // --- Anemone blade geometry + per-instance transforms (built once) ---
-  const tentGeometry = useMemo(() => {
-    const geo = new THREE.PlaneGeometry(0.5, 1, 1, TENT_SEGMENTS);
-    geo.translate(0, 0.5, 0); // root at y=0, blade grows up (matches shader uv)
-    return geo;
-  }, []);
-
-  const tentInstance = useMemo(() => {
-    const rng = makeRng(0x7e57ed);
-    const phases = new Float32Array(TENT_COUNT);
-    const heights = new Float32Array(TENT_COUNT);
-    const facings = new Float32Array(TENT_COUNT);
-    const matrices = new Float32Array(TENT_COUNT * 16);
-    const dummy = new THREE.Object3D();
-    for (let i = 0; i < TENT_COUNT; i++) {
-      // Clump the blades in a small disc beneath the huddle.
-      const ang = rng() * Math.PI * 2;
-      const r = Math.sqrt(rng()) * 2.2;
-      dummy.position.set(Math.cos(ang) * r, ANEMONE_Y, Math.sin(ang) * r);
-      dummy.rotation.set((rng() - 0.5) * 0.2, rng() * Math.PI * 2, (rng() - 0.5) * 0.2);
-      dummy.scale.setScalar(1);
-      dummy.updateMatrix();
-      dummy.matrix.toArray(matrices, i * 16);
-      phases[i] = rng() * Math.PI * 2;
-      heights[i] = 2.4 + rng() * 1.8; // short, soft tentacles
-      facings[i] = rng() * Math.PI * 2;
-    }
-    return { phases, heights, facings, matrices };
-  }, []);
 
   const fishUniforms = useMemo(
     () => ({
@@ -496,22 +371,9 @@ export default function Clownfish({ progress }: SceneElementProps) {
     [],
   );
 
-  const tentUniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uPresence: { value: 0 },
-      uBody: { value: new THREE.Color(ANEMONE[0], ANEMONE[1], ANEMONE[2]) },
-      uTip: { value: new THREE.Color(ANEMONE_TIP[0], ANEMONE_TIP[1], ANEMONE_TIP[2]) },
-    }),
-    [],
-  );
-
-  // Mutable per-frame state (refs, not useMemo, so the React Compiler lets us
-  // mutate them inside useFrame). Lazily built on the first heavy frame.
   const simRef = useRef<Sim | null>(null);
   const scratchRef = useRef<Scratch | null>(null);
   const attrsReady = useRef(false);
-  const tentReady = useRef(false);
 
   // Slowly wandering huddle point the fish loosely cohere toward.
   const huddlePhase = useRef(1.7);
@@ -562,47 +424,23 @@ export default function Clownfish({ progress }: SceneElementProps) {
       attrsReady.current = true;
     }
 
-    // One-time anemone instance-matrix + attribute upload.
-    const tentMesh = tentMeshRef.current;
-    if (tentMesh && !tentReady.current) {
-      tentMesh.instanceMatrix.array.set(tentInstance.matrices);
-      tentMesh.instanceMatrix.needsUpdate = true;
-      tentMesh.geometry.setAttribute(
-        "aPhase",
-        new THREE.InstancedBufferAttribute(tentInstance.phases, 1),
-      );
-      tentMesh.geometry.setAttribute(
-        "aHeight",
-        new THREE.InstancedBufferAttribute(tentInstance.heights, 1),
-      );
-      tentMesh.geometry.setAttribute(
-        "aFacing",
-        new THREE.InstancedBufferAttribute(tentInstance.facings, 1),
-      );
-      tentReady.current = true;
-    }
-
     const t = state.clock.elapsedTime;
     fishMat.uniforms.uTime.value = t;
     fishMat.uniforms.uFade.value = fade.current;
 
-    const tentMat = tentMatRef.current;
-    if (tentMat) {
-      tentMat.uniforms.uTime.value = t;
-      tentMat.uniforms.uPresence.value = fade.current;
-    }
-
     // Keep the group centered on the live camera depth so it stays framed while
-    // we pass through the band. x/z volume + anemone offset are local.
+    // we pass through the band. x/z volume are local.
     group.position.y = state.camera.position.y;
     group.position.z = Z_CENTER;
 
-    // Wandering huddle point (cohesion target), kept above the anemone.
+    // Wandering huddle point: oscillates left/right in the flanks, never center.
     const hp = (huddlePhase.current += delta * 0.25);
+    const sideSign = Math.sin(hp * 0.28) >= 0 ? 1 : -1;
+    const sideAmp = CLEAR_HALF_X + 1.5 + Math.abs(Math.sin(hp * 0.55)) * 3.5;
     scratch.huddle.set(
-      Math.sin(hp * 0.8) * VOL_X * 0.22,
-      ANEMONE_Y + 1.6 + Math.sin(hp * 0.6 + 1.1) * VOL_Y * 0.18,
-      Math.cos(hp * 0.7) * VOL_Z * 0.22,
+      sideSign * sideAmp,
+      0 + Math.sin(hp * 0.5 + 1.3) * VOL_Y * 0.3,
+      Math.cos(hp * 0.6) * VOL_Z * 0.22,
     );
 
     const dt = Math.min(delta, 0.05); // clamp to avoid blowups after a tab stall
@@ -642,9 +480,15 @@ export default function Clownfish({ progress }: SceneElementProps) {
       ay += burstDir[ix + 1] * kick;
       az += burstDir[ix + 2] * kick;
 
-      // 3) Soft containment: turn back before leaving the local volume.
+      // 3) Corridor clearance: push fish out of the centered card column.
+      if (Math.abs(px) < CLEAR_HALF_X) {
+        const dir = px >= 0 ? 1 : -1;
+        ax += dir * (CLEAR_HALF_X - Math.abs(px)) * 1.5;
+      }
+
+      // 4) Soft containment: turn back before leaving the local volume.
       ax += -px * (Math.abs(px) > VOL_X * 0.5 ? 1.2 : 0.0);
-      ay += (ANEMONE_Y + 1.6 - py) * (Math.abs(py - (ANEMONE_Y + 1.6)) > VOL_Y * 0.5 ? 1.2 : 0.0);
+      ay += (0 - py) * (Math.abs(py) > VOL_Y * 0.5 ? 1.2 : 0.0);
       az += -pz * (Math.abs(pz) > VOL_Z * 0.5 ? 1.2 : 0.0);
 
       // Integrate velocity with damping (the damping is what makes darts decay).
@@ -706,27 +550,6 @@ export default function Clownfish({ progress }: SceneElementProps) {
 
   return (
     <group ref={groupRef} visible={false}>
-      {/* Anemone tentacles (drawn first, behind the fish) */}
-      <instancedMesh
-        ref={tentMeshRef}
-        args={[tentGeometry, undefined, TENT_COUNT]}
-        frustumCulled={false}
-        renderOrder={0}
-      >
-        <shaderMaterial
-          ref={tentMatRef}
-          attach="material"
-          vertexShader={tentVertex}
-          fragmentShader={tentFragment}
-          uniforms={tentUniforms}
-          transparent
-          depthWrite={false}
-          side={THREE.DoubleSide}
-          fog={false}
-        />
-      </instancedMesh>
-
-      {/* Clownfish */}
       <instancedMesh
         ref={fishMeshRef}
         args={[fishGeometry, undefined, FISH_COUNT]}

@@ -88,22 +88,25 @@ const fragmentShader = /* glsl */ `
     vec2 uv = vec2(x, y);
     float hor = uHorizon;
 
-    // --- SKY (golden hour — muted, real-world undertones) ---
+    // --- SKY (golden hour — natural warm-to-blue sweep) ---
     float skyT = clamp((y - hor) / (1.0 - hor), 0.0, 1.0);
-    // Three-stop gradient: warm amber haze → dusty lavender-rose mid → soft indigo apex.
-    // Palette is intentionally de-saturated (golden hour, not blazing civil twilight).
-    vec3 lavender = vec3(0.60, 0.52, 0.74);  // dusty lavender-rose mid band
-    vec3 sky = mix(uSkyHaze, lavender, smoothstep(0.0,  0.42, skyT));
-    sky       = mix(sky,     uSkyTop,  smoothstep(0.32, 0.88, skyT));
+    // Natural two-stop: warm golden haze at horizon → soft powder blue mid → clear ocean blue zenith.
+    vec3 powder = vec3(0.62, 0.74, 0.86); // soft powder blue transition
+    vec3 sky = mix(uSkyHaze, powder,  smoothstep(0.0,  0.48, skyT));
+    sky       = mix(sky,     uSkyTop, smoothstep(0.35, 0.92, skyT));
 
-    // Soft sun glow on the right — kept subtle so the sky reads golden-hour, not blazing.
-    float haloD = aDist(uv, vec2(uSunX, hor + 0.02));
-    sky += uSun * pow(smoothstep(0.38, 0.0, haloD), 2.0) * 0.45;
-
-    // Sun disk (crisp warm-white circle).
-    vec2 sunC = vec2(uSunX, hor + 0.060);
-    float sunDisk = disk(uv, sunC, 0.038) * step(hor, y);
-    sky = mix(sky, vec3(1.0, 0.95, 0.80), sunDisk);
+    // Sun — bold golden-hour sun with wide halo, bright inner core, and corona ring.
+    vec2 sunC = vec2(uSunX, hor + 0.058);
+    float haloD = aDist(uv, sunC);
+    // Wide warm halo: golden bloom spreads across the right third of the sky.
+    sky += uSun * pow(smoothstep(0.58, 0.0, haloD), 1.6) * 0.80;
+    // Inner bright core: hot white-gold tight around the disk.
+    sky += vec3(1.0, 0.90, 0.60) * pow(smoothstep(0.22, 0.0, haloD), 2.5) * 0.65;
+    // Corona ring just outside the disk edge.
+    sky += uSun * smoothstep(0.022, 0.0, abs(haloD - 0.080)) * 0.55;
+    // Sun disk (large, crisp warm-white).
+    float sunDisk = disk(uv, sunC, 0.064) * step(hor, y);
+    sky = mix(sky, vec3(1.0, 0.97, 0.88), sunDisk);
 
     // Clouds: five papercut blobs — two on each flank (visible beside the hero
     // card) and one high in the center (peeks above the card top edge).
@@ -124,30 +127,16 @@ const fragmentShader = /* glsl */ `
       disk(uv, vec2(c2x,                    c2y        ), 0.034) +
       disk(uv, vec2(c2x + 0.022 / uAspect,  c2y + 0.011), 0.027),
       0.0, 1.0);
-    // Cloud 3 — RIGHT FLANK, near the sun
-    float c3x = 0.91 - cd * 0.18;
-    float c3y = hor + 0.120;
+    // Cloud 3 — CENTER HIGH (above the card top, visible even in center strip)
+    float c3x = 0.48 - cd * 0.12;
+    float c3y = hor + 0.182;
     float cl3 = clamp(
-      disk(uv, vec2(c3x,                    c3y        ), 0.046) +
-      disk(uv, vec2(c3x - 0.030 / uAspect,  c3y + 0.015), 0.037) +
-      disk(uv, vec2(c3x - 0.055 / uAspect,  c3y - 0.002), 0.033),
+      disk(uv, vec2(c3x,                    c3y        ), 0.038) +
+      disk(uv, vec2(c3x + 0.025 / uAspect,  c3y + 0.013), 0.030) +
+      disk(uv, vec2(c3x - 0.018 / uAspect,  c3y + 0.008), 0.024),
       0.0, 1.0);
-    // Cloud 4 — RIGHT FLANK, above the speedboat (different height for variety)
-    float c4x = 0.84 - cd * 0.28;
-    float c4y = hor + 0.080;
-    float cl4 = clamp(
-      disk(uv, vec2(c4x,                    c4y        ), 0.036) +
-      disk(uv, vec2(c4x - 0.024 / uAspect,  c4y + 0.012), 0.028),
-      0.0, 1.0);
-    // Cloud 5 — CENTER HIGH (above the card top, visible even in center strip)
-    float c5x = 0.48 - cd * 0.12;
-    float c5y = hor + 0.182;
-    float cl5 = clamp(
-      disk(uv, vec2(c5x,                    c5y        ), 0.038) +
-      disk(uv, vec2(c5x + 0.025 / uAspect,  c5y + 0.013), 0.030) +
-      disk(uv, vec2(c5x - 0.018 / uAspect,  c5y + 0.008), 0.024),
-      0.0, 1.0);
-    float allClouds = clamp(cl1 + cl2 + cl3 + cl4 + cl5, 0.0, 1.0) * step(hor + 0.006, y);
+    // Right flank clouds removed — keep sun clear and unobstructed.
+    float allClouds = clamp(cl1 + cl2 + cl3, 0.0, 1.0) * step(hor + 0.006, y);
     // Golden-hour clouds: soft cream with just a hint of peach/lavender.
     vec3 cloudCol = vec3(0.97, 0.92, 0.90) + uSkyTop * 0.08;
     sky = mix(sky, cloudCol, allClouds * 0.88);
@@ -200,10 +189,10 @@ export default function Surface({ progress }: SceneElementProps) {
       uHorizon: { value: HORIZON },
       uSunX: { value: SUN_X },
       uAspect: { value: 1.6 }, // updated each frame from state.size
-      // Golden-hour palette: muted, real-world tones (not blazing civil twilight).
-      uSkyTop:  { value: C("#1e1748") }, // soft indigo at zenith
-      uSkyHaze: { value: C("#d4925a") }, // muted amber-copper at the horizon
-      uLine:    { value: C("#f0d8a0") }, // warm cream waterline
+      // Natural golden-hour palette: warm gold horizon → clear ocean blue zenith.
+      uSkyTop:  { value: C("#4880b0") }, // clear medium blue at zenith (not purple)
+      uSkyHaze: { value: C("#c8b468") }, // warm muted gold at horizon (not saturated orange)
+      uLine:    { value: C("#f0dea0") }, // warm cream waterline
       uSun:     { value: C("#f5c060") }, // golden sun
       // Ocean water — darker, desaturated vs. the old pool-blue, warm golden-hour cast.
       uW0: { value: C("#72b4b0") }, // horizon water: muted sea-green catches sky warmth

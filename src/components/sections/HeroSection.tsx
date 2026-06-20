@@ -27,8 +27,8 @@ export default function HeroSection() {
 
         {/* Text — compact frosted box, no photo inside */}
         <div className="min-w-0 text-center md:text-left">
-          <p className="inline-flex items-center gap-2 rounded-full border border-reef-coral/30 bg-abyss-void/50 px-4 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-reef-coral backdrop-blur-sm">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-reef-coral" />
+          <p className="inline-flex items-center gap-2 rounded-full border border-reef-coral/40 bg-abyss-void/50 px-5 py-2 font-mono text-sm font-bold uppercase tracking-[0.18em] text-reef-coral backdrop-blur-sm">
+            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-reef-coral" />
             {HERO.positioning}
           </p>
 

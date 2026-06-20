@@ -37,7 +37,7 @@ import { clamp01, hexToRgb01, lerp } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
 // Fewer, larger fish so each one reads (brief: ~140-180, down from ~320).
-const COUNT = 160;
+const COUNT = 80;
 
 // Deterministic PRNG (mulberry32). The React Compiler forbids Math.random()
 // during render, and a fixed seed makes the initial shoal layout reproducible.
@@ -69,7 +69,7 @@ const Z_CENTER = -18; // sit a touch further back so fish read as ambient depth
 
 // Keep the school OUT of the centered content column. Fish inside this central
 // half-width get a gentle outward bias so they part around the text/cards.
-const CLEAR_HALF_X = 7; // half-width of the kept-clear central corridor
+const CLEAR_HALF_X = 11; // half-width of the kept-clear central corridor
 
 // Palette: sleek silver-blue / pale steel, NOT cyan.
 const STEEL = hexToRgb01("#AEC6D6"); // pale steel mid-tone (the body's key color)
@@ -479,7 +479,7 @@ export default function FishSchool({ progress }: SceneElementProps) {
       // the text/cards instead of swimming over them.
       if (Math.abs(px) < CLEAR_HALF_X) {
         const dir = px >= 0 ? 1 : -1;
-        ax += dir * (CLEAR_HALF_X - Math.abs(px)) * 0.55;
+        ax += dir * (CLEAR_HALF_X - Math.abs(px)) * 1.8;
       }
 
       // 4) Soft containment: turn back before leaving the volume.

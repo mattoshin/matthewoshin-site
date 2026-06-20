@@ -44,8 +44,8 @@ const CAM_Z = 8;
 const HORIZON_K = 0.286;
 
 // Descent band: full at the surface, gone by FADE_END (group hides beyond).
-const FADE_START = 0.08;
-const FADE_END = 0.2;
+const FADE_START = 0.02;
+const FADE_END = 0.07;
 
 interface BoatSpec {
   x: number;

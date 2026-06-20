@@ -16,38 +16,20 @@
  */
 
 import WaterColumn from "./elements/WaterColumn";
-import BioParticles from "./elements/BioParticles";
-import CoralReef from "./elements/CoralReef";
-import Kelp from "./elements/Kelp";
-import Octopus from "./elements/Octopus";
-import Anglerfish from "./elements/Anglerfish";
-import Sharks from "./elements/Sharks";
-import SeaTurtle from "./elements/SeaTurtle";
-import FishSchool from "./elements/FishSchool";
-import Clownfish from "./elements/Clownfish";
-import CausticsLight from "./elements/CausticsLight";
-import WaterSurface from "./elements/WaterSurface";
+import FishPatrol from "./elements/FishPatrol";
+import DescentBubbles from "./elements/DescentBubbles";
+import Submarine from "./elements/Submarine";
 import Sailboats from "./elements/Sailboats";
 import WaterSkier from "./elements/WaterSkier";
 import Surface from "./elements/Surface";
-import Dolphin from "./elements/Dolphin";
 import type { SceneElementEntry } from "./types";
 
 export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
   { id: "surface", Component: Surface },
   { id: "water-column", Component: WaterColumn },
-  { id: "bioparticles", Component: BioParticles },
-  { id: "coral-reef", Component: CoralReef },
-  { id: "kelp", Component: Kelp },
-  { id: "octopus", Component: Octopus },
-  { id: "anglerfish", Component: Anglerfish },
-  { id: "sharks", Component: Sharks },
-  { id: "sea-turtle", Component: SeaTurtle },
-  { id: "fishschool", Component: FishSchool },
-  { id: "clownfish", Component: Clownfish },
-  { id: "caustics-light", Component: CausticsLight },
-  { id: "water-surface", Component: WaterSurface },
   { id: "sailboats", Component: Sailboats },
   { id: "water-skier", Component: WaterSkier },
-  { id: "dolphin", Component: Dolphin },
+  { id: "fish-patrol", Component: FishPatrol },
+  { id: "submarine", Component: Submarine },
+  { id: "descent-bubbles", Component: DescentBubbles },
 ];

@@ -21,8 +21,6 @@ export default function MotionController() {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const apply = () => {
-      // If the user manually forced reduced motion, keep it on. Otherwise track
-      // the OS preference exactly.
       const manual = useDescentStore.getState().manualReducedMotion;
       setReducedMotion(manual ? true : mq.matches);
     };
@@ -31,7 +29,18 @@ export default function MotionController() {
     setHydrated(true);
 
     mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
+    // Re-apply when the user flips the manual toggle so turning motion back ON
+    // correctly falls back to the OS preference instead of staying reduced.
+    const unsub = useDescentStore.subscribe(
+      (state, prev) => {
+        if (state.manualReducedMotion !== prev.manualReducedMotion) apply();
+      },
+    );
+
+    return () => {
+      mq.removeEventListener("change", apply);
+      unsub();
+    };
   }, [setReducedMotion, setHydrated]);
 
   return null;

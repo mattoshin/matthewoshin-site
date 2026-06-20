@@ -20,8 +20,8 @@ export default function HomeSection({
   zone: ZoneId;
   heading: string;
   children: ReactNode;
-  href: string;
-  cta: string;
+  href?: string;
+  cta?: string;
 }) {
   const z = zoneById(zone);
 
@@ -51,18 +51,20 @@ export default function HomeSection({
           {children}
         </div>
 
-        <Link
-          href={href}
-          className="group mt-9 inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-bio-cyan transition-colors hover:text-bio-aqua"
-        >
-          {cta}
-          <span
-            aria-hidden="true"
-            className="transition-transform group-hover:translate-x-1"
+        {href && cta ? (
+          <Link
+            href={href}
+            className="group mt-9 inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-bio-cyan transition-colors hover:text-bio-aqua"
           >
-            -&gt;
-          </span>
-        </Link>
+            {cta}
+            <span
+              aria-hidden="true"
+              className="transition-transform group-hover:translate-x-1"
+            >
+              -&gt;
+            </span>
+          </Link>
+        ) : null}
       </div>
     </section>
   );
