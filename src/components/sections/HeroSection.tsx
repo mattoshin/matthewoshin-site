@@ -15,9 +15,9 @@ const STATEMENT = "I'm a builder. That's the one word that survives every chapte
 
 // Tasteful, public proof points only (no private figures, per content-review.md).
 const PROOF: readonly string[] = [
-  "Founded + sold Mocean",
+  "5 ventures, 3 acquired",
   "CAIO at BrachyClip",
-  "Equity research",
+  "Hedge fund equity research",
   "6 live builds",
 ];
 
