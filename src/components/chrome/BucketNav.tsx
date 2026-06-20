@@ -33,6 +33,7 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { useDescentStore } from "@/lib/store";
 import { BUCKETS, SITE } from "@/data/content";
+import { Socials } from "./Socials";
 
 export default function BucketNav() {
   const activeZone = useDescentStore((s) => s.activeZone);
@@ -111,7 +112,7 @@ export default function BucketNav() {
             wordmark reads over BOTH the bright surface and the dark deep. */}
         <Link
           href="/"
-          className="min-w-0 shrink rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-left backdrop-blur-md transition-colors hover:border-reef-coral/50"
+          className="min-w-0 shrink rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-left backdrop-blur-md transition-colors hover:border-bio-cyan/50"
           aria-label="Matthew Oshin, return home"
         >
           <span className="block truncate font-display text-base font-semibold tracking-tight text-ink-heading sm:text-lg">
@@ -134,7 +135,7 @@ export default function BucketNav() {
                 aria-current={activeZone === "surface" ? "page" : undefined}
                 className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
                   activeZone === "surface"
-                    ? "glow-coral bg-reef-coral text-abyss-void"
+                    ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
                     : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                 }`}
               >
@@ -150,7 +151,7 @@ export default function BucketNav() {
                     aria-current={active ? "page" : undefined}
                     className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
                       active
-                        ? "glow-coral bg-reef-coral text-abyss-void"
+                        ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
                         : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                     }`}
                   >
@@ -164,12 +165,7 @@ export default function BucketNav() {
 
         {/* DESKTOP right controls: Contact button + motion toggle (lg+). */}
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
-          <Link
-            href="/#contact"
-            className="rounded-full bg-reef-coral px-4 py-1.5 text-sm font-semibold text-abyss-void transition-colors hover:bg-reef-coral/80"
-          >
-            Contact
-          </Link>
+          <Socials />
           <button
             type="button"
             onClick={toggleReducedMotion}
@@ -241,7 +237,7 @@ export default function BucketNav() {
                     aria-current={activeZone === "surface" ? "page" : undefined}
                     className={`block w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
                       activeZone === "surface"
-                        ? "bg-reef-coral text-abyss-void"
+                        ? "bg-bio-cyan text-abyss-void"
                         : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                     }`}
                   >
@@ -258,7 +254,7 @@ export default function BucketNav() {
                         aria-current={active ? "page" : undefined}
                         className={`block w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
                           active
-                            ? "bg-reef-coral text-abyss-void"
+                            ? "bg-bio-cyan text-abyss-void"
                             : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                         }`}
                       >
@@ -289,6 +285,10 @@ export default function BucketNav() {
                 />
                 {reducedMotion ? "Motion off" : "Motion on"}
               </button>
+            </div>
+
+            <div className="mt-2 flex items-center justify-center gap-1.5">
+              <Socials />
             </div>
           </div>
         </div>
