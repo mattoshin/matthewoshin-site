@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { useDescentStore } from "@/lib/store";
 import type { SceneElementProps } from "../types";
 
-const POOL = 100;
+const POOL = 240;
 const OFF_Y = 99999;
 
 function seed(i: number, s: number): number {
@@ -45,25 +45,23 @@ export default function DescentBubbles(_: SceneElementProps) {
       }
     }
 
-    if (diving) {
-      spawnAcc.current += delta;
-      const rate = Math.min(diff * 120, 8);
-      while (spawnAcc.current > 1 / rate) {
-        spawnAcc.current -= 1 / rate;
-        for (let i = 0; i < POOL; i++) {
-          if (!alv[i]) {
-            const si = (i * 17 + Math.floor(t * 113)) & 0xffff;
-            pos[i * 3]     = (seed(si, 1) - 0.5) * 22;
-            pos[i * 3 + 1] = camY - seed(si, 2) * 10;
-            pos[i * 3 + 2] = -(5 + seed(si, 3) * 18);
-            vel[i]         = 4 + seed(si, 4) * 6;
-            alv[i] = 1;
-            break;
-          }
+    // Always emit a gentle ambient stream of bubbles so the water feels alive
+    // even when still; emit faster while actively diving.
+    spawnAcc.current += delta;
+    const rate = diving ? Math.min(diff * 150 + 8, 18) : 7;
+    while (spawnAcc.current > 1 / rate) {
+      spawnAcc.current -= 1 / rate;
+      for (let i = 0; i < POOL; i++) {
+        if (!alv[i]) {
+          const si = (i * 17 + Math.floor(t * 113)) & 0xffff;
+          pos[i * 3]     = (seed(si, 1) - 0.5) * 26;
+          pos[i * 3 + 1] = camY - seed(si, 2) * 14;
+          pos[i * 3 + 2] = -(4 + seed(si, 3) * 22);
+          vel[i]         = 3 + seed(si, 4) * 6;
+          alv[i] = 1;
+          break;
         }
       }
-    } else {
-      spawnAcc.current = 0;
     }
 
     if (geoRef.current) {
@@ -85,10 +83,10 @@ export default function DescentBubbles(_: SceneElementProps) {
       />
       <pointsMaterial
         color="#c4f0ff"
-        size={0.12}
+        size={0.14}
         sizeAttenuation
         transparent
-        opacity={0.55}
+        opacity={0.62}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
         fog={false}
