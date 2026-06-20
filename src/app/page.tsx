@@ -21,9 +21,25 @@ import {
  *
  * Scroll-driven single page: HomeScrollDepth maps window.scrollY into the
  * store's targetProgress, so the ocean descends with you. Every section lives
- * right here — no separate route pages. Nav links are anchors that jump to
- * each zone.
+ * right here. The `beat` on each HomeSection is a one-line story narration that
+ * turns the descent into Matthew's journey (a narrative overlay, not a rewrite).
+ * Nav links are anchors that jump to each zone.
  */
+
+// The story thread, in Matthew's voice, read top to bottom as you dive. Kept in
+// one place so the narration is easy to wordsmith without touching markup.
+const BEATS = {
+  about:
+    "Every desk I've sat at taught the same lesson a different way: find the edge, then go build it.",
+  projects:
+    "And it started young. Before any of this I was flipping sneakers as Ocean Supply. Yes, that's where the ocean comes from.",
+  ventures:
+    "All those years of shipping, across markets and code, became a real toolkit.",
+  writing: "With the foundation underneath all of it.",
+  skills: "And a life outside the work, though most of it circles back to it.",
+  contact: "That's the dive. If any of it resonates, let's build something.",
+} as const;
+
 export default function HomePage() {
   const calendlyUrl: string = SITE.calendlyUrl;
   const calendlyReady =
@@ -36,7 +52,7 @@ export default function HomePage() {
         <HeroSection />
 
         {/* ── Experience ─────────────────────────────────────── */}
-        <HomeSection zone="about" heading="Experience">
+        <HomeSection zone="about" heading="Experience" beat={BEATS.about}>
           <ol className="mt-6 space-y-4">
             {EXPERIENCE.map((job) => (
               <li
@@ -79,7 +95,11 @@ export default function HomePage() {
         </HomeSection>
 
         {/* ── Entrepreneurship ───────────────────────────────── */}
-        <HomeSection zone="projects" heading={ENTREPRENEURSHIP.heading}>
+        <HomeSection
+          zone="projects"
+          heading={ENTREPRENEURSHIP.heading}
+          beat={BEATS.projects}
+        >
           <p className="text-ink-body">{ENTREPRENEURSHIP.blurb}</p>
 
           <h3 className="mt-10 font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
@@ -149,7 +169,7 @@ export default function HomePage() {
         </HomeSection>
 
         {/* ── Skills ─────────────────────────────────────────── */}
-        <HomeSection zone="ventures" heading={SKILLS.heading}>
+        <HomeSection zone="ventures" heading={SKILLS.heading} beat={BEATS.ventures}>
           <p className="text-ink-body">{SKILLS.blurb}</p>
           <div className="mt-8 grid gap-5 sm:grid-cols-2">
             {SKILL_GROUPS.map((group) => (
@@ -176,7 +196,7 @@ export default function HomePage() {
         </HomeSection>
 
         {/* ── Education ──────────────────────────────────────── */}
-        <HomeSection zone="writing" heading="Education">
+        <HomeSection zone="writing" heading="Education" beat={BEATS.writing}>
           <ul className="mt-6 space-y-4">
             {EDUCATION.map((e) => (
               <li
@@ -195,7 +215,11 @@ export default function HomePage() {
         </HomeSection>
 
         {/* ── Interests ──────────────────────────────────────── */}
-        <HomeSection zone="skills" heading={INTERESTS_META.heading}>
+        <HomeSection
+          zone="skills"
+          heading={INTERESTS_META.heading}
+          beat={BEATS.skills}
+        >
           <p className="text-ink-body">{INTERESTS_META.blurb}</p>
           <ul className="mt-6 space-y-2">
             {INTERESTS.map((interest) => (
@@ -211,7 +235,7 @@ export default function HomePage() {
         </HomeSection>
 
         {/* ── Contact ────────────────────────────────────────── */}
-        <HomeSection zone="contact" heading={CONTACT.heading}>
+        <HomeSection zone="contact" heading={CONTACT.heading} beat={BEATS.contact}>
           <p className="text-ink-body">{CONTACT.blurb}</p>
           <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             {calendlyReady ? (

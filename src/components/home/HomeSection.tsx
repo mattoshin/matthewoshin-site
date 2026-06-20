@@ -7,18 +7,22 @@ import { zoneById, type ZoneId } from "@/lib/depth";
  *
  * The home is a single tall dive: the hero is the surface, then one of these per
  * depth zone. Each shows a teaser of that section and a "dive deeper" link to
- * the full page. Rides the `.section-scrim` glass so light type clears WCAG AA
- * over the descending ocean. The matching zone (#id) is the DOM anchor.
+ * the full page. An optional `beat` is a one-line story narration that frames
+ * this depth as a chapter of Matthew's journey, so the descent reads as his
+ * story. Rides the `.section-scrim` glass so light type clears WCAG AA over the
+ * descending ocean. The matching zone (#id) is the DOM anchor.
  */
 export default function HomeSection({
   zone,
   heading,
+  beat,
   children,
   href,
   cta,
 }: {
   zone: ZoneId;
   heading: string;
+  beat?: string;
   children: ReactNode;
   href?: string;
   cta?: string;
@@ -46,6 +50,12 @@ export default function HomeSection({
         <h2 className="font-display text-3xl font-semibold leading-tight text-ink-heading sm:text-5xl">
           {heading}
         </h2>
+
+        {beat ? (
+          <p className="mt-4 max-w-prose border-l-2 border-bio-cyan/50 pl-4 font-display text-lg italic leading-snug text-ink-heading/85 sm:text-xl">
+            {beat}
+          </p>
+        ) : null}
 
         <div className="measure mt-5 text-base leading-relaxed text-ink-body sm:text-lg">
           {children}
