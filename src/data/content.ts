@@ -58,37 +58,37 @@ export const BUCKETS: readonly Bucket[] = [
   {
     id: "about",
     label: "Experience",
-    href: "/#about",
+    href: "/experience",
     teaser: "CAIO at BrachyClip, ex-VP AI at ICR, hedge-fund equity research at Manatuck Hill.",
   },
   {
     id: "projects",
     label: "Entrepreneurship",
-    href: "/#projects",
+    href: "/entrepreneurship",
     teaser: "Five ventures so far, from sneaker arbitrage to Mocean, plus the products I ship now.",
   },
   {
     id: "ventures",
     label: "Skills",
-    href: "/#ventures",
+    href: "/skills",
     teaser: "AI engineering, full-stack, markets and quant, data, product, and design.",
   },
   {
     id: "writing",
     label: "Education",
-    href: "/#writing",
+    href: "/education",
     teaser: "University of Michigan, B.A. Economics.",
   },
   {
     id: "skills",
     label: "Interests",
-    href: "/#skills",
+    href: "/interests",
     teaser: "Markets, a real DJ rig, sneakers, networking, and emerging tech.",
   },
   {
     id: "contact",
     label: "Contact",
-    href: "/#contact",
+    href: "/contact",
     teaser: "Email, LinkedIn, GitHub, or book a time.",
   },
 ] as const;

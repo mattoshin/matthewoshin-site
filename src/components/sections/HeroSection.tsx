@@ -93,7 +93,7 @@ export default function HeroSection() {
           >
             {HERO.scrollHint}
             <span aria-hidden="true" className="ml-2">
-              &darr;
+              &uarr;
             </span>
           </p>
         </div>
