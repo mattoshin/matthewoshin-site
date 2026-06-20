@@ -2,12 +2,10 @@ import Image from "next/image";
 import { HERO } from "@/data/content";
 
 /**
- * HeroSection - the SURFACE (0m) quick overview over the cartoon scene.
- *
- * Decluttered per Matthew: no CTAs and no social row here (socials live in the
- * top nav now). Just the portrait, name, a one-line hook, the short bio paragraph
- * he likes, and the proof chips. Light + bold type with a crisp dark shadow so it
- * reads over the dark water.
+ * HeroSection - the SURFACE (0m). Decluttered per Matthew: no eyebrow line and no
+ * big name (the wordmark up top carries the identity). Just the portrait, the
+ * one-line hook as the headline, the short bio paragraph he likes, and the proof
+ * chips. Light + bold type with a crisp dark shadow so it reads over the water.
  */
 
 const STATEMENT = "I'm a builder. That's the one word that survives every chapter.";
@@ -45,33 +43,17 @@ export default function HeroSection() {
           />
         </div>
 
-        {/* Text - LIGHT + bold + dark shadow so it pops on the dark water. */}
+        {/* Text - the hook is the headline now (name lives in the wordmark). */}
         <div className="min-w-0 text-center md:text-left">
-          <p
-            className={`inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.18em] text-bio-cyan ${SHADOW}`}
-          >
-            <span
-              aria-hidden="true"
-              className="glow-cyan h-1.5 w-1.5 rounded-full bg-bio-cyan"
-            />
-            {HERO.positioning}
-          </p>
-
           <h1
-            className={`mt-4 font-display text-5xl font-bold leading-[1.03] tracking-tight text-white sm:text-6xl lg:text-7xl ${SHADOW}`}
-          >
-            {HERO.name}
-          </h1>
-
-          <p
-            className={`mx-auto mt-4 max-w-md text-balance text-lg font-semibold leading-snug text-ink-heading sm:text-xl md:mx-0 ${SHADOW}`}
+            className={`max-w-xl text-balance font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl ${SHADOW}`}
           >
             {STATEMENT}
-          </p>
+          </h1>
 
           {/* The short bio paragraph (the one Matthew likes). */}
           <p
-            className={`mx-auto mt-4 max-w-xl text-sm leading-relaxed text-ink-body ${SHADOW} sm:text-base md:mx-0`}
+            className={`mx-auto mt-5 max-w-xl text-sm leading-relaxed text-ink-body ${SHADOW} sm:text-base md:mx-0`}
           >
             {HERO.bio}
           </p>
@@ -93,7 +75,7 @@ export default function HeroSection() {
           >
             {HERO.scrollHint}
             <span aria-hidden="true" className="ml-2">
-              &uarr;
+              &darr;
             </span>
           </p>
         </div>

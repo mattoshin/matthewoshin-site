@@ -1,18 +1,16 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import PageShell from "@/components/page/PageShell";
-import { BUILDS, ENTREPRENEURSHIP, VENTURES } from "@/data/content";
+import { ENTREPRENEURSHIP, VENTURES } from "@/data/content";
 
 /**
- * /entrepreneurship - ventures + current builds, at the twilight depth (zone id
- * "projects"). Two parts: the things I founded or co-founded, roughly in order,
- * then the products I'm building now (Sigma, Galactic Signals) as cards linking
- * to their case-study pages at /projects/[slug].
+ * /entrepreneurship - the ventures and companies, at the twilight depth (zone
+ * "projects"). The things Matthew founded or co-founded, roughly in order. The
+ * current products he ships now live on their own /portfolio page.
  */
 export const metadata: Metadata = {
   title: "Entrepreneurship",
   description:
-    "Mocean Technologies, Element Underground, Profit Paradise, Ocean Supply, Resell Network, plus current builds Sigma and Galactic Signals.",
+    "Mocean Technologies, Element Underground, Profit Paradise, Ocean Supply, and Resell Network.",
 };
 
 export default function EntrepreneurshipPage() {
@@ -20,9 +18,8 @@ export default function EntrepreneurshipPage() {
     <PageShell
       zone="projects"
       heading={ENTREPRENEURSHIP.heading}
-      intro={ENTREPRENEURSHIP.blurb}
+      intro="Five ventures, in roughly the order they happened. The thread: find an edge, package it, and get it to the people who need it. Sometimes that is software, sometimes a community, sometimes a room full of people who would not have found each other otherwise."
     >
-      {/* Ventures and companies */}
       <h2 className="mt-10 font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
         {ENTREPRENEURSHIP.venturesLabel}
       </h2>
@@ -45,42 +42,6 @@ export default function EntrepreneurshipPage() {
           </li>
         ))}
       </ol>
-
-      {/* Building now */}
-      <h2 className="mt-12 font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
-        {ENTREPRENEURSHIP.buildsLabel}
-      </h2>
-      <ul className="mt-4 grid gap-5 sm:grid-cols-2">
-        {BUILDS.map((build) => (
-          <li key={build.slug}>
-            <Link
-              href={`/projects/${build.slug}`}
-              className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/40 hover:bg-white/[0.06]"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
-                  {build.name}
-                </h3>
-                <span className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
-                  {build.status}
-                </span>
-              </div>
-              <p className="mt-3 text-sm text-ink-body sm:text-base">
-                {build.hook}
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity group-hover:opacity-100">
-                Open case study
-                <span
-                  aria-hidden="true"
-                  className="transition-transform group-hover:translate-x-0.5"
-                >
-                  -&gt;
-                </span>
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
     </PageShell>
   );
 }

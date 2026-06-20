@@ -16,6 +16,7 @@ export default function HomeSection({
   zone,
   heading,
   beat,
+  navLabel,
   children,
   href,
   cta,
@@ -23,6 +24,7 @@ export default function HomeSection({
   zone: ZoneId;
   heading: string;
   beat?: string;
+  navLabel?: string;
   children: ReactNode;
   href?: string;
   cta?: string;
@@ -44,7 +46,7 @@ export default function HomeSection({
           <span aria-hidden="true" className="text-ink-faint">
             /
           </span>
-          <span>{z.label}</span>
+          <span>{navLabel ?? z.label}</span>
         </p>
 
         <h2 className="font-display text-3xl font-semibold leading-tight text-ink-heading sm:text-5xl">

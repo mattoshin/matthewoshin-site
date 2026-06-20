@@ -48,7 +48,10 @@ export const SITE = {
  * returns home.
  */
 export interface Bucket {
-  id: ZoneId;
+  /** Unique key + identity for this section (not necessarily the zone id). */
+  id: string;
+  /** Ocean depth this section dives to (several sections may share a zone). */
+  zone: ZoneId;
   label: string;
   href: string;
   teaser: string;
@@ -56,37 +59,50 @@ export interface Bucket {
 
 export const BUCKETS: readonly Bucket[] = [
   {
-    id: "about",
+    id: "experience",
+    zone: "about",
     label: "Experience",
     href: "/experience",
     teaser: "CAIO at BrachyClip, ex-VP AI at ICR, hedge-fund equity research at Manatuck Hill.",
   },
   {
-    id: "projects",
+    id: "entrepreneurship",
+    zone: "projects",
     label: "Entrepreneurship",
     href: "/entrepreneurship",
-    teaser: "Five ventures so far, from sneaker arbitrage to Mocean, plus the products I ship now.",
+    teaser: "Five ventures, from sneaker arbitrage to Mocean. Founded, scaled, two acquired.",
   },
   {
-    id: "ventures",
+    id: "portfolio",
+    zone: "projects",
+    label: "Portfolio",
+    href: "/portfolio",
+    teaser: "The products I build now: Sigma, Galactic Signals, Observly, BriefBridge, mTrain, Camp Ricky.",
+  },
+  {
+    id: "skills",
+    zone: "ventures",
     label: "Skills",
     href: "/skills",
     teaser: "AI engineering, full-stack, markets and quant, data, product, and design.",
   },
   {
-    id: "writing",
+    id: "education",
+    zone: "writing",
     label: "Education",
     href: "/education",
     teaser: "University of Michigan, B.A. Economics.",
   },
   {
-    id: "skills",
+    id: "interests",
+    zone: "skills",
     label: "Interests",
     href: "/interests",
     teaser: "Markets, a real DJ rig, sneakers, networking, and emerging tech.",
   },
   {
     id: "contact",
+    zone: "contact",
     label: "Contact",
     href: "/contact",
     teaser: "Email, LinkedIn, GitHub, or book a time.",
@@ -368,6 +384,12 @@ export const ENTREPRENEURSHIP = {
     "Five ventures so far, in roughly the order they happened, and the products I'm building now. The thread: find an edge, package it, and get it to the people who need it. Sometimes that's software. Sometimes it's a community. Sometimes it's a room full of people who wouldn't have found each other otherwise.",
   venturesLabel: "Ventures and companies",
   buildsLabel: "Building now",
+} as const;
+
+export const PORTFOLIO = {
+  heading: "Portfolio.",
+  blurb:
+    "The products I'm building now, end to end. Each is a real bet on an edge, packaged and shipped. Open any of them for the full case study.",
 } as const;
 
 /* -------------------------------------------------------------------------- */

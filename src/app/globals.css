@@ -38,7 +38,7 @@ html {
   --abyss-silt: #0d3144;
 
   /* Bioluminescent accents (brighter the deeper you go) */
-  --bio-cyan: #3fe0e6; /* primary glow / links / active */
+  --bio-cyan: #2fe3bf; /* primary glow / links / active (aqua-green turquoise) */
   --bio-aqua: #5ff2c8; /* secondary */
   --bio-lumen: #8fe8ff; /* light shafts / deep headings */
   --bio-violet: #7b8cff; /* rare */

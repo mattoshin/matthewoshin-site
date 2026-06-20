@@ -31,12 +31,13 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useDescentStore } from "@/lib/store";
 import { BUCKETS, SITE } from "@/data/content";
 import { Socials } from "./Socials";
 
 export default function BucketNav() {
-  const activeZone = useDescentStore((s) => s.activeZone);
+  const pathname = usePathname();
   const manualReduced = useDescentStore((s) => s.manualReducedMotion);
   const reducedMotion = useDescentStore((s) => s.reducedMotion);
   const toggleReducedMotion = useDescentStore((s) => s.toggleReducedMotion);
@@ -132,9 +133,9 @@ export default function BucketNav() {
             <li className="shrink-0">
               <Link
                 href="/"
-                aria-current={activeZone === "surface" ? "page" : undefined}
+                aria-current={pathname === "/" ? "page" : undefined}
                 className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
-                  activeZone === "surface"
+                  pathname === "/"
                     ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
                     : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                 }`}
@@ -143,7 +144,7 @@ export default function BucketNav() {
               </Link>
             </li>
             {BUCKETS.map((bucket) => {
-              const active = bucket.id === activeZone;
+              const active = pathname === bucket.href;
               return (
                 <li key={bucket.id} className="shrink-0">
                   <Link
@@ -234,9 +235,9 @@ export default function BucketNav() {
                   <Link
                     href="/"
                     onClick={closeMenu}
-                    aria-current={activeZone === "surface" ? "page" : undefined}
+                    aria-current={pathname === "/" ? "page" : undefined}
                     className={`block w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
-                      activeZone === "surface"
+                      pathname === "/"
                         ? "bg-bio-cyan text-abyss-void"
                         : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                     }`}
@@ -245,7 +246,7 @@ export default function BucketNav() {
                   </Link>
                 </li>
                 {BUCKETS.map((bucket) => {
-                  const active = bucket.id === activeZone;
+                  const active = pathname === bucket.href;
                   return (
                     <li key={bucket.id}>
                       <Link
