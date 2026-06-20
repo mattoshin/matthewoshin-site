@@ -128,6 +128,19 @@ export default function BucketNav() {
           className="hidden min-w-0 flex-1 justify-center lg:flex"
         >
           <ul className="flex w-auto max-w-full items-center gap-1 rounded-full border border-white/15 bg-deep-body/70 px-1 py-1 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-md">
+            <li className="shrink-0">
+              <Link
+                href="/"
+                aria-current={activeZone === "surface" ? "page" : undefined}
+                className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+                  activeZone === "surface"
+                    ? "glow-coral bg-reef-coral text-abyss-void"
+                    : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
+                }`}
+              >
+                Home
+              </Link>
+            </li>
             {BUCKETS.map((bucket) => {
               const active = bucket.id === activeZone;
               return (
@@ -221,6 +234,20 @@ export default function BucketNav() {
           >
             <nav aria-label="Sections">
               <ul className="flex flex-col gap-1">
+                <li>
+                  <Link
+                    href="/"
+                    onClick={closeMenu}
+                    aria-current={activeZone === "surface" ? "page" : undefined}
+                    className={`block w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
+                      activeZone === "surface"
+                        ? "bg-reef-coral text-abyss-void"
+                        : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
+                    }`}
+                  >
+                    Home
+                  </Link>
+                </li>
                 {BUCKETS.map((bucket) => {
                   const active = bucket.id === activeZone;
                   return (
