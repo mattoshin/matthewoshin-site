@@ -20,7 +20,6 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { clamp01 } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
 /** Shared sine-sum swell (same sea the water-skier rides). */
@@ -43,9 +42,9 @@ const SAIL_JIB = "#e7ddbe"; // slightly deeper cream jib (paper-layer contrast)
 const CAM_Z = 8;
 const HORIZON_K = 0.286;
 
-// Descent band: full at the surface, gone by FADE_END (group hides beyond).
-const FADE_START = 0.02;
-const FADE_END = 0.07;
+// Drift the surface scene up as you descend (matches Surface.tsx), then hide.
+const SURFACE_DRIFT = 1900;
+const SURFACE_GONE = 0.24;
 
 interface BoatSpec {
   x: number;
@@ -113,25 +112,22 @@ export default function Sailboats({ progress }: SceneElementProps) {
     if (!group) return;
 
     const p = progress.get();
-    if (p >= FADE_END) {
+    if (p >= SURFACE_GONE) {
       if (group.visible) group.visible = false;
       return;
     }
     if (!group.visible) group.visible = true;
 
-    const fadeT = clamp01((p - FADE_START) / (FADE_END - FADE_START));
-    const vis = 1 - fadeT;
-    const eased = vis * vis * (3 - 2 * vis);
-
+    // No fade: the boats ride the surface and DRIFT UP with it as you descend.
     const mats = matRefs.current;
     for (let i = 0; i < mats.length; i++) {
       const m = mats[i];
-      if (m) m.opacity = eased;
+      if (m) m.opacity = 1;
     }
 
-    // Camera-lock in Y: keeps boats at the visual waterline as the camera descends.
-    // Surface.tsx does the same with group.position.copy(camera.position) for the backdrop.
-    group.position.y = state.camera.position.y + (1 - eased) * 1.4;
+    // Drift up with the surface (same constant as Surface.tsx) so the whole
+    // surface scene lifts away together instead of fading.
+    group.position.y = state.camera.position.y + p * p * SURFACE_DRIFT;
 
     const t = state.clock.elapsedTime;
     for (let i = 0; i < BOATS.length; i++) {

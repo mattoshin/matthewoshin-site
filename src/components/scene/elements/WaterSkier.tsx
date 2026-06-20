@@ -12,7 +12,7 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { clamp01, hexToRgb01 } from "@/lib/depth";
+import { hexToRgb01 } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
 function swell(x: number, z: number, t: number): number {
@@ -31,8 +31,8 @@ const SKIER_RGB      = hexToRgb01("#0d3a52"); // deep teal silhouette (papercut)
 const SKI_RGB        = hexToRgb01("#e2f4ff"); // near-white skis
 const FOAM_RGB       = hexToRgb01("#FFFFFF"); // additive white spray
 
-const FADE_START = 0.02;
-const FADE_END   = 0.07;
+const SURFACE_DRIFT = 1900;
+const SURFACE_GONE  = 0.24;
 
 const CAM_Z      = 8;
 const HORIZON_K  = 0.272;
@@ -236,24 +236,22 @@ export default function WaterSkier({ progress }: SceneElementProps) {
     if (!group || !rig) return;
 
     const p = progress.get();
-    if (p >= FADE_END) {
+    if (p >= SURFACE_GONE) {
       if (group.visible) group.visible = false;
       return;
     }
     if (!group.visible) group.visible = true;
 
-    const fadeT = clamp01((p - FADE_START) / (FADE_END - FADE_START));
-    const vis   = 1 - fadeT;
-    const eased = vis * vis * (3 - 2 * vis);
-
-    for (const m of solidRefs.current) { if (m) m.opacity = eased; }
+    // No fade: the skier rides the surface and DRIFTS UP with it as you descend.
+    for (const m of solidRefs.current) { if (m) m.opacity = 1; }
 
     const t = state.clock.elapsedTime;
     const shimmer = 0.78 + 0.22 * Math.sin(t * 5.5);
-    for (const m of sprayRefs.current) { if (m) m.opacity = eased * shimmer; }
+    for (const m of sprayRefs.current) { if (m) m.opacity = shimmer; }
 
-    group.position.y = state.camera.position.y + (1 - eased) * 1.4;
-    group.scale.setScalar(THREE.MathUtils.lerp(0.85, 1, eased));
+    // Drift up with the surface (same constant as Surface.tsx).
+    group.position.y = state.camera.position.y + p * p * SURFACE_DRIFT;
+    group.scale.setScalar(1);
 
     const drift = Math.sin(t * 0.25) * 0.5;
     const x = RIG_X + drift;

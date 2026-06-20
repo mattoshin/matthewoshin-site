@@ -30,7 +30,6 @@ import WaterSurface from "./elements/WaterSurface";
 import Sailboats from "./elements/Sailboats";
 import WaterSkier from "./elements/WaterSkier";
 import Surface from "./elements/Surface";
-import Dolphin from "./elements/Dolphin";
 import type { SceneElementEntry } from "./types";
 
 export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
@@ -49,5 +48,4 @@ export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
   { id: "water-surface", Component: WaterSurface },
   { id: "sailboats", Component: Sailboats },
   { id: "water-skier", Component: WaterSkier },
-  { id: "dolphin", Component: Dolphin },
 ];

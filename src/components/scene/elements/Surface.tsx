@@ -8,11 +8,12 @@
  * sun-glitter column and gentle ripple banding. Moana-bright, illustrated, with
  * a definite horizon rather than a mushy gradient.
  *
- * Camera-locked (the group copies the camera position each frame) so the horizon
- * holds a fixed screen height while the camera sinks - the surface boats use the
- * same trick, so the whole surface reads as one coherent plane. It fades out by
- * ~progress 0.22 to reveal the dark dive column beneath, then hides + early-
- * returns so it costs nothing in the deep.
+ * As you scroll DOWN the camera descends and the whole surface DRIFTS UP out of
+ * frame (kinetic, NOT a fade): it follows the camera in x/z but rises above it by
+ * `p * SURFACE_DRIFT`, sliding the sky + sun + sea up to reveal the deep water
+ * column beneath. Past VISIBLE_UNTIL it hides + early-returns so it costs nothing
+ * in the deep. The surface boats + water-skier use the same drift so the whole
+ * surface reads as one coherent plane lifting away.
  *
  * Original art. Tunable horizon (uHorizon) + sun position (uSunX).
  *
@@ -22,10 +23,12 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { clamp01, lerp } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
-const FADE_END = 0.22;
+// Eased drift coefficient: the surface rises by p*p*SURFACE_DRIFT relative to
+// the camera, so it HOLDS behind the hero (p^2 is tiny at small p), then
+// accelerates up and out of frame by the first section (kinetic, not a fade).
+const SURFACE_DRIFT = 1900;
 const VISIBLE_UNTIL = 0.26;
 
 // Horizon height in plane-uv (1 = top, 0 = bottom). ~0.74 puts the waterline in
@@ -176,11 +179,6 @@ const fragmentShader = /* glsl */ `
 export default function Surface({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
-  const flashMatRef = useRef<THREE.MeshBasicMaterial>(null);
-  const smoothedOpacity = useRef(1);
-  // Plunge flash: triggered once when progress crosses ~0.11 (the dive-under moment).
-  const flashVal = useRef(0);
-  const lastP = useRef(0);
 
   const uniforms = useMemo(
     () => ({
@@ -216,28 +214,16 @@ export default function Surface({ progress }: SceneElementProps) {
     }
     if (!group.visible) group.visible = true;
 
-    const target = 1 - clamp01(p / FADE_END);
-    smoothedOpacity.current = lerp(
-      smoothedOpacity.current,
-      target,
-      Math.min(1, delta * 3),
-    );
-    mat.uniforms.uOpacity.value = smoothedOpacity.current;
+    // Full opacity always; the surface DRIFTS up rather than dissolving.
+    mat.uniforms.uOpacity.value = 1;
     mat.uniforms.uTime.value += delta;
     mat.uniforms.uAspect.value = state.size.width / state.size.height;
 
-    // Plunge flash: single warm-white burst the moment we cross the waterline.
-    const prevP = lastP.current;
-    if (prevP < 0.11 && p >= 0.11) flashVal.current = 1.0;
-    lastP.current = p;
-    flashVal.current = Math.max(0, flashVal.current - delta * 2.8);
-    if (flashMatRef.current) {
-      flashMatRef.current.opacity = flashVal.current * 0.52;
-    }
-
-    // Camera-lock: keep the backdrop centered on the camera so the horizon holds
-    // a fixed screen height as the camera sinks.
-    group.position.copy(state.camera.position);
+    // Follow the camera in x/z, but rise ABOVE it with progress so the sky + sun
+    // + sea slide up out of frame and reveal the deep water beneath.
+    group.position.x = state.camera.position.x;
+    group.position.z = state.camera.position.z;
+    group.position.y = state.camera.position.y + p * p * SURFACE_DRIFT;
   });
 
   return (
@@ -255,18 +241,6 @@ export default function Surface({ progress }: SceneElementProps) {
           uniforms={uniforms}
           depthWrite={false}
           transparent
-          fog={false}
-        />
-      </mesh>
-      {/* Plunge flash: warm-white full-screen burst on crossing the waterline. */}
-      <mesh position={[0, 0, -78]} renderOrder={-8}>
-        <planeGeometry args={[150, 92]} />
-        <meshBasicMaterial
-          ref={flashMatRef}
-          color={new THREE.Color(1.0, 0.96, 0.88)}
-          transparent
-          opacity={0}
-          depthWrite={false}
           fog={false}
         />
       </mesh>
