@@ -11,6 +11,11 @@
  * NOTE: this file is intentionally framework-free (no React, no three). It is
  * imported by both server components (sections) and client code (store, canvas)
  * so keep it pure data + pure helpers.
+ *
+ * THE DEEP palette: dark from the first frame. Surface is a cold dim "light
+ * above", the column deepens to near-ink at the seabed, and the floor lifts a
+ * touch so the closing zone is settled rather than pitch black. These hex values
+ * are mirrored in globals.css; change both if you change one.
  */
 
 export type ZoneId =
@@ -54,108 +59,104 @@ export interface DepthZone {
  */
 export const ZONES: readonly DepthZone[] = [
   {
-    // Bright, friendly, sunlit light-blue surface echoing the reference shot:
-    // airy aqua sky fading into clean tropical water. Dark text rides on top.
+    // THE DEEP surface: you are already just beneath the waterline, looking up
+    // at a cold shaft of light. Dark cinematic blue-steel, never a bright sky.
     id: "surface",
     label: "Home",
     depthLabel: "0m",
     start: 0.0,
     end: 0.16,
     palette: {
-      top: "#D6F4FB",
-      body: "#9BE0EE",
-      deep: "#5CC6E0",
-      fog: "#A8E6F2",
+      top: "#21414F",
+      body: "#122B37",
+      deep: "#0A1B25",
+      fog: "#16323D",
     },
   },
   {
-    // Sunlit shallows: a saturated, colorful teal-cyan where the god rays still
-    // reach. Brighter/more alive in hue than the old muddy band, but kept dark
-    // enough in luminance that the zone's LIGHT body/heading type stays WCAG AA.
+    // Sunlit shallows: the cold light still reaches, but the water is clearly
+    // deepening into teal-navy.
     id: "about",
     label: "Experience",
     depthLabel: "Sunlit shallows",
     start: 0.16,
     end: 0.32,
     palette: {
-      top: "#0A3B4E",
-      body: "#093647",
-      deep: "#082F3F",
-      fog: "#0A3849",
+      top: "#112B37",
+      body: "#0D2531",
+      deep: "#0A1F2A",
+      fog: "#102833",
     },
   },
   {
-    // Midwater: a clean, confident medium ocean teal-blue. The descent visibly
-    // deepens here but the water stays colorful, never murky-grey or black.
+    // Twilight: the descent visibly darkens, holding a deep cold teal.
     id: "projects",
     label: "Entrepreneurship",
     depthLabel: "Twilight",
     start: 0.32,
     end: 0.5,
     palette: {
-      top: "#082F3F",
-      body: "#0A2E3F",
-      deep: "#082A39",
-      fog: "#093140",
+      top: "#0C222D",
+      body: "#0A1D27",
+      deep: "#081822",
+      fog: "#0A1F29",
     },
   },
   {
-    // Deeper midwater rolling into the moody band: a rich ocean teal-blue.
+    // Midnight: rich dark teal-navy rolling toward ink.
     id: "ventures",
     label: "Skills",
     depthLabel: "Midnight",
     start: 0.5,
     end: 0.66,
     palette: {
-      top: "#082A39",
-      body: "#082633",
-      deep: "#07212D",
-      fog: "#082834",
+      top: "#081822",
+      body: "#07141D",
+      deep: "#061019",
+      fog: "#08151E",
     },
   },
   {
-    // Deep zone: moody for contrast, but a RICH dark teal-navy, not a black
-    // void, so the bioluminescence pops against a colored deep, not nothing.
+    // Abyss: near-ink, the bioluminescence does the lighting from here down.
     id: "writing",
     label: "Education",
     depthLabel: "Abyss",
     start: 0.66,
     end: 0.8,
     palette: {
-      top: "#07212D",
-      body: "#0A2532",
-      deep: "#091F2B",
-      fog: "#0A2531",
+      top: "#061019",
+      body: "#050D15",
+      deep: "#040A11",
+      fog: "#060E15",
     },
   },
   {
-    // Seabed: deepest teal-navy, still holding a clear blue-green cast so the
-    // floor reads as deep ocean rather than ink.
+    // Seabed: the deepest ink, holding the faintest teal cast.
     id: "skills",
     label: "Interests",
     depthLabel: "Seabed",
     start: 0.8,
     end: 0.92,
     palette: {
-      top: "#091F2B",
-      body: "#081C27",
-      deep: "#071824",
-      fog: "#091E29",
+      top: "#040A11",
+      body: "#03080D",
+      deep: "#02060B",
+      fog: "#04090E",
     },
   },
   {
-    // The floor: lifts back to a warmer, lighter dark teal-navy to seat the reef
-    // and give the closing zone a settled, grounded, not pitch-black, base.
+    // The floor: lifts back to a settled deep teal-navy so the closing zone reads
+    // as grounded ocean rather than a black void.
     id: "contact",
     label: "Contact",
     depthLabel: "The Floor",
     start: 0.92,
     end: 1.0,
     palette: {
-      top: "#071824",
-      body: "#0A2735",
-      deep: "#0D3144",
-      fog: "#0A2A3A",
+      top: "#03080D",
+      body: "#08202C",
+      deep: "#0B2C3D",
+      fog: "#08222F",
     },
   },
 ] as const;

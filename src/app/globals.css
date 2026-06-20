@@ -13,56 +13,52 @@ html {
  */
 
 :root {
-  /* Surface (0m) - bright, friendly, sunlit light-blue/aqua per the reference. */
-  --surface-sky: #d6f4fb;
-  --surface-water: #9be0ee;
-  --surface-deep: #5cc6e0;
-  --surface-sun: #ffe9a8;
-  --surface-foam: #ffffff;
+  /* THE DEEP — beneath the surface from the first frame. A cold shaft of light up
+   * top, ink-dark water below. Light type rides on dark EVERYWHERE, so there is
+   * one coherent system (no bright-surface special case, no halo hacks). */
 
-  /* Upper midwater (sunlit shallows -> twilight): saturated medium ocean teal,
-     dark enough that the light type on these zones stays WCAG AA. */
-  --mid-top: #0a3b4e;
-  --mid-body: #093647;
-  --mid-deep: #082a39;
+  /* Surface (0m): cold dim steel-teal "light above", not a bright sky. */
+  --surface-sky: #21414f;
+  --surface-water: #122b37;
+  --surface-deep: #0a1b25;
+  --surface-sun: #cdeef7; /* cold light shaft tone */
+  --surface-foam: #e6f7fc; /* cold light highlight */
 
-  /* Deep / midnight - rich dark TEAL-NAVY, not a black void. */
-  --deep-top: #082633;
-  --deep-body: #0a2532;
-  --deep-floor: #091f2b;
+  /* Upper midwater: deepening cold teal-navy. */
+  --mid-top: #0e2531;
+  --mid-body: #0b1f2a;
+  --mid-deep: #091823;
 
-  /* Abyss / seabed - deepest teal-navy, still holding a blue-green cast. */
-  --abyss-top: #081c27;
-  --abyss-body: #071824;
-  --abyss-void: #071824;
-  --abyss-silt: #0d3144;
+  /* Deep / midnight: near-ink teal-navy. */
+  --deep-top: #081823;
+  --deep-body: #07141d;
+  --deep-floor: #050f17;
 
-  /* Bioluminescent accents (brighter the deeper you go) */
-  --bio-cyan: #3fe0e6; /* primary glow / links / active */
+  /* Abyss / seabed: ink, with a hint of teal so bioluminescence reads against it. */
+  --abyss-top: #050f17;
+  --abyss-body: #04090f;
+  --abyss-void: #02060b;
+  --abyss-silt: #0b2a3a;
+
+  /* Bioluminescent accents — effectively the ONLY color. Used sparingly. */
+  --bio-cyan: #41e0e6; /* primary glow / links / active */
   --bio-aqua: #5ff2c8; /* secondary */
-  --bio-lumen: #8fe8ff; /* light shafts / deep headings */
+  --bio-lumen: #9fe9ff; /* light shafts / deep headings */
   --bio-violet: #7b8cff; /* rare */
   --bio-hot: #36f5b0; /* single hot CTA per viewport */
 
-  /* THE ONE warm accent, pulled from the reef reference (coral + sun against
-     cool water). Used with restraint as the secondary accent: section eyebrows,
-     the ACTIVE nav pill, link/hover/focus warmth, small markers. bio-cyan stays
-     the cool primary. Do NOT splash this everywhere. */
-  --reef-coral: #ff9b5a; /* base coral/sun accent */
-  --reef-coral-soft: #ffb877; /* lighter coral for hovers / on dark glows */
+  /* Legacy warm accent, kept defined so older chrome does not break. The Deep
+     does not use it; cool bio-cyan is the single accent. */
+  --reef-coral: #ff9b5a;
+  --reef-coral-soft: #ffb877;
 
-  /* Text on dark zones. Brightened for legibility over the moving deep water:
-     body copy is lifted toward the heading tone and "muted" (section subheads,
-     metadata) is no longer a low-contrast grey. With the layered scrim halo
-     these clear WCAG AA across every deep zone. */
+  /* Text on dark (everywhere now). Tuned to clear WCAG AA on near-ink water. */
   --ink-heading: #eaf6fb;
-  --ink-body: #d4e4ec;
-  --ink-muted: #a7c0cd;
-  --ink-faint: #6c8696;
+  --ink-body: #cfe1ea;
+  --ink-muted: #93b2c0;
+  --ink-faint: #5d7d8c;
 
-  /* Text on the light surface zone (dark text on light). Both deepened so the
-     bare hero copy reads strongly over the bright sunlit surface; the hero halo
-     does the rest. */
+  /* Legacy dark-on-light tokens, unused in The Deep (kept to avoid breakage). */
   --ink-light-primary: #03191f;
   --ink-light-secondary: #062c38;
 
