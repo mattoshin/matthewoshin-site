@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageShell from "@/components/page/PageShell";
 import { ENTREPRENEURSHIP, VENTURES } from "@/data/content";
+
+/**
+ * Ventures with a clickable interactive demo at /app/<slug>-demo. Keyed by
+ * venture slug so new demos (e.g. Galactic) plug in here without touching
+ * content.ts.
+ */
+const VENTURE_DEMOS: Record<string, string> = {
+  mocean: "/app/mocean-demo",
+};
 
 /**
  * /entrepreneurship - the ventures and companies, at the twilight depth (zone
@@ -39,6 +49,22 @@ export default function EntrepreneurshipPage() {
             </div>
             <p className="mt-2 text-base text-ink-body">{venture.oneLiner}</p>
             <p className="mt-1 text-sm text-ink-muted">{venture.note}</p>
+            {VENTURE_DEMOS[venture.slug] && (
+              <div className="mt-4 flex flex-wrap items-center gap-4">
+                <Link
+                  href={VENTURE_DEMOS[venture.slug]}
+                  className="inline-flex items-center gap-2 rounded-full border border-bio-cyan/40 bg-bio-cyan/10 px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-bio-cyan transition-colors hover:bg-bio-cyan/20"
+                >
+                  Try the live demo <span aria-hidden="true">-&gt;</span>
+                </Link>
+                <Link
+                  href={`/ventures/${venture.slug}`}
+                  className="font-mono text-[11px] uppercase tracking-wider text-ink-muted transition-colors hover:text-bio-cyan"
+                >
+                  Read the full story
+                </Link>
+              </div>
+            )}
           </li>
         ))}
       </ol>
