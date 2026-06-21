@@ -2,54 +2,84 @@ import Image from "next/image";
 import { HERO } from "@/data/content";
 
 /**
- * HeroSection - the SURFACE (0m). Full portrait on the left, compact text box
- * on the right. No dark scrim — the ocean shows fully around both elements.
+ * HeroSection - the SURFACE (0m). Decluttered per Matthew: no eyebrow line and no
+ * big name (the wordmark up top carries the identity). Just the portrait, the
+ * one-line hook as the headline, the short bio paragraph he likes, and the proof
+ * chips. Light + bold type with a crisp dark shadow so it reads over the water.
  */
+
+const STATEMENT = "I'm a builder.";
+
+// Tasteful, public proof points only (no private figures, per content-review.md).
+const PROOF: readonly string[] = [
+  "2 acquisitions",
+  "CAIO at BrachyClip",
+  "SaaS developer",
+  "Hedge fund equity research",
+  "Community builder",
+  "Hospitality operator",
+];
+
+// Crisp dark legibility shadow for light type over the variable surface.
+const SHADOW =
+  "[text-shadow:0_2px_10px_rgba(2,6,11,0.9),0_1px_3px_rgba(2,6,11,0.95)]";
+
 export default function HeroSection() {
   return (
     <section
       id="surface"
-      className="relative z-10 flex min-h-screen items-center justify-center px-4 py-20"
+      className="relative z-10 flex min-h-screen items-center justify-center px-6 py-20"
     >
-      <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8 md:flex-row md:items-center md:gap-12">
-
-        {/* Full portrait — no card, no border, just the photo */}
-        <div className="shrink-0 overflow-hidden rounded-2xl shadow-[0_24px_60px_-12px_rgba(0,0,0,0.75)]">
+      {/* Compressed, centered cluster (photo + text) over the full-bleed ocean. */}
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-10 md:flex-row md:gap-12">
+        {/* Portrait - kept; soft frame so it sits in the scene. */}
+        <div className="shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/45 shadow-[0_24px_60px_-18px_rgba(4,34,46,0.6)]">
           <Image
             src="/matthew.jpg"
             alt="Matthew Oshin"
             width={933}
             height={1400}
             priority
-            className="h-80 w-auto sm:h-96 md:h-[28rem]"
+            className="h-72 w-auto sm:h-80 md:h-[28rem]"
           />
         </div>
 
-        {/* Text — compact frosted box, no photo inside */}
-        <div className="min-w-0 text-center md:text-left">
-          <p className="inline-flex items-center gap-2 rounded-full border border-reef-coral/30 bg-abyss-void/50 px-4 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-reef-coral backdrop-blur-sm">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-reef-coral" />
-            {HERO.positioning}
-          </p>
-
-          <h1 className="mt-5 font-display text-5xl font-semibold leading-none tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)] sm:text-6xl lg:text-7xl">
-            {HERO.name}
+        {/* Text - the hook is the headline now (name lives in the wordmark). */}
+        <div className="min-w-0 max-w-xl text-center md:text-left">
+          <h1
+            className={`font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl ${SHADOW}`}
+          >
+            {STATEMENT}
           </h1>
 
-          <div className="mt-6 rounded-2xl border border-bio-cyan/15 bg-abyss-void/55 px-5 py-4 backdrop-blur-md">
-            <p className="text-balance text-base font-medium leading-snug text-ink-body sm:text-lg">
-              {HERO.hook}
-            </p>
-            <p className="mt-2.5 text-sm leading-relaxed text-ink-muted">
-              {HERO.bio}
-            </p>
-          </div>
+          {/* The short bio paragraph (the one Matthew likes). */}
+          <p
+            className={`mx-auto mt-6 max-w-xl text-base leading-relaxed text-ink-body ${SHADOW} sm:text-lg md:mx-0`}
+          >
+            {HERO.bio}
+          </p>
 
-          <p className="mt-7 font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-white/40">
+          {/* Proof chips - dark glass + light type so they read on the water. */}
+          <ul className="mt-6 flex flex-wrap justify-center gap-2 md:justify-start">
+            {PROOF.map((item) => (
+              <li
+                key={item}
+                className="rounded-full border border-bio-cyan/40 bg-abyss-void/55 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-ink-heading backdrop-blur-sm"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          <p
+            className={`mt-8 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-ink-muted ${SHADOW}`}
+          >
             {HERO.scrollHint}
+            <span aria-hidden="true" className="ml-2">
+              &darr;
+            </span>
           </p>
         </div>
-
       </div>
     </section>
   );

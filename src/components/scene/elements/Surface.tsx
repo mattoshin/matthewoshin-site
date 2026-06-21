@@ -8,11 +8,12 @@
  * sun-glitter column and gentle ripple banding. Moana-bright, illustrated, with
  * a definite horizon rather than a mushy gradient.
  *
- * Camera-locked (the group copies the camera position each frame) so the horizon
- * holds a fixed screen height while the camera sinks - the surface boats use the
- * same trick, so the whole surface reads as one coherent plane. It fades out by
- * ~progress 0.22 to reveal the dark dive column beneath, then hides + early-
- * returns so it costs nothing in the deep.
+ * As you scroll DOWN the camera descends and the whole surface DRIFTS UP out of
+ * frame (kinetic, NOT a fade): it follows the camera in x/z but rises above it by
+ * `p * SURFACE_DRIFT`, sliding the sky + sun + sea up to reveal the deep water
+ * column beneath. Past VISIBLE_UNTIL it hides + early-returns so it costs nothing
+ * in the deep. The surface boats + water-skier use the same drift so the whole
+ * surface reads as one coherent plane lifting away.
  *
  * Original art. Tunable horizon (uHorizon) + sun position (uSunX).
  *
@@ -22,10 +23,12 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { clamp01, lerp } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
-const FADE_END = 0.22;
+// Eased drift coefficient: the surface rises by p*p*SURFACE_DRIFT relative to
+// the camera, so it HOLDS behind the hero (p^2 is tiny at small p), then
+// accelerates up and out of frame by the first section (kinetic, not a fade).
+const SURFACE_DRIFT = 1900;
 const VISIBLE_UNTIL = 0.26;
 
 // Horizon height in plane-uv (1 = top, 0 = bottom). ~0.74 puts the waterline in
@@ -88,22 +91,25 @@ const fragmentShader = /* glsl */ `
     vec2 uv = vec2(x, y);
     float hor = uHorizon;
 
-    // --- SKY (golden hour — muted, real-world undertones) ---
+    // --- SKY (golden hour — natural warm-to-blue sweep) ---
     float skyT = clamp((y - hor) / (1.0 - hor), 0.0, 1.0);
-    // Three-stop gradient: warm amber haze → dusty lavender-rose mid → soft indigo apex.
-    // Palette is intentionally de-saturated (golden hour, not blazing civil twilight).
-    vec3 lavender = vec3(0.60, 0.52, 0.74);  // dusty lavender-rose mid band
-    vec3 sky = mix(uSkyHaze, lavender, smoothstep(0.0,  0.42, skyT));
-    sky       = mix(sky,     uSkyTop,  smoothstep(0.32, 0.88, skyT));
+    // Natural two-stop: warm golden haze at horizon → soft powder blue mid → clear ocean blue zenith.
+    vec3 powder = vec3(0.62, 0.74, 0.86); // soft powder blue transition
+    vec3 sky = mix(uSkyHaze, powder,  smoothstep(0.0,  0.48, skyT));
+    sky       = mix(sky,     uSkyTop, smoothstep(0.35, 0.92, skyT));
 
-    // Soft sun glow on the right — kept subtle so the sky reads golden-hour, not blazing.
-    float haloD = aDist(uv, vec2(uSunX, hor + 0.02));
-    sky += uSun * pow(smoothstep(0.38, 0.0, haloD), 2.0) * 0.45;
-
-    // Sun disk (crisp warm-white circle).
-    vec2 sunC = vec2(uSunX, hor + 0.060);
-    float sunDisk = disk(uv, sunC, 0.038) * step(hor, y);
-    sky = mix(sky, vec3(1.0, 0.95, 0.80), sunDisk);
+    // Sun — bold golden-hour sun with wide halo, bright inner core, and corona ring.
+    vec2 sunC = vec2(uSunX, hor + 0.058);
+    float haloD = aDist(uv, sunC);
+    // Wide warm halo: golden bloom spreads across the right third of the sky.
+    sky += uSun * pow(smoothstep(0.58, 0.0, haloD), 1.6) * 0.80;
+    // Inner bright core: hot white-gold tight around the disk.
+    sky += vec3(1.0, 0.90, 0.60) * pow(smoothstep(0.22, 0.0, haloD), 2.5) * 0.65;
+    // Corona ring just outside the disk edge.
+    sky += uSun * smoothstep(0.022, 0.0, abs(haloD - 0.080)) * 0.55;
+    // Sun disk (large, crisp warm-white).
+    float sunDisk = disk(uv, sunC, 0.064) * step(hor, y);
+    sky = mix(sky, vec3(1.0, 0.97, 0.88), sunDisk);
 
     // Clouds: five papercut blobs — two on each flank (visible beside the hero
     // card) and one high in the center (peeks above the card top edge).
@@ -124,30 +130,16 @@ const fragmentShader = /* glsl */ `
       disk(uv, vec2(c2x,                    c2y        ), 0.034) +
       disk(uv, vec2(c2x + 0.022 / uAspect,  c2y + 0.011), 0.027),
       0.0, 1.0);
-    // Cloud 3 — RIGHT FLANK, near the sun
-    float c3x = 0.91 - cd * 0.18;
-    float c3y = hor + 0.120;
+    // Cloud 3 — CENTER HIGH (above the card top, visible even in center strip)
+    float c3x = 0.48 - cd * 0.12;
+    float c3y = hor + 0.182;
     float cl3 = clamp(
-      disk(uv, vec2(c3x,                    c3y        ), 0.046) +
-      disk(uv, vec2(c3x - 0.030 / uAspect,  c3y + 0.015), 0.037) +
-      disk(uv, vec2(c3x - 0.055 / uAspect,  c3y - 0.002), 0.033),
+      disk(uv, vec2(c3x,                    c3y        ), 0.038) +
+      disk(uv, vec2(c3x + 0.025 / uAspect,  c3y + 0.013), 0.030) +
+      disk(uv, vec2(c3x - 0.018 / uAspect,  c3y + 0.008), 0.024),
       0.0, 1.0);
-    // Cloud 4 — RIGHT FLANK, above the speedboat (different height for variety)
-    float c4x = 0.84 - cd * 0.28;
-    float c4y = hor + 0.080;
-    float cl4 = clamp(
-      disk(uv, vec2(c4x,                    c4y        ), 0.036) +
-      disk(uv, vec2(c4x - 0.024 / uAspect,  c4y + 0.012), 0.028),
-      0.0, 1.0);
-    // Cloud 5 — CENTER HIGH (above the card top, visible even in center strip)
-    float c5x = 0.48 - cd * 0.12;
-    float c5y = hor + 0.182;
-    float cl5 = clamp(
-      disk(uv, vec2(c5x,                    c5y        ), 0.038) +
-      disk(uv, vec2(c5x + 0.025 / uAspect,  c5y + 0.013), 0.030) +
-      disk(uv, vec2(c5x - 0.018 / uAspect,  c5y + 0.008), 0.024),
-      0.0, 1.0);
-    float allClouds = clamp(cl1 + cl2 + cl3 + cl4 + cl5, 0.0, 1.0) * step(hor + 0.006, y);
+    // Right flank clouds removed — keep sun clear and unobstructed.
+    float allClouds = clamp(cl1 + cl2 + cl3, 0.0, 1.0) * step(hor + 0.006, y);
     // Golden-hour clouds: soft cream with just a hint of peach/lavender.
     vec3 cloudCol = vec3(0.97, 0.92, 0.90) + uSkyTop * 0.08;
     sky = mix(sky, cloudCol, allClouds * 0.88);
@@ -180,18 +172,18 @@ const fragmentShader = /* glsl */ `
     float lineEdge = smoothstep(0.009, 0.0, abs(y - hor));
     col = mix(col, uLine, lineEdge * 0.85);
 
-    gl_FragColor = vec4(col, uOpacity);
+    // Bottom alpha fade: the deepest surface water dissolves to transparent so
+    // the bright surface blends into the dark WaterColumn behind it instead of
+    // revealing a hard edge as the plane drifts up. Turns the "clear drop-off"
+    // into a smooth surface->underwater gradient.
+    float depthFade = smoothstep(0.0, 0.34, y);
+    gl_FragColor = vec4(col, uOpacity * depthFade);
   }
 `;
 
 export default function Surface({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
-  const flashMatRef = useRef<THREE.MeshBasicMaterial>(null);
-  const smoothedOpacity = useRef(1);
-  // Plunge flash: triggered once when progress crosses ~0.11 (the dive-under moment).
-  const flashVal = useRef(0);
-  const lastP = useRef(0);
 
   const uniforms = useMemo(
     () => ({
@@ -200,10 +192,10 @@ export default function Surface({ progress }: SceneElementProps) {
       uHorizon: { value: HORIZON },
       uSunX: { value: SUN_X },
       uAspect: { value: 1.6 }, // updated each frame from state.size
-      // Golden-hour palette: muted, real-world tones (not blazing civil twilight).
-      uSkyTop:  { value: C("#1e1748") }, // soft indigo at zenith
-      uSkyHaze: { value: C("#d4925a") }, // muted amber-copper at the horizon
-      uLine:    { value: C("#f0d8a0") }, // warm cream waterline
+      // Natural golden-hour palette: warm gold horizon → clear ocean blue zenith.
+      uSkyTop:  { value: C("#4880b0") }, // clear medium blue at zenith (not purple)
+      uSkyHaze: { value: C("#c8b468") }, // warm muted gold at horizon (not saturated orange)
+      uLine:    { value: C("#f0dea0") }, // warm cream waterline
       uSun:     { value: C("#f5c060") }, // golden sun
       // Ocean water — darker, desaturated vs. the old pool-blue, warm golden-hour cast.
       uW0: { value: C("#72b4b0") }, // horizon water: muted sea-green catches sky warmth
@@ -227,28 +219,16 @@ export default function Surface({ progress }: SceneElementProps) {
     }
     if (!group.visible) group.visible = true;
 
-    const target = 1 - clamp01(p / FADE_END);
-    smoothedOpacity.current = lerp(
-      smoothedOpacity.current,
-      target,
-      Math.min(1, delta * 3),
-    );
-    mat.uniforms.uOpacity.value = smoothedOpacity.current;
+    // Full opacity always; the surface DRIFTS up rather than dissolving.
+    mat.uniforms.uOpacity.value = 1;
     mat.uniforms.uTime.value += delta;
     mat.uniforms.uAspect.value = state.size.width / state.size.height;
 
-    // Plunge flash: single warm-white burst the moment we cross the waterline.
-    const prevP = lastP.current;
-    if (prevP < 0.11 && p >= 0.11) flashVal.current = 1.0;
-    lastP.current = p;
-    flashVal.current = Math.max(0, flashVal.current - delta * 2.8);
-    if (flashMatRef.current) {
-      flashMatRef.current.opacity = flashVal.current * 0.52;
-    }
-
-    // Camera-lock: keep the backdrop centered on the camera so the horizon holds
-    // a fixed screen height as the camera sinks.
-    group.position.copy(state.camera.position);
+    // Follow the camera in x/z, but rise ABOVE it with progress so the sky + sun
+    // + sea slide up out of frame and reveal the deep water beneath.
+    group.position.x = state.camera.position.x;
+    group.position.z = state.camera.position.z;
+    group.position.y = state.camera.position.y + p * p * SURFACE_DRIFT;
   });
 
   return (
@@ -266,18 +246,6 @@ export default function Surface({ progress }: SceneElementProps) {
           uniforms={uniforms}
           depthWrite={false}
           transparent
-          fog={false}
-        />
-      </mesh>
-      {/* Plunge flash: warm-white full-screen burst on crossing the waterline. */}
-      <mesh position={[0, 0, -78]} renderOrder={-8}>
-        <planeGeometry args={[150, 92]} />
-        <meshBasicMaterial
-          ref={flashMatRef}
-          color={new THREE.Color(1.0, 0.96, 0.88)}
-          transparent
-          opacity={0}
-          depthWrite={false}
           fog={false}
         />
       </mesh>

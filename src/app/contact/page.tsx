@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import PageShell from "@/components/page/PageShell";
-import CalendlyInline from "@/components/contact/CalendlyInline";
 import { CONTACT, SITE } from "@/data/content";
 
 /**
@@ -14,7 +13,7 @@ import { CONTACT, SITE } from "@/data/content";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Connect with Matthew Oshin on LinkedIn or GitHub, or book a time.",
+    "Email matthewoshin@gmail.com, LinkedIn linkedin.com/in/mattoshin, GitHub mattoshin, or book a time.",
 };
 
 export default function ContactPage() {
@@ -51,12 +50,10 @@ export default function ContactPage() {
         )}
 
         <a
-          href={SITE.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={`mailto:${SITE.email}`}
           className="rounded-full border border-bio-cyan/40 px-7 py-3.5 text-base font-medium text-bio-cyan transition-colors hover:bg-bio-cyan/10"
         >
-          Connect on LinkedIn
+          {CONTACT.secondaryLabel}
         </a>
       </div>
 
@@ -80,17 +77,13 @@ export default function ContactPage() {
         >
           GitHub
         </a>
+        <span aria-hidden="true" className="text-ink-faint">
+          /
+        </span>
+        <a href={`mailto:${SITE.email}`} className="hover:text-bio-cyan">
+          {SITE.email}
+        </a>
       </div>
-
-      {/* Pick a time without leaving the page. */}
-      {calendlyReady ? (
-        <div className="mt-12">
-          <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
-            Or grab a time right here
-          </p>
-          <CalendlyInline url={calendlyUrl} />
-        </div>
-      ) : null}
     </PageShell>
   );
 }

@@ -37,7 +37,7 @@ import { clamp01, hexToRgb01, lerp } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
 // Fewer, larger fish so each one reads (brief: ~140-180, down from ~320).
-const COUNT = 160;
+const COUNT = 80;
 
 // Deterministic PRNG (mulberry32). The React Compiler forbids Math.random()
 // during render, and a fixed seed makes the initial shoal layout reproducible.
@@ -62,14 +62,14 @@ const FEATHER = 0.06;
 // descends y: 0 -> -60 across progress 0..1, so the band centers near y ~ -19.8.
 // We keep the school roughly camera-locked in y (re-centered each frame) so it is
 // always in view while within the band, and let it drift in a wide x/z volume.
-const VOL_X = 30; // horizontal spread (wide: the shoal lives out to the sides)
+const VOL_X = 40; // horizontal spread (wider: the shoal disperses out to the sides)
 const VOL_Y = 12; // vertical spread (kept shallow: a flat shoal reads better)
 const VOL_Z = 22; // depth spread (camera looks down -z toward the school)
-const Z_CENTER = -18; // sit a touch further back so fish read as ambient depth
+const Z_CENTER = -24; // sit further back so the wide side-bands read in-frame
 
 // Keep the school OUT of the centered content column. Fish inside this central
 // half-width get a gentle outward bias so they part around the text/cards.
-const CLEAR_HALF_X = 7; // half-width of the kept-clear central corridor
+const CLEAR_HALF_X = 11; // half-width of the kept-clear central corridor
 
 // Palette: sleek silver-blue / pale steel, NOT cyan.
 const STEEL = hexToRgb01("#AEC6D6"); // pale steel mid-tone (the body's key color)
@@ -449,7 +449,7 @@ export default function FishSchool({ progress }: SceneElementProps) {
     // out of the central corridor so the shoal stays beside the content column.
     const cp = (centerPhase.current += delta * 0.12);
     scratch.center.set(
-      Math.sin(cp * 0.7) * VOL_X * 0.4,
+      Math.sin(cp * 0.7) * VOL_X * 0.15,
       Math.sin(cp * 0.5 + 1.3) * VOL_Y * 0.3,
       Math.cos(cp * 0.6) * VOL_Z * 0.32,
     );
@@ -469,17 +469,19 @@ export default function FishSchool({ progress }: SceneElementProps) {
       let ay = scratch.fwd.y * 0.4;
       let az = scratch.fwd.z * 0.55;
 
-      // 2) Cohesion: gentle pull toward the wandering school center.
-      ax += (scratch.center.x - px) * 0.22;
-      ay += (scratch.center.y - py) * 0.22;
-      az += (scratch.center.z - pz) * 0.22;
+      // 2) Cohesion: a LOOSE pull toward the wandering center. Kept weak on
+      // purpose so the shoal disperses across the whole band instead of all 80
+      // fish collapsing onto one point (the clump bug).
+      ax += (scratch.center.x - px) * 0.03;
+      ay += (scratch.center.y - py) * 0.03;
+      az += (scratch.center.z - pz) * 0.03;
 
       // 3) Central-corridor clearance: if a fish strays into the kept-clear band
       // around the content column, nudge it outward so the school parts around
-      // the text/cards instead of swimming over them.
+      // the text/cards. Soft, so fish don't pile up on the corridor edge.
       if (Math.abs(px) < CLEAR_HALF_X) {
         const dir = px >= 0 ? 1 : -1;
-        ax += dir * (CLEAR_HALF_X - Math.abs(px)) * 0.55;
+        ax += dir * (CLEAR_HALF_X - Math.abs(px)) * 0.7;
       }
 
       // 4) Soft containment: turn back before leaving the volume.

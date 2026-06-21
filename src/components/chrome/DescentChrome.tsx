@@ -7,17 +7,20 @@
  * they are the engine + overlay UI that sit around the per-route content.
  *
  *   MotionController   - resolves reduced-motion, marks store hydrated
+ *   ScrollController   - the Lenis smooth-scroll engine (wheel smoothing only)
  *   DescentBackground  - the fixed canvas (or static ocean) behind everything
  *   BucketNav          - sticky top nav: wordmark + section links + motion toggle
  *   DepthGauge         - the right-rail depth progress indicator
  *   OceanAI            - floating deep-sea chat widget, on every page (manages
  *                        its own fixed position + pointer-events; sits on top)
  *
- * Depth is ROUTE-DRIVEN now (each page's ZoneSetter writes targetProgress and the
- * canvas lerps to it), so there is no scroll engine here anymore.
+ * Depth is ROUTE-DRIVEN (each page's ZoneSetter writes targetProgress and the
+ * canvas lerps to it) and, on the home, scroll-driven. ScrollController only
+ * smooths the wheel; it never touches depth/progress.
  */
 
 import MotionController from "./MotionController";
+import ScrollController from "./ScrollController";
 import DescentBackground from "./DescentBackground";
 import BucketNav from "./BucketNav";
 import DepthGauge from "./DepthGauge";
@@ -27,6 +30,7 @@ export default function DescentChrome() {
   return (
     <>
       <MotionController />
+      <ScrollController />
       <DescentBackground />
       <BucketNav />
       <DepthGauge />

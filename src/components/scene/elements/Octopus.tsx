@@ -52,8 +52,8 @@ const REST_X = 5.5; // off to one side so it shares the seabed with the kelp bed
 
 // Skills = 0.8..0.92, Contact = 0.92..1.0. Begin a soft emerge inside the bottom
 // of writing (Abyss) and reach full presence by the start of skills.
-const FADE_IN_START = 0.72; // fully hidden + cheap early-return above this
-const FADE_IN_FULL = 0.86; // full presence from skills onward
+const FADE_IN_START = 0.89; // octopus lives ONLY on the floor (contact); hidden above
+const FADE_IN_FULL = 0.96; // full presence at the very bottom
 
 const ARMS = 8;
 

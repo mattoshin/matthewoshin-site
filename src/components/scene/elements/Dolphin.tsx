@@ -15,8 +15,8 @@ import * as THREE from "three";
 import { clamp01 } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
-const FADE_START = 0.08;
-const FADE_END = 0.2;
+const FADE_START = 0.0;
+const FADE_END = 0.05; // dolphin shows ONLY at the very top; gone as soon as you scroll
 
 const BODY_COLOR = "#0c4a5e";
 const SPRAY_COLOR = "#d8f8ff"; // cool-white spray, additive so it glows
@@ -25,8 +25,8 @@ const DOL_X = -6.5;
 const DOL_Z = -10.5;
 const DOL_SCALE = 0.82;
 
-const JUMP_PERIOD = 5.2;
-const JUMP_DURATION = 1.6;
+const JUMP_PERIOD = 19.0; // a jump roughly every 19s
+const JUMP_DURATION = 3.8; // ~60% slower arc again — a long, lazy leap
 const JUMP_HEIGHT = 3.8;
 const EXIT_ANGLE = 0.72;
 

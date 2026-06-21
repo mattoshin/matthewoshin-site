@@ -22,11 +22,13 @@ export default function PageShell({
   zone,
   heading,
   intro,
+  navLabel,
   children,
 }: {
   zone: ZoneId;
   heading: string;
   intro?: string;
+  navLabel?: string;
   children: ReactNode;
 }) {
   const z = zoneById(zone);
@@ -48,7 +50,7 @@ export default function PageShell({
             <span aria-hidden="true" className="text-ink-faint">
               /
             </span>
-            <span>{z.label}</span>
+            <span>{navLabel ?? z.label}</span>
           </p>
 
           <h1 className="font-display text-4xl font-semibold leading-tight text-ink-heading sm:text-6xl">

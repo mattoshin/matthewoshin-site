@@ -1,27 +1,28 @@
 "use client";
 
 /**
- * Sailboats - a couple of clean PAPERCUT sailboats riding the waterline on the
- * left flank: a flat crescent hull in deep teal with cream triangular sails on a
- * slim mast, drawn as flat shapes that face the camera so they read instantly as
- * boats (Moana papercut language, not a 3D silhouette blob). They belong to the
- * SURFACE band: as the camera sinks past ~progress 0.2 they fade + lift away,
- * the group hides, and the per-frame work early-returns so they cost ~nothing
- * deeper down.
+ * Sailboats - THE BLACK PEARL. A papercut galleon silhouette riding the surface:
+ * a long near-black hull with a tall stern castle + stern lantern, the ship's
+ * name "BLACK PEARL" in white on the hull, three masts of WHITE square sails, a
+ * skull-and-crossbones on the mainsail, rigging stays, flags at each masthead,
+ * and a bowsprit + figurehead. Flat camera-facing shapes (ShapeGeometry / Plane),
+ * the scene's papercut idiom - just bigger and menacing.
  *
- * Each boat is seated ON the painted horizon from Surface.tsx (its world height
- * scales with distance from the camera) and bobs/rocks gently on a shared swell.
+ * SURFACE band: past ~progress 0.24 it hides + early-returns. While visible it
+ * DRIFTS UP with the surface. It rides a FAR plane (z=-15) vs the Lamborghini
+ * speedboat (z=-10), cruising slowly LEFT -> RIGHT (opposite the Lambo), wrapping
+ * with an opacity edge-fade so the loop is a seamless carousel, not a teleport.
  *
  * Contract: default-exported SceneElement; reads `progress` imperatively each
- * frame; mutates ONLY refs it owns (group transform + shared material opacities)
- * to satisfy the React-Compiler immutability lint.
+ * frame; mutates ONLY refs it owns to satisfy the React-Compiler lint.
  */
 
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { clamp01 } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
+
+const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
 
 /** Shared sine-sum swell (same sea the water-skier rides). */
 function swell(x: number, z: number, t: number): number {
@@ -32,157 +33,427 @@ function swell(x: number, z: number, t: number): number {
   );
 }
 
-// Papercut palette.
-const HULL = "#0c4f63"; // deep teal hull
-const MAST = "#0a3a48"; // darker mast
-const SAIL_MAIN = "#f4eed6"; // warm cream mainsail
-const SAIL_JIB = "#e7ddbe"; // slightly deeper cream jib (paper-layer contrast)
+// Palette.
+const HULL = "#140f0d"; // near-black weathered hull
+const TRIM = "#2a201a"; // faint warm gunwale line
+const MASTC = "#0d0b0a"; // dark masts / yards
+const RIGC = "#171210"; // rigging stays
+const SAIL_LO = "#efe9db"; // WHITE canvas (lower sails)
+const SAIL_HI = "#f7f3ea"; // brighter white (upper sails)
+const FLAGC = "#0e0e14"; // torn flags
+const LANTERN = "#c69248"; // faint warm stern-lantern glow
+const EMBLEM = "#16120f"; // skull + crossbones, dark on the white sail
 
-// Camera sits at z=8 looking level. Seat each boat ON the painted horizon:
-// y = HORIZON_K * (CAM_Z - z). HORIZON_K matches WaterSkier so they share a sea.
+// Camera at z=8; seat on the painted horizon: y = HORIZON_K * (CAM_Z - z).
 const CAM_Z = 8;
 const HORIZON_K = 0.286;
 
-// Descent band: full at the surface, gone by FADE_END (group hides beyond).
-const FADE_START = 0.08;
-const FADE_END = 0.2;
+// Surface band: drift up with the surface, then hide.
+const SURFACE_DRIFT = 1900;
+const SURFACE_GONE = 0.24;
 
-interface BoatSpec {
-  x: number;
-  z: number;
-  scale: number;
-  phase: number; // swell time offset so they don't bob in lockstep
-}
+// Far depth plane + size (smaller so the tall masts clear the top of the view).
+const SHIP_Z = -15;
+const SHIP_SCALE = 0.95;
 
-// One clean sailboat on the LEFT flank — uncluttered, sits clearly on the horizon.
-const BOATS: readonly BoatSpec[] = [
-  { x: -12.5, z: -13.0, scale: 1.05, phase: 0.0 },
-];
+// Slow LEFT -> RIGHT cruise, wrapping.
+const DRIFT_SPEED = 0.3; // world units / second
+const X_LEFT = -13;
+const X_RIGHT = 13;
+const X_SPAN = X_RIGHT - X_LEFT;
+
+// Asymmetric carousel fade: near-instant fade-IN at the entering (left) edge,
+// slow graceful fade-OUT at the exiting (right) edge.
+const ENTER_AT = -12.4;  // x where it begins to appear (left)
+const ENTER_SOFT = 0.7;  // narrow band -> almost instant fade-in
+const EXIT_AT = 12.8;    // x where it's fully gone (right)
+const EXIT_SOFT = 4.8;   // wide band -> slow fade-out
+
+const DECK_Y = 0.18; // mast bases + sheer line
 
 const C = (hex: string) => new THREE.Color(hex);
 
-/** Flat crescent hull shape (side profile, bow to the right), facing the camera. */
+// ---------------------------------------------------------------------------
+// Geometry helpers — flat papercut shapes, bow to the RIGHT.
+// ---------------------------------------------------------------------------
+
 function makeHullGeometry(): THREE.BufferGeometry {
   const s = new THREE.Shape();
-  s.moveTo(-1.0, 0.04); // stern tip (left)
-  s.quadraticCurveTo(-0.5, -0.46, 0.1, -0.48); // down the keel
-  s.quadraticCurveTo(0.75, -0.46, 1.2, 0.06); // up to the raked bow (right)
-  s.quadraticCurveTo(0.5, -0.07, 0.0, -0.08); // deck line back (gentle sheer)
-  s.quadraticCurveTo(-0.5, -0.08, -1.0, 0.04); // back to the stern
-  return new THREE.ShapeGeometry(s);
-}
-
-/** A triangular sail in the XY plane (luff up the mast at x≈0), facing camera. */
-function makeSailGeometry(
-  height: number,
-  foot: number,
-  curve: number,
-): THREE.BufferGeometry {
-  const s = new THREE.Shape();
-  s.moveTo(0.04, 0.0); // tack (foot at the mast)
-  s.lineTo(0.04, height); // up the luff to the head
-  // leech curves back down to the clew, with a soft belly via the control point
-  s.quadraticCurveTo(-foot * 0.5 - curve, height * 0.42, -foot, 0.0);
+  s.moveTo(-2.06, 0.0);
+  s.lineTo(-2.06, 1.0);
+  s.lineTo(-1.34, 1.02);
+  s.lineTo(-1.26, 0.34);
+  s.lineTo(-1.12, 0.30);
+  s.lineTo(1.30, 0.16);
+  s.lineTo(2.0, 0.5);
+  s.lineTo(2.12, 0.2);
+  s.lineTo(1.96, -0.06);
+  s.quadraticCurveTo(0.7, -0.52, -0.5, -0.5);
+  s.quadraticCurveTo(-1.7, -0.48, -2.06, 0.0);
   s.closePath();
   return new THREE.ShapeGeometry(s);
 }
 
+function makeGunwaleGeometry(): THREE.BufferGeometry {
+  const s = new THREE.Shape();
+  s.moveTo(-1.26, 0.30);
+  s.lineTo(1.30, 0.14);
+  s.lineTo(1.30, 0.085);
+  s.lineTo(-1.26, 0.245);
+  s.closePath();
+  return new THREE.ShapeGeometry(s);
+}
+
+function makeBowspritGeometry(): THREE.BufferGeometry {
+  const s = new THREE.Shape();
+  s.moveTo(1.98, 0.34);
+  s.lineTo(3.0, 0.66);
+  s.lineTo(3.02, 0.575);
+  s.lineTo(2.0, 0.255);
+  s.closePath();
+  return new THREE.ShapeGeometry(s);
+}
+
+function makeFigureheadGeometry(): THREE.BufferGeometry {
+  const s = new THREE.Shape();
+  s.moveTo(1.98, 0.06);
+  s.lineTo(2.26, 0.12);
+  s.lineTo(2.2, -0.02);
+  s.lineTo(2.04, -0.06);
+  s.closePath();
+  return new THREE.ShapeGeometry(s);
+}
+
+function makeLanternGeometry(): THREE.BufferGeometry {
+  const s = new THREE.Shape();
+  s.moveTo(-1.99, 1.0);
+  s.lineTo(-1.96, 1.0);
+  s.lineTo(-1.96, 1.14);
+  s.lineTo(-1.93, 1.14);
+  s.lineTo(-1.93, 1.28);
+  s.lineTo(-2.05, 1.28);
+  s.lineTo(-2.05, 1.14);
+  s.lineTo(-1.99, 1.14);
+  s.closePath();
+  return new THREE.ShapeGeometry(s);
+}
+
+function makeFlagGeometry(): THREE.BufferGeometry {
+  const s = new THREE.Shape();
+  s.moveTo(0, 0);
+  s.lineTo(0, 0.26);
+  s.lineTo(0.5, 0.215);
+  s.lineTo(0.36, 0.14);
+  s.lineTo(0.56, 0.095);
+  s.lineTo(0.33, 0.04);
+  s.closePath();
+  return new THREE.ShapeGeometry(s);
+}
+
+function makeMastGeometry(height: number): THREE.BufferGeometry {
+  const g = new THREE.PlaneGeometry(0.085, height);
+  g.translate(0, height / 2, 0);
+  return g;
+}
+
+function makeSquareSail(w: number, h: number): THREE.BufferGeometry {
+  const hw = w / 2;
+  const s = new THREE.Shape();
+  s.moveTo(-hw, 0);
+  s.lineTo(hw, 0);
+  s.lineTo(hw, -h * 0.74);
+  s.quadraticCurveTo(0, -h * 1.12, -hw, -h * 0.74);
+  s.closePath();
+  return new THREE.ShapeGeometry(s);
+}
+
+function makeYardGeometry(w: number): THREE.BufferGeometry {
+  return new THREE.PlaneGeometry(w + 0.22, 0.06);
+}
+
+function makeLineGeometry(
+  a: readonly [number, number],
+  b: readonly [number, number],
+  width: number,
+): THREE.BufferGeometry {
+  const dx = b[0] - a[0];
+  const dy = b[1] - a[1];
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = (-dy / len) * (width / 2);
+  const ny = (dx / len) * (width / 2);
+  const s = new THREE.Shape();
+  s.moveTo(a[0] + nx, a[1] + ny);
+  s.lineTo(b[0] + nx, b[1] + ny);
+  s.lineTo(b[0] - nx, b[1] - ny);
+  s.lineTo(a[0] - nx, a[1] - ny);
+  s.closePath();
+  return new THREE.ShapeGeometry(s);
+}
+
+function makeDiscGeometry(r: number): THREE.BufferGeometry {
+  const s = new THREE.Shape();
+  s.absarc(0, 0, r, 0, Math.PI * 2, false);
+  return new THREE.ShapeGeometry(s, 24);
+}
+
+function makeBoneGeometry(len: number, w: number): THREE.BufferGeometry {
+  const hl = len / 2;
+  const r = w / 2;
+  const s = new THREE.Shape();
+  s.absarc(-hl, 0, r, Math.PI / 2, (Math.PI * 3) / 2, false);
+  s.absarc(hl, 0, r, -Math.PI / 2, Math.PI / 2, false);
+  s.closePath();
+  return new THREE.ShapeGeometry(s, 10);
+}
+
+function makeJawGeometry(): THREE.BufferGeometry {
+  const s = new THREE.Shape();
+  s.moveTo(-0.1, 0);
+  s.lineTo(0.1, 0);
+  s.lineTo(0.07, -0.12);
+  s.lineTo(-0.07, -0.12);
+  s.closePath();
+  return new THREE.ShapeGeometry(s);
+}
+
+function makeNoseGeometry(): THREE.BufferGeometry {
+  const s = new THREE.Shape();
+  s.moveTo(0, -0.005);
+  s.lineTo(0.032, -0.07);
+  s.lineTo(-0.032, -0.07);
+  s.closePath();
+  return new THREE.ShapeGeometry(s);
+}
+
+/** "BLACK PEARL" hull wordmark as a transparent white canvas texture (client-only). */
+function makeNameTexture(): THREE.CanvasTexture | null {
+  if (typeof document === "undefined") return null;
+  const c = document.createElement("canvas");
+  c.width = 1024;
+  c.height = 150;
+  const ctx = c.getContext("2d");
+  if (!ctx) return null;
+  ctx.clearRect(0, 0, c.width, c.height);
+  ctx.fillStyle = "#f6f2ea";
+  ctx.font = "700 96px Georgia, 'Times New Roman', serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  try {
+    (ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = "5px";
+  } catch {
+    // ignore on engines without letterSpacing
+  }
+  ctx.fillText("BLACK PEARL", c.width / 2, c.height / 2 + 4);
+  const tex = new THREE.CanvasTexture(c);
+  tex.anisotropy = 4;
+  tex.needsUpdate = true;
+  return tex;
+}
+
+// Masts: mizzen (stern/left), main (center, tallest), fore (bow/right).
+const MASTS = [
+  { x: -1.0, h: 2.7, sails: [
+      { w: 1.3, h: 0.95, y: 1.15 },
+      { w: 1.05, h: 0.78, y: 2.15 },
+    ] },
+  { x: 0.18, h: 3.6, sails: [
+      { w: 1.85, h: 1.2, y: 1.3 },
+      { w: 1.55, h: 1.0, y: 2.55 },
+      { w: 1.15, h: 0.78, y: 3.5 },
+    ] },
+  { x: 1.3, h: 3.05, sails: [
+      { w: 1.55, h: 1.05, y: 1.2 },
+      { w: 1.3, h: 0.9, y: 2.32 },
+      { w: 1.0, h: 0.68, y: 3.05 },
+    ] },
+] as const;
+
+// Skull + crossbones centered on the main course (lowest main sail).
+const EMBLEM_X = MASTS[1].x;
+const EMBLEM_Y = DECK_Y + MASTS[1].sails[0].y - MASTS[1].sails[0].h / 2;
+
 export default function Sailboats({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const boatRefs = useRef<(THREE.Group | null)[]>([]);
-  // All fade-able materials, collected via refs so the React Compiler permits the
-  // per-frame opacity writes.
-  const matRefs = useRef<(THREE.MeshBasicMaterial | null)[]>([]);
+  const shipRef = useRef<THREE.Group>(null);
+  const matRefs = useRef<THREE.MeshBasicMaterial[]>([]);
 
   const hullGeo = useMemo(() => makeHullGeometry(), []);
-  const mainGeo = useMemo(() => makeSailGeometry(1.55, 0.95, 0.18), []);
-  const jibGeo = useMemo(() => makeSailGeometry(1.05, -0.62, -0.12), []); // forward
-  const mastGeo = useMemo(() => {
-    const g = new THREE.PlaneGeometry(0.05, 1.7);
-    g.translate(0.04, 0.82, 0); // base at deck, up the mast
-    return g;
-  }, []);
+  const gunwaleGeo = useMemo(() => makeGunwaleGeometry(), []);
+  const bowspritGeo = useMemo(() => makeBowspritGeometry(), []);
+  const figureGeo = useMemo(() => makeFigureheadGeometry(), []);
+  const lanternGeo = useMemo(() => makeLanternGeometry(), []);
+  const flagGeo = useMemo(() => makeFlagGeometry(), []);
+  const nameTex = useMemo(() => makeNameTexture(), []);
 
-  const hullColor = useMemo(() => C(HULL), []);
-  const mastColor = useMemo(() => C(MAST), []);
-  const mainColor = useMemo(() => C(SAIL_MAIN), []);
-  const jibColor = useMemo(() => C(SAIL_JIB), []);
+  // Jolly Roger pieces.
+  const craniumGeo = useMemo(() => makeDiscGeometry(0.16), []);
+  const jawGeo = useMemo(() => makeJawGeometry(), []);
+  const boneGeo = useMemo(() => makeBoneGeometry(0.64, 0.07), []);
+  const eyeGeo = useMemo(() => makeDiscGeometry(0.044), []);
+  const noseGeo = useMemo(() => makeNoseGeometry(), []);
+
+  const rig = useMemo(
+    () =>
+      MASTS.map((m) => ({
+        x: m.x,
+        mast: makeMastGeometry(m.h),
+        topY: DECK_Y + m.h,
+        sails: m.sails.map((s, i) => ({
+          yard: makeYardGeometry(s.w),
+          sail: makeSquareSail(s.w, s.h),
+          y: s.y,
+          upper: i > 0,
+        })),
+      })),
+    [],
+  );
+
+  const stays = useMemo(() => {
+    const tops = rig.map((m) => [m.x, m.topY] as const);
+    const bowsprit = [3.0, 0.66] as const;
+    const sternTop = [-2.0, 1.05] as const;
+    return [
+      makeLineGeometry(tops[1], bowsprit, 0.022),
+      makeLineGeometry(tops[2], bowsprit, 0.02),
+      makeLineGeometry(tops[1], tops[2], 0.018),
+      makeLineGeometry(tops[1], tops[0], 0.018),
+      makeLineGeometry(tops[1], sternTop, 0.02),
+      makeLineGeometry(tops[0], sternTop, 0.018),
+    ];
+  }, [rig]);
+
+  const hullCol = useMemo(() => C(HULL), []);
+  const trimCol = useMemo(() => C(TRIM), []);
+  const mastCol = useMemo(() => C(MASTC), []);
+  const rigCol = useMemo(() => C(RIGC), []);
+  const sailLoCol = useMemo(() => C(SAIL_LO), []);
+  const sailHiCol = useMemo(() => C(SAIL_HI), []);
+  const flagCol = useMemo(() => C(FLAGC), []);
+  const lanternCol = useMemo(() => C(LANTERN), []);
+  const emblemCol = useMemo(() => C(EMBLEM), []);
+
+  const collect = (el: THREE.MeshBasicMaterial | null) => {
+    if (el && !matRefs.current.includes(el)) matRefs.current.push(el);
+  };
 
   useFrame((state) => {
     const group = groupRef.current;
-    if (!group) return;
+    const ship = shipRef.current;
+    if (!group || !ship) return;
 
     const p = progress.get();
-    if (p >= FADE_END) {
+    if (p >= SURFACE_GONE) {
       if (group.visible) group.visible = false;
       return;
     }
     if (!group.visible) group.visible = true;
 
-    const fadeT = clamp01((p - FADE_START) / (FADE_END - FADE_START));
-    const vis = 1 - fadeT;
-    const eased = vis * vis * (3 - 2 * vis);
-
-    const mats = matRefs.current;
-    for (let i = 0; i < mats.length; i++) {
-      const m = mats[i];
-      if (m) m.opacity = eased;
-    }
-
-    // Camera-lock in Y: keeps boats at the visual waterline as the camera descends.
-    // Surface.tsx does the same with group.position.copy(camera.position) for the backdrop.
-    group.position.y = state.camera.position.y + (1 - eased) * 1.4;
-
     const t = state.clock.elapsedTime;
-    for (let i = 0; i < BOATS.length; i++) {
-      const boat = boatRefs.current[i];
-      if (!boat) continue;
-      const spec = BOATS[i];
-      const tt = t + spec.phase;
-      // Seat on the painted horizon (scales with distance), then bob on the swell.
-      boat.position.y = HORIZON_K * (CAM_Z - spec.z) + swell(spec.x, spec.z, tt);
-      // Gentle papercut rock (z only; flat shapes face the camera).
-      boat.rotation.z = Math.sin(tt * 0.7) * 0.05;
-    }
+
+    group.position.y = state.camera.position.y + p * p * SURFACE_DRIFT;
+
+    const x = X_LEFT + ((t * DRIFT_SPEED) % X_SPAN);
+    ship.position.x = x;
+    ship.position.y = HORIZON_K * (CAM_Z - SHIP_Z) + swell(x, SHIP_Z, t);
+    ship.rotation.z = Math.sin(t * 0.5) * 0.025;
+
+    const fadeIn = clamp01((x - ENTER_AT) / ENTER_SOFT);
+    const fadeOut = clamp01((EXIT_AT - x) / EXIT_SOFT);
+    const fade = Math.min(fadeIn, fadeOut);
+    const mats = matRefs.current;
+    for (let i = 0; i < mats.length; i++) mats[i].opacity = fade;
   });
 
-  // Helper to register a material into the fade pool by a stable index.
-  const reg = (idx: number) => (el: THREE.MeshBasicMaterial | null) => {
-    matRefs.current[idx] = el;
-  };
+  const mat = (color: THREE.Color) => (
+    <meshBasicMaterial
+      ref={collect}
+      color={color}
+      transparent
+      opacity={0}
+      depthWrite={false}
+      side={THREE.DoubleSide}
+      fog
+    />
+  );
 
   return (
-    <group ref={groupRef} position={[0, 0, 0]} renderOrder={-5}>
-      {BOATS.map((spec, i) => {
-        const base = i * 4;
-        return (
-          <group
-            key={i}
-            ref={(el) => {
-              boatRefs.current[i] = el;
-            }}
-            position={[spec.x, 0, spec.z]}
-            scale={spec.scale}
-          >
-            {/* Mast (drawn first, behind the sails) */}
-            <mesh geometry={mastGeo} position={[0, 0, -0.01]}>
-              <meshBasicMaterial ref={reg(base + 0)} color={mastColor} transparent opacity={1} fog side={THREE.DoubleSide} />
+    <group ref={groupRef} renderOrder={-5}>
+      <group ref={shipRef} position={[0, 0, SHIP_Z]} scale={SHIP_SCALE}>
+        {/* ---- SAILS (back) ---- */}
+        {rig.map((m, mi) =>
+          m.sails.map((s, si) => (
+            <mesh key={`sail-${mi}-${si}`} geometry={s.sail} position={[m.x, DECK_Y + s.y, 0.0]}>
+              {mat(s.upper ? sailHiCol : sailLoCol)}
             </mesh>
-            {/* Jib (small headsail, forward of the mast) */}
-            <mesh geometry={jibGeo} position={[0.06, 0.02, 0.01]}>
-              <meshBasicMaterial ref={reg(base + 1)} color={jibColor} transparent opacity={1} fog side={THREE.DoubleSide} />
+          )),
+        )}
+
+        {/* ---- SKULL + CROSSBONES on the mainsail ---- */}
+        <group position={[EMBLEM_X, EMBLEM_Y, 0.013]}>
+          <mesh geometry={boneGeo} rotation={[0, 0, 0.82]}>{mat(emblemCol)}</mesh>
+          <mesh geometry={boneGeo} rotation={[0, 0, -0.82]}>{mat(emblemCol)}</mesh>
+          <mesh geometry={craniumGeo} position={[0, 0.04, 0.001]}>{mat(emblemCol)}</mesh>
+          <mesh geometry={jawGeo} position={[0, -0.05, 0.001]}>{mat(emblemCol)}</mesh>
+          <mesh geometry={eyeGeo} position={[-0.066, 0.055, 0.002]}>{mat(sailLoCol)}</mesh>
+          <mesh geometry={eyeGeo} position={[0.066, 0.055, 0.002]}>{mat(sailLoCol)}</mesh>
+          <mesh geometry={noseGeo} position={[0, 0.0, 0.002]}>{mat(sailLoCol)}</mesh>
+        </group>
+
+        {/* ---- RIGGING STAYS ---- */}
+        {stays.map((g, i) => (
+          <mesh key={`stay-${i}`} geometry={g} position={[0, 0, 0.005]}>
+            {mat(rigCol)}
+          </mesh>
+        ))}
+
+        {/* ---- YARDS ---- */}
+        {rig.map((m, mi) =>
+          m.sails.map((s, si) => (
+            <mesh key={`yard-${mi}-${si}`} geometry={s.yard} position={[m.x, DECK_Y + s.y, 0.006]}>
+              {mat(mastCol)}
             </mesh>
-            {/* Mainsail */}
-            <mesh geometry={mainGeo} position={[0.0, 0.02, 0.02]}>
-              <meshBasicMaterial ref={reg(base + 2)} color={mainColor} transparent opacity={1} fog side={THREE.DoubleSide} />
-            </mesh>
-            {/* Hull (front-most) */}
-            <mesh geometry={hullGeo} position={[0, 0, 0.03]}>
-              <meshBasicMaterial ref={reg(base + 3)} color={hullColor} transparent opacity={1} fog side={THREE.DoubleSide} />
-            </mesh>
-          </group>
-        );
-      })}
+          )),
+        )}
+
+        {/* ---- MASTS ---- */}
+        {rig.map((m, mi) => (
+          <mesh key={`mast-${mi}`} geometry={m.mast} position={[m.x, DECK_Y, 0.01]}>
+            {mat(mastCol)}
+          </mesh>
+        ))}
+
+        {/* ---- FLAGS at every masthead ---- */}
+        {rig.map((m, mi) => (
+          <mesh key={`flag-${mi}`} geometry={flagGeo} position={[m.x, m.topY, 0.012]}>
+            {mat(flagCol)}
+          </mesh>
+        ))}
+
+        {/* ---- HULL ---- */}
+        <mesh geometry={hullGeo} position={[0, 0, 0.02]}>{mat(hullCol)}</mesh>
+        <mesh geometry={bowspritGeo} position={[0, 0, 0.021]}>{mat(mastCol)}</mesh>
+        <mesh geometry={figureGeo} position={[0, 0, 0.022]}>{mat(trimCol)}</mesh>
+        <mesh geometry={gunwaleGeo} position={[0, 0, 0.024]}>{mat(trimCol)}</mesh>
+
+        {/* ---- "BLACK PEARL" name on the hull ---- */}
+        {nameTex && (
+          <mesh position={[-0.32, -0.05, 0.027]}>
+            <planeGeometry args={[2.5, 0.366]} />
+            <meshBasicMaterial
+              ref={collect}
+              map={nameTex}
+              transparent
+              opacity={0}
+              depthWrite={false}
+              side={THREE.DoubleSide}
+              fog
+            />
+          </mesh>
+        )}
+
+        {/* ---- STERN LANTERN ---- */}
+        <mesh geometry={lanternGeo} position={[0, 0, 0.03]}>{mat(lanternCol)}</mesh>
+      </group>
     </group>
   );
 }

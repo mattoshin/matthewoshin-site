@@ -34,6 +34,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDescentStore } from "@/lib/store";
 import { BUCKETS, SITE } from "@/data/content";
+import { Socials } from "./Socials";
 
 export default function BucketNav() {
   const pathname = usePathname();
@@ -112,8 +113,7 @@ export default function BucketNav() {
             wordmark reads over BOTH the bright surface and the dark deep. */}
         <Link
           href="/"
-          aria-current={pathname === "/" ? "page" : undefined}
-          className="min-w-0 shrink rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-left backdrop-blur-md transition-colors hover:border-reef-coral/50"
+          className="min-w-0 shrink rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-left backdrop-blur-md transition-colors hover:border-bio-cyan/50"
           aria-label="Matthew Oshin, return home"
         >
           <span className="block truncate font-display text-base font-semibold tracking-tight text-ink-heading sm:text-lg">
@@ -130,8 +130,21 @@ export default function BucketNav() {
           className="hidden min-w-0 flex-1 justify-center lg:flex"
         >
           <ul className="flex w-auto max-w-full items-center gap-1 rounded-full border border-white/15 bg-deep-body/70 px-1 py-1 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-md">
+            <li className="shrink-0">
+              <Link
+                href="/"
+                aria-current={pathname === "/" ? "page" : undefined}
+                className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+                  pathname === "/"
+                    ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
+                    : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
+                }`}
+              >
+                Home
+              </Link>
+            </li>
             {BUCKETS.map((bucket) => {
-              const active = bucket.href === pathname;
+              const active = pathname === bucket.href;
               return (
                 <li key={bucket.id} className="shrink-0">
                   <Link
@@ -139,7 +152,7 @@ export default function BucketNav() {
                     aria-current={active ? "page" : undefined}
                     className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
                       active
-                        ? "glow-coral bg-reef-coral text-abyss-void"
+                        ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
                         : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                     }`}
                   >
@@ -151,14 +164,9 @@ export default function BucketNav() {
           </ul>
         </nav>
 
-        {/* DESKTOP motion / flat controls (lg+). */}
+        {/* DESKTOP right controls: Contact button + motion toggle (lg+). */}
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
-          <Link
-            href="/experience"
-            className="hidden rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-xs font-medium text-ink-body backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan lg:inline-flex"
-          >
-            Skip the dive, read flat
-          </Link>
+          <Socials />
           <button
             type="button"
             onClick={toggleReducedMotion}
@@ -223,8 +231,22 @@ export default function BucketNav() {
           >
             <nav aria-label="Sections">
               <ul className="flex flex-col gap-1">
+                <li>
+                  <Link
+                    href="/"
+                    onClick={closeMenu}
+                    aria-current={pathname === "/" ? "page" : undefined}
+                    className={`block w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
+                      pathname === "/"
+                        ? "bg-bio-cyan text-abyss-void"
+                        : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
+                    }`}
+                  >
+                    Home
+                  </Link>
+                </li>
                 {BUCKETS.map((bucket) => {
-                  const active = bucket.href === pathname;
+                  const active = pathname === bucket.href;
                   return (
                     <li key={bucket.id}>
                       <Link
@@ -233,7 +255,7 @@ export default function BucketNav() {
                         aria-current={active ? "page" : undefined}
                         className={`block w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
                           active
-                            ? "bg-reef-coral text-abyss-void"
+                            ? "bg-bio-cyan text-abyss-void"
                             : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                         }`}
                       >
@@ -248,13 +270,6 @@ export default function BucketNav() {
             <div className="my-2 h-px bg-white/10" />
 
             <div className="flex flex-col gap-1">
-              <Link
-                href="/experience"
-                onClick={closeMenu}
-                className="block w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-ink-body transition-colors hover:bg-white/10 hover:text-bio-cyan"
-              >
-                Skip the dive, read flat
-              </Link>
               <button
                 type="button"
                 onClick={toggleReducedMotion}
@@ -271,6 +286,10 @@ export default function BucketNav() {
                 />
                 {reducedMotion ? "Motion off" : "Motion on"}
               </button>
+            </div>
+
+            <div className="mt-2 flex items-center justify-center gap-1.5">
+              <Socials />
             </div>
           </div>
         </div>
