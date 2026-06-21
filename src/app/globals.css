@@ -144,6 +144,21 @@ html.lenis body {
   overflow: hidden;
 }
 
+/* Page container: the ONE wide, consistently-padded shell used site-wide.
+   max-width caps the line length on huge monitors; the clamp gutters keep
+   generous, responsive horizontal padding at every width (never edge-to-edge,
+   never cramped). Use this on any full-width section wrapper. */
+.shell {
+  margin-inline: auto;
+  width: 100%;
+  /* Stays fluid at normal widths (even gutters scale with the viewport), only
+     caps on ultra-wide so content never sprawls. This is the ONE horizontal
+     container: nav, hero, and page sections all use it so their left/right
+     edges are always identical. */
+  max-width: 120rem;
+  padding-inline: clamp(1.25rem, 6vw, 7rem);
+}
+
 /* Body copy column target ~68ch. */
 .measure {
   max-width: 68ch;

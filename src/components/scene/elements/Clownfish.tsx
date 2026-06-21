@@ -1,25 +1,21 @@
 "use client";
 
 /**
- * Clownfish - a small, playful group of 6 orange-and-white clownfish darting in
- * the sunlit shallows (the `about` zone).
+ * Clownfish - a small school of orange-and-white clownfish that cruises the
+ * sunlit shallows (the `about` zone) in ONE calm LEFT -> RIGHT pass across the
+ * screen, exactly like the ship: a slow traverse with a quick fade-in at the
+ * entering (left) edge and a slow fade-out at the exit. No darting, no chaos -
+ * a tidy little formation swimming by.
  *
- * ONE InstancedMesh of a procedural low-poly clownfish body (a flattened,
- * friendly teardrop with a small forked tail). The body is painted in the
- * fragment shader from a `vBody` coordinate (0 nose .. 1 tail): a saturated
- * orange (#FF7A3C) base with two crisp white bands and a thin dark edge on each
- * band, plus tiny dark fin tips. A per-instance tail wiggle is baked into the
- * vertex shader so the swim is free, and we drive a *quick, playful* darting
- * motion in JS: short bursts of speed, loose cohesion toward a wandering huddle
- * point, and gentle containment so they never wander off-screen.
+ * Procedural low-poly geometry (kept) painted by a fragment shader (orange body,
+ * two white bands, dark fin/edge trim); the tail wiggle is baked in the vertex
+ * shader so the swim is free. The whole school is one InstancedMesh whose group
+ * translates left->right; each fish holds a fixed formation offset + a gentle bob.
  *
- * Zone-gating: visible only inside the `about` band (0.16..0.32) plus a soft
- * feather. Off-band the group goes `.visible = false` and the heavy per-frame
- * loop early-returns, so it costs ~nothing elsewhere.
- *
- * Self-contained SceneElement per scene/types.ts. Reads the shared `progress`
- * accessor imperatively each frame; never subscribes. Procedural only — no
- * external models, textures, or network.
+ * Zone-gating: visible only inside the `about` band (0.16..0.32) + feather. The
+ * camera-locked group keeps it framed through the band; off-band it hides and the
+ * per-frame loop early-returns. Self-contained SceneElement; reads `progress`
+ * imperatively. Procedural only - no external models/textures/network.
  */
 
 import { useMemo, useRef } from "react";
@@ -31,63 +27,57 @@ import type { SceneElementProps } from "../types";
 // ---------------------------------------------------------------------------
 // Tuning
 // ---------------------------------------------------------------------------
-const FISH_COUNT = 6; // a small, friendly group
+const FISH_COUNT = 3; // a tidy little school that crosses as one element
 
-// The `about` zone is 0.16..0.32 (sunlit shallows). Feather into surface and
-// projects so the fish swim in/out rather than popping at the band edges.
-const BAND_START = 0.16;
+const BAND_START = 0.16; // sunlit shallows (`about`)
 const BAND_END = 0.32;
-const FEATHER = 0.055;
+const FEATHER = 0.06;
 
-// World-space volume the huddle occupies. The camera descends y: 0 -> -60
-// across progress 0..1, so the `about` band centers near y ~ -10.8. We keep
-// the group camera-locked in y (re-centered each frame) so it's framed
-// throughout the band, and let the fish dart within a compact local volume.
-const VOL_X = 14; // horizontal spread (kept tight: a cohesive little group)
-const VOL_Y = 8; // vertical spread
-const VOL_Z = 12; // depth spread
 const Z_CENTER = -13; // sit in front of the camera (camera z = 8)
-const CLEAR_HALF_X = 10; // keep fish out of centered card column
+const Y_OFFSET = 6; // ride ABOVE the centered content card so the school is visible, not hidden behind it
+
+// Slow LEFT -> RIGHT cruise across the screen, wrapping (like the ship).
+const X_LEFT = -16;
+const X_RIGHT = 16;
+const X_SPAN = X_RIGHT - X_LEFT;
+const SPEED = 1.7; // world units / second - a calm swim
+
+// Asymmetric carousel fade: quick fade-IN at the left edge, slow fade-OUT right.
+const ENTER_AT = -12;
+const ENTER_SOFT = 1.6;
+const EXIT_AT = 12;
+const EXIT_SOFT = 6;
+
+// Fixed school formation (local, fish face +x = direction of travel). A loose
+// trailing line so it reads as a few fish swimming together, not a clump.
+const FORMATION: ReadonlyArray<readonly [number, number, number]> = [
+  [0.0, 0.7, 0.3],
+  [-1.8, -0.2, 1.1],
+  [-3.3, 0.5, -0.8],
+];
+const SCALES = [1.2, 0.95, 1.05];
+const BOB_PHASE = [0.0, 2.1, 4.0];
+const TAIL_SPEED = [5.0, 5.6, 4.6];
+const TAIL_PHASE = [0.4, 2.7, 5.1];
+const TAIL_WIGGLE = [0.5, 0.7, 0.6];
 
 // Palette.
-const ORANGE = hexToRgb01("#FF7A3C"); // saturated clownfish body
-const ORANGE_DEEP = hexToRgb01("#E85F23"); // shaded flank for a touch of form
-const WHITE = hexToRgb01("#FBF4EC"); // warm white bands (not clinical white)
-const EDGE = hexToRgb01("#241008"); // thin dark band/fin edges
-
-// Deterministic PRNG (mulberry32). React Compiler forbids Math.random() during
-// render; a fixed seed makes the layout reproducible across reloads.
-function makeRng(seed: number): () => number {
-  let a = seed >>> 0;
-  return () => {
-    a |= 0;
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+const ORANGE = hexToRgb01("#FF7A3C");
+const ORANGE_DEEP = hexToRgb01("#E85F23");
+const WHITE = hexToRgb01("#FBF4EC");
+const EDGE = hexToRgb01("#241008");
 
 // ---------------------------------------------------------------------------
-// Procedural low-poly clownfish geometry.
-//
-// Built nose(+x) to tail(-x); thin in z (a chubby, friendly profile). Cross-
-// sections are 4-vertex diamond rings stitched into quads, then a small forked
-// tail fin and a stubby dorsal fin are welded on. Two attributes ride along:
-//   aBody : 0 at the nose .. 1 at the tail tip -> drives band painting + sway.
-//   aFin  : 1 on fin geometry, 0 on the body  -> lets the shader darken fin tips.
+// Procedural low-poly clownfish geometry (nose +x to tail -x).
 // ---------------------------------------------------------------------------
 function buildClownfishGeometry(): THREE.BufferGeometry {
-  // Spine cross-sections nose -> tail base: [x, halfHeight, halfWidth].
-  // A rounded teardrop: small head, deep belly just behind the head, tapering
-  // to a thin peduncle. Clownfish read "friendly" because they're tall and stubby.
   const sections: Array<[number, number, number]> = [
-    [0.5, 0.04, 0.03], // blunt nose
-    [0.38, 0.16, 0.07], // head
-    [0.18, 0.27, 0.11], // shoulders / deep belly (tallest)
-    [-0.06, 0.24, 0.1], // mid
-    [-0.3, 0.13, 0.06], // rear
-    [-0.46, 0.06, 0.03], // peduncle (tail base)
+    [0.5, 0.04, 0.03],
+    [0.38, 0.16, 0.07],
+    [0.18, 0.27, 0.11],
+    [-0.06, 0.24, 0.1],
+    [-0.3, 0.13, 0.06],
+    [-0.46, 0.06, 0.03],
   ];
 
   const positions: number[] = [];
@@ -95,7 +85,6 @@ function buildClownfishGeometry(): THREE.BufferGeometry {
   const body: number[] = [];
   const fin: number[] = [];
 
-  // 4-vertex diamond ring (top, right, bottom, left) for a cross-section.
   const ringFor = (s: [number, number, number]) => {
     const [x, h, w] = s;
     return [
@@ -106,9 +95,8 @@ function buildClownfishGeometry(): THREE.BufferGeometry {
     ] as const;
   };
 
-  const bodyParam = (i: number) => i / (sections.length - 1); // 0..1 along body
+  const bodyParam = (i: number) => i / (sections.length - 1);
 
-  // Stitch quads (two tris) between consecutive rings.
   for (let i = 0; i < sections.length - 1; i++) {
     const a = ringFor(sections[i]);
     const b = ringFor(sections[i + 1]);
@@ -125,7 +113,7 @@ function buildClownfishGeometry(): THREE.BufferGeometry {
       const tris = [quad[0], quad[1], quad[2], quad[0], quad[2], quad[3]];
       for (const [v, bp] of tris) {
         positions.push(v[0], v[1], v[2]);
-        normals.push(0, 0, 0); // recomputed below
+        normals.push(0, 0, 0);
         body.push(bp);
         fin.push(0);
       }
@@ -147,17 +135,12 @@ function buildClownfishGeometry(): THREE.BufferGeometry {
     }
   };
 
-  // Forked tail fin (flat, in the z=0 plane), from the peduncle to the tail tip.
   const peduncleX = sections[sections.length - 1][0];
   const tailTipX = -0.66;
   const finH = 0.19;
   addTri([peduncleX, 0.05, 0], [tailTipX, finH, 0], [tailTipX, 0.015, 0], 1.0, 1);
   addTri([peduncleX, -0.05, 0], [tailTipX, -0.015, 0], [tailTipX, -finH, 0], 1.0, 1);
-
-  // Stubby dorsal fin (a low triangle along the back over the shoulders).
   addTri([0.22, 0.27, 0], [-0.16, 0.24, 0], [0.02, 0.4, 0], 0.45, 1);
-
-  // Small anal fin under the belly for a touch more silhouette.
   addTri([-0.02, -0.24, 0], [-0.26, -0.13, 0], [-0.12, -0.34, 0], 0.6, 1);
 
   const geo = new THREE.BufferGeometry();
@@ -165,37 +148,32 @@ function buildClownfishGeometry(): THREE.BufferGeometry {
   geo.setAttribute("aBody", new THREE.Float32BufferAttribute(body, 1));
   geo.setAttribute("aFin", new THREE.Float32BufferAttribute(fin, 1));
   geo.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
-  geo.computeVertexNormals(); // per-face normals so low-poly facets catch light
+  geo.computeVertexNormals();
   geo.computeBoundingSphere();
   return geo;
 }
 
-// ---------------------------------------------------------------------------
-// Fish shaders. Vertex bakes a quick per-instance tail wiggle (stronger toward
-// the tail). Fragment paints the orange body with two white bands + dark edges.
-// ---------------------------------------------------------------------------
 const fishVertex = /* glsl */ `
-  attribute float aBody;     // 0 nose .. 1 tail tip (also drives band painting)
-  attribute float aFin;      // 1 on fins, 0 on body
-  attribute float aPhase;    // per-instance swim phase
-  attribute float aSpeed;    // per-instance tail-beat speed
-  attribute float aWiggle;   // per-instance wiggle amplitude (darting intensity)
+  attribute float aBody;
+  attribute float aFin;
+  attribute float aPhase;
+  attribute float aSpeed;
+  attribute float aWiggle;
 
   uniform float uTime;
 
   varying vec3 vNormalW;
   varying vec3 vViewDir;
-  varying float vBody;       // pass-through nose..tail for band painting
-  varying float vFin;        // pass-through fin flag
-  varying float vFlank;      // -1 .. +1 across the body width (z), for shading
+  varying float vBody;
+  varying float vFin;
+  varying float vFlank;
 
   void main() {
     vec3 pos = position;
 
-    // Quick travelling tail wave: yaw the body left/right, ramping toward the
-    // tail. Higher base frequency than slow cruisers -> a playful, busy wiggle.
+    // Smooth travelling tail wave (calmer than a darting fish).
     float wave = sin(uTime * aSpeed + aPhase + aBody * 4.2);
-    float amp = aBody * aBody * (0.14 + aWiggle * 0.16);
+    float amp = aBody * aBody * (0.10 + aWiggle * 0.12);
     pos.z += wave * amp;
 
     vBody = aBody;
@@ -218,7 +196,7 @@ const fishFragment = /* glsl */ `
   uniform vec3 uOrangeDeep;
   uniform vec3 uWhite;
   uniform vec3 uEdge;
-  uniform float uFade;      // 0..1 group opacity
+  uniform float uFade;
 
   varying vec3 vNormalW;
   varying vec3 vViewDir;
@@ -226,8 +204,6 @@ const fishFragment = /* glsl */ `
   varying float vFin;
   varying float vFlank;
 
-  // Soft band: 1 inside [c-hw, c+hw], thin dark edge just outside that.
-  // Returns x = white amount (0..1), y = dark-edge amount (0..1).
   vec2 band(float t, float c, float hw, float edge) {
     float d = abs(t - c);
     float white = 1.0 - smoothstep(hw, hw + 0.012, d);
@@ -240,16 +216,11 @@ const fishFragment = /* glsl */ `
     vec3 N = normalize(vNormalW);
     vec3 V = normalize(vViewDir);
 
-    // Soft top-down key light (sun filtering down from the bright surface).
     vec3 L = normalize(vec3(0.2, 1.0, 0.35));
     float diff = clamp(dot(N, L), 0.0, 1.0);
 
-    // Base orange with a gently shaded far flank so the body reads as a volume.
     vec3 base = mix(uOrange, uOrangeDeep, smoothstep(0.2, 1.0, abs(vFlank)) * 0.55);
 
-    // Two crisp white bands across the body (clownfish have a head band and a
-    // mid band). vBody: 0 nose .. 1 tail. Band 1 sits just behind the head,
-    // band 2 over the mid-body. Each gets a thin dark edge.
     vec2 b1 = band(vBody, 0.26, 0.045, 0.028);
     vec2 b2 = band(vBody, 0.58, 0.055, 0.03);
     float whiteAmt = clamp(b1.x + b2.x, 0.0, 1.0);
@@ -258,19 +229,14 @@ const fishFragment = /* glsl */ `
     vec3 col = mix(base, uWhite, whiteAmt);
     col = mix(col, uEdge, edgeAmt);
 
-    // Thin dark trim on the very tail and at the nose tip (classic clownfish).
     float tailTrim = smoothstep(0.93, 1.0, vBody);
     float noseTrim = 1.0 - smoothstep(0.0, 0.05, vBody);
     col = mix(col, uEdge, max(tailTrim, noseTrim) * 0.85);
 
-    // Fins: darken the outer fin membrane a touch toward the edges.
     col = mix(col, uEdge, vFin * 0.35);
 
-    // Lighting: warm, bright (shallows), with a soft ambient floor so the
-    // shaded side never goes muddy.
     col *= (0.62 + 0.52 * diff);
 
-    // A gentle warm rim picks the fish out of the blue water.
     float fres = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 2.5);
     col += uOrange * fres * 0.18;
 
@@ -278,92 +244,18 @@ const fishFragment = /* glsl */ `
   }
 `;
 
-// Per-instance fish simulation buffers (mutated every frame; held in a ref).
-interface Sim {
-  pos: Float32Array;
-  vel: Float32Array;
-  phase: Float32Array;
-  speed: Float32Array;
-  wiggle: Float32Array;
-  scale: Float32Array;
-  burst: Float32Array; // current dart-burst timer per fish
-  burstDir: Float32Array; // per-fish burst heading (x,y,z)
-}
-
-function buildSim(): Sim {
-  const rng = makeRng(0xc10f15);
-  const pos = new Float32Array(FISH_COUNT * 3);
-  const vel = new Float32Array(FISH_COUNT * 3);
-  const phase = new Float32Array(FISH_COUNT);
-  const speed = new Float32Array(FISH_COUNT);
-  const wiggle = new Float32Array(FISH_COUNT);
-  const scale = new Float32Array(FISH_COUNT);
-  const burst = new Float32Array(FISH_COUNT);
-  const burstDir = new Float32Array(FISH_COUNT * 3);
-  for (let i = 0; i < FISH_COUNT; i++) {
-    // Bias fish to left/right flanks so they stay visible outside the card.
-    const side = i < FISH_COUNT / 2 ? -1 : 1;
-    pos[i * 3] = side * (CLEAR_HALF_X + rng() * (VOL_X * 0.5 - CLEAR_HALF_X));
-    pos[i * 3 + 1] = 1 + (rng() - 0.5) * VOL_Y * 0.4;
-    pos[i * 3 + 2] = (rng() - 0.5) * VOL_Z * 0.5;
-    vel[i * 3] = (rng() - 0.5) * 0.6;
-    vel[i * 3 + 1] = (rng() - 0.5) * 0.3;
-    vel[i * 3 + 2] = (rng() - 0.5) * 0.6;
-    phase[i] = rng() * Math.PI * 2;
-    speed[i] = 9 + rng() * 4; // fast tail beat -> quick, busy wiggle
-    wiggle[i] = rng();
-    scale[i] = 0.6 + rng() * 0.5; // small fish, slight size variety
-    burst[i] = rng() * 1.5;
-    burstDir[i * 3] = rng() - 0.5;
-    burstDir[i * 3 + 1] = (rng() - 0.5) * 0.6;
-    burstDir[i * 3 + 2] = rng() - 0.5;
-  }
-  return { pos, vel, phase, speed, wiggle, scale, burst, burstDir };
-}
-
-// Reusable scratch -> zero per-frame allocation.
-interface Scratch {
-  m: THREE.Matrix4;
-  q: THREE.Quaternion;
-  up: THREE.Vector3;
-  fwd: THREE.Vector3;
-  right: THREE.Vector3;
-  newUp: THREE.Vector3;
-  basis: THREE.Matrix4;
-  sclV: THREE.Vector3;
-  posV: THREE.Vector3;
-  huddle: THREE.Vector3;
-}
-
-function buildScratch(): Scratch {
-  return {
-    m: new THREE.Matrix4(),
-    q: new THREE.Quaternion(),
-    up: new THREE.Vector3(0, 1, 0),
-    fwd: new THREE.Vector3(),
-    right: new THREE.Vector3(),
-    newUp: new THREE.Vector3(),
-    basis: new THREE.Matrix4(),
-    sclV: new THREE.Vector3(),
-    posV: new THREE.Vector3(),
-    huddle: new THREE.Vector3(),
-  };
-}
-
 export default function Clownfish({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const fishMeshRef = useRef<THREE.InstancedMesh>(null);
-  const fishMatRef = useRef<THREE.ShaderMaterial>(null);
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+  const matRef = useRef<THREE.ShaderMaterial>(null);
 
-  const fishGeometry = useMemo(() => buildClownfishGeometry(), []);
+  const geometry = useMemo(() => buildClownfishGeometry(), []);
 
-  const fishUniforms = useMemo(
+  const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
       uOrange: { value: new THREE.Color(ORANGE[0], ORANGE[1], ORANGE[2]) },
-      uOrangeDeep: {
-        value: new THREE.Color(ORANGE_DEEP[0], ORANGE_DEEP[1], ORANGE_DEEP[2]),
-      },
+      uOrangeDeep: { value: new THREE.Color(ORANGE_DEEP[0], ORANGE_DEEP[1], ORANGE_DEEP[2]) },
       uWhite: { value: new THREE.Color(WHITE[0], WHITE[1], WHITE[2]) },
       uEdge: { value: new THREE.Color(EDGE[0], EDGE[1], EDGE[2]) },
       uFade: { value: 0 },
@@ -371,197 +263,79 @@ export default function Clownfish({ progress }: SceneElementProps) {
     [],
   );
 
-  const simRef = useRef<Sim | null>(null);
-  const scratchRef = useRef<Scratch | null>(null);
-  const attrsReady = useRef(false);
-
-  // Slowly wandering huddle point the fish loosely cohere toward.
-  const huddlePhase = useRef(1.7);
-  // Smoothed band fade so scroll jumps glide instead of snapping.
+  const scratch = useMemo(
+    () => ({ m: new THREE.Matrix4(), q: new THREE.Quaternion(), p: new THREE.Vector3(), s: new THREE.Vector3() }),
+    [],
+  );
   const fade = useRef(0);
+  const attrsReady = useRef(false);
 
   useFrame((state, delta) => {
     const group = groupRef.current;
-    const fishMesh = fishMeshRef.current;
-    const fishMat = fishMatRef.current;
-    if (!group || !fishMesh || !fishMat) return;
+    const mesh = meshRef.current;
+    const mat = matRef.current;
+    if (!group || !mesh || !mat) return;
 
     const p = progress.get();
-
-    // ---- Zone gate: visible only inside the `about` band (+feather). ----
-    const inFeatheredBand = p > BAND_START - FEATHER && p < BAND_END + FEATHER;
+    const inBand = p > BAND_START - FEATHER && p < BAND_END + FEATHER;
     const edgeIn = clamp01((p - (BAND_START - FEATHER)) / FEATHER);
     const edgeOut = clamp01((BAND_END + FEATHER - p) / FEATHER);
-    const targetFade = inFeatheredBand ? Math.min(edgeIn, edgeOut) : 0;
-    fade.current = lerp(fade.current, targetFade, Math.min(1, delta * 3));
+    const bandFade = inBand ? Math.min(edgeIn, edgeOut) : 0;
+    fade.current = lerp(fade.current, bandFade, Math.min(1, delta * 3));
 
-    if (!inFeatheredBand && fade.current < 0.01) {
+    if (!inBand && fade.current < 0.01) {
       if (group.visible) group.visible = false;
-      return; // heavy sim skipped entirely off-band
+      return;
     }
     group.visible = true;
 
-    // Lazily build mutable buffers on first heavy frame.
-    if (!simRef.current) simRef.current = buildSim();
-    if (!scratchRef.current) scratchRef.current = buildScratch();
-    const sim = simRef.current;
-    const scratch = scratchRef.current;
-
-    // One-time per-instance fish attribute upload now that the mesh exists.
+    // One-time per-instance tail attributes.
     if (!attrsReady.current) {
-      fishMesh.geometry.setAttribute(
-        "aPhase",
-        new THREE.InstancedBufferAttribute(sim.phase, 1),
-      );
-      fishMesh.geometry.setAttribute(
-        "aSpeed",
-        new THREE.InstancedBufferAttribute(sim.speed, 1),
-      );
-      fishMesh.geometry.setAttribute(
-        "aWiggle",
-        new THREE.InstancedBufferAttribute(sim.wiggle, 1),
-      );
+      mesh.geometry.setAttribute("aPhase", new THREE.InstancedBufferAttribute(new Float32Array(TAIL_PHASE), 1));
+      mesh.geometry.setAttribute("aSpeed", new THREE.InstancedBufferAttribute(new Float32Array(TAIL_SPEED), 1));
+      mesh.geometry.setAttribute("aWiggle", new THREE.InstancedBufferAttribute(new Float32Array(TAIL_WIGGLE), 1));
       attrsReady.current = true;
     }
 
     const t = state.clock.elapsedTime;
-    fishMat.uniforms.uTime.value = t;
-    fishMat.uniforms.uFade.value = fade.current;
+    mat.uniforms.uTime.value = t;
 
-    // Keep the group centered on the live camera depth so it stays framed while
-    // we pass through the band. x/z volume are local.
-    group.position.y = state.camera.position.y;
-    group.position.z = Z_CENTER;
+    // Left -> right traverse, wrapping.
+    const x = X_LEFT + ((t * SPEED) % X_SPAN);
+    const fadeIn = clamp01((x - ENTER_AT) / ENTER_SOFT);
+    const fadeOut = clamp01((EXIT_AT - x) / EXIT_SOFT);
+    mat.uniforms.uFade.value = fade.current * Math.min(fadeIn, fadeOut);
 
-    // Wandering huddle point: oscillates left/right in the flanks, never center.
-    const hp = (huddlePhase.current += delta * 0.25);
-    const sideSign = Math.sin(hp * 0.28) >= 0 ? 1 : -1;
-    const sideAmp = CLEAR_HALF_X + 1.5 + Math.abs(Math.sin(hp * 0.55)) * 3.5;
-    scratch.huddle.set(
-      sideSign * sideAmp,
-      0 + Math.sin(hp * 0.5 + 1.3) * VOL_Y * 0.3,
-      Math.cos(hp * 0.6) * VOL_Z * 0.22,
-    );
-
-    const dt = Math.min(delta, 0.05); // clamp to avoid blowups after a tab stall
-    const { pos, vel, burst, burstDir } = sim;
+    // The school rides the live camera depth (framed through the band) and
+    // translates across the screen.
+    group.position.set(x, state.camera.position.y + Y_OFFSET, Z_CENTER);
 
     for (let i = 0; i < FISH_COUNT; i++) {
-      const ix = i * 3;
-      const px = pos[ix];
-      const py = pos[ix + 1];
-      const pz = pos[ix + 2];
-
-      // 1) Loose cohesion toward the wandering huddle point.
-      let ax = (scratch.huddle.x - px) * 0.9;
-      let ay = (scratch.huddle.y - py) * 0.9;
-      let az = (scratch.huddle.z - pz) * 0.9;
-
-      // 2) Playful darting: each fish periodically fires a short burst in a
-      // fresh random direction, then coasts. This gives the quick, twitchy,
-      // back-and-forth motion clownfish are known for.
-      burst[i] -= dt;
-      if (burst[i] <= 0) {
-        // Reseed the burst from a cheap hash of (i, t) -> no Math.random in loop.
-        const s = Math.sin(i * 12.9898 + t * 7.233) * 43758.5453;
-        const r1 = s - Math.floor(s);
-        const s2 = Math.sin(i * 39.346 + t * 11.71) * 24634.6345;
-        const r2 = s2 - Math.floor(s2);
-        const s3 = Math.sin(i * 73.156 + t * 5.117) * 17231.123;
-        const r3 = s3 - Math.floor(s3);
-        burstDir[ix] = r1 - 0.5;
-        burstDir[ix + 1] = (r2 - 0.5) * 0.7;
-        burstDir[ix + 2] = r3 - 0.5;
-        burst[i] = 0.5 + r1 * 1.3; // re-fire in 0.5 .. 1.8s
-      }
-      // Apply the burst impulse, strongest right after it fires (burst high).
-      const kick = clamp01(burst[i]) * 4.5;
-      ax += burstDir[ix] * kick;
-      ay += burstDir[ix + 1] * kick;
-      az += burstDir[ix + 2] * kick;
-
-      // 3) Corridor clearance: push fish out of the centered card column.
-      if (Math.abs(px) < CLEAR_HALF_X) {
-        const dir = px >= 0 ? 1 : -1;
-        ax += dir * (CLEAR_HALF_X - Math.abs(px)) * 1.5;
-      }
-
-      // 4) Soft containment: turn back before leaving the local volume.
-      ax += -px * (Math.abs(px) > VOL_X * 0.5 ? 1.2 : 0.0);
-      ay += (0 - py) * (Math.abs(py) > VOL_Y * 0.5 ? 1.2 : 0.0);
-      az += -pz * (Math.abs(pz) > VOL_Z * 0.5 ? 1.2 : 0.0);
-
-      // Integrate velocity with damping (the damping is what makes darts decay).
-      let vx = vel[ix] + ax * dt;
-      let vy = vel[ix + 1] + ay * dt;
-      let vz = vel[ix + 2] + az * dt;
-      const damp = 0.9;
-      vx *= damp;
-      vy *= damp;
-      vz *= damp;
-
-      // Clamp speed: allow quick darts but keep a believable cap.
-      const sp = Math.hypot(vx, vy, vz);
-      const maxSp = 5.5;
-      const minSp = 0.4;
-      if (sp > maxSp) {
-        const k = maxSp / sp;
-        vx *= k;
-        vy *= k;
-        vz *= k;
-      } else if (sp < minSp && sp > 1e-4) {
-        const k = minSp / sp;
-        vx *= k;
-        vy *= k;
-        vz *= k;
-      }
-      vel[ix] = vx;
-      vel[ix + 1] = vy;
-      vel[ix + 2] = vz;
-
-      const nx = px + vx * dt;
-      const ny = py + vy * dt;
-      const nz = pz + vz * dt;
-      pos[ix] = nx;
-      pos[ix + 1] = ny;
-      pos[ix + 2] = nz;
-
-      // ---- Orient to velocity: right-handed basis (det +1) ----
-      // Fish local axes: +x = nose, +y = back/up, +z = right side.
-      scratch.fwd.set(vx, vy, vz);
-      if (scratch.fwd.lengthSq() < 1e-6) scratch.fwd.set(1, 0, 0);
-      scratch.fwd.normalize();
-      scratch.right.copy(scratch.fwd).cross(scratch.up);
-      if (scratch.right.lengthSq() < 1e-6) scratch.right.set(0, 0, 1);
-      scratch.right.normalize();
-      scratch.newUp.copy(scratch.right).cross(scratch.fwd).normalize();
-      scratch.basis.makeBasis(scratch.fwd, scratch.newUp, scratch.right);
-      scratch.q.setFromRotationMatrix(scratch.basis);
-
-      const s = sim.scale[i];
-      scratch.sclV.set(s, s, s);
-      scratch.posV.set(nx, ny, nz);
-      scratch.m.compose(scratch.posV, scratch.q, scratch.sclV);
-      fishMesh.setMatrixAt(i, scratch.m);
+      const o = FORMATION[i];
+      const bobY = Math.sin(t * 2.0 + BOB_PHASE[i]) * 0.18;
+      scratch.p.set(o[0], o[1] + bobY, o[2]);
+      scratch.q.identity(); // nose +x -> faces the direction of travel (right)
+      scratch.s.setScalar(SCALES[i]);
+      scratch.m.compose(scratch.p, scratch.q, scratch.s);
+      mesh.setMatrixAt(i, scratch.m);
     }
-
-    fishMesh.instanceMatrix.needsUpdate = true;
+    mesh.instanceMatrix.needsUpdate = true;
   });
 
   return (
     <group ref={groupRef} visible={false}>
       <instancedMesh
-        ref={fishMeshRef}
-        args={[fishGeometry, undefined, FISH_COUNT]}
+        ref={meshRef}
+        args={[geometry, undefined, FISH_COUNT]}
         frustumCulled={false}
         renderOrder={1}
       >
         <shaderMaterial
-          ref={fishMatRef}
+          ref={matRef}
           attach="material"
           vertexShader={fishVertex}
           fragmentShader={fishFragment}
-          uniforms={fishUniforms}
+          uniforms={uniforms}
           transparent
           depthWrite={false}
           side={THREE.DoubleSide}

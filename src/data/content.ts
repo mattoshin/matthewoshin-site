@@ -238,6 +238,13 @@ export const VENTURES: readonly Venture[] = [
     note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. The insight was simple: 1,000+ Discord servers were selling their own research to subscribers, but all the alpha was scattered. I built proprietary software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. The distribution edge was the moat. $400K in all-time revenue, peaking at $50K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
   },
   {
+    slug: "resell-network",
+    name: "Resell Network",
+    oneLiner: "An 11,000-member networking community. Founded and acquired.",
+    era: "Founded and acquired, 2019 to 2023",
+    note: "Built this alongside Mocean as the connective tissue of the reselling industry. The goal was to connect the researchers and subcontractors I worked with to the server owners and employers who needed them, and to give the broader reselling community access to the exclusive resources and people I had relationships with. Grew to 11,000+ Discord members organically. Sold as part of the Mocean deal. Years of compound brand recognition and a dense industry network are the kind of asset that looks quiet from the outside.",
+  },
+  {
     slug: "element-underground",
     name: "Element Underground",
     oneLiner:
@@ -258,13 +265,6 @@ export const VENTURES: readonly Venture[] = [
     oneLiner: "Sneaker arbitrage, my first real operation.",
     era: "Early venture, started at 16",
     note: "Where the ocean theme on this whole site comes from. I was buying 20 to 50 pairs of low-cost sneakers every week and flipping them for $10 to $20 a pair. Joined every Discord server that posted discount codes and early releases, including paid ones. It was arbitrage in the most literal sense: buying mispriced, selling into demand. The lesson that shaped everything after: the edge was the signal, not the shoe.",
-  },
-  {
-    slug: "resell-network",
-    name: "Resell Network",
-    oneLiner: "An 11,000-member networking community. Founded and acquired.",
-    era: "Founded and acquired, 2019 to 2023",
-    note: "Built this alongside Mocean as the connective tissue of the reselling industry. The goal was to connect the researchers and subcontractors I worked with to the server owners and employers who needed them, and to give the broader reselling community access to the exclusive resources and people I had relationships with. Grew to 11,000+ Discord members organically. Sold as part of the Mocean deal. Years of compound brand recognition and a dense industry network are the kind of asset that looks quiet from the outside.",
   },
 ] as const;
 

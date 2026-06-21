@@ -8,11 +8,11 @@ import { HERO } from "@/data/content";
  * chips. Light + bold type with a crisp dark shadow so it reads over the water.
  */
 
-const STATEMENT = "I'm a builder. That's the one word that survives every chapter.";
+const STATEMENT = "I'm a builder.";
 
 // Tasteful, public proof points only (no private figures, per content-review.md).
 const PROOF: readonly string[] = [
-  "5 ventures, 2 acquired",
+  "2 acquisitions",
   "CAIO at BrachyClip",
   "SaaS developer",
   "Hedge fund equity research",
@@ -28,9 +28,10 @@ export default function HeroSection() {
   return (
     <section
       id="surface"
-      className="relative z-10 flex min-h-screen items-center justify-center px-5 py-20"
+      className="relative z-10 flex min-h-screen items-center justify-center px-6 py-20"
     >
-      <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8 md:flex-row md:gap-12">
+      {/* Compressed, centered cluster (photo + text) over the full-bleed ocean. */}
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-10 md:flex-row md:gap-12">
         {/* Portrait - kept; soft frame so it sits in the scene. */}
         <div className="shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/45 shadow-[0_24px_60px_-18px_rgba(4,34,46,0.6)]">
           <Image
@@ -39,21 +40,21 @@ export default function HeroSection() {
             width={933}
             height={1400}
             priority
-            className="h-72 w-auto sm:h-80 md:h-[26rem]"
+            className="h-72 w-auto sm:h-80 md:h-[28rem]"
           />
         </div>
 
         {/* Text - the hook is the headline now (name lives in the wordmark). */}
-        <div className="min-w-0 text-center md:text-left">
+        <div className="min-w-0 max-w-xl text-center md:text-left">
           <h1
-            className={`max-w-xl text-balance font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl ${SHADOW}`}
+            className={`font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl ${SHADOW}`}
           >
             {STATEMENT}
           </h1>
 
           {/* The short bio paragraph (the one Matthew likes). */}
           <p
-            className={`mx-auto mt-5 max-w-xl text-sm leading-relaxed text-ink-body ${SHADOW} sm:text-base md:mx-0`}
+            className={`mx-auto mt-6 max-w-xl text-base leading-relaxed text-ink-body ${SHADOW} sm:text-lg md:mx-0`}
           >
             {HERO.bio}
           </p>

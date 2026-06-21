@@ -172,7 +172,12 @@ const fragmentShader = /* glsl */ `
     float lineEdge = smoothstep(0.009, 0.0, abs(y - hor));
     col = mix(col, uLine, lineEdge * 0.85);
 
-    gl_FragColor = vec4(col, uOpacity);
+    // Bottom alpha fade: the deepest surface water dissolves to transparent so
+    // the bright surface blends into the dark WaterColumn behind it instead of
+    // revealing a hard edge as the plane drifts up. Turns the "clear drop-off"
+    // into a smooth surface->underwater gradient.
+    float depthFade = smoothstep(0.0, 0.34, y);
+    gl_FragColor = vec4(col, uOpacity * depthFade);
   }
 `;
 

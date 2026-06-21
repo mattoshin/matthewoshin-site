@@ -1,18 +1,25 @@
 "use client";
 
 /**
- * WaterSkier - a papercut speedboat + skier silhouette, consistent with the
- * Dolphin and Sailboats elements. The boat is a light cream extruded hull with
- * dark stripe and tinted windshield. The skier is a single connected
- * ShapeGeometry silhouette in deep teal — clean, minimal, artsy. Two bright
- * white skis beneath. All live at the visual waterline, camera-locked so they
- * stay pegged to the horizon as the camera descends.
+ * WaterSkier - a Lamborghini speedboat + skier silhouette at the surface.
+ *
+ * The boat is a papercut speedboat in Lamborghini livery: a giallo-yellow hull
+ * with black cockpit, smoked windshield, and "LAMBORGHINI" lettering on the
+ * hull side. It tows a deep teal skier silhouette on two white skis, well behind
+ * the stern on a long rope.
+ *
+ * CAROUSEL: the rig glides RIGHT -> LEFT and loops seamlessly. As it nears either
+ * screen edge its opacity fades to 0, so the wrap from the left edge back to the
+ * right is an invisible dissolve, never a teleport. Endless, like a reel.
+ *
+ * It rides the visual waterline and drifts UP with the surface as the camera
+ * descends, then hides past the surface band. No foam/wake - clean and calm.
  */
 
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { hexToRgb01 } from "@/lib/depth";
+import { clamp01, hexToRgb01 } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
 function swell(x: number, z: number, t: number): number {
@@ -23,34 +30,45 @@ function swell(x: number, z: number, t: number): number {
   );
 }
 
-const HULL_RGB       = hexToRgb01("#ddeef4"); // light cream hull
-const STRIPE_RGB     = hexToRgb01("#0d3d54"); // dark navy gunwale stripe
-const WINDSHIELD_RGB = hexToRgb01("#4fc8e8"); // teal glass
-const COCKPIT_RGB    = hexToRgb01("#1a5272"); // cockpit interior
+const HULL_RGB       = hexToRgb01("#F4C20D"); // Lamborghini giallo yellow hull
+const STRIPE_RGB     = hexToRgb01("#0A0A0A"); // black gunwale stripe
+const WINDSHIELD_RGB = hexToRgb01("#0E1822"); // smoked glass
+const COCKPIT_RGB    = hexToRgb01("#101010"); // black cockpit interior
 const SKIER_RGB      = hexToRgb01("#0d3a52"); // deep teal silhouette (papercut)
 const SKI_RGB        = hexToRgb01("#e2f4ff"); // near-white skis
-const FOAM_RGB       = hexToRgb01("#FFFFFF"); // additive white spray
 
 const SURFACE_DRIFT = 1900;
 const SURFACE_GONE  = 0.24;
 
 const CAM_Z      = 8;
 const HORIZON_K  = 0.272;
-const RIG_X      = 7.8;
 const RIG_Z      = -10.0;
 const RIG_SCALE  = 1.05;
-const HEADING    = 0.18;
+const HEADING    = 0.14;
 
-// Rope endpoints in rig-local space.
+// Right-to-left traverse, wrapping. Speed is a slow cruise.
+const TRAVEL_RIGHT = 12.0;
+const TRAVEL_LEFT  = -13.5;
+const TRAVEL_SPAN  = TRAVEL_RIGHT - TRAVEL_LEFT;
+const TRAVEL_SPEED = 0.5;   // world units / second
+
+// Asymmetric carousel fade: near-instant fade-IN at the entering (right) edge,
+// slow graceful fade-OUT at the exiting (left) edge.
+const ENTER_AT = 11.4;   // x where it begins to appear (right)
+const ENTER_SOFT = 0.7;  // narrow band -> almost instant fade-in
+const EXIT_AT = -12.8;   // x where it's fully gone (left)
+const EXIT_SOFT = 4.8;   // wide band -> slow fade-out
+
+// Rope endpoints in rig-local space. The skier sits well behind the stern.
 const STERN_TOP: [number, number, number] = [0.95, 0.14, 0];
-const SKIER_POS: [number, number, number] = [1.6, 0.0, 0.38];
-const HANDS:     [number, number, number] = [1.38, 0.50, 0.38];
+const SKIER_POS: [number, number, number] = [2.75, 0.0, 0.34];
+const HANDS:     [number, number, number] = [2.48, 0.46, 0.34];
 
 const C = (rgb: readonly [number, number, number]) =>
   new THREE.Color(rgb[0], rgb[1], rgb[2]);
 
 // ---------------------------------------------------------------------------
-// Boat geometry (unchanged from visual redesign)
+// Boat geometry
 // ---------------------------------------------------------------------------
 
 function makeHullGeometry(): THREE.BufferGeometry {
@@ -99,79 +117,53 @@ function makeCockpitGeometry(): THREE.BufferGeometry {
   return new THREE.ShapeGeometry(s);
 }
 
-function makeWakeGeometry(): THREE.BufferGeometry {
-  const verts: number[] = [
-    // Outer wide V
-     0,   0,  0,  3.2, 0,  1.8,  3.2, 0, -1.8,
-    // Inner brighter V
-     0,   0,  0,  2.2, 0,  0.9,  2.2, 0, -0.9,
-    // Tight stern foam
-     0,   0.02,  0,  0.8, 0.02,  0.28,  0.8, 0.02, -0.28,
-  ];
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute("position", new THREE.Float32BufferAttribute(verts, 3));
-  return geo;
-}
-
-function makeRoosterGeometry(): THREE.BufferGeometry {
-  const tips: [number, number, number][] = [
-    [ 0.85,  0.95, 0.00], [ 0.55,  0.80, 0.62], [ 0.55,  0.80,-0.62],
-    [ 0.30,  0.52, 1.05], [ 0.30,  0.52,-1.05], [ 1.10,  0.60, 0.28],
-    [ 1.10,  0.60,-0.28], [ 0.72,  1.18, 0.16], [ 0.72,  1.18,-0.16],
-  ];
-  const verts: number[] = [];
-  for (const [tx, ty, tz] of tips) {
-    verts.push(0, 0, 0.10, 0, 0, -0.10, tx, ty, tz);
+/** "LAMBORGHINI" wordmark as a transparent canvas texture (client-only). */
+function makeNameTexture(): THREE.CanvasTexture | null {
+  if (typeof document === "undefined") return null;
+  const c = document.createElement("canvas");
+  c.width = 1024;
+  c.height = 128;
+  const ctx = c.getContext("2d");
+  if (!ctx) return null;
+  ctx.clearRect(0, 0, c.width, c.height);
+  ctx.fillStyle = "#0A0A0A";
+  ctx.font = "800 84px Arial, Helvetica, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  try {
+    (ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = "10px";
+  } catch {
+    // ignore on engines without letterSpacing
   }
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute("position", new THREE.Float32BufferAttribute(verts, 3));
-  return geo;
+  ctx.fillText("LAMBORGHINI", c.width / 2, c.height / 2 + 4);
+  const tex = new THREE.CanvasTexture(c);
+  tex.anisotropy = 4;
+  tex.needsUpdate = true;
+  return tex;
 }
 
 // ---------------------------------------------------------------------------
 // Skier silhouette — single connected ShapeGeometry, papercut style.
-// Designed in the pre-rotation local frame (figure roughly upright).
-// The parent group applies z=-0.60 rotation to lean the body back.
-// Arms extend in the -x direction (toward the tow rope).
 // ---------------------------------------------------------------------------
 
 function makeSkierBodyGeometry(): THREE.BufferGeometry {
   const s = new THREE.Shape();
-
-  // Back edge: from hip up the spine to shoulder
   s.moveTo( 0.17, -0.22);
   s.quadraticCurveTo( 0.22,  0.08,  0.20,  0.36);
   s.quadraticCurveTo( 0.18,  0.48,  0.10,  0.54);
-
-  // Back of neck / head
   s.quadraticCurveTo( 0.12,  0.62,  0.06,  0.72);
   s.quadraticCurveTo(-0.02,  0.78, -0.08,  0.72);
-
-  // Face → chin
   s.quadraticCurveTo(-0.14,  0.62, -0.10,  0.52);
-
-  // Front of chest → arm root
   s.lineTo(-0.04,  0.44);
-
-  // Arm reaching forward (toward boat / rope)
   s.lineTo(-0.48,  0.30);   // fingertips
   s.lineTo(-0.46,  0.21);   // underside
   s.lineTo(-0.02,  0.34);   // back to lower chest
-
-  // Stomach → hip front
   s.lineTo( 0.00,  0.14);
   s.lineTo(-0.04,  0.00);
-
-  // Knee (comes forward, bent crouch)
   s.quadraticCurveTo(-0.20, -0.06, -0.20, -0.18);
-
-  // Shin / ankle
   s.lineTo(-0.06, -0.28);
-
-  // Close across the hip
   s.lineTo( 0.17, -0.22);
   s.closePath();
-
   return new THREE.ShapeGeometry(s);
 }
 
@@ -194,17 +186,23 @@ export default function WaterSkier({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const rigRef   = useRef<THREE.Group>(null);
 
-  const solidRefs = useRef<(THREE.MeshBasicMaterial | null)[]>([]);
-  const sprayRefs = useRef<(THREE.MeshBasicMaterial | null)[]>([]);
+  // Pool of every fade-able material; opacity is written each frame from these
+  // refs only (React-Compiler-safe). userData.b stores each material's base.
+  const fadeMats = useRef<THREE.MeshBasicMaterial[]>([]);
+  const collect = (el: THREE.MeshBasicMaterial | null) => {
+    if (el && !fadeMats.current.includes(el)) {
+      el.userData.b = el.opacity;
+      fadeMats.current.push(el);
+    }
+  };
 
   const hullGeo       = useMemo(() => makeHullGeometry(), []);
   const stripeGeo     = useMemo(() => makeStripeGeometry(), []);
   const windshieldGeo = useMemo(() => makeWindshieldGeometry(), []);
   const cockpitGeo    = useMemo(() => makeCockpitGeometry(), []);
-  const wakeGeo       = useMemo(() => makeWakeGeometry(), []);
-  const roosterGeo    = useMemo(() => makeRoosterGeometry(), []);
   const skierBodyGeo  = useMemo(() => makeSkierBodyGeometry(), []);
   const skiGeo        = useMemo(() => makeSkiGeometry(), []);
+  const nameTex       = useMemo(() => makeNameTexture(), []);
 
   const hullCol       = useMemo(() => C(HULL_RGB), []);
   const stripeCol     = useMemo(() => C(STRIPE_RGB), []);
@@ -212,7 +210,6 @@ export default function WaterSkier({ progress }: SceneElementProps) {
   const cockpitCol    = useMemo(() => C(COCKPIT_RGB), []);
   const skierCol      = useMemo(() => C(SKIER_RGB), []);
   const skiCol        = useMemo(() => C(SKI_RGB), []);
-  const foamCol       = useMemo(() => C(FOAM_RGB), []);
 
   const rope = useMemo(() => {
     const a = new THREE.Vector3(...STERN_TOP);
@@ -227,9 +224,6 @@ export default function WaterSkier({ progress }: SceneElementProps) {
     return { mid, len, quat };
   }, []);
 
-  const sr = (i: number) => (el: THREE.MeshBasicMaterial | null) => { solidRefs.current[i] = el; };
-  const sp = (i: number) => (el: THREE.MeshBasicMaterial | null) => { sprayRefs.current[i] = el; };
-
   useFrame((state) => {
     const group = groupRef.current;
     const rig   = rigRef.current;
@@ -240,89 +234,93 @@ export default function WaterSkier({ progress }: SceneElementProps) {
       if (group.visible) group.visible = false;
       return;
     }
-    if (!group.visible) group.visible = true;
-
-    // No fade: the skier rides the surface and DRIFTS UP with it as you descend.
-    for (const m of solidRefs.current) { if (m) m.opacity = 1; }
 
     const t = state.clock.elapsedTime;
-    const shimmer = 0.78 + 0.22 * Math.sin(t * 5.5);
-    for (const m of sprayRefs.current) { if (m) m.opacity = shimmer; }
+
+    // Right -> left traverse, wrapping. Subtract so x decreases over time.
+    const x = TRAVEL_RIGHT - ((t * TRAVEL_SPEED) % TRAVEL_SPAN);
+
+    // Fast fade-in at the entering edge, slow fade-out at the exiting edge.
+    const fadeIn = clamp01((ENTER_AT - x) / ENTER_SOFT);
+    const fadeOut = clamp01((x - EXIT_AT) / EXIT_SOFT);
+    const fade = Math.min(fadeIn, fadeOut);
+    if (fade <= 0.001) {
+      if (group.visible) group.visible = false;
+      return;
+    }
+    if (!group.visible) group.visible = true;
+    for (const m of fadeMats.current) {
+      if (m) m.opacity = (m.userData.b ?? 1) * fade;
+    }
 
     // Drift up with the surface (same constant as Surface.tsx).
     group.position.y = state.camera.position.y + p * p * SURFACE_DRIFT;
     group.scale.setScalar(1);
 
-    const drift = Math.sin(t * 0.25) * 0.5;
-    const x = RIG_X + drift;
     rig.position.x = x;
     rig.position.y = HORIZON_K * (CAM_Z - RIG_Z) + swell(x, RIG_Z, t);
 
+    // Gentle bob/roll from the swell so it sits on the water, not above it.
     const eps = 0.6;
     const dzx = (swell(x + eps, RIG_Z, t) - swell(x - eps, RIG_Z, t)) / (2 * eps);
     const dzz = (swell(x, RIG_Z + eps, t) - swell(x, RIG_Z - eps, t)) / (2 * eps);
     rig.rotation.x =  -dzz * 0.7;
-    rig.rotation.z =   dzx * 0.7 - Math.sin(t * 0.25) * 0.06;
-    rig.rotation.y = HEADING + Math.cos(t * 0.25) * 0.05;
+    rig.rotation.z =   dzx * 0.7 - Math.sin(t * 0.25) * 0.04;
+    rig.rotation.y = HEADING + Math.cos(t * 0.2) * 0.04;
   });
 
   return (
     <group ref={groupRef} position={[0, 0, 0]} renderOrder={-4}>
-      <group ref={rigRef} position={[RIG_X, 0, RIG_Z]} rotation={[0, HEADING, 0]} scale={RIG_SCALE}>
+      <group ref={rigRef} position={[TRAVEL_RIGHT, 0, RIG_Z]} rotation={[0, HEADING, 0]} scale={RIG_SCALE}>
 
         {/* Hull body */}
         <mesh geometry={hullGeo}>
-          <meshBasicMaterial ref={sr(0)} color={hullCol} transparent opacity={1} side={THREE.DoubleSide} fog />
+          <meshBasicMaterial ref={collect} color={hullCol} transparent side={THREE.DoubleSide} fog />
         </mesh>
+
+        {/* LAMBORGHINI wordmark on the hull side */}
+        {nameTex && (
+          <mesh position={[-0.05, -0.02, 0.30]}>
+            <planeGeometry args={[1.5, 0.1875]} />
+            <meshBasicMaterial ref={collect} map={nameTex} transparent depthWrite={false} side={THREE.DoubleSide} fog />
+          </mesh>
+        )}
 
         {/* Gunwale stripe */}
         <mesh geometry={stripeGeo} position={[0, 0, 0.27]}>
-          <meshBasicMaterial ref={sr(1)} color={stripeCol} transparent opacity={1} side={THREE.DoubleSide} fog />
+          <meshBasicMaterial ref={collect} color={stripeCol} transparent side={THREE.DoubleSide} fog />
         </mesh>
 
         {/* Cockpit interior */}
         <mesh geometry={cockpitGeo} position={[0, 0, 0.28]}>
-          <meshBasicMaterial ref={sr(2)} color={cockpitCol} transparent opacity={1} side={THREE.DoubleSide} fog />
+          <meshBasicMaterial ref={collect} color={cockpitCol} transparent side={THREE.DoubleSide} fog />
         </mesh>
 
         {/* Windshield glass */}
         <mesh geometry={windshieldGeo} position={[0, 0, 0.29]}>
-          <meshBasicMaterial ref={sr(3)} color={windshieldCol} transparent opacity={0.85} side={THREE.DoubleSide} fog />
+          <meshBasicMaterial ref={collect} color={windshieldCol} transparent opacity={0.9} side={THREE.DoubleSide} fog />
         </mesh>
 
         {/* Tow rope */}
         <mesh position={rope.mid} quaternion={rope.quat}>
           <cylinderGeometry args={[0.010, 0.010, rope.len, 4]} />
-          <meshBasicMaterial ref={sr(4)} color={skierCol} transparent opacity={1} fog />
+          <meshBasicMaterial ref={collect} color={skierCol} transparent fog />
         </mesh>
 
-        {/* V-wake */}
-        <mesh geometry={wakeGeo} position={[1.0, -0.13, 0]}>
-          <meshBasicMaterial ref={sp(0)} color={foamCol} transparent opacity={0.80}
-            depthWrite={false} blending={THREE.AdditiveBlending} fog={false} side={THREE.DoubleSide} />
-        </mesh>
-
-        {/* ── SKIER ── papercut silhouette */}
+        {/* ── SKIER ── papercut silhouette, well behind the stern */}
         <group position={SKIER_POS}>
-          {/* Body silhouette — lean back via z rotation */}
           <group rotation={[0, 0, -0.60]}>
             <mesh geometry={skierBodyGeo} position={[0, 0, 0.01]}>
-              <meshBasicMaterial ref={sr(5)} color={skierCol} transparent opacity={1} side={THREE.DoubleSide} fog />
+              <meshBasicMaterial ref={collect} color={skierCol} transparent side={THREE.DoubleSide} fog />
             </mesh>
           </group>
 
           {/* Skis — bright white, sit below the figure */}
           <mesh geometry={skiGeo} position={[-0.14, -0.30,  0.13]} rotation={[0, 0, 0.05]}>
-            <meshBasicMaterial ref={sr(6)} color={skiCol} transparent opacity={1} side={THREE.DoubleSide} fog />
+            <meshBasicMaterial ref={collect} color={skiCol} transparent side={THREE.DoubleSide} fog />
           </mesh>
           <mesh geometry={skiGeo} position={[-0.14, -0.30, -0.13]} rotation={[0, 0, 0.05]}>
-            <meshBasicMaterial ref={sr(7)} color={skiCol} transparent opacity={1} side={THREE.DoubleSide} fog />
-          </mesh>
-
-          {/* Rooster tail behind skis */}
-          <mesh geometry={roosterGeo} position={[0.24, -0.16, 0]}>
-            <meshBasicMaterial ref={sp(1)} color={foamCol} transparent opacity={0.80}
-              depthWrite={false} blending={THREE.AdditiveBlending} fog={false} side={THREE.DoubleSide} />
+            <meshBasicMaterial ref={collect} color={skiCol} transparent side={THREE.DoubleSide} fog />
           </mesh>
         </group>
 

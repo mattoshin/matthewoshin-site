@@ -6,10 +6,10 @@ import * as THREE from "three";
 import { clamp01 } from "@/lib/depth";
 import type { SceneElementProps } from "../types";
 
-const BAND_START = 0.29;
-const BAND_END   = 0.52;
+const BAND_START = 0.33;
+const BAND_END   = 0.49;
 const FEATHER    = 0.04;
-const SPEED      = 1.1;        // units/sec — slow, reads as large
+const SPEED      = 0.6;        // units/sec — slow, reads as large
 const Z_DEPTH    = -12;
 const Y_OFFSET   = -0.8;
 const HW         = 4.2;        // hull half-width
