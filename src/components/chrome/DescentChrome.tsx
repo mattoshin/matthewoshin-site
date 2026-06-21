@@ -25,8 +25,14 @@ import DescentBackground from "./DescentBackground";
 import BucketNav from "./BucketNav";
 import DepthGauge from "./DepthGauge";
 import OceanAI from "./OceanAI";
+import { usePathname } from "next/navigation";
 
 export default function DescentChrome() {
+  // The /app/* demos render full-bleed as their own apps; suppress the ocean
+  // chrome (canvas, nav, depth gauge, chat widget) entirely on that section.
+  const pathname = usePathname();
+  if (pathname?.startsWith("/app")) return null;
+
   return (
     <>
       <MotionController />
