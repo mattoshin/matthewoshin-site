@@ -42,10 +42,10 @@ const DEMOS: DemoCard[] = [
     tagline:
       "Cross-asset monitoring delivered as branded webhook alerts. Activate feeds, paste a webhook, start receiving.",
     era: "Current build",
-    status: "soon",
-    href: "/app/galactic-demo",
+    status: "live",
+    href: "/app/galactic-signals",
     caseStudy: "/projects/galactic-signals",
-    accent: "#7b8cff",
+    accent: "#1DD1A1",
   },
   {
     slug: "sigma",
