@@ -226,6 +226,8 @@ export interface Venture {
   oneLiner: string;
   era: string;
   note: string;
+  /** Long-form, multi-paragraph story for the detail page (falls back to `note`). */
+  storyParagraphs?: readonly string[];
 }
 
 export const VENTURES: readonly Venture[] = [
@@ -236,6 +238,12 @@ export const VENTURES: readonly Venture[] = [
       "Bloomberg for Discord. Founded at 19 on a gap year, scaled to acquisition.",
     era: "Founded and acquired, 2021 to 2023",
     note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. The insight was simple: 1,000+ Discord servers were selling their own research to subscribers, but all the alpha was scattered. I built proprietary software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. The distribution edge was the moat. $400K in all-time revenue, peaking at $50K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
+    storyParagraphs: [
+      "Mocean was Bloomberg for Discord. I started it at 19 during a gap year, splitting my time between recovering from ACL surgery and helping care for my mom as she fought ALS. The opening was hiding in plain sight: more than a thousand Discord servers were each selling their own market research to subscribers, but the alpha was scattered across all of them and none of it traveled.",
+      "I built proprietary software that turned that fragmentation into a distribution business. My team of 40-plus analysts produced branded research, and the platform mirrored it across client servers at once, so a single piece of work could reach every community simultaneously. The research was good, but the distribution was the moat.",
+      "At its peak the platform did $50K a month and reached more than 100,000 users across 1,000-plus investor communities, roughly $400K in all-time revenue. I sold it on May 1, 2023.",
+      "Mocean taught me the lesson that runs through everything I have built since: distribution beats production. Anyone can write a good thesis; far fewer people can get it in front of a hundred thousand people at the same moment.",
+    ],
   },
   {
     slug: "resell-network",
@@ -251,6 +259,12 @@ export const VENTURES: readonly Venture[] = [
       "Underground music events across four cities, co-founded in 2023.",
     era: "Co-founder, 2023 to 2026",
     note: "Co-founded with two partners at U of M. My role was the back-end: ops, taxes, legal, and venue negotiations. The brand was built around exclusive underground events and female-forward DJ curation, modeled after Cercle. 17,000+ attendees, $117,000+ in all-time revenue, 1,540,000 social media views in 2025 alone. Events in NYC, Miami, Boston, and Ann Arbor. The NYC debut at The Crown cleared $5,000+ profit. Music for a While pulled 1,200+ RSVPs. We retained rights to every photo and video we shot, so every event built our owned media library. Do the service, keep the asset.",
+    storyParagraphs: [
+      "Element Underground is a live-music brand I co-founded in 2023 at the University of Michigan. The idea was the kind of nightlife you have to know someone to get into: curated, female-forward DJ sets, tech house and techno, rooms that feel like a community instead of a club. The reference point was Cercle, the way they turned events into a content engine.",
+      "We ran it in three tiers. Spark events are low-cost or free and exist to build the brand, Pulse is the curated core, and Surge is the premium tier with internationally known artists. Every event earned on tickets and venue bar partnerships, and we reinvested the proceeds into Instagram, TikTok, and YouTube while keeping every photo and video we shot. Do the service, keep the asset.",
+      "It started as free rooftop parties in Ann Arbor and grew into a real circuit: the first ticketed run proved it could sustain itself, the NYC debut at The Crown validated the biggest market, and a later show pulled more than 1,200 RSVPs. We have since run across NYC, Ann Arbor, and Boston, with the brand formalized for expansion into new cities.",
+      "The piece I am proudest of is the operating model. We scale new cities through an agent model: local partners run their market under the Element brand, legal, and marketing umbrella while the core team supplies the strategy and the playbook. It lets the brand travel without diluting what it stands for.",
+    ],
   },
   {
     slug: "profit-paradise",
@@ -492,8 +506,26 @@ export const SKILLS = {
 /* EDUCATION                                                                   */
 /* -------------------------------------------------------------------------- */
 
-export const EDUCATION: readonly { school: string; detail: string }[] = [
-  { school: "University of Michigan", detail: "B.A. Economics" },
+export interface School {
+  school: string;
+  detail: string;
+  /** When set, the school gets a detail page at /education/[slug]. */
+  slug?: string;
+  /** Long-form, multi-paragraph story for the detail page. */
+  storyParagraphs?: readonly string[];
+}
+
+export const EDUCATION: readonly School[] = [
+  {
+    slug: "michigan",
+    school: "University of Michigan",
+    detail: "B.A. Economics",
+    storyParagraphs: [
+      "I graduated from the University of Michigan in August 2025 with a B.A. in Economics. The degree gave me the lens I still build with: markets, incentives, and how value actually moves through a system.",
+      "The bigger education ran in parallel. I was operating companies the entire time I was enrolled, usually remotely. Mocean scaled to an acquisition, Element Underground grew across multiple cities, and earlier ventures had already taught me how to find an edge and sell it. Michigan was the backdrop; building was the real major.",
+      "Economics is also what pulled me toward markets directly, from an equity-research seat at Manatuck Hill to building Sigma, my distribution-first research terminal. The classroom gave me the vocabulary and the ventures gave me the reps.",
+    ],
+  },
   { school: "Weston High School", detail: "Weston, Connecticut" },
 ] as const;
 
@@ -505,13 +537,47 @@ export const EDUCATION_META = {
 /* INTERESTS                                                                   */
 /* -------------------------------------------------------------------------- */
 
-export const INTERESTS: readonly string[] = [
-  "Markets and investing, I still write long theses for fun",
-  "DJ with a real rig",
-  "Sneakers, the origin story",
-  "Networking with other builders",
-  "Emerging tech on the frontier",
-  "Competitive by default",
+export interface Interest {
+  title: string;
+  detail: string;
+}
+
+export const INTERESTS: readonly Interest[] = [
+  {
+    title: "Markets and investing",
+    detail:
+      "I still write long-form theses for fun, the same buy-side loop I ran at Manatuck Hill: build a view, pressure-test it, size it. They range from a Meta bull case to a Constellation Brands valuation, and lately I track how AI infrastructure gets priced.",
+  },
+  {
+    title: "DJ with a real rig",
+    detail:
+      "House and melodic techno on an actual rig, not a laptop. It grew into Element Underground, the events brand I co-founded, and I sketch sounds and references with AI tools like Suno when I am chasing an idea.",
+  },
+  {
+    title: "Sneakers, the origin story",
+    detail:
+      "Where all of this started. I was flipping sneakers at 16 with Ocean Supply, which is where I learned the edge was the signal, not the shoe. I still find the resale market and its lore, from Air Mags to release cycles, genuinely fascinating.",
+  },
+  {
+    title: "Networking with other builders",
+    detail:
+      "I keep a real system for it: a running list of people I believe in and who think differently, with reminders to reconnect a few times a year. The Michigan network and the founders I have met along the way are some of my most valuable assets.",
+  },
+  {
+    title: "Emerging tech on the frontier",
+    detail:
+      "I live on it for work and for fun, from building Claude-native agents to thinking about the agentic economy and where AI-native infrastructure goes next. My first company rode the crypto and NFT wave, so I have watched a few frontiers form up close.",
+  },
+  {
+    title: "Competitive by default",
+    detail:
+      "I believe the air gets thinner the higher you aim, and that there is less competition at the top than most people assume. It shows up everywhere I build, from stacking ventures in college to treating every event and product like something to win.",
+  },
+  {
+    title: "Real estate and small businesses",
+    detail:
+      "Outside software I am drawn to real assets and the unglamorous businesses that quietly compound. I have an eye on Miami and on the tools that make small and mid-sized businesses run better.",
+  },
 ] as const;
 
 export const INTERESTS_META = {

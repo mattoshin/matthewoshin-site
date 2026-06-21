@@ -18,13 +18,18 @@ export default function InterestsPage() {
       heading={INTERESTS_META.heading}
       intro={INTERESTS_META.blurb}
     >
-      <ul className="mt-10 flex flex-wrap gap-2.5">
+      <ul className="mt-10 space-y-4">
         {INTERESTS.map((interest) => (
           <li
-            key={interest}
-            className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-ink-body sm:text-base"
+            key={interest.title}
+            className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
           >
-            {interest}
+            <h2 className="font-display text-lg font-semibold text-ink-heading sm:text-xl">
+              {interest.title}
+            </h2>
+            <p className="mt-2 text-base leading-relaxed text-ink-body">
+              {interest.detail}
+            </p>
           </li>
         ))}
       </ul>

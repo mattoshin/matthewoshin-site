@@ -80,9 +80,17 @@ export default async function VenturePage({
           <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
             The story
           </h2>
-          <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
-            {venture.note}
-          </p>
+          {venture.storyParagraphs ? (
+            <div className="measure mt-4 space-y-4 text-base leading-relaxed text-ink-body sm:text-lg">
+              {venture.storyParagraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          ) : (
+            <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
+              {venture.note}
+            </p>
+          )}
         </section>
 
         <KeyNumbers slug={slug} />
