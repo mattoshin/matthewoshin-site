@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { SITE } from "@/data/content";
 
 /**
@@ -8,6 +11,10 @@ import { SITE } from "@/data/content";
  * touching the depth-bucket nav.
  */
 export default function SiteFooter() {
+  // The /app/* demo section provides its own footer/chrome; hide the ocean one.
+  const pathname = usePathname();
+  if (pathname?.startsWith("/app")) return null;
+
   return (
     <footer className="relative z-10 px-4 pb-12 pt-6 sm:px-8">
       <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">

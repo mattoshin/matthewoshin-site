@@ -61,14 +61,22 @@ export default async function RolePage({
           </p>
         </header>
 
-        {context?.overview && (
+        {(context?.storyParagraphs || context?.overview) && (
           <section className="mt-12">
             <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
               Overview
             </h2>
-            <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
-              {context.overview}
-            </p>
+            {context?.storyParagraphs ? (
+              <div className="measure mt-4 space-y-4 text-base leading-relaxed text-ink-body sm:text-lg">
+                {context.storyParagraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            ) : (
+              <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
+                {context.overview}
+              </p>
+            )}
           </section>
         )}
 
@@ -140,6 +148,7 @@ export default async function RolePage({
 
 interface RoleContext {
   overview?: string;
+  storyParagraphs?: readonly string[];
   highlights?: { label: string; value: string }[];
   lessons?: string[];
 }
@@ -148,6 +157,12 @@ const ROLE_CONTEXT: Record<string, RoleContext> = {
   brachyclip: {
     overview:
       "BrachyClip is an early-stage medical device company affiliated with Brown University and Rhode Island Hospital, building a clip-based brachytherapy seed delivery system for minimally invasive cancer surgery. I came in as CAIO and Director of Marketing to build the brand, go-to-market, and investor narrative from zero, for a device that hasn't yet cleared the FDA.",
+    storyParagraphs: [
+      "BrachyClip is an early-stage medical device company affiliated with Brown University and Rhode Island Hospital, built by radiation-oncology faculty who invented the underlying technology. It is developing a clip-based applicator for intraoperative permanent seed brachytherapy: a handheld device that places radioactive seeds, encased in titanium clips, directly against residual tumor tissue during minimally invasive cancer surgery.",
+      "The clinical problem is specific. When a surgeon leaves a positive or close margin, the risk of local recurrence climbs, and that happens in roughly 170,000 cases a year in the U.S. across chest, abdominal, pelvic, and extremity sites. Permanent seed brachytherapy is an effective, decades-old answer, but older delivery methods risk seed migration and uneven dose in laparoscopic and robotic workflows. The clip applicator is designed to fit standard trocars, carry a magazine of seeds, and place them securely with tactile feedback.",
+      "I came in as Chief AI Officer and Director of Marketing to build the brand, the go-to-market, and the investor narrative from zero, for a device that has not yet cleared the FDA. That means selling the team, the science, and the process rather than a product you can ship today, with FDA-compliant content as a hard constraint rather than an afterthought.",
+      "I also drive AI integration into the clinical and operational workflows behind the company and support investor relations directly. It runs on a different clock than a software startup: the work rewards precision and credibility over speed, and at this stage the narrative is the product.",
+    ],
     highlights: [
       { label: "TAM", value: "$6.8B" },
       { label: "Predicate pathway", value: "510(k)" },
