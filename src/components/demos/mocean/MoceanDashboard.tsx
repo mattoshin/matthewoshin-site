@@ -430,9 +430,9 @@ function InvoicesScreen() {
       <div className="grid gap-5 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardTitle>Monthly spend</CardTitle>
-          <div className="mt-6 flex h-44 items-end gap-3">
+          <div className="mt-6 flex h-44 items-stretch gap-3">
             {MOCEAN_SPEND.map((s) => (
-              <div key={s.month} className="flex flex-1 flex-col items-center gap-2">
+              <div key={s.month} className="flex h-full flex-1 flex-col items-center gap-2">
                 <div className="flex w-full flex-1 items-end">
                   <div
                     className="w-full rounded-t-md transition-all"
