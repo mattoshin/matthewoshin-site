@@ -42,6 +42,9 @@ const PANEL2 = "var(--s-panel-2)";
 const RAISED = "var(--s-raised)";
 const AMBER = "var(--s-amber)";
 
+/** Clamp a value/total ratio to a 0-100 width percentage, guarding divide-by-zero. */
+const pct = (value: number, total: number) => (total > 0 ? Math.min(100, Math.max(0, (value / total) * 100)) : 0);
+
 /** slug -> display name, for rendering a monitor's sources. */
 const SOURCE_NAME: Record<string, string> = Object.fromEntries(
   SONAR_SOURCES.map((s) => [s.slug, s.name]),
@@ -263,7 +266,7 @@ function OverviewScreen({ onGo }: { onGo: (v: View) => void }) {
                 <span className="text-sm font-normal text-[var(--s-faint)]"> / {SONAR_AI_USAGE.cap}</span>
               </p>
               <div className="mt-2 h-1.5 overflow-hidden rounded-full" style={{ background: PANEL2 }}>
-                <div className="h-full rounded-full" style={{ width: `${(SONAR_AI_USAGE.total / SONAR_AI_USAGE.cap) * 100}%`, background: AMBER }} />
+                <div className="h-full rounded-full" style={{ width: `${pct(SONAR_AI_USAGE.total, SONAR_AI_USAGE.cap)}%`, background: AMBER }} />
               </div>
               <div className="mt-3 space-y-1.5">
                 {SONAR_AI_USAGE.byModel.map((m) => (
@@ -369,10 +372,17 @@ function AlertsScreen() {
 }
 
 function AlertDrawer({ alert, onClose }: { alert: SonarAlert; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       <button aria-label="Close" onClick={onClose} className="absolute inset-0 bg-black/50" />
-      <div className="relative z-10 flex h-full w-full max-w-md flex-col border-l shadow-2xl" style={{ borderColor: BORDER, background: PANEL }}>
+      <div role="dialog" aria-modal="true" aria-labelledby={`alert-title-${alert.id}`} className="relative z-10 flex h-full w-full max-w-md flex-col border-l shadow-2xl" style={{ borderColor: BORDER, background: PANEL }}>
         <div className="flex items-center justify-between border-b px-5 py-4" style={{ borderColor: BORDER }}>
           <div className="flex items-center gap-2">
             <SeverityChip severity={alert.severity} />
@@ -381,7 +391,7 @@ function AlertDrawer({ alert, onClose }: { alert: SonarAlert; onClose: () => voi
           <button onClick={onClose} className="text-[var(--s-muted)] transition-colors hover:text-white" aria-label="Close"><Icon name="close" size={18} /></button>
         </div>
         <div className="flex-1 overflow-y-auto p-5">
-          <h3 className="text-lg font-semibold leading-snug text-white">{alert.headline}</h3>
+          <h3 id={`alert-title-${alert.id}`} className="text-lg font-semibold leading-snug text-white">{alert.headline}</h3>
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <span className="font-mono text-xs text-[var(--s-muted)]">{alert.outlet}</span>
             <SourceTypeBadge type={alert.sourceType} />
@@ -826,7 +836,7 @@ function SlotMeter({ used, total }: { used: number; total: number }) {
         {used}<span className="text-sm font-normal text-[var(--s-faint)]"> / {total}</span>
       </p>
       <div className="mt-2 h-1.5 overflow-hidden rounded-full" style={{ background: PANEL2 }}>
-        <div className="h-full rounded-full" style={{ width: `${(used / total) * 100}%`, background: "linear-gradient(90deg, var(--s-amber), #FFCE73)" }} />
+        <div className="h-full rounded-full" style={{ width: `${pct(used, total)}%`, background: "linear-gradient(90deg, var(--s-amber), #FFCE73)" }} />
       </div>
       <p className="mt-1.5 text-xs text-[var(--s-faint)]">{total - used} slots available</p>
     </div>

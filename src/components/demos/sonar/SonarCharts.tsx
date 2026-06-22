@@ -19,6 +19,15 @@ export function AreaChart({
   const w = 100;
   const h = 100;
   const pad = 6;
+  if (data.length === 0) return null;
+  if (data.length === 1) {
+    const y = h / 2;
+    return (
+      <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" style={{ width: "100%", height }} aria-hidden="true">
+        <line x1="0" y1={y} x2={w} y2={y} stroke={color} strokeWidth={1.75} vectorEffect="non-scaling-stroke" strokeLinecap="round" />
+      </svg>
+    );
+  }
   const min = Math.min(...data);
   const max = Math.max(...data);
   const range = max - min || 1;

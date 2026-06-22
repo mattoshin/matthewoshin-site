@@ -144,7 +144,7 @@ export default function SonarLanding() {
       </section>
 
       {/* source strip */}
-      <section id="sources-strip" className="relative z-10 mx-auto max-w-6xl px-5 py-6 sm:px-8">
+      <section id="sources" className="relative z-10 mx-auto max-w-6xl px-5 py-6 sm:px-8">
         <p className="text-center font-mono text-[11px] uppercase tracking-[0.25em] text-[var(--s-faint)]">
           Listening across {SONAR_PLATFORM.sourcesLive.toLocaleString()}+ sources
         </p>
