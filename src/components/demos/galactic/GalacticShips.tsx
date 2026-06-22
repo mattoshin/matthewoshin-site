@@ -215,8 +215,10 @@ export function GalacticShips() {
     const explosions: Explosion[] = []
 
     const teamColors = {
+      // Team 0: brand teal/cyan. Team 1: brand-aligned to Discord blurple
+      // (--g-blurple #5865F2). Only `glow` is rendered (ships draw greyscale).
       0: { ship: "#8ec8c0", laser: "#22d3ee", glow: "rgba(142,200,192," },
-      1: { ship: "#b09aac", laser: "#e8a87c", glow: "rgba(176,154,172," },
+      1: { ship: "#a5b4fc", laser: "#5865F2", glow: "rgba(88,101,242," },
     }
 
     function spawnShip() {
