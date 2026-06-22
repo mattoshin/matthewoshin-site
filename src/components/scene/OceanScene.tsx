@@ -118,6 +118,26 @@ function DepthController() {
  * @param lite  phone-only graceful-degradation flag -> hero-only element set.
  * Defaults keep the full scene if ever rendered without props.
  */
+/**
+ * Flips the store's `sceneReady` once the WebGL scene has actually painted a few
+ * frames, so the SharkLoader fades out over a rendered ocean rather than guessing
+ * with a timer. Fires once, then the per-frame work is a single cheap compare.
+ */
+function SceneReadySignal() {
+  const setSceneReady = useDescentStore((s) => s.setSceneReady);
+  const frames = useRef(0);
+  const done = useRef(false);
+  useFrame(() => {
+    if (done.current) return;
+    frames.current += 1;
+    if (frames.current >= 3) {
+      done.current = true;
+      setSceneReady(true);
+    }
+  });
+  return null;
+}
+
 export default function OceanScene({
   tier = "full",
   lite = false,
@@ -131,6 +151,7 @@ export default function OceanScene({
   return (
     <>
       <DepthController />
+      <SceneReadySignal />
       <AdaptiveDpr pixelated={false} />
       <ambientLight intensity={0.6} />
       {elements.map(({ id, Component }) => (

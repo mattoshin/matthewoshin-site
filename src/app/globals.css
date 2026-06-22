@@ -350,6 +350,33 @@ html.lenis body {
   }
 }
 
+/* SharkLoader: the brand shark gently swims + glows while the ocean loads. The
+   reduced-motion block below freezes it (and the fade) to a static, instant veil. */
+@keyframes shark-loader-swim {
+  0%,
+  100% {
+    transform: translateX(-7px) translateY(2px) rotate(-3deg);
+  }
+  50% {
+    transform: translateX(7px) translateY(-4px) rotate(3deg);
+  }
+}
+@keyframes shark-loader-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 7px color-mix(in srgb, var(--bio-cyan) 50%, transparent));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px color-mix(in srgb, var(--bio-cyan) 85%, transparent));
+  }
+}
+.shark-loader__fish {
+  display: block;
+  animation:
+    shark-loader-swim 2.6s ease-in-out infinite,
+    shark-loader-glow 2s ease-in-out infinite;
+}
+
 /* Respect OS reduced-motion: kill all non-essential animation/transition. */
 @media (prefers-reduced-motion: reduce) {
   *,

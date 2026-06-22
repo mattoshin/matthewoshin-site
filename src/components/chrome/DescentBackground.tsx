@@ -12,6 +12,7 @@
  * white flash or hydration mismatch.
  */
 
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useDescentStore } from "@/lib/store";
 import StaticOcean from "./StaticOcean";
@@ -26,6 +27,14 @@ const OceanCanvas = dynamic(() => import("../scene/OceanCanvas"), {
 export default function DescentBackground() {
   const reducedMotion = useDescentStore((s) => s.reducedMotion);
   const hydrated = useDescentStore((s) => s.hydrated);
+  const setSceneReady = useDescentStore((s) => s.setSceneReady);
+
+  // Reduced-motion users never mount the canvas, so the static ocean is the
+  // terminal background: mark the scene ready once the preference is resolved so
+  // the SharkLoader fades instead of waiting on its timeout.
+  useEffect(() => {
+    if (hydrated && reducedMotion) setSceneReady(true);
+  }, [hydrated, reducedMotion, setSceneReady]);
 
   if (!hydrated || reducedMotion) {
     return <StaticOcean />;
