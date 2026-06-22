@@ -33,7 +33,7 @@ const VISIBLE_UNTIL = 0.26;
 
 // Horizon height in plane-uv (1 = top, 0 = bottom). ~0.74 puts the waterline in
 // the upper third of the view, on the flanks beside the hero card.
-const HORIZON = 0.74;
+const HORIZON = 0.77;
 // Sun horizontal position in uv. 0.85 seats it in the RIGHT FLANK (visible
 // beside the hero card, above the speedboat).
 const SUN_X = 0.85;

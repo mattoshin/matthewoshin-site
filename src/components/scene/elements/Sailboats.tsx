@@ -46,7 +46,7 @@ const EMBLEM = "#16120f"; // skull + crossbones, dark on the white sail
 
 // Camera at z=8; seat on the painted horizon: y = HORIZON_K * (CAM_Z - z).
 const CAM_Z = 8;
-const HORIZON_K = 0.286;
+const HORIZON_K = 0.31;
 
 // Surface band: drift up with the surface, then hide.
 const SURFACE_DRIFT = 1900;

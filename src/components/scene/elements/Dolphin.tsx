@@ -5,8 +5,8 @@
  * left-center surface band. Pure papercut silhouette (deep teal) built from
  * flat ShapeGeometry: body + dorsal fin + pec fin + split flukes. Jump follows
  * a parabolic arc every JUMP_PERIOD seconds; body pitch tracks velocity
- * direction for a realistic launch/apex/dive. Includes additive-white splash
- * fans at water exit and re-entry. Fades with the surface band by progress 0.2.
+ * direction for a realistic launch/apex/dive. Shows only at the very top of the
+ * surface band (no splash effects).
  */
 
 import { useMemo, useRef } from "react";
@@ -19,7 +19,6 @@ const FADE_START = 0.0;
 const FADE_END = 0.05; // dolphin shows ONLY at the very top; gone as soon as you scroll
 
 const BODY_COLOR = "#0c4a5e";
-const SPRAY_COLOR = "#d8f8ff"; // cool-white spray, additive so it glows
 
 const DOL_X = -6.5;
 const DOL_Z = -10.5;
@@ -31,12 +30,8 @@ const JUMP_HEIGHT = 3.8;
 const EXIT_ANGLE = 0.72;
 
 const CAM_Z = 8;
-const HORIZON_K = 0.286;
+const HORIZON_K = 0.31;
 const WATERLINE_Y = HORIZON_K * (CAM_Z - DOL_Z);
-
-// Splash fades in when jumpPhase < EXIT_WINDOW (launch) or > 1 - ENTRY_WINDOW (entry).
-const EXIT_WINDOW = 0.12;
-const ENTRY_WINDOW = 0.10;
 
 function makeDolphinBody(): THREE.BufferGeometry {
   const s = new THREE.Shape();
@@ -85,42 +80,16 @@ function makeFlukes(): THREE.BufferGeometry {
   return new THREE.ShapeGeometry(s);
 }
 
-/** Fan of triangles radiating upward — splash at water entry/exit. */
-function makeSplashGeometry(): THREE.BufferGeometry {
-  const tips: [number, number, number][] = [
-    [0.0,  1.1, 0.0],  // straight up, center
-    [0.5,  0.9, 0.0],  // angled right
-    [-0.5, 0.9, 0.0],  // angled left
-    [0.9,  0.5, 0.0],  // wide right
-    [-0.9, 0.5, 0.0],  // wide left
-    [0.25, 1.3, 0.0],  // slight right high
-    [-0.25,1.3, 0.0],  // slight left high
-  ];
-  const verts: number[] = [];
-  for (const [tx, ty, tz] of tips) {
-    // Each spike is a thin triangle from a base pair to its tip.
-    verts.push(-0.06, 0, 0,  0.06, 0, 0,  tx * 0.55, ty * 0.55, tz);
-  }
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute("position", new THREE.Float32BufferAttribute(verts, 3));
-  return geo;
-}
-
 export default function Dolphin({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const rigRef = useRef<THREE.Group>(null);
-  const splashRef = useRef<THREE.Group>(null);
   const matRefs = useRef<(THREE.MeshBasicMaterial | null)[]>([]);
-  const exitSplashRef = useRef<THREE.MeshBasicMaterial | null>(null);
-  const entrySplashRef = useRef<THREE.MeshBasicMaterial | null>(null);
 
   const bodyGeo   = useMemo(() => makeDolphinBody(), []);
   const dorsalGeo = useMemo(() => makeDorsalFin(), []);
   const pecGeo    = useMemo(() => makePecFin(), []);
   const flukesGeo = useMemo(() => makeFlukes(), []);
-  const splashGeo = useMemo(() => makeSplashGeometry(), []);
   const color     = useMemo(() => new THREE.Color(BODY_COLOR), []);
-  const sprayCol  = useMemo(() => new THREE.Color(SPRAY_COLOR), []);
 
   const reg = (i: number) => (el: THREE.MeshBasicMaterial | null) => {
     matRefs.current[i] = el;
@@ -170,11 +139,6 @@ export default function Dolphin({ progress }: SceneElementProps) {
     rig.rotation.set(0, 0, clamp01(pitch / EXIT_ANGLE) * EXIT_ANGLE * Math.sign(pitch));
     rig.scale.setScalar(DOL_SCALE);
 
-    // Splash: exit fan (near phase=0) and entry fan (near phase=1).
-    const exitAlpha   = eased * (1 - clamp01(jumpPhase / EXIT_WINDOW));
-    const entryAlpha  = eased * clamp01((jumpPhase - (1 - ENTRY_WINDOW)) / ENTRY_WINDOW);
-    if (exitSplashRef.current)  exitSplashRef.current.opacity  = exitAlpha  * 0.75;
-    if (entrySplashRef.current) entrySplashRef.current.opacity = entryAlpha * 0.75;
   });
 
   return (
@@ -195,35 +159,6 @@ export default function Dolphin({ progress }: SceneElementProps) {
         </mesh>
       </group>
 
-      {/* Splash fans: fixed at the waterline, not parented to the rig */}
-      <group ref={splashRef} position={[DOL_X, WATERLINE_Y, DOL_Z]}>
-        {/* Exit splash — launches upward as dolphin leaves the water */}
-        <mesh geometry={splashGeo} scale={[1.1, 1.1, 1.1]}>
-          <meshBasicMaterial
-            ref={(el) => { exitSplashRef.current = el; }}
-            color={sprayCol}
-            transparent
-            opacity={0}
-            depthWrite={false}
-            blending={THREE.AdditiveBlending}
-            fog={false}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-        {/* Entry splash — smaller burst on re-entry */}
-        <mesh geometry={splashGeo} scale={[0.7, 0.7, 0.7]}>
-          <meshBasicMaterial
-            ref={(el) => { entrySplashRef.current = el; }}
-            color={sprayCol}
-            transparent
-            opacity={0}
-            depthWrite={false}
-            blending={THREE.AdditiveBlending}
-            fog={false}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-      </group>
     </group>
   );
 }
