@@ -59,6 +59,17 @@ const DEMOS: DemoCard[] = [
     accent: "#0027b3",
   },
   {
+    slug: "sonar",
+    name: "Sonar",
+    tagline:
+      "Real-time media monitoring for IR and comms. Describe a monitor in plain English, dry-run it against the last 48 hours, and get pinged the moment it matters.",
+    era: "Recent build",
+    status: "live",
+    href: "/app/sonar",
+    caseStudy: "/projects/sonar",
+    accent: "#FFB224",
+  },
+  {
     slug: "sigma",
     name: "Sigma",
     tagline:
