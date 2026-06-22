@@ -66,12 +66,12 @@ export default async function VenturePage({
             {venture.name}
           </h1>
           <p className="mt-4 text-lg text-ink-body sm:text-xl">{venture.oneLiner}</p>
-          {slug === "mocean" && (
+          {venture.demoHref && (
             <Link
-              href="/app/mocean-demo"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-bio-cyan/40 bg-bio-cyan/10 px-4 py-2 font-mono text-xs uppercase tracking-wider text-bio-cyan transition-colors hover:bg-bio-cyan/20"
+              href={venture.demoHref}
+              className="btn-demo mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs uppercase tracking-wider"
             >
-              See the interactive demo <span aria-hidden="true">-&gt;</span>
+              View Demo <span aria-hidden="true">-&gt;</span>
             </Link>
           )}
         </header>

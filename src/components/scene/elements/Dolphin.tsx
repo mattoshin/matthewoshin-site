@@ -26,7 +26,7 @@ const DOL_Z = -10.5;
 const DOL_SCALE = 0.82;
 
 const JUMP_PERIOD = 19.0; // a jump roughly every 19s
-const JUMP_DURATION = 3.8; // ~60% slower arc again — a long, lazy leap
+const JUMP_DURATION = 1.7; // quick, lively leap (jumps stay ~19s apart via JUMP_PERIOD)
 const JUMP_HEIGHT = 3.8;
 const EXIT_ANGLE = 0.72;
 

@@ -32,15 +32,11 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useDescentStore } from "@/lib/store";
 import { BUCKETS, SITE } from "@/data/content";
 import { Socials } from "./Socials";
 
 export default function BucketNav() {
   const pathname = usePathname();
-  const manualReduced = useDescentStore((s) => s.manualReducedMotion);
-  const reducedMotion = useDescentStore((s) => s.reducedMotion);
-  const toggleReducedMotion = useDescentStore((s) => s.toggleReducedMotion);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const menuId = useId();
@@ -164,35 +160,9 @@ export default function BucketNav() {
           </ul>
         </nav>
 
-        {/* DESKTOP right controls: Contact button + motion toggle (lg+). */}
+        {/* DESKTOP right controls: social logos (lg+). */}
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <Socials />
-          <button
-            type="button"
-            onClick={toggleReducedMotion}
-            aria-pressed={manualReduced}
-            aria-label={
-              manualReduced
-                ? "Motion reduced. Re-enable the dive."
-                : "Reduce motion to a static background."
-            }
-            title={
-              manualReduced
-                ? "Motion reduced. Click to re-enable the dive."
-                : "Reduce motion (static background)."
-            }
-            className="flex items-center gap-1.5 rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-xs font-medium text-ink-body backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan"
-          >
-            <span
-              aria-hidden="true"
-              className={`h-2 w-2 rounded-full ${
-                reducedMotion
-                  ? "bg-ink-faint"
-                  : "bg-bio-aqua shadow-[0_0_8px_var(--bio-aqua)]"
-              }`}
-            />
-            <span>{reducedMotion ? "Motion off" : "Motion on"}</span>
-          </button>
         </div>
 
         {/* MOBILE hamburger (below lg). Compact, never clips. */}
@@ -269,26 +239,7 @@ export default function BucketNav() {
 
             <div className="my-2 h-px bg-white/10" />
 
-            <div className="flex flex-col gap-1">
-              <button
-                type="button"
-                onClick={toggleReducedMotion}
-                aria-pressed={manualReduced}
-                className="flex w-full items-center gap-2.5 rounded-xl px-4 py-3 text-left text-sm font-medium text-ink-body transition-colors hover:bg-white/10 hover:text-bio-cyan"
-              >
-                <span
-                  aria-hidden="true"
-                  className={`h-2 w-2 shrink-0 rounded-full ${
-                    reducedMotion
-                      ? "bg-ink-faint"
-                      : "bg-bio-aqua shadow-[0_0_8px_var(--bio-aqua)]"
-                  }`}
-                />
-                {reducedMotion ? "Motion off" : "Motion on"}
-              </button>
-            </div>
-
-            <div className="mt-2 flex items-center justify-center gap-1.5">
+            <div className="mt-2 flex items-center justify-center gap-4">
               <Socials />
             </div>
           </div>

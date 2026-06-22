@@ -118,14 +118,14 @@ export default async function ProjectPage({
           </a>
         ) : null}
 
-        {/* Galactic Signals ships an interactive in-site demo at /app. */}
-        {slug === "galactic-signals" ? (
+        {/* Interactive in-site demo: a bright, pulsing call to action. */}
+        {project.demoHref ? (
           <div className="mt-12">
             <Link
-              href="/app/galactic-signals"
-              className="inline-flex items-center gap-2 rounded-full border border-bio-cyan/40 bg-bio-cyan/10 px-5 py-2.5 text-sm font-medium text-bio-cyan transition-colors hover:bg-bio-cyan/20"
+              href={project.demoHref}
+              className="btn-demo inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm uppercase tracking-wider"
             >
-              Try the live demo <span aria-hidden="true">-&gt;</span>
+              View Demo <span aria-hidden="true">-&gt;</span>
             </Link>
           </div>
         ) : null}

@@ -220,17 +220,20 @@ export default function Surface({ progress }: SceneElementProps) {
     }
     if (!group.visible) group.visible = true;
 
-    // Scale the plane to always FILL the viewport at its depth, so the bright
-    // surface reaches both edges at any aspect ratio. Without this, on wide
-    // monitors the fixed-size plane is narrower than the view and the flat
-    // StaticOcean gradient shows through on the left/right with a hard seam.
+    // Widen the plane HORIZONTALLY to reach both edges on wide monitors (the
+    // original fixed 150-wide plane left a flat StaticOcean band on the sides).
+    // CRITICAL: scale X only. The painted horizon sits off-center (uv 0.74), so
+    // any Y-scale moves the horizon in world space and desyncs every element that
+    // pegs to the waterline via HORIZON_K (dolphin, boats). Keep Y at 1 so the
+    // 92-tall plane (which already over-covers vertically) holds the horizon
+    // exactly where those elements expect it.
     const mesh = meshRef.current;
     if (mesh) {
       const cam = state.camera as THREE.PerspectiveCamera;
       const dist = 80; // camera z (8) to the plane's world z (-72)
       const hVis = 2 * dist * Math.tan(((cam.fov || 55) * Math.PI) / 360);
       const wVis = hVis * (state.size.width / state.size.height);
-      mesh.scale.set((wVis * 1.06) / 150, (hVis * 1.06) / 92, 1);
+      mesh.scale.set(Math.max(1, (wVis * 1.06) / 150), 1, 1);
     }
 
     // Full opacity always; the surface DRIFTS up rather than dissolving.
