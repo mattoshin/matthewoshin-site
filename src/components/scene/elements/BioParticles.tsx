@@ -30,13 +30,17 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { hexToRgb01, lerp, clamp01 } from "@/lib/depth";
+import { useDeviceTier } from "@/lib/useDeviceTier";
 import type { SceneElementProps } from "../types";
 
 // ---------------------------------------------------------------------------
 // Tunables
 // ---------------------------------------------------------------------------
 
-const COUNT = 4000;
+// Point count is tier-scaled: phones run a third of the field (still reads as a
+// dense bioluminescent slab at a fraction of the vertex + overdraw cost).
+const COUNT_FULL = 4000;
+const COUNT_PHONE = 1300;
 
 // The slab the plankton live in. It is centered on the camera's descending Y
 // (wrapped in the shader), so these are *extents around the camera*, not world
@@ -189,13 +193,15 @@ export default function BioParticles({ progress }: SceneElementProps) {
   // popping on a fast scroll.
   const smoothedIntensity = useRef(0);
 
-  // Build the geometry once: positions + per-point random attributes.
+  const count = useDeviceTier() === "phone" ? COUNT_PHONE : COUNT_FULL;
+
+  // Build the geometry once per tier: positions + per-point random attributes.
   const geometry = useMemo(() => {
-    const positions = new Float32Array(COUNT * 3);
-    const seeds = new Float32Array(COUNT);
-    const sizes = new Float32Array(COUNT);
-    const colorMix = new Float32Array(COUNT);
-    const drift = new Float32Array(COUNT);
+    const positions = new Float32Array(count * 3);
+    const seeds = new Float32Array(count);
+    const sizes = new Float32Array(count);
+    const colorMix = new Float32Array(count);
+    const drift = new Float32Array(count);
 
     // Deterministic pseudo-random so the field layout is stable across reloads.
     // The React Compiler forbids Math.random() during render.
@@ -205,7 +211,7 @@ export default function BioParticles({ progress }: SceneElementProps) {
       return seed / 4294967296;
     };
 
-    for (let i = 0; i < COUNT; i++) {
+    for (let i = 0; i < count; i++) {
       // Spread across the slab. Y is centered on 0 here; the shader re-centers
       // it on the live camera Y every frame via wrapping.
       positions[i * 3 + 0] = (rand() * 2 - 1) * FIELD_X;
@@ -234,7 +240,7 @@ export default function BioParticles({ progress }: SceneElementProps) {
       FIELD_X + FIELD_HALF_HEIGHT + 40,
     );
     return g;
-  }, []);
+  }, [count]);
 
   const uniforms = useMemo(
     () => ({
