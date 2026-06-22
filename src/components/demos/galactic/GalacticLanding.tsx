@@ -10,7 +10,8 @@ import {
   GALACTIC_FACTS,
   DELIVERY_CHANNELS,
 } from "@/data/galactic-demo";
-import { Wordmark, Starfield, EmbedCard, Icon } from "./GalacticKit";
+import { Wordmark, EmbedCard, Icon } from "./GalacticKit";
+import { GalacticShips } from "./GalacticShips";
 
 /**
  * GalacticLanding - a faithful recreation of the Galactic Signals marketing site,
@@ -32,16 +33,10 @@ const navLinks = [
 export default function GalacticLanding() {
   return (
     <div className="relative overflow-hidden">
-      {/* hero glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[760px]"
-        style={{
-          background:
-            "radial-gradient(680px 380px at 72% -8%, rgba(29,209,161,0.16), transparent 70%), radial-gradient(540px 320px at 18% 4%, rgba(88,101,242,0.16), transparent 70%)",
-        }}
-      />
-      <Starfield count={70} />
+      {/* Animated cosmic background ported from the real galacticsignals.com:
+          drifting starships, planets, and lasers on a fixed full-viewport canvas
+          (z-0), sitting behind all the z-10 content sections below. */}
+      <GalacticShips />
 
       {/* nav */}
       <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8">
