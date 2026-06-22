@@ -1,8 +1,11 @@
+import Link from "next/link";
 import { SITE } from "@/data/content";
 
 /**
  * Socials - the row of social icon links. Lives in the top nav (and anywhere a
- * compact social row is needed). Glass buttons that light up turquoise on hover.
+ * compact social row is needed). Bold white logos that light up turquoise on
+ * hover. The envelope opens the on-site contact page (no exposed email address);
+ * GitHub sits last.
  */
 export function Socials({ className = "" }: { className?: string }) {
   return (
@@ -10,21 +13,24 @@ export function Socials({ className = "" }: { className?: string }) {
       <SocialLink href={SITE.linkedin} label="LinkedIn" external>
         <LinkedInIcon />
       </SocialLink>
-      <SocialLink href={SITE.github} label="GitHub" external>
-        <GitHubIcon />
-      </SocialLink>
       <SocialLink href={SITE.instagram} label="Instagram" external>
         <InstagramIcon />
       </SocialLink>
       <SocialLink href={SITE.x} label="X (Twitter)" external>
         <XIcon />
       </SocialLink>
-      <SocialLink href={`mailto:${SITE.email}`} label="Email Matthew">
+      <SocialLink href="/contact" label="Contact Matthew">
         <MailIcon />
+      </SocialLink>
+      <SocialLink href={SITE.github} label="GitHub" external>
+        <GitHubIcon />
       </SocialLink>
     </div>
   );
 }
+
+const LINK_CLASS =
+  "flex items-center justify-center text-white transition-colors hover:text-bio-cyan [filter:drop-shadow(0_1px_3px_rgba(2,6,11,0.75))]";
 
 function SocialLink({
   href,
@@ -37,16 +43,26 @@ function SocialLink({
   external?: boolean;
   children: React.ReactNode;
 }) {
+  // Internal links (the contact page) use client-side nav so the persistent
+  // ocean canvas never reloads; external links open in a new tab.
+  if (external) {
+    return (
+      <a
+        href={href}
+        aria-label={label}
+        title={label}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={LINK_CLASS}
+      >
+        {children}
+      </a>
+    );
+  }
   return (
-    <a
-      href={href}
-      aria-label={label}
-      title={label}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="flex items-center justify-center text-white transition-colors hover:text-bio-cyan [filter:drop-shadow(0_1px_3px_rgba(2,6,11,0.75))]"
-    >
+    <Link href={href} aria-label={label} title={label} className={LINK_CLASS}>
       {children}
-    </a>
+    </Link>
   );
 }
 
