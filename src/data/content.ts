@@ -77,7 +77,7 @@ export const BUCKETS: readonly Bucket[] = [
     zone: "projects",
     label: "Portfolio",
     href: "/portfolio",
-    teaser: "The products I build now: Sigma, Galactic Signals, Observly, BriefBridge, mTrain, Camp Ricky.",
+    teaser: "The products I build now: Sigma, Galactic Signals, Observly, BriefBridge, mTrain, Camp Ricky, and the Dog House band site.",
   },
   {
     id: "skills",
@@ -395,6 +395,22 @@ export const BUILDS: readonly Build[] = [
     ],
     stack: ["Next.js 16", "TypeScript", "Tailwind v4", "Supabase Postgres", "Vercel"],
     status: "Shipped",
+  },
+  {
+    slug: "dog-house",
+    name: "Dog House",
+    hook: "A photo-led website for a NYC rock band, designed and built end to end.",
+    summary:
+      "Dog House is a New York City rock band that gigs constantly but had no website and no link in bio, so I designed and built them one. It's a dark, photo-led single page that turns the band's own concert photography into the hub for shows, music, and booking, with an email capture so they keep their fans. Research-first design, shipped to its own domain.",
+    highlights: [
+      "A 'Backstage' visual direction grounded in design research: near-black, photo-led, with one electric accent pulled from the band's actual stage lighting.",
+      "Full-viewport hero, a live shows list, a keyboard-accessible gallery lightbox, and a join-the-list email capture.",
+      "The band's concert photography drives the whole design while the interface stays out of the way.",
+      "Accessible and responsive across mobile and desktop, with Lenis smooth scroll and tasteful motion.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Motion"],
+    status: "Shipped",
+    href: "https://doghouseband.matthewoshin.com",
   },
 ] as const;
 
