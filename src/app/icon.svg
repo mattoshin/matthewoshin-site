@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Shark">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c3147"/>
+      <stop offset="1" stop-color="#061824"/>
+    </linearGradient>
+    <linearGradient id="shark" x1="0.1" y1="0.1" x2="0.9" y2="0.9">
+      <stop offset="0" stop-color="#6ff3d8"/>
+      <stop offset="1" stop-color="#33c2e6"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <g fill="url(#shark)">
+    <!-- body + dorsal fin + forked tail (nose right, tail left) -->
+    <path d="M58 31 C52 24 46 23 39 23 L33 8 L30 24 C24 25 19 26 16 28 L4 16 L13 30 L9 42 L17 33 C24 37 32 39 40 38 C48 37 53 35 58 31 Z"/>
+    <!-- pectoral fin -->
+    <path d="M35 37 L28 48 L43 38 Z"/>
+  </g>
+  <!-- eye -->
+  <circle cx="52" cy="29" r="1.8" fill="#061824"/>
+</svg>
