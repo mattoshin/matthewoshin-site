@@ -70,7 +70,7 @@ export default function PortfolioPage() {
                 </span>
               </div>
               <p className="mt-3 text-sm text-ink-body sm:text-base">{f.hook}</p>
-              <div className="mt-5 flex flex-wrap items-center gap-3">
+              <div className="mt-auto flex flex-wrap items-center gap-3 pt-5">
                 {f.demoHref ? (
                   <Link
                     href={f.demoHref}
@@ -110,7 +110,7 @@ export default function PortfolioPage() {
               <p className="mt-3 text-sm text-ink-body sm:text-base">
                 {build.hook}
               </p>
-              <span className="mt-5 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity group-hover:opacity-100">
+              <span className="mt-auto inline-flex items-center gap-1 pt-5 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity group-hover:opacity-100">
                 Open case study
                 <span
                   aria-hidden="true"
