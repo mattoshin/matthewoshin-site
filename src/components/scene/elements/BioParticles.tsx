@@ -26,7 +26,7 @@
  *     and useFrame early-returns, so it costs ~nothing in the sunlit half.
  */
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { hexToRgb01, lerp, clamp01 } from "@/lib/depth";
@@ -241,6 +241,11 @@ export default function BioParticles({ progress }: SceneElementProps) {
     );
     return g;
   }, [count]);
+
+  // Dispose the previous geometry's GPU buffers when `count` changes (a phone
+  // <-> desktop tier switch rebuilds it). R3F only auto-disposes on unmount, not
+  // when a memo swaps in a new geometry while the component stays mounted.
+  useEffect(() => () => geometry.dispose(), [geometry]);
 
   const uniforms = useMemo(
     () => ({

@@ -44,12 +44,15 @@ export default function OceanCanvas() {
   const [frameloop, setFrameloop] = useState<"always" | "never">("always");
 
   // Phones cap DPR at 1.0 with a 0.75 floor; desktop/tablet keep the full range.
-  // The ceiling is clamped to dprMax at render time so a stale runtime `dpr` from
-  // before a tier change (e.g. desktop -> phone resize) can never exceed the
-  // tier's budget, which avoids needing a setState-in-effect to reset it.
+  // The ceiling is clamped to [dprMin, dprMax] at render time so a stale runtime
+  // `dpr` from before a tier change can never produce an out-of-budget OR an
+  // inverted range. Both directions matter: desktop -> phone (a high `dpr` would
+  // exceed the phone budget) and phone -> desktop (a degraded `dpr` of 0.75 would
+  // otherwise yield [1, 0.75], a sub-1 blurry desktop). Clamping avoids a
+  // setState-in-effect just to reset it; `dpr` re-expands on the next onDecline.
   const dprMin = isPhone ? 0.75 : 1;
   const dprMax = isPhone ? 1 : 1.5;
-  const dprCeiling = Math.min(dpr, dprMax);
+  const dprCeiling = Math.max(dprMin, Math.min(dpr, dprMax));
 
   // Sync detection result into the shared store (external-system sync).
   useEffect(() => {
