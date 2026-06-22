@@ -333,7 +333,7 @@ export const BUILDS: readonly Build[] = [
       "$35-40B TAM across five underserved verticals with no dominant cross-asset competitor.",
       "AI agent data layer roadmap: MCP integration turns every feed into a structured stream any agent on Claude, ChatGPT, or a custom system can natively consume.",
     ],
-    stack: ["Next.js 16", "Prisma", "PostgreSQL", "Python workers", "Stripe", "Docker"],
+    stack: ["TypeScript", "React 19", "Next.js 16", "Tailwind v4", "Node.js", "Prisma", "Python workers", "PostgreSQL", "PgBouncer", "NextAuth", "Stripe", "Resend", "Sentry", "Docker"],
     status: "Current build",
   },
   {

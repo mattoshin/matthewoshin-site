@@ -379,6 +379,8 @@ export interface GalacticUser {
   id: string;
   name: string;
   handle: string;
+  email: string;
+  role: "USER" | "ADMIN";
   plan: FeedTier;
   community: string;
   channels: number;
@@ -387,16 +389,16 @@ export interface GalacticUser {
 }
 
 export const GALACTIC_USERS: readonly GalacticUser[] = [
-  { id: "u-1", name: "Marcus Chen", handle: "mchen", plan: "Business", community: "Apex Capital", channels: 9, joined: "Mar 2025", status: "active" },
-  { id: "u-2", name: "Sofia Reyes", handle: "sreyes", plan: "Pro", community: "Genesis Council", channels: 6, joined: "Apr 2025", status: "active" },
-  { id: "u-3", name: "Dev Patel", handle: "dpatel", plan: "Pro", community: "Quant Lab", channels: 4, joined: "Apr 2025", status: "active" },
-  { id: "u-4", name: "Hana Kim", handle: "hkim", plan: "Free", community: "Retail Radar", channels: 1, joined: "May 2025", status: "trialing" },
-  { id: "u-5", name: "Liam O'Brien", handle: "lobrien", plan: "Business", community: "Northwind Desk", channels: 12, joined: "Jan 2025", status: "active" },
-  { id: "u-6", name: "Aaliyah Brooks", handle: "abrooks", plan: "Pro", community: "Delta Signals", channels: 5, joined: "May 2025", status: "active" },
-  { id: "u-7", name: "Noah Schmidt", handle: "nschmidt", plan: "Free", community: "Crypto Corner", channels: 2, joined: "Jun 2025", status: "trialing" },
-  { id: "u-8", name: "Priya Nair", handle: "pnair", plan: "Pro", community: "Vega Traders", channels: 7, joined: "Feb 2025", status: "active" },
-  { id: "u-9", name: "Diego Santos", handle: "dsantos", plan: "Business", community: "Helix Group", channels: 11, joined: "Dec 2024", status: "active" },
-  { id: "u-10", name: "Emma Wilson", handle: "ewilson", plan: "Free", community: "Sideline Bets", channels: 1, joined: "Jun 2025", status: "churned" },
+  { id: "u-1", name: "Marcus Chen", handle: "mchen", email: "marcus@apexcapital.io", role: "ADMIN", plan: "Business", community: "Apex Capital", channels: 9, joined: "Mar 2025", status: "active" },
+  { id: "u-2", name: "Sofia Reyes", handle: "sreyes", email: "sofia@genesiscouncil.gg", role: "USER", plan: "Pro", community: "Genesis Council", channels: 6, joined: "Apr 2025", status: "active" },
+  { id: "u-3", name: "Dev Patel", handle: "dpatel", email: "dev@quantlab.dev", role: "USER", plan: "Pro", community: "Quant Lab", channels: 4, joined: "Apr 2025", status: "active" },
+  { id: "u-4", name: "Hana Kim", handle: "hkim", email: "hana@retailradar.co", role: "USER", plan: "Free", community: "Retail Radar", channels: 1, joined: "May 2025", status: "trialing" },
+  { id: "u-5", name: "Liam O'Brien", handle: "lobrien", email: "liam@northwind.desk", role: "ADMIN", plan: "Business", community: "Northwind Desk", channels: 12, joined: "Jan 2025", status: "active" },
+  { id: "u-6", name: "Aaliyah Brooks", handle: "abrooks", email: "aaliyah@deltasignals.io", role: "USER", plan: "Pro", community: "Delta Signals", channels: 5, joined: "May 2025", status: "active" },
+  { id: "u-7", name: "Noah Schmidt", handle: "nschmidt", email: "noah@cryptocorner.gg", role: "USER", plan: "Free", community: "Crypto Corner", channels: 2, joined: "Jun 2025", status: "trialing" },
+  { id: "u-8", name: "Priya Nair", handle: "pnair", email: "priya@vegatraders.com", role: "USER", plan: "Pro", community: "Vega Traders", channels: 7, joined: "Feb 2025", status: "active" },
+  { id: "u-9", name: "Diego Santos", handle: "dsantos", email: "diego@helixgroup.io", role: "USER", plan: "Business", community: "Helix Group", channels: 11, joined: "Dec 2024", status: "active" },
+  { id: "u-10", name: "Emma Wilson", handle: "ewilson", email: "emma@sidelinebets.co", role: "USER", plan: "Free", community: "Sideline Bets", channels: 1, joined: "Jun 2025", status: "churned" },
 ];
 
 /* ------------------------------------------------------------- landing copy --- */

@@ -137,7 +137,22 @@ export type IconName =
   | "bolt"
   | "globe"
   | "test"
-  | "close";
+  | "close"
+  | "dots"
+  | "trash"
+  | "pencil"
+  | "play"
+  | "pause"
+  | "drag"
+  | "key"
+  | "rss"
+  | "server"
+  | "refresh"
+  | "upload"
+  | "code"
+  | "layers"
+  | "mail"
+  | "megaphone";
 
 export function Icon({
   name,
@@ -206,5 +221,35 @@ export function Icon({
       return <svg {...common}><path d="M9 3h6" /><path d="M10 3v6l-4 9a2 2 0 0 0 2 3h8a2 2 0 0 0 2-3l-4-9V3" /><path d="M7.5 15h9" /></svg>;
     case "close":
       return <svg {...common}><path d="M6 6l12 12M18 6 6 18" /></svg>;
+    case "dots":
+      return <svg {...common}><circle cx="12" cy="5" r="1.4" fill="currentColor" stroke="none" /><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" /><circle cx="12" cy="19" r="1.4" fill="currentColor" stroke="none" /></svg>;
+    case "trash":
+      return <svg {...common}><path d="M4 7h16" /><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /><path d="M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13" /><path d="M10 11v6M14 11v6" /></svg>;
+    case "pencil":
+      return <svg {...common}><path d="M4 20h4L19 9a2 2 0 0 0-3-3L5 17v3Z" /><path d="m14 6 3 3" /></svg>;
+    case "play":
+      return <svg {...common}><path d="M8 5v14l11-7-11-7Z" /></svg>;
+    case "pause":
+      return <svg {...common}><path d="M9 5v14M15 5v14" /></svg>;
+    case "drag":
+      return <svg {...common}>{[6, 12, 18].flatMap((cy) => [9, 15].map((cx) => <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="1.3" fill="currentColor" stroke="none" />))}</svg>;
+    case "key":
+      return <svg {...common}><circle cx="8" cy="15" r="4" /><path d="M11 12l9-9" /><path d="m16 5 3 3" /></svg>;
+    case "rss":
+      return <svg {...common}><path d="M4 11a9 9 0 0 1 9 9" /><path d="M4 4a16 16 0 0 1 16 16" /><circle cx="5" cy="19" r="1.4" fill="currentColor" stroke="none" /></svg>;
+    case "server":
+      return <svg {...common}><rect x="3" y="4" width="18" height="7" rx="1.5" /><rect x="3" y="13" width="18" height="7" rx="1.5" /><path d="M7 7.5h.5M7 16.5h.5" /></svg>;
+    case "refresh":
+      return <svg {...common}><path d="M21 12a9 9 0 1 1-3-6.7" /><path d="M21 4v5h-5" /></svg>;
+    case "upload":
+      return <svg {...common}><path d="M12 16V4" /><path d="m7 9 5-5 5 5" /><path d="M5 20h14" /></svg>;
+    case "code":
+      return <svg {...common}><path d="m8 8-5 4 5 4" /><path d="m16 8 5 4-5 4" /><path d="M14 5 10 19" /></svg>;
+    case "layers":
+      return <svg {...common}><path d="m12 3 9 5-9 5-9-5 9-5Z" /><path d="m3 13 9 5 9-5" /></svg>;
+    case "mail":
+      return <svg {...common}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>;
+    case "megaphone":
+      return <svg {...common}><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1Z" /><path d="M15 8a4 4 0 0 1 0 8" /></svg>;
   }
 }
