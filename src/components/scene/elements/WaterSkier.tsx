@@ -41,7 +41,7 @@ const SURFACE_DRIFT = 1900;
 const SURFACE_GONE  = 0.24;
 
 const CAM_Z      = 8;
-const HORIZON_K  = 0.272;
+const HORIZON_K  = 0.295;
 const RIG_Z      = -10.0;
 const RIG_SCALE  = 1.05;
 const HEADING    = 0.14;
