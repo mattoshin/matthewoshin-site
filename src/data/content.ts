@@ -31,7 +31,7 @@ export const SITE = {
   github: "https://github.com/mattoshin",
   instagram: "https://www.instagram.com/mattoshin/",
   x: "https://x.com/matthewsoshin",
-  calendlyUrl: "https://calendly.com/mattoshin/1",
+  calendlyUrl: "https://calendly.com/mattoshin",
 } as const;
 
 /**
