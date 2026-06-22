@@ -319,6 +319,37 @@ html.lenis body {
   }
 }
 
+/* Bright, attention-grabbing "View Demo" call-to-action: a filled bio-cyan pill
+   with a pulsing glow ring so it reads as the primary action on a case study.
+   The pulse is motion-safe (disabled under prefers-reduced-motion below). */
+.btn-demo {
+  background: var(--bio-cyan);
+  color: var(--abyss-void);
+  border: 1px solid color-mix(in srgb, var(--bio-cyan) 80%, white);
+  font-weight: 700;
+}
+.btn-demo:hover {
+  background: color-mix(in srgb, var(--bio-cyan) 88%, white);
+}
+@keyframes demo-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 0 color-mix(in srgb, var(--bio-cyan) 60%, transparent),
+      0 0 16px 1px color-mix(in srgb, var(--bio-cyan) 45%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 7px color-mix(in srgb, var(--bio-cyan) 0%, transparent),
+      0 0 30px 7px color-mix(in srgb, var(--bio-cyan) 70%, transparent);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn-demo {
+    animation: demo-pulse 1.8s ease-in-out infinite;
+  }
+}
+
 /* Respect OS reduced-motion: kill all non-essential animation/transition. */
 @media (prefers-reduced-motion: reduce) {
   *,

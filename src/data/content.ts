@@ -228,6 +228,8 @@ export interface Venture {
   note: string;
   /** Long-form, multi-paragraph story for the detail page (falls back to `note`). */
   storyParagraphs?: readonly string[];
+  /** When set, the detail page shows a bright "View Demo" button to this route. */
+  demoHref?: string;
 }
 
 export const VENTURES: readonly Venture[] = [
@@ -237,6 +239,7 @@ export const VENTURES: readonly Venture[] = [
     oneLiner:
       "Bloomberg for Discord. Founded at 19 on a gap year, scaled to acquisition.",
     era: "Founded and acquired, 2021 to 2023",
+    demoHref: "/app/mocean-demo",
     note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. The insight was simple: 1,000+ Discord servers were selling their own research to subscribers, but all the alpha was scattered. I built proprietary software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. The distribution edge was the moat. $400K in all-time revenue, peaking at $50K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
     storyParagraphs: [
       "Mocean was Bloomberg for Discord. I started it at 19 during a gap year, splitting my time between recovering from ACL surgery and helping care for my mom as she fought ALS. The opening was hiding in plain sight: more than a thousand Discord servers were each selling their own market research to subscribers, but the alpha was scattered across all of them and none of it traveled.",
@@ -295,6 +298,8 @@ export interface Build {
   stack: readonly string[];
   status: string;
   href?: string;
+  /** When set, the case study shows a bright "View Demo" button to this route. */
+  demoHref?: string;
 }
 
 export const BUILDS: readonly Build[] = [
@@ -317,6 +322,7 @@ export const BUILDS: readonly Build[] = [
     slug: "galactic-signals",
     name: "Galactic Signals",
     hook: "Cross-asset monitoring for communities, built toward the AI agent data layer that sits underneath them.",
+    demoHref: "/app/galactic-signals",
     summary:
       "Cross-asset monitoring is fragmented across dozens of vertical tools: stocks, crypto, sports betting, trading cards, real estate, macro, and news rarely live in one place, delivered where a community already is. Galactic unifies that monitoring behind a single subscription and fires branded webhook alerts into Discord, Telegram, Slack, email, or any endpoint the user points at it. Setup is thirty seconds: activate the feeds, paste a webhook URL, start receiving. The monitoring tool is the consumer wedge. The longer thesis is the marketplace and what comes after it: an MCP server that turns every Galactic feed into a structured stream any AI agent can natively consume. That is the 'Plaid for alternative data' bet, starting with a product that already has near-zero delivery costs and no direct cross-asset competitor.",
     highlights: [
