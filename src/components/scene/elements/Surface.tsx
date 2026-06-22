@@ -184,6 +184,7 @@ const fragmentShader = /* glsl */ `
 export default function Surface({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
 
   const uniforms = useMemo(
     () => ({
@@ -219,6 +220,19 @@ export default function Surface({ progress }: SceneElementProps) {
     }
     if (!group.visible) group.visible = true;
 
+    // Scale the plane to always FILL the viewport at its depth, so the bright
+    // surface reaches both edges at any aspect ratio. Without this, on wide
+    // monitors the fixed-size plane is narrower than the view and the flat
+    // StaticOcean gradient shows through on the left/right with a hard seam.
+    const mesh = meshRef.current;
+    if (mesh) {
+      const cam = state.camera as THREE.PerspectiveCamera;
+      const dist = 80; // camera z (8) to the plane's world z (-72)
+      const hVis = 2 * dist * Math.tan(((cam.fov || 55) * Math.PI) / 360);
+      const wVis = hVis * (state.size.width / state.size.height);
+      mesh.scale.set((wVis * 1.06) / 150, (hVis * 1.06) / 92, 1);
+    }
+
     // Full opacity always; the surface DRIFTS up rather than dissolving.
     mat.uniforms.uOpacity.value = 1;
     mat.uniforms.uTime.value += delta;
@@ -237,7 +251,7 @@ export default function Surface({ progress }: SceneElementProps) {
           sized to overfill the view; renderOrder -9 sits just in front of the
           WaterColumn (-10) so this bright surface IS the backdrop, then it fades
           to reveal the dark column on the dive. */}
-      <mesh position={[0, 0, -80]} renderOrder={-9}>
+      <mesh ref={meshRef} position={[0, 0, -80]} renderOrder={-9}>
         <planeGeometry args={[150, 92]} />
         <shaderMaterial
           ref={matRef}
