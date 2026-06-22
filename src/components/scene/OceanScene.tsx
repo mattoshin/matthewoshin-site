@@ -30,8 +30,9 @@ import {
   zoneAtProgress,
   type ZoneId,
 } from "@/lib/depth";
-import { SCENE_ELEMENTS } from "./registry";
+import { elementsForTier } from "./registry";
 import type { DescentProgress } from "./types";
+import type { DeviceTier } from "@/lib/useDeviceTier";
 
 /** Build the stable, re-render-free progress accessor from the store. */
 function useDescentProgress(): DescentProgress {
@@ -112,15 +113,27 @@ function DepthController() {
   );
 }
 
-export default function OceanScene() {
+/**
+ * @param tier  "phone" runs the trimmed registry; "full" the complete scene.
+ * @param lite  phone-only graceful-degradation flag -> hero-only element set.
+ * Defaults keep the full scene if ever rendered without props.
+ */
+export default function OceanScene({
+  tier = "full",
+  lite = false,
+}: {
+  tier?: DeviceTier;
+  lite?: boolean;
+}) {
   const progress = useDescentProgress();
+  const elements = elementsForTier(tier, lite);
 
   return (
     <>
       <DepthController />
       <AdaptiveDpr pixelated={false} />
       <ambientLight intensity={0.6} />
-      {SCENE_ELEMENTS.map(({ id, Component }) => (
+      {elements.map(({ id, Component }) => (
         <Component key={id} progress={progress} />
       ))}
     </>

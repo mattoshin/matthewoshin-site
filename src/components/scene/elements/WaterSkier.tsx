@@ -20,7 +20,14 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { clamp01, hexToRgb01 } from "@/lib/depth";
+import { useDeviceTier } from "@/lib/useDeviceTier";
 import type { SceneElementProps } from "../types";
+
+// Phone-only staggered intro: the Lamborghini eases in FIRST, then the Black
+// Pearl follows (see Sailboats). Desktop/tablet keep their original instant
+// presence, so the scene there is unchanged.
+const INTRO_DELAY = 0.2; // seconds after load before the boat starts to appear
+const INTRO_DURATION = 0.9; // seconds to ease to full opacity
 
 function swell(x: number, z: number, t: number): number {
   return (
@@ -58,6 +65,18 @@ const ENTER_AT = 11.4;   // x where it begins to appear (right)
 const ENTER_SOFT = 0.7;  // narrow band -> almost instant fade-in
 const EXIT_AT = -12.8;   // x where it's fully gone (left)
 const EXIT_SOFT = 4.8;   // wide band -> slow fade-out
+
+// PHONE carousel: the desktop range/speed (±12, slow) leaves the boat off-screen
+// most of each ~50s loop on a narrow portrait viewport. Tighten the range to the
+// visible band at z=-10 and cruise faster so the Lamborghini actually stays seen
+// and reappears every ~12s. RIG_Z / horizon are unchanged, so it still sits on
+// the water exactly as before.
+const PHONE_TRAVEL_RIGHT = 6.5;
+const PHONE_TRAVEL_LEFT  = -6.5;
+const PHONE_TRAVEL_SPAN  = PHONE_TRAVEL_RIGHT - PHONE_TRAVEL_LEFT;
+const PHONE_TRAVEL_SPEED = 1.1;
+const PHONE_ENTER_AT = 6.0;
+const PHONE_EXIT_AT  = -6.3;
 
 // Rope endpoints in rig-local space. The skier sits well behind the stern.
 const STERN_TOP: [number, number, number] = [0.95, 0.14, 0];
@@ -185,6 +204,9 @@ function makeSkiGeometry(): THREE.BufferGeometry {
 export default function WaterSkier({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const rigRef   = useRef<THREE.Group>(null);
+  const isPhone  = useDeviceTier() === "phone";
+  // Clock time of the first rendered frame, for the phone intro stagger.
+  const introStart = useRef<number | null>(null);
 
   // Pool of every fade-able material; opacity is written each frame from these
   // refs only (React-Compiler-safe). userData.b stores each material's base.
@@ -229,6 +251,10 @@ export default function WaterSkier({ progress }: SceneElementProps) {
     const rig   = rigRef.current;
     if (!group || !rig) return;
 
+    // Stamp the intro clock on the first frame so the stagger is measured from
+    // load, regardless of where the carousel happens to start.
+    if (introStart.current === null) introStart.current = state.clock.elapsedTime;
+
     const p = progress.get();
     if (p >= SURFACE_GONE) {
       if (group.visible) group.visible = false;
@@ -237,12 +263,25 @@ export default function WaterSkier({ progress }: SceneElementProps) {
 
     const t = state.clock.elapsedTime;
 
+    // Phone intro: ease opacity in after INTRO_DELAY. 1 (no effect) elsewhere.
+    let intro = 1;
+    if (isPhone) {
+      const lin = clamp01((t - introStart.current - INTRO_DELAY) / INTRO_DURATION);
+      intro = lin * lin * (3 - 2 * lin); // smoothstep
+    }
+
     // Right -> left traverse, wrapping. Subtract so x decreases over time.
-    const x = TRAVEL_RIGHT - ((t * TRAVEL_SPEED) % TRAVEL_SPAN);
+    // Phones use a tighter, faster loop matched to the narrow visible band.
+    const travelRight = isPhone ? PHONE_TRAVEL_RIGHT : TRAVEL_RIGHT;
+    const travelSpan = isPhone ? PHONE_TRAVEL_SPAN : TRAVEL_SPAN;
+    const travelSpeed = isPhone ? PHONE_TRAVEL_SPEED : TRAVEL_SPEED;
+    const enterAt = isPhone ? PHONE_ENTER_AT : ENTER_AT;
+    const exitAt = isPhone ? PHONE_EXIT_AT : EXIT_AT;
+    const x = travelRight - ((t * travelSpeed) % travelSpan);
 
     // Fast fade-in at the entering edge, slow fade-out at the exiting edge.
-    const fadeIn = clamp01((ENTER_AT - x) / ENTER_SOFT);
-    const fadeOut = clamp01((x - EXIT_AT) / EXIT_SOFT);
+    const fadeIn = clamp01((enterAt - x) / ENTER_SOFT);
+    const fadeOut = clamp01((x - exitAt) / EXIT_SOFT);
     const fade = Math.min(fadeIn, fadeOut);
     if (fade <= 0.001) {
       if (group.visible) group.visible = false;
@@ -250,7 +289,7 @@ export default function WaterSkier({ progress }: SceneElementProps) {
     }
     if (!group.visible) group.visible = true;
     for (const m of fadeMats.current) {
-      if (m) m.opacity = (m.userData.b ?? 1) * fade;
+      if (m) m.opacity = (m.userData.b ?? 1) * fade * intro;
     }
 
     // Drift up with the surface (same constant as Surface.tsx).

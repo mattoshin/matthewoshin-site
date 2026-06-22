@@ -20,9 +20,16 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { useDeviceTier } from "@/lib/useDeviceTier";
 import type { SceneElementProps } from "../types";
 
 const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
+
+// Phone-only staggered intro: the Black Pearl arrives AFTER the Lamborghini
+// (WaterSkier), so the two hero pieces load at visibly different times rather
+// than popping in together. Desktop/tablet are unchanged.
+const INTRO_DELAY = 1.2; // seconds after load before the ship starts to appear
+const INTRO_DURATION = 1.0; // seconds to ease to full opacity
 
 /** Shared sine-sum swell (same sea the water-skier rides). */
 function swell(x: number, z: number, t: number): number {
@@ -68,6 +75,15 @@ const ENTER_AT = -12.4;  // x where it begins to appear (left)
 const ENTER_SOFT = 0.7;  // narrow band -> almost instant fade-in
 const EXIT_AT = 12.8;    // x where it's fully gone (right)
 const EXIT_SOFT = 4.8;   // wide band -> slow fade-out
+
+// PHONE carousel: tighter range + faster cruise (~22s loop vs ~87s) so the Black
+// Pearl reappears regularly on a narrow viewport. SHIP_Z / horizon unchanged.
+const PHONE_X_LEFT = -10;
+const PHONE_X_RIGHT = 10;
+const PHONE_X_SPAN = PHONE_X_RIGHT - PHONE_X_LEFT;
+const PHONE_DRIFT_SPEED = 0.9;
+const PHONE_ENTER_AT = -9.5;
+const PHONE_EXIT_AT = 9.7;
 
 const DECK_Y = 0.18; // mast bases + sheer line
 
@@ -276,6 +292,9 @@ export default function Sailboats({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const shipRef = useRef<THREE.Group>(null);
   const matRefs = useRef<THREE.MeshBasicMaterial[]>([]);
+  const isPhone = useDeviceTier() === "phone";
+  // Clock time of the first rendered frame, for the phone intro stagger.
+  const introStart = useRef<number | null>(null);
 
   const hullGeo = useMemo(() => makeHullGeometry(), []);
   const gunwaleGeo = useMemo(() => makeGunwaleGeometry(), []);
@@ -341,6 +360,10 @@ export default function Sailboats({ progress }: SceneElementProps) {
     const ship = shipRef.current;
     if (!group || !ship) return;
 
+    // Stamp the intro clock on the first frame so the stagger is measured from
+    // load, regardless of where the carousel happens to start.
+    if (introStart.current === null) introStart.current = state.clock.elapsedTime;
+
     const p = progress.get();
     if (p >= SURFACE_GONE) {
       if (group.visible) group.visible = false;
@@ -350,16 +373,29 @@ export default function Sailboats({ progress }: SceneElementProps) {
 
     const t = state.clock.elapsedTime;
 
+    // Phone intro: ease opacity in after INTRO_DELAY. 1 (no effect) elsewhere.
+    let intro = 1;
+    if (isPhone) {
+      const lin = clamp01((t - introStart.current - INTRO_DELAY) / INTRO_DURATION);
+      intro = lin * lin * (3 - 2 * lin); // smoothstep
+    }
+
     group.position.y = state.camera.position.y + p * p * SURFACE_DRIFT;
 
-    const x = X_LEFT + ((t * DRIFT_SPEED) % X_SPAN);
+    // Phones use a tighter, faster loop matched to the narrow visible band.
+    const xLeft = isPhone ? PHONE_X_LEFT : X_LEFT;
+    const xSpan = isPhone ? PHONE_X_SPAN : X_SPAN;
+    const driftSpeed = isPhone ? PHONE_DRIFT_SPEED : DRIFT_SPEED;
+    const enterAt = isPhone ? PHONE_ENTER_AT : ENTER_AT;
+    const exitAt = isPhone ? PHONE_EXIT_AT : EXIT_AT;
+    const x = xLeft + ((t * driftSpeed) % xSpan);
     ship.position.x = x;
     ship.position.y = HORIZON_K * (CAM_Z - SHIP_Z) + swell(x, SHIP_Z, t);
     ship.rotation.z = Math.sin(t * 0.5) * 0.025;
 
-    const fadeIn = clamp01((x - ENTER_AT) / ENTER_SOFT);
-    const fadeOut = clamp01((EXIT_AT - x) / EXIT_SOFT);
-    const fade = Math.min(fadeIn, fadeOut);
+    const fadeIn = clamp01((x - enterAt) / ENTER_SOFT);
+    const fadeOut = clamp01((exitAt - x) / EXIT_SOFT);
+    const fade = Math.min(fadeIn, fadeOut) * intro;
     const mats = matRefs.current;
     for (let i = 0; i < mats.length; i++) mats[i].opacity = fade;
   });

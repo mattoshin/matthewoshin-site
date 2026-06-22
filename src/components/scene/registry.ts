@@ -40,6 +40,7 @@ import Sailboats from "./elements/Sailboats";
 import WaterSkier from "./elements/WaterSkier";
 import Surface from "./elements/Surface";
 import type { SceneElementEntry } from "./types";
+import type { DeviceTier } from "@/lib/useDeviceTier";
 
 export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
   { id: "surface", Component: Surface },
@@ -59,3 +60,52 @@ export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
   { id: "water-skier", Component: WaterSkier },
   { id: "dolphin", Component: Dolphin },
 ];
+
+/**
+ * PHONE PROFILE (<= 767px). The full scene is too heavy for a phone, so we keep
+ * the surface hero (sky/water + Black Pearl + Lamborghini + light plankton) plus
+ * the one signature creature per section, and DROP the pure scenery + the
+ * heaviest shaders + the redundant dolphin:
+ *   dropped: coral-reef, kelp, caustics-light, water-surface, dolphin
+ * Order is preserved by filtering the full list, so draw order never drifts.
+ */
+const PHONE_IDS = new Set<string>([
+  "surface",
+  "water-column",
+  "bioparticles",
+  "octopus", // contact
+  "anglerfish", // writing
+  "submarine", // projects
+  "sharks", // ventures
+  "sea-turtle", // skills
+  "clownfish", // about
+  "sailboats", // Black Pearl
+  "water-skier", // Lamborghini
+]);
+
+/**
+ * PHONE-LITE: the graceful-degradation floor. If even the phone profile can't
+ * hold FPS, the PerformanceMonitor drops to this hero-only set instead of
+ * blanking to the static gradient, so the Lamborghini + Black Pearl never vanish.
+ */
+const PHONE_LITE_IDS = new Set<string>([
+  "surface",
+  "water-column",
+  "sailboats",
+  "water-skier",
+]);
+
+export const SCENE_ELEMENTS_PHONE: readonly SceneElementEntry[] =
+  SCENE_ELEMENTS.filter((e) => PHONE_IDS.has(e.id));
+
+export const SCENE_ELEMENTS_PHONE_LITE: readonly SceneElementEntry[] =
+  SCENE_ELEMENTS.filter((e) => PHONE_LITE_IDS.has(e.id));
+
+/** Pick the element set for the current device tier + degradation state. */
+export function elementsForTier(
+  tier: DeviceTier,
+  lite: boolean,
+): readonly SceneElementEntry[] {
+  if (tier !== "phone") return SCENE_ELEMENTS;
+  return lite ? SCENE_ELEMENTS_PHONE_LITE : SCENE_ELEMENTS_PHONE;
+}
