@@ -13,12 +13,13 @@ import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Products I build: Mocean, Galactic Signals, Sigma, Observly, BriefBridge, mTrain, and Camp Ricky.",
+    "Products I build: Mocean, Galactic Signals, Sonar, Sigma, Observly, BriefBridge, mTrain, and Camp Ricky.",
 };
 
-// The two demo-backed products that lead the portfolio.
+// The demo-backed products that lead the portfolio.
 const mocean = VENTURES.find((v) => v.slug === "mocean");
 const galactic = BUILDS.find((b) => b.slug === "galactic-signals");
+const sonar = BUILDS.find((b) => b.slug === "sonar");
 
 interface FeaturedCard {
   name: string;
@@ -43,11 +44,18 @@ const FEATURED: FeaturedCard[] = [
     caseHref: "/projects/galactic-signals",
     demoHref: galactic.demoHref,
   },
+  sonar && {
+    name: sonar.name,
+    hook: sonar.hook,
+    status: sonar.status,
+    caseHref: "/projects/sonar",
+    demoHref: sonar.demoHref,
+  },
 ].filter(Boolean) as FeaturedCard[];
 
 export default function PortfolioPage() {
-  // The rest of the builds (galactic leads as a featured card above).
-  const rest = BUILDS.filter((b) => b.slug !== "galactic-signals");
+  // The rest of the builds (galactic + sonar lead as featured cards above).
+  const rest = BUILDS.filter((b) => b.slug !== "galactic-signals" && b.slug !== "sonar");
 
   return (
     <PageShell
