@@ -350,6 +350,22 @@ html.lenis body {
   }
 }
 
+/* Demo sample-data badge: a yellow, gently blinking marker on every /app/* demo
+   so visitors always know the data is illustrative, not live. Auto-disabled
+   under the global reduced-motion rule below. */
+@keyframes demo-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+.demo-blink {
+  animation: demo-blink 1.3s ease-in-out infinite;
+}
+
 /* Respect OS reduced-motion: kill all non-essential animation/transition. */
 @media (prefers-reduced-motion: reduce) {
   *,

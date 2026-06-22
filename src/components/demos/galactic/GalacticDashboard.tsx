@@ -81,7 +81,7 @@ const TITLES: Record<View, string> = {
 
 const COLOR_SWATCHES = ["#1DD1A1", "#5865F2", "#22D3EE", "#F7931A", "#ED4245", "#8B5CF6", "#57F287"];
 
-export default function GalacticDashboard() {
+export default function GalacticDashboard({ modeToggle }: { modeToggle?: React.ReactNode } = {}) {
   const [view, setView] = useState<View>("home");
   const [navOpen, setNavOpen] = useState(false);
 
@@ -146,6 +146,7 @@ export default function GalacticDashboard() {
             <h1 className="text-lg font-semibold text-white">{TITLES[view]}</h1>
           </div>
           <div className="flex items-center gap-3">
+            {modeToggle}
             <span className="hidden items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs sm:flex" style={{ borderColor: BORDER, color: TEAL }}>
               <span className="h-1.5 w-1.5 rounded-full" style={{ background: TEAL }} /> Live
             </span>
