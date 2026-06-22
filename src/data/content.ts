@@ -337,6 +337,24 @@ export const BUILDS: readonly Build[] = [
     status: "Current build",
   },
   {
+    slug: "icr-intelligence",
+    name: "ICR Intelligence Platform",
+    hook: "Beacon: the AI intelligence layer for investor relations, the internal platform I built and shipped at ICR.",
+    demoHref: "/app/icr-intelligence",
+    summary:
+      "As VP of AI at ICR, I built Beacon, the firm's internal AI platform for investor relations and strategic communications. It turns the work of an IR team, earnings prep, peer and investor intelligence, crisis response, governance and activism monitoring, IPO readiness, and on-voice drafting, into a single workspace grounded in live market data. Twelve modules sit on a Postgres brain fed by SEC EDGAR, FMP, FRED, Polygon, and other sources, with an AI layer on Anthropic Claude doing streaming generation, tool use, and retrieval over filings. I prototyped and shipped most of it solo on Claude Code. This is a faithful recreation on sample data: every company, figure, holder, and filing in the demo is fictional.",
+    highlights: [
+      "Earnings Hub: AI prep briefs, predicted analyst Q&A, a live earnings-call simulator, post-call analysis, and consensus tracking in one workspace.",
+      "Intelligence suite: investor targeting with 13F and ownership tracking, peer benchmarking with transcript mining, and conference prep.",
+      "Crisis Command: simulate a scenario, forecast market and media impact, and generate the full response playbook in minutes.",
+      "Corporate Comms: on-voice press-release drafting across ten templates plus a narrative-consistency checker across documents.",
+      "Grounded in live data: SEC EDGAR, FMP, FRED, Polygon, Finnhub, and more, behind an Anthropic Claude AI layer with tool use and retrieval over filings.",
+      "Built largely solo on Claude Code: Next.js 16, React 19, Supabase Postgres, and Prisma, deployed on Vercel.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Anthropic Claude", "Supabase", "Prisma", "PostgreSQL", "SEC EDGAR", "Vercel"],
+    status: "Built at ICR",
+  },
+  {
     slug: "sonar",
     name: "Sonar",
     hook: "Real-time media monitoring you build in plain English.",

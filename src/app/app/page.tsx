@@ -48,6 +48,17 @@ const DEMOS: DemoCard[] = [
     accent: "#1DD1A1",
   },
   {
+    slug: "icr-intelligence",
+    name: "ICR Intelligence Platform",
+    tagline:
+      "Beacon: the AI intelligence layer for investor relations. Earnings prep, peer and investor intel, crisis command, and on-voice comms in one console.",
+    era: "2024 to 2026 · VP of AI at ICR",
+    status: "live",
+    href: "/app/icr-intelligence",
+    caseStudy: "/projects/icr-intelligence",
+    accent: "#0027b3",
+  },
+  {
     slug: "sonar",
     name: "Sonar",
     tagline:
