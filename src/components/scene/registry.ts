@@ -40,6 +40,7 @@ import Sailboats from "./elements/Sailboats";
 import WaterSkier from "./elements/WaterSkier";
 import Surface from "./elements/Surface";
 import type { SceneElementEntry } from "./types";
+import type { DeviceTier } from "@/lib/useDeviceTier";
 
 export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
   { id: "surface", Component: Surface },
@@ -102,7 +103,7 @@ export const SCENE_ELEMENTS_PHONE_LITE: readonly SceneElementEntry[] =
 
 /** Pick the element set for the current device tier + degradation state. */
 export function elementsForTier(
-  tier: "phone" | "full",
+  tier: DeviceTier,
   lite: boolean,
 ): readonly SceneElementEntry[] {
   if (tier !== "phone") return SCENE_ELEMENTS;
