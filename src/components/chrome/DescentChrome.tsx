@@ -25,6 +25,7 @@ import DescentBackground from "./DescentBackground";
 import BucketNav from "./BucketNav";
 import DepthGauge from "./DepthGauge";
 import OceanAI from "./OceanAI";
+import SharkLoader from "./SharkLoader";
 import { usePathname } from "next/navigation";
 
 export default function DescentChrome() {
@@ -41,6 +42,7 @@ export default function DescentChrome() {
       <BucketNav />
       <DepthGauge />
       <OceanAI />
+      <SharkLoader />
     </>
   );
 }

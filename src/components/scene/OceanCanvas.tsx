@@ -25,6 +25,7 @@ import StaticOcean from "../chrome/StaticOcean";
 
 export default function OceanCanvas() {
   const setWebglAvailable = useDescentStore((s) => s.setWebglAvailable);
+  const setSceneReady = useDescentStore((s) => s.setSceneReady);
   const tier = useDeviceTier();
   const isPhone = tier === "phone";
 
@@ -58,6 +59,13 @@ export default function OceanCanvas() {
   useEffect(() => {
     setWebglAvailable(supported && !degraded);
   }, [supported, degraded, setWebglAvailable]);
+
+  // When there is no live canvas to paint (no WebGL2, or a runtime hard
+  // fallback), the StaticOcean IS the terminal background, so mark the scene
+  // ready immediately and let the loader fade rather than wait for its timeout.
+  useEffect(() => {
+    if (!supported || degraded) setSceneReady(true);
+  }, [supported, degraded, setSceneReady]);
 
   // Pause rendering when the tab is hidden (saves battery / GPU).
   useEffect(() => {
