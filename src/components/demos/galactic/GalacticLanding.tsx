@@ -10,6 +10,7 @@ import {
   GALACTIC_FACTS,
   DELIVERY_CHANNELS,
 } from "@/data/galactic-demo";
+import { ADMIN_STACK } from "@/data/galactic-admin-demo";
 import { Wordmark, EmbedCard, Icon } from "./GalacticKit";
 import { GalacticShips } from "./GalacticShips";
 
@@ -333,6 +334,34 @@ export default function GalacticLanding() {
           >
             Open the dashboard <Icon name="chevron" size={16} />
           </Link>
+        </div>
+      </section>
+
+      {/* built with / stack */}
+      <section className="relative z-10 mx-auto max-w-6xl px-5 pb-12 sm:px-8">
+        <div className="rounded-2xl border p-6 sm:p-8" style={{ borderColor: "var(--g-border)", background: "var(--g-panel)" }}>
+          <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em]" style={{ color: "var(--g-cyan)" }}>
+            <Icon name="layers" size={14} /> Built with
+          </div>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[var(--g-muted)]">
+            A polyglot, self-hosted stack: a type-safe TypeScript front end, a Node API layer, and an async
+            Python worker fleet sharing one Postgres brain.
+          </p>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {ADMIN_STACK.map((g) => (
+              <div key={g.group}>
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full" style={{ background: g.color }} />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-white">{g.group}</span>
+                </div>
+                <ul className="mt-2.5 space-y-1.5">
+                  {g.items.map((it) => (
+                    <li key={it} className="text-xs leading-snug text-[var(--g-muted)]">{it}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

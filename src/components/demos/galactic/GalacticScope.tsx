@@ -60,6 +60,7 @@ export default function GalacticScope({
 @keyframes g-pulse-ring { 0% { transform: scale(1); opacity: .6 } 100% { transform: scale(2.4); opacity: 0 } }
 @keyframes g-float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
 @keyframes g-pop { 0% { transform: translateY(6px); opacity: 0 } 100% { transform: translateY(0); opacity: 1 } }
+@keyframes g-slide-in { 0% { transform: translateX(24px); opacity: 0 } 100% { transform: translateX(0); opacity: 1 } }
 `}</style>
       {children}
     </div>
