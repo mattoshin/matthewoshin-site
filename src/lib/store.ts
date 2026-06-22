@@ -64,6 +64,13 @@ export interface DescentState {
   hydrated: boolean;
   /** True when the browser cannot create a WebGL2 context (hard fallback). */
   webglAvailable: boolean;
+  /**
+   * True once the background has actually PAINTED (WebGL scene has rendered a few
+   * frames, or a static-ocean fallback is the terminal state). The SharkLoader
+   * waits on this so it fades out exactly when the ocean is ready, never before,
+   * which is what prevents the load flash.
+   */
+  sceneReady: boolean;
 
   setScrollProgress: (p: number) => void;
   setTargetProgress: (p: number) => void;
@@ -72,6 +79,7 @@ export interface DescentState {
   setManualReducedMotion: (reduced: boolean) => void;
   setHydrated: (hydrated: boolean) => void;
   setWebglAvailable: (available: boolean) => void;
+  setSceneReady: (ready: boolean) => void;
 }
 
 export const useDescentStore = create<DescentState>((set, get) => ({
@@ -82,6 +90,7 @@ export const useDescentStore = create<DescentState>((set, get) => ({
   manualReducedMotion: false,
   hydrated: false,
   webglAvailable: true,
+  sceneReady: false,
 
   setScrollProgress: (p) => {
     // Cheap guard: only touch state when the value (or derived zone) changes.
@@ -126,4 +135,9 @@ export const useDescentStore = create<DescentState>((set, get) => ({
   setHydrated: (hydrated) => set({ hydrated }),
 
   setWebglAvailable: (available) => set({ webglAvailable: available }),
+
+  setSceneReady: (ready) => {
+    if (get().sceneReady === ready) return; // idempotent: only flip once
+    set({ sceneReady: ready });
+  },
 }));

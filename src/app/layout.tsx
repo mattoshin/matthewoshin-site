@@ -72,6 +72,13 @@ export default function RootLayout({
       className={`${fraunces.variable} ${hanken.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="min-h-full">
+        {/* No-JS safety: the SharkLoader veil is dismissed by JS. If JS never
+            runs it would otherwise cover the page forever, so hide it when JS
+            is off (this <noscript> style only applies with JS disabled). */}
+        <noscript>
+          <style>{`.shark-loader{display:none!important}`}</style>
+        </noscript>
+
         {/* Skip link: first focusable element, jumps past the ocean chrome to
             the page content. */}
         <a
