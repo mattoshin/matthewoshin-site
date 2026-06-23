@@ -79,15 +79,15 @@ export default function PortfolioPage() {
       intro={PORTFOLIO.blurb}
     >
       {/* Featured: demo-backed products you can try live, right now. */}
-      <ul className="mt-10 grid gap-5 sm:grid-cols-2">
+      <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
         {FEATURED.map((f) => (
           <li key={f.name}>
             <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm">
               <div className="flex items-center justify-between gap-3">
-                <h2 className="font-display text-2xl font-semibold text-ink-heading">
+                <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading">
                   {f.name}
                 </h2>
-                <span className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+                <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
                   {f.status}
                 </span>
               </div>
@@ -114,7 +114,7 @@ export default function PortfolioPage() {
       </ul>
 
       {/* The rest of the current builds. */}
-      <ul className="mt-5 grid gap-5 sm:grid-cols-2">
+      <ul className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
         {rest.map((build) =>
           build.demoHref ? (
             // Demo-backed build kept in place: bright "View Demo" button plus a
@@ -122,10 +122,10 @@ export default function PortfolioPage() {
             <li key={build.slug}>
               <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
                 <div className="flex items-center justify-between gap-3">
-                  <h2 className="font-display text-2xl font-semibold text-ink-heading">
+                  <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading">
                     {build.name}
                   </h2>
-                  <span className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+                  <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
                     {build.status}
                   </span>
                 </div>
@@ -155,10 +155,10 @@ export default function PortfolioPage() {
                 className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/40 hover:bg-white/[0.06]"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <h2 className="font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
+                  <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
                     {build.name}
                   </h2>
-                  <span className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+                  <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
                     {build.status}
                   </span>
                 </div>
