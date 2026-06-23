@@ -393,8 +393,8 @@ export const BUILDS: readonly Build[] = [
   },
   {
     slug: "atrium",
-    name: "Atrium",
-    hook: "A self-directed concept: the corporate employee workspace, reimagined as one calm place where AI automates the busywork.",
+    name: "Workplace AI",
+    hook: "One calm workspace that unifies every internal tool (app hub, IT, HR, legal) with an AI layer on top that clears the busywork and shows you exactly what it handled.",
     demoHref: "/app/atrium",
     summary:
       "Corporate software is a junk drawer of disconnected portals: a separate app launcher, IT desk, HR system, and legal inbox, each with its own login and its own busywork. Atrium is my concept for fixing that, a single calm, consumer-grade workspace that unifies every internal tool and makes AI the connective tissue. It resolves common IT tickets, provisions app access by role, files expenses from receipts, and pre-reviews contracts before anyone sees them, then surfaces only what genuinely needs a person: an approval, a signature, a decision. Every screen shows what AI handled for you and the time it saved. This is a fully clickable design concept on fictional sample data, not a shipped product.",
@@ -411,8 +411,8 @@ export const BUILDS: readonly Build[] = [
   },
   {
     slug: "vantage",
-    name: "Vantage",
-    hook: "An agentic security and IT operations command center: autonomous agents triage, contain, patch, and audit while a human supervises the exceptions.",
+    name: "SecOps Command",
+    hook: "A security and IT operations center run by autonomous agents: they triage alerts, contain threats, patch systems, and gather audit evidence, while a human supervises only the exceptions.",
     demoHref: "/app/vantage",
     summary:
       "Vantage is a concept build that turns the kind of internal command-center console I've built into a security and IT operations cockpit. It unifies the SOC and the NOC into one console, an incident queue, detections and ATT&CK coverage, threat intel, asset inventory, vulnerability management, network and service health, identity and access, and compliance, and puts a roster of autonomous agents on the front line. A Triage Agent enriches and auto-closes alert noise, a Phishing Responder revokes compromised sessions, a Patch Orchestrator stages and applies fixes in maintenance windows, a Threat Hunter opens incidents from weak signals, and a Compliance Auditor collects control evidence continuously. Every agent has an autonomy level and a full, append-only action audit. This is a clickable recreation on sample data: every host, IP, CVE, threat actor, and figure is fictional.",
@@ -429,7 +429,7 @@ export const BUILDS: readonly Build[] = [
   {
     slug: "observly",
     name: "Observly",
-    hook: "A two-sided marketplace for clinical shadowing.",
+    hook: "A two-sided marketplace that connects pre-meds with physicians for clinical shadowing, with booking and verified hour-tracking built in.",
     summary:
       "Pre-meds need shadowing hours and physician mentorship, and there's no clean way to find a willing doctor, book the time, and then prove the hours later. Observly connects students and physicians for shadowing, mentorship, and verified hour-tracking, with LinkedIn-style connections and real-time messaging on top of the booking layer. We launched free to dodge the pay-to-shadow stigma, then move to a freemium model: pay to win, not pay to play.",
     highlights: [

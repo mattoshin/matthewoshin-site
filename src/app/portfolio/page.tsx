@@ -14,7 +14,7 @@ import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Products I build: Mocean, Galactic Signals, Sonar, Sigma, Observly, BriefBridge, mTrain, and Camp Ricky.",
+    "Products I build: Riptide, Galactic Signals, ICR Intelligence, SEC Intelligence, Sonar, Workplace AI, SecOps Command, Observly, BriefBridge, mTrain, and Camp Ricky.",
 };
 
 // The demo-backed products that lead the portfolio.
