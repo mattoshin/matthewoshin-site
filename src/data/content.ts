@@ -321,7 +321,7 @@ export const BUILDS: readonly Build[] = [
   {
     slug: "galactic-signals",
     name: "Galactic Signals",
-    hook: "Cross-asset monitoring for communities, built toward the AI agent data layer that sits underneath them.",
+    hook: "Cross-asset monitoring for retail investors and online communities, sold through a feed marketplace and built toward the AI agent data layer that sits underneath it.",
     demoHref: "/app/galactic-signals",
     summary:
       "Cross-asset monitoring is fragmented across dozens of vertical tools: stocks, crypto, sports betting, trading cards, real estate, macro, and news rarely live in one place, delivered where a community already is. Galactic unifies that monitoring behind a single subscription and fires branded webhook alerts into Discord, Telegram, Slack, email, or any endpoint the user points at it. Setup is thirty seconds: activate the feeds, paste a webhook URL, start receiving. The monitoring tool is the consumer wedge. The longer thesis is the marketplace and what comes after it: an MCP server that turns every Galactic feed into a structured stream any AI agent can natively consume. That is the 'Plaid for alternative data' bet, starting with a product that already has near-zero delivery costs and no direct cross-asset competitor.",
@@ -357,7 +357,7 @@ export const BUILDS: readonly Build[] = [
   {
     slug: "sonar",
     name: "Sonar",
-    hook: "Real-time media monitoring you build in plain English.",
+    hook: "Real-time media monitoring you build in plain English. Describe what to watch and AI assembles the agentic workflow that watches it for you.",
     demoHref: "/app/sonar",
     summary:
       "Investor-relations and communications teams drown in signal: a story that moves the stock can break on SEC EDGAR, a newswire, a regulator's feed, or social, and legacy monitoring makes you hand-write boolean queries to catch it. Sonar flips that. You describe what you care about in a sentence, an LLM resolves it into a validated monitor spec, and you dry-run it against the last 48 hours before it ever fires. Matches arrive tagged with the source, a sentiment read, the terms that hit, and a one-line summary of why it matters, gated by severity and capped so they never flood you. I built this as the media-intelligence layer of an enterprise platform: thousands of sources, an AI relevance gate to kill noise, and per-workspace AI-spend caps so a monitoring run never becomes a surprise bill.",
