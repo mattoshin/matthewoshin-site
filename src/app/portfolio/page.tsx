@@ -6,7 +6,7 @@ import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 /**
  * /portfolio - the products Matthew builds now, at the twilight depth (shares the
  * "projects" zone with /entrepreneurship). Demo-backed products (Mocean, Galactic
- * Signals, Sonar, SEC Intelligence) lead as featured cards with a bright "View Demo" button; the
+ * Signals, Sonar Media, SEC Intelligence) lead as featured cards with a bright "View Demo" button; the
  * rest of the current builds follow, and any of those that also have a live demo
  * (ICR Intelligence) shows a "View Demo" button in place. Cards link to the full
  * case studies. The navLabel override keeps the eyebrow reading "Portfolio".
@@ -14,7 +14,7 @@ import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Products I build: Riptide, Galactic Signals, ICR Intelligence, SEC Intelligence, Sonar, Workplace AI, SecOps Command, Observly, BriefBridge, mTrain, and Camp Ricky.",
+    "Products I build: Riptide Research, Galactic Signals, Financial Communications Platform, SEC Intelligence, Sonar Media, Workplace AI, SecOps Command, Observly, BriefBridge, mTrain, and Camp Ricky.",
 };
 
 // The demo-backed products that lead the portfolio.

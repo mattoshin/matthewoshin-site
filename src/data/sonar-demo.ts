@@ -1,7 +1,7 @@
 /**
- * sonar-demo.ts - dummy data for the Sonar interactive demo at /app/sonar.
+ * sonar-demo.ts - dummy data for the Sonar Media interactive demo at /app/sonar.
  *
- * Sonar is a real-time media-monitoring platform for investor-relations and
+ * Sonar Media is a real-time media-monitoring platform for investor-relations and
  * communications teams. The product Matthew built: you describe what you care
  * about in PLAIN ENGLISH, an LLM translates it into a validated monitor spec,
  * you DRY-RUN it against the last 48 hours before activating, and it pings you
@@ -18,11 +18,11 @@
 /* ------------------------------------------------------------------ brand --- */
 
 export const SONAR = {
-  name: "Sonar",
+  name: "Sonar Media",
   wordmark: "SONAR",
   tagline: "Real-time media intelligence",
-  pitch: "Describe what you care about. Sonar listens across every source and pings you the moment it matters.",
-  footer: "Sonar",
+  pitch: "Describe what you care about. Sonar Media listens across every source and pings you the moment it matters.",
+  footer: "Sonar Media",
   // amber "midnight command-center" palette (adapted from a Refero style pass)
   bg: "#0A0C10",
   amber: "#FFB224", // primary accent / signal
@@ -269,7 +269,7 @@ export const SONAR_ALERTS: readonly SonarAlert[] = [
   { id: "a-15", monitorId: "m-earn", monitor: "Tracked tickers: earnings and guidance", headline: "Cobalt Software reaffirms guidance, raises buyback authorization", outlet: "Business Wire", sourceType: "Wire", ticker: "CBLT", sentiment: "positive", severity: "digest", matched: ["guidance", "earnings"], summary: "Reaffirm plus buyback, net positive. Good for the morning roundup.", time: "5h ago" },
   { id: "a-16", monitorId: "m-breach", monitor: "Portfolio breach and CISA watch", headline: "Security researchers publish details on flaw affecting popular CMS", outlet: "Krebs on Security", sourceType: "News", sentiment: "neutral", severity: "instant", matched: ["CVE", "incident"], summary: "No tracked name confirmed affected yet. Holding for confirmation.", time: "6h ago" },
   { id: "a-17", monitorId: "m-macro", monitor: "Semis macro and policy", headline: "Commerce finalizes next tranche of CHIPS Act incentive awards", outlet: "Reuters", sourceType: "Wire", sentiment: "positive", severity: "digest", matched: ["CHIPS Act", "subsidy"], summary: "Policy tailwind for the semis book. Color for the macro digest.", time: "7h ago" },
-  { id: "a-18", monitorId: "m-sov", monitor: "Daily share-of-voice digest", headline: "Daily digest: 142 mentions across the watchlist, sentiment net positive", outlet: "Sonar", sourceType: "News", sentiment: "positive", severity: "digest", matched: ["coverage", "mention"], summary: "Volume up 12% day over day, led by Cedar Park Devices coverage.", time: "today 7:00 ET" },
+  { id: "a-18", monitorId: "m-sov", monitor: "Daily share-of-voice digest", headline: "Daily digest: 142 mentions across the watchlist, sentiment net positive", outlet: "Sonar Media", sourceType: "News", sentiment: "positive", severity: "digest", matched: ["coverage", "mention"], summary: "Volume up 12% day over day, led by Cedar Park Devices coverage.", time: "today 7:00 ET" },
 ];
 
 /* --------------------------------------------------- builder presets --- */
@@ -442,7 +442,7 @@ export const SONAR_PAIN_POINTS = [
 ] as const;
 
 export const SONAR_STEPS = [
-  { n: 1, title: "Describe it", body: "Type what you care about in plain English. Sonar resolves the entities, keywords, and sources for you." },
+  { n: 1, title: "Describe it", body: "Type what you care about in plain English. Sonar Media resolves the entities, keywords, and sources for you." },
   { n: 2, title: "Dry-run it", body: "Replay the last 48 hours and see exactly what the monitor would have caught before you turn it on." },
   { n: 3, title: "Get pinged", body: "Real matches land in-app, email, Slack, or Teams, gated by severity and capped so they never flood you." },
 ] as const;

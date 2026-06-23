@@ -29,7 +29,7 @@ import {
 import { AreaChart, BarList, Donut, StackedBars } from "./SonarCharts";
 
 /**
- * SonarDashboard - a fully clickable recreation of the Sonar console. One client
+ * SonarDashboard - a fully clickable recreation of the Sonar Media console. One client
  * component holds the active-view state; the sidebar switches screens. Every
  * interaction runs locally on sample data: scan the live feed, triage alerts,
  * pause and run monitors, and build a brand-new monitor in plain English with a

@@ -73,7 +73,7 @@ export default function Legal() {
           The legal desk, <GradientText>without the email chain</GradientText>
         </h2>
         <p className="mt-1.5 max-w-2xl text-[13.5px] leading-relaxed text-[var(--atr-muted)]">
-          Request a contract, get an AI first-pass review with drafted redlines, search every policy, and sign. Atrium does the first read so counsel does the judgment.
+          Request a contract, get an AI first-pass review with drafted redlines, search every policy, and sign. Workplace AI does the first read so counsel does the judgment.
         </p>
       </div>
 
@@ -95,7 +95,7 @@ function RequestsTab() {
   return (
     <div className="space-y-7">
       <section>
-        <SectionHeading title="Start a request" hint="Pick a type. Atrium drafts the first version and routes it." />
+        <SectionHeading title="Start a request" hint="Pick a type. Workplace AI drafts the first version and routes it." />
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {LEGAL_REQUEST_TYPES.map((t) => {
             const isStarted = started === t.id;
@@ -272,7 +272,7 @@ function ReviewTab() {
             <p className="mt-0.5 text-[12.5px] text-[var(--atr-muted)]">
               {decision === "approved"
                 ? "The revised NDA is queued for signature. Track it in the Signatures tab."
-                : "Atrium emailed the two proposed redlines to the counterparty for review."}
+                : "Workplace AI emailed the two proposed redlines to the counterparty for review."}
             </p>
           </div>
           <Button size="sm" variant="ghost" iconRight="arrowRight" onClick={() => go("home")}>

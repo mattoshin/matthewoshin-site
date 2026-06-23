@@ -71,7 +71,7 @@ export default function AppHub() {
           Every company app, one login.
         </h2>
         <p className="mt-1.5 max-w-2xl text-[13.5px] leading-relaxed text-[var(--atr-muted)]">
-          Launch anything you already have with single sign-on, or request access to something new. Atrium
+          Launch anything you already have with single sign-on, or request access to something new. Workplace AI
           auto-approves the apps your role is cleared for, so most requests clear without a signature.
         </p>
       </div>
@@ -186,7 +186,7 @@ export default function AppHub() {
 
       {/* AI access note */}
       <AIBlock
-        tag="Atrium AI"
+        tag="Workplace AI"
         title="Access, handled"
         footer="Request access from any tile · most resolve before you switch tabs"
       >

@@ -1,13 +1,13 @@
 /**
- * AtriumKit - shared presentational primitives for the Atrium demo. Pure,
+ * AtriumKit - shared presentational primitives for the Workplace AI demo. Pure,
  * dependency-free building blocks (inline-SVG icon set, glass + solid cards, KPI
  * stats, badges, toggles, SSR-safe sparklines, the AI block, tabs, data tables,
- * app tiles, chat bubbles) that every Atrium module composes. All visuals read
+ * app tiles, chat bubbles) that every Workplace AI module composes. All visuals read
  * the scoped `--atr-*` tokens from AtriumScope, so the light "Aurora" theme stays
  * consistent: frosted-glass surfaces over a soft violet-to-cyan field, a single
  * violet accent with a cyan partner, hairline borders, and a gradient AI signature.
  *
- * Atrium is an unbranded concept: a redesign of the corporate employee workspace
+ * Workplace AI is an unbranded concept: a redesign of the corporate employee workspace
  * that puts every tool in one place and lets AI automate the busywork. Nothing
  * here talks to a live server; all content is illustrative sample data.
  */
@@ -21,7 +21,7 @@ export const ATR_GRADIENT = "linear-gradient(135deg, var(--atr-accent) 0%, var(-
 
 /* ----------------------------------------------------------------- wordmark --- */
 
-/** The Atrium lockup: an open-arch mark + wordmark in the gradient. */
+/** The Workplace AI lockup: an open-arch mark + wordmark in the gradient. */
 export function Wordmark({ size = "md", subtitle = true }: { size?: "sm" | "md"; subtitle?: boolean }) {
   const text = size === "sm" ? "text-sm" : "text-[15px]";
   return (
@@ -32,7 +32,7 @@ export function Wordmark({ size = "md", subtitle = true }: { size?: "sm" | "md";
           className={cx("block bg-clip-text font-semibold tracking-tight text-transparent", text)}
           style={{ backgroundImage: ATR_GRADIENT }}
         >
-          Atrium
+          Workplace AI
         </span>
         {subtitle && (
           <span className="mt-0.5 block font-mono text-[9px] uppercase tracking-[0.22em] text-[var(--atr-faint)]">
@@ -663,12 +663,12 @@ export function AppTile({
 
 /* --------------------------------------------------------- AI provenance --- */
 
-/** The recurring "done by Atrium AI" signature: a gradient-left-border block with
+/** The recurring "done by Workplace AI" signature: a gradient-left-border block with
  *  an AI tag. Wrap any AI-authored or AI-automated content (briefs, drafts, plans). */
 export function AIBlock({
   children,
   title,
-  tag = "Atrium AI",
+  tag = "Workplace AI",
   streaming = false,
   footer,
   className = "",
@@ -908,7 +908,7 @@ export function DataTable<T extends Record<string, unknown>>({
 
 /* --------------------------------------------------------------- chat bits --- */
 
-/** A single chat bubble for the assistant. `role` styles user vs Atrium. */
+/** A single chat bubble for the assistant. `role` styles user vs Workplace AI. */
 export function ChatBubble({ role, children }: { role: "user" | "ai"; children: React.ReactNode }) {
   if (role === "user") {
     return (

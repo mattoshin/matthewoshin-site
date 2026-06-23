@@ -26,7 +26,7 @@ import {
 import { useAtriumNav } from "../nav-context";
 
 /**
- * Assistant - "Ask Atrium", the AI assistant as a full chat surface that acts
+ * Assistant - "Ask Workplace AI", the AI assistant as a full chat surface that acts
  * across every module. Two states: a centered welcome hero (gradient mark,
  * capability cards, prompt chips) and a scripted conversation that shows the
  * assistant taking real action in other modules. The inline ActionCards under
@@ -75,16 +75,16 @@ export default function Assistant() {
                 send();
               }
             }}
-            placeholder={`Ask Atrium anything, ${ATRIUM_USER.firstName}. It can act across every tool.`}
+            placeholder={`Ask Workplace AI anything, ${ATRIUM_USER.firstName}. It can act across every tool.`}
             className="min-w-0 flex-1 bg-transparent py-2 text-[14px] text-[var(--atr-ink)] outline-none placeholder:text-[var(--atr-faint)]"
-            aria-label="Message Atrium"
+            aria-label="Message Workplace AI"
           />
           <Button icon="send" onClick={send} disabled={!value.trim()} className="shrink-0">
             Send
           </Button>
         </GlassCard>
         <p className="mt-2 text-center text-[11px] text-[var(--atr-faint)]">
-          Atrium can take action in IT, Legal, People, and your apps. It always asks before anything irreversible.
+          Workplace AI can take action in IT, Legal, People, and your apps. It always asks before anything irreversible.
         </p>
       </div>
     </div>
@@ -108,7 +108,7 @@ function Welcome({ onSeed }: { onSeed: (prompt: string) => void }) {
         </span>
       </div>
 
-      <Eyebrow className="mt-5">Ask Atrium</Eyebrow>
+      <Eyebrow className="mt-5">Ask Workplace AI</Eyebrow>
       <h2 className="mt-2 text-[30px] font-extrabold leading-tight tracking-tight text-[var(--atr-ink)] sm:text-[34px]">
         How can I help, <GradientText>{ATRIUM_USER.firstName}</GradientText>?
       </h2>
@@ -161,7 +161,7 @@ function CapabilityCard({ cap }: { cap: AssistantCapability }) {
 /* ------------------------------------------------------------ conversation --- */
 
 function Conversation({ go, onReset }: { go: (id: ActionCard["module"]) => void; onReset: () => void }) {
-  // Tally what Atrium did across the thread, for the closing recap. Pure derive,
+  // Tally what Workplace AI did across the thread, for the closing recap. Pure derive,
   // computed from the scripted data: no clocks, no randomness.
   const actionsTaken = ASSISTANT_THREAD.reduce((n, t) => n + (t.actions?.length ?? 0), 0);
   const modulesTouched = new Set(
@@ -177,7 +177,7 @@ function Conversation({ go, onReset }: { go: (id: ActionCard["module"]) => void;
             Live session
           </Badge>
           <span className="hidden truncate text-[11px] text-[var(--atr-faint)] sm:inline">
-            Atrium is acting across your tools in real time
+            Workplace AI is acting across your tools in real time
           </span>
         </div>
         <Button variant="ghost" size="sm" icon="plus" onClick={onReset} className="shrink-0">
@@ -190,8 +190,8 @@ function Conversation({ go, onReset }: { go: (id: ActionCard["module"]) => void;
       ))}
 
       {/* closing recap: the cross-module agency, summed up */}
-      <AIBlock tag="Session recap" footer="You only had to ask once. Atrium handled the rest.">
-        In this conversation Atrium took{" "}
+      <AIBlock tag="Session recap" footer="You only had to ask once. Workplace AI handled the rest.">
+        In this conversation Workplace AI took{" "}
         <strong className="font-semibold text-[var(--atr-ink)]">{actionsTaken} actions</strong> across{" "}
         <strong className="font-semibold text-[var(--atr-ink)]">{modulesTouched.size} of your tools</strong>:{" "}
         {[...modulesTouched].join(" · ")}. Everything irreversible still waits for your sign-off.
@@ -216,7 +216,7 @@ function Turn({ turn, go }: { turn: AssistantTurn; go: (id: ActionCard["module"]
   );
 }
 
-/** The cross-module agency wow: a compact glass card showing what Atrium did in
+/** The cross-module agency wow: a compact glass card showing what Workplace AI did in
  *  another module, with a one-click jump to where the work landed. */
 function ActionRow({ action, onOpen }: { action: ActionCard; onOpen: () => void }) {
   return (

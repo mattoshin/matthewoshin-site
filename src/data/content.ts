@@ -77,7 +77,7 @@ export const BUCKETS: readonly Bucket[] = [
     zone: "projects",
     label: "Portfolio",
     href: "/portfolio",
-    teaser: "The products I build now: Sigma, Galactic Signals, Sonar, Observly, BriefBridge, mTrain, Camp Ricky.",
+    teaser: "The products I build now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, mTrain, Camp Ricky.",
   },
   {
     id: "skills",
@@ -305,7 +305,7 @@ export interface Build {
 export const BUILDS: readonly Build[] = [
   {
     slug: "riptide",
-    name: "Riptide",
+    name: "Riptide Research",
     hook: "An agentic equity-research terminal that researches in distributions, not price targets.",
     demoHref: "https://riptide.matthewoshin.com",
     summary:
@@ -340,11 +340,11 @@ export const BUILDS: readonly Build[] = [
   },
   {
     slug: "icr-intelligence",
-    name: "ICR Intelligence Platform",
-    hook: "Beacon: the AI intelligence layer for investor relations, the internal platform I built and shipped at ICR.",
+    name: "Financial Communications Platform",
+    hook: "An AI platform for investor relations, PR, and capital-markets teams: earnings prep, peer and investor intelligence, crisis command, and on-voice drafting in one workspace.",
     demoHref: "/app/icr-intelligence",
     summary:
-      "As VP of AI at ICR, I built Beacon, the firm's internal AI platform for investor relations and strategic communications. It turns the work of an IR team, earnings prep, peer and investor intelligence, crisis response, governance and activism monitoring, IPO readiness, and on-voice drafting, into a single workspace grounded in live market data. Twelve modules sit on a Postgres brain fed by SEC EDGAR, FMP, FRED, Polygon, and other sources, with an AI layer on Anthropic Claude doing streaming generation, tool use, and retrieval over filings. I prototyped and shipped most of it solo on Claude Code. This is a faithful recreation on sample data: every company, figure, holder, and filing in the demo is fictional.",
+      "A single workspace for the work an investor-relations, PR, and capital-markets team does: earnings prep, peer and investor intelligence, crisis response, governance and activism monitoring, IPO readiness, and on-voice drafting, all grounded in live market data. Twelve modules sit on a Postgres brain fed by SEC EDGAR, FMP, FRED, Polygon, and other sources, with an AI layer on Anthropic Claude doing streaming generation, tool use, and retrieval over filings. I designed and shipped it as VP of AI at ICR, prototyping most of it solo on Claude Code. This is a faithful recreation on sample data: every company, figure, holder, and filing in the demo is fictional.",
     highlights: [
       "Earnings Hub: AI prep briefs, predicted analyst Q&A, a live earnings-call simulator, post-call analysis, and consensus tracking in one workspace.",
       "Intelligence suite: investor targeting with 13F and ownership tracking, peer benchmarking with transcript mining, and conference prep.",
@@ -358,11 +358,11 @@ export const BUILDS: readonly Build[] = [
   },
   {
     slug: "sonar",
-    name: "Sonar",
+    name: "Sonar Media",
     hook: "Real-time media monitoring you build in plain English. Describe what to watch and AI assembles the agentic workflow that watches it for you.",
     demoHref: "/app/sonar",
     summary:
-      "Investor-relations and communications teams drown in signal: a story that moves the stock can break on SEC EDGAR, a newswire, a regulator's feed, or social, and legacy monitoring makes you hand-write boolean queries to catch it. Sonar flips that. You describe what you care about in a sentence, an LLM resolves it into a validated monitor spec, and you dry-run it against the last 48 hours before it ever fires. Matches arrive tagged with the source, a sentiment read, the terms that hit, and a one-line summary of why it matters, gated by severity and capped so they never flood you. I built this as the media-intelligence layer of an enterprise platform: thousands of sources, an AI relevance gate to kill noise, and per-workspace AI-spend caps so a monitoring run never becomes a surprise bill.",
+      "Investor-relations and communications teams drown in signal: a story that moves the stock can break on SEC EDGAR, a newswire, a regulator's feed, or social, and legacy monitoring makes you hand-write boolean queries to catch it. Sonar Media flips that. You describe what you care about in a sentence, an LLM resolves it into a validated monitor spec, and you dry-run it against the last 48 hours before it ever fires. Matches arrive tagged with the source, a sentiment read, the terms that hit, and a one-line summary of why it matters, gated by severity and capped so they never flood you. I built this as the media-intelligence layer of an enterprise platform: thousands of sources, an AI relevance gate to kill noise, and per-workspace AI-spend caps so a monitoring run never becomes a surprise bill.",
     highlights: [
       "A plain-English monitor builder: an LLM turns a sentence into a validated, schema-checked spec (entities, keywords, sources, cadence, delivery), with no boolean syntax.",
       "A 48-hour dry run that replays real history, so a monitor earns trust before a single alert goes out.",
@@ -397,7 +397,7 @@ export const BUILDS: readonly Build[] = [
     hook: "One calm workspace that unifies every internal tool (app hub, IT, HR, legal) with an AI layer on top that clears the busywork and shows you exactly what it handled.",
     demoHref: "/app/atrium",
     summary:
-      "Corporate software is a junk drawer of disconnected portals: a separate app launcher, IT desk, HR system, and legal inbox, each with its own login and its own busywork. Atrium is my concept for fixing that, a single calm, consumer-grade workspace that unifies every internal tool and makes AI the connective tissue. It resolves common IT tickets, provisions app access by role, files expenses from receipts, and pre-reviews contracts before anyone sees them, then surfaces only what genuinely needs a person: an approval, a signature, a decision. Every screen shows what AI handled for you and the time it saved. This is a fully clickable design concept on fictional sample data, not a shipped product.",
+      "Corporate software is a junk drawer of disconnected portals: a separate app launcher, IT desk, HR system, and legal inbox, each with its own login and its own busywork. Workplace AI is my concept for fixing that, a single calm, consumer-grade workspace that unifies every internal tool and makes AI the connective tissue. It resolves common IT tickets, provisions app access by role, files expenses from receipts, and pre-reviews contracts before anyone sees them, then surfaces only what genuinely needs a person: an approval, a signature, a decision. Every screen shows what AI handled for you and the time it saved. This is a fully clickable design concept on fictional sample data, not a shipped product.",
     highlights: [
       "A unified employee home: an AI daily brief, a 'handled for you' automation feed with time saved, and a short list of only what needs you.",
       "An internal App Hub: every company app in one launcher with one-click SSO, request-access flows, and role-based recommendations.",
@@ -415,7 +415,7 @@ export const BUILDS: readonly Build[] = [
     hook: "A security and IT operations center run by autonomous agents: they triage alerts, contain threats, patch systems, and gather audit evidence, while a human supervises only the exceptions.",
     demoHref: "/app/vantage",
     summary:
-      "Vantage is a concept build that turns the kind of internal command-center console I've built into a security and IT operations cockpit. It unifies the SOC and the NOC into one console, an incident queue, detections and ATT&CK coverage, threat intel, asset inventory, vulnerability management, network and service health, identity and access, and compliance, and puts a roster of autonomous agents on the front line. A Triage Agent enriches and auto-closes alert noise, a Phishing Responder revokes compromised sessions, a Patch Orchestrator stages and applies fixes in maintenance windows, a Threat Hunter opens incidents from weak signals, and a Compliance Auditor collects control evidence continuously. Every agent has an autonomy level and a full, append-only action audit. This is a clickable recreation on sample data: every host, IP, CVE, threat actor, and figure is fictional.",
+      "SecOps Command is a concept build that turns the kind of internal command-center console I've built into a security and IT operations cockpit. It unifies the SOC and the NOC into one console, an incident queue, detections and ATT&CK coverage, threat intel, asset inventory, vulnerability management, network and service health, identity and access, and compliance, and puts a roster of autonomous agents on the front line. A Triage Agent enriches and auto-closes alert noise, a Phishing Responder revokes compromised sessions, a Patch Orchestrator stages and applies fixes in maintenance windows, a Threat Hunter opens incidents from weak signals, and a Compliance Auditor collects control evidence continuously. Every agent has an autonomy level and a full, append-only action audit. This is a clickable recreation on sample data: every host, IP, CVE, threat actor, and figure is fictional.",
     highlights: [
       "AI-triaged incident queue: agents summarize, score, and draft the response playbook before a human opens the ticket, with a full action timeline.",
       "Autonomous agent roster with per-agent autonomy levels (suggest, approve, auto), run history, success rates, and an append-only audit of every action taken.",

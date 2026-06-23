@@ -1,7 +1,7 @@
 import type { Sentiment, Severity, Health, SourceType } from "@/data/sonar-demo";
 
 /**
- * SonarKit - shared presentational primitives for the Sonar demo: the wordmark,
+ * SonarKit - shared presentational primitives for the Sonar Media demo: the wordmark,
  * a deterministic SSR-safe radar "sweep" visual (no Math.random), an inline-SVG
  * icon set (no extra deps), and the small status chips (sentiment, severity,
  * source health, source type) used across the landing and the console.

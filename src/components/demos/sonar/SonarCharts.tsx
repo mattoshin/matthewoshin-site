@@ -1,5 +1,5 @@
 /**
- * SonarCharts - tiny, dependency-free SVG/CSS charts for the Sonar console.
+ * SonarCharts - tiny, dependency-free SVG/CSS charts for the Sonar Media console.
  * Hand-rolled so the demo carries no chart library and the visuals match the
  * amber command-center palette exactly. All presentational, all deterministic.
  */

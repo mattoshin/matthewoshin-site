@@ -6,7 +6,7 @@ import { Wordmark, Icon, Avatar, cx, ATR_GRADIENT } from "./AtriumKit";
 /**
  * AtriumSidebar - the grouped left navigation rail (Workspace / Tools / Support /
  * Assistant). The active item gets the single accent treatment: an accent-wash
- * fill, accent text, and a gradient left bar. The "Ask Atrium" button is the
+ * fill, accent text, and a gradient left bar. The "Ask Workplace AI" button is the
  * always-present AI entry point and jumps to the assistant module.
  */
 export default function AtriumSidebar({
@@ -31,7 +31,7 @@ export default function AtriumSidebar({
           style={{ backgroundImage: ATR_GRADIENT }}
         >
           <Icon name="sparkles" size={15} />
-          Ask Atrium
+          Ask Workplace AI
           <span className="ml-auto font-mono text-[10px] text-white/70">⌘K</span>
         </button>
       </div>

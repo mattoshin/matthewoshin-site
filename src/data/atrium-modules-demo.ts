@@ -1,7 +1,7 @@
 /**
- * atrium-modules-demo.ts - per-module sample data for the Atrium demo.
+ * atrium-modules-demo.ts - per-module sample data for the Workplace AI demo.
  *
- * Datasets for the IT Hub, Legal, People & HR, Automations, and Ask Atrium
+ * Datasets for the IT Hub, Legal, People & HR, Automations, and Ask Workplace AI
  * modules. Everything is fictional and illustrative (the company is Northwind,
  * the employee Maya Chen). Nothing talks to a live server. Core brand/persona/nav
  * and the Home + App Hub data live in atrium-demo.ts.
@@ -28,11 +28,11 @@ export type Ticket = {
 };
 
 export const IT_TICKETS: readonly Ticket[] = [
-  { id: "IT-4821", subject: "VPN won't connect from home network", category: "Network", status: "auto_resolved", severity: "medium", opened: "2d ago", updated: "Resolved 2:14 AM", agent: "Atrium AI", autoResolved: true },
+  { id: "IT-4821", subject: "VPN won't connect from home network", category: "Network", status: "auto_resolved", severity: "medium", opened: "2d ago", updated: "Resolved 2:14 AM", agent: "Workplace AI", autoResolved: true },
   { id: "IT-4799", subject: "Request: external monitor for desk", category: "Hardware", status: "in_progress", severity: "low", opened: "3d ago", updated: "Shipping, arrives Wed", agent: "Ravi (IT)" },
-  { id: "IT-4760", subject: "Figma SSO login loop", category: "Access", status: "auto_resolved", severity: "medium", opened: "1w ago", updated: "Resolved automatically", agent: "Atrium AI", autoResolved: true },
+  { id: "IT-4760", subject: "Figma SSO login loop", category: "Access", status: "auto_resolved", severity: "medium", opened: "1w ago", updated: "Resolved automatically", agent: "Workplace AI", autoResolved: true },
   { id: "IT-4712", subject: "Laptop running hot during calls", category: "Hardware", status: "resolved", severity: "low", opened: "2w ago", updated: "Closed", agent: "Dana (IT)" },
-  { id: "IT-4690", subject: "Add me to the #design-system channel", category: "Access", status: "resolved", severity: "low", opened: "2w ago", updated: "Closed", agent: "Atrium AI", autoResolved: true },
+  { id: "IT-4690", subject: "Add me to the #design-system channel", category: "Access", status: "resolved", severity: "low", opened: "2w ago", updated: "Closed", agent: "Workplace AI", autoResolved: true },
 ];
 
 /** The AI deflection flow: a typed issue resolves before a ticket is ever filed. */
@@ -94,7 +94,7 @@ export const LEGAL_REQUEST_TYPES: readonly LegalRequestType[] = [
 
 export type LegalRequest = { id: string; title: string; type: string; status: RequestStatus; submitted: string; owner: string };
 export const LEGAL_REQUESTS: readonly LegalRequest[] = [
-  { id: "L-2041", title: "Brightwave Studios mutual NDA", type: "NDA", status: "in_review", submitted: "Today, 8:51 AM", owner: "Atrium AI + you" },
+  { id: "L-2041", title: "Brightwave Studios mutual NDA", type: "NDA", status: "in_review", submitted: "Today, 8:51 AM", owner: "Workplace AI + you" },
   { id: "L-2032", title: "Senior Motion Designer offer letter", type: "Employment", status: "approved", submitted: "Friday", owner: "Priya (Legal)" },
   { id: "L-2018", title: "Lumen Analytics data processing addendum", type: "Vendor", status: "completed", submitted: "2 weeks ago", owner: "Priya (Legal)" },
 ];
@@ -248,7 +248,7 @@ export const AUTOMATION_BUILDER = {
   ] as readonly BuilderStep[],
   dryRun: {
     summary: "Tested against the last 3 hires. Would have run end to end with no manual steps.",
-    sample: "Jordan Avery accepted today. Atrium would create 5 accounts, order a 16-inch laptop to Brooklyn, book 3 meetings, and send the starter kit. Est. time saved: 2.5 hours per hire.",
+    sample: "Jordan Avery accepted today. Workplace AI would create 5 accounts, order a 16-inch laptop to Brooklyn, book 3 meetings, and send the starter kit. Est. time saved: 2.5 hours per hire.",
   },
 } as const;
 

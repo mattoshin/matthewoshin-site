@@ -11,7 +11,7 @@ import {
 import { Wordmark, Icon, cx } from "./VantageKit";
 
 /**
- * VantageLanding - the marketing surface for Vantage, an agentic security + IT
+ * VantageLanding - the marketing surface for SecOps Command, an agentic security + IT
  * operations command center. Dark "midnight-terminal" brand (Inter on carbon,
  * spectral-violet primary, electric-lime highlight). Server component: the only
  * interactions are anchor scroll and links into the console demo. Copy and figures
@@ -61,7 +61,7 @@ export default function VantageLanding() {
             Your security and IT command center, run by agents.
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[var(--vnt-ink-2)] sm:text-base">
-            Vantage unifies SOC and IT operations into one console, then puts autonomous
+            SecOps Command unifies SOC and IT operations into one console, then puts autonomous
             agents on the front line: they triage alerts, contain threats, patch
             vulnerabilities, and collect compliance evidence around the clock. You
             supervise the exceptions, not the noise.
@@ -195,7 +195,7 @@ export default function VantageLanding() {
             Click into every module on sample data. Nothing here talks to a live server.
           </p>
           <Link href={DASH} className="relative mt-8 inline-flex items-center gap-2 rounded-full bg-[var(--vnt-highlight)] px-7 py-3.5 text-[14px] font-semibold text-[#0e0f11] transition-transform hover:scale-[1.02]">
-            Open Vantage <Icon name="chevron" size={16} />
+            Open SecOps Command <Icon name="chevron" size={16} />
           </Link>
         </div>
       </section>
