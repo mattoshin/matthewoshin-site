@@ -40,7 +40,7 @@ const DEMOS: DemoCard[] = [
     slug: "galactic",
     name: "Galactic Signals",
     tagline:
-      "Cross-asset monitoring delivered as branded webhook alerts. Activate feeds, paste a webhook, start receiving.",
+      "A cross-asset monitoring marketplace for retail investors and online communities. Subscribe to feeds, wire a webhook, get branded real-time alerts, built toward the AI agent data layer beneath it.",
     era: "Current build",
     status: "live",
     href: "/app/galactic-signals",
@@ -62,7 +62,7 @@ const DEMOS: DemoCard[] = [
     slug: "sonar",
     name: "Sonar",
     tagline:
-      "Real-time media monitoring for IR and comms. Describe a monitor in plain English, dry-run it against the last 48 hours, and get pinged the moment it matters.",
+      "Real-time media monitoring your team builds in plain English. Describe a monitor, AI wires up the agentic workflow, dry-run it over the last 48 hours, and it watches the internet for you.",
     era: "Recent build",
     status: "live",
     href: "/app/sonar",
