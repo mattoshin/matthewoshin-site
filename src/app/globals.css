@@ -120,6 +120,12 @@ html {
   background: var(--abyss-body);
   /* Smooth scroll only as a fallback; Lenis drives the real thing. */
   scroll-behavior: smooth;
+  /* Kill phantom horizontal scroll site-wide. `clip` (not `hidden`) does NOT
+     create a scroll container, so it leaves position: sticky, the Lenis engine,
+     the fixed 3D canvas, and inner overflow-x:auto scrollers (e.g. the SEC
+     ticker) working. Prevents a hairline-wide element from expanding the mobile
+     visual viewport past device-width. */
+  overflow-x: clip;
 }
 
 body {
