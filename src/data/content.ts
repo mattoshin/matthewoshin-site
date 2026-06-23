@@ -392,6 +392,24 @@ export const BUILDS: readonly Build[] = [
     status: "Current build",
   },
   {
+    slug: "atrium",
+    name: "Atrium",
+    hook: "A self-directed concept: the corporate employee workspace, reimagined as one calm place where AI automates the busywork.",
+    demoHref: "/app/atrium",
+    summary:
+      "Corporate software is a junk drawer of disconnected portals: a separate app launcher, IT desk, HR system, and legal inbox, each with its own login and its own busywork. Atrium is my concept for fixing that, a single calm, consumer-grade workspace that unifies every internal tool and makes AI the connective tissue. It resolves common IT tickets, provisions app access by role, files expenses from receipts, and pre-reviews contracts before anyone sees them, then surfaces only what genuinely needs a person: an approval, a signature, a decision. Every screen shows what AI handled for you and the time it saved. This is a fully clickable design concept on fictional sample data, not a shipped product.",
+    highlights: [
+      "A unified employee home: an AI daily brief, a 'handled for you' automation feed with time saved, and a short list of only what needs you.",
+      "An internal App Hub: every company app in one launcher with one-click SSO, request-access flows, and role-based recommendations.",
+      "An Automations studio: describe a workflow in plain English, watch AI propose the steps and dry-run it against real history, then see the hours it saves.",
+      "A self-service IT Hub that deflects and auto-resolves common issues, plus Legal with an AI first-pass contract review that flags risky clauses.",
+      "An assistant that acts across every module: it files tickets, requests access, drafts documents, and deep-links you to where the work landed.",
+      "The 'Aurora' design system: a light, glassmorphic theme hand-rolled with zero UI dependencies, fully scoped so it never touches the rest of the site.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Plus Jakarta Sans", "Hand-rolled SVG UI", "Anthropic Claude (concept)"],
+    status: "Concept",
+  },
+  {
     slug: "vantage",
     name: "Vantage",
     hook: "An agentic security and IT operations command center: autonomous agents triage, contain, patch, and audit while a human supervises the exceptions.",

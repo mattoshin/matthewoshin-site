@@ -81,6 +81,17 @@ const DEMOS: DemoCard[] = [
     accent: "#3da9fc",
   },
   {
+    slug: "atrium",
+    name: "Atrium",
+    tagline:
+      "An unbranded concept: the corporate employee workspace, reimagined. An app hub, IT, legal, and HR in one calm place, with an AI assistant that automates the busywork and shows you what it handled.",
+    era: "Concept · self-directed",
+    status: "live",
+    href: "/app/atrium",
+    caseStudy: "/projects/atrium",
+    accent: "#6d4aff",
+  },
+  {
     slug: "vantage",
     name: "Vantage",
     tagline:
