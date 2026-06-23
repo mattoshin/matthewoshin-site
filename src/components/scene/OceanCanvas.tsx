@@ -32,9 +32,13 @@ export default function OceanCanvas() {
   // This component is only ever mounted client-side (dynamic ssr:false), so it is
   // safe to detect WebGL2 in a lazy state initializer rather than an effect.
   const [supported] = useState<boolean>(() => isWebGL2Available());
-  // dpr ceiling can be lowered by the PerformanceMonitor at runtime. Phones cap
-  // at 1.0 (a 3x panel rendered at 1.5 is the single biggest fill-rate cost).
-  const [dpr, setDpr] = useState<number>(isPhone ? 1 : 1.5);
+  // Phones render at their native device pixel ratio (capped at 2) so the surface
+  // hero (Lamborghini + Black Pearl) reads crisp on retina panels. The trimmed
+  // phone registry plus the PerformanceMonitor below keep that within budget,
+  // shedding resolution only if FPS actually dips. dpr ceiling can be lowered by
+  // the PerformanceMonitor at runtime.
+  const phoneCeil = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1.5;
+  const [dpr, setDpr] = useState<number>(isPhone ? phoneCeil : 1.5);
   // Hard fallback flag: only raised for genuinely unusable WebGL (no context, or
   // a lost context). FPS dips DO NOT raise this anymore - see onFallback below.
   const [degraded, setDegraded] = useState(false);
@@ -44,15 +48,14 @@ export default function OceanCanvas() {
   const [lite, setLite] = useState(false);
   const [frameloop, setFrameloop] = useState<"always" | "never">("always");
 
-  // Phones cap DPR at 1.0 with a 0.75 floor; desktop/tablet keep the full range.
-  // The ceiling is clamped to [dprMin, dprMax] at render time so a stale runtime
-  // `dpr` from before a tier change can never produce an out-of-budget OR an
-  // inverted range. Both directions matter: desktop -> phone (a high `dpr` would
-  // exceed the phone budget) and phone -> desktop (a degraded `dpr` of 0.75 would
-  // otherwise yield [1, 0.75], a sub-1 blurry desktop). Clamping avoids a
-  // setState-in-effect just to reset it; `dpr` re-expands on the next onDecline.
-  const dprMin = isPhone ? 0.75 : 1;
-  const dprMax = isPhone ? 1 : 1.5;
+  // Floor is 1.0 everywhere: never render below native CSS resolution, which is
+  // what made the phone surface look soft and blurry. Phones may climb to their
+  // native ratio (capped at 2) for a pixel-dense hero; desktop/tablet keep
+  // [1, 1.5]. The ceiling is clamped to [dprMin, dprMax] at render time so a
+  // stale runtime `dpr` from before a tier change can never produce an
+  // out-of-budget OR an inverted range; `dpr` re-expands on the next onDecline.
+  const dprMin = 1;
+  const dprMax = isPhone ? phoneCeil : 1.5;
   const dprCeiling = Math.max(dprMin, Math.min(dpr, dprMax));
 
   // Sync detection result into the shared store (external-system sync).
