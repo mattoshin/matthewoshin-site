@@ -13,7 +13,7 @@ import {
 } from "../BeaconKit";
 
 /**
- * DataSources - the catalog of APIs, MCPs, and feeds powering Beacon. A filterable
+ * DataSources - the catalog of APIs, MCPs, and feeds powering Financial Comms. A filterable
  * grid of source cards with a (disabled, showcase) AI search toolbar. No company
  * header: this is a platform-level configuration surface, not an analyst module.
  */
@@ -39,7 +39,7 @@ export default function DataSources() {
     <div className="space-y-5">
       <SectionHeading
         title="Data sources"
-        hint="Catalog of the APIs, MCPs, and feeds powering Beacon."
+        hint="Catalog of the APIs, MCPs, and feeds powering Financial Comms."
       />
 
       {/* toolbar */}

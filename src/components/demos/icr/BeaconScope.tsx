@@ -1,11 +1,11 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 
 /**
- * BeaconScope - the styling boundary for the ICR Intelligence Platform (Beacon)
- * demo. Unlike the dark Galactic/Mocean scopes, Beacon is a LIGHT, institutional
+ * BeaconScope - the styling boundary for the Financial Communications Platform
+ * demo. Unlike the dark Galactic/Mocean scopes, Financial Comms is a LIGHT, institutional
  * fintech surface: Inter + JetBrains Mono on an off-white canvas, ink-near-black
- * text, and ICR Ultramarine (#0027b3) used sparingly as the single accent. Every
- * Beacon component reads these scoped `--icr-*` tokens; nothing leaks into the
+ * text, and Ultramarine (#0027b3) used sparingly as the single accent. Every
+ * Financial Comms component reads these scoped `--icr-*` tokens; nothing leaks into the
  * global ocean theme in globals.css.
  *
  * Exact hexes match the production app's design tokens (app/globals.css): canvas
@@ -44,7 +44,7 @@ export default function BeaconScope({ children }: { children: React.ReactNode })
           // structure
           "--icr-border": "#e1e4ea",
           "--icr-border-strong": "#c8ccd4",
-          // accent (ICR Ultramarine) - used on ~5% of pixels
+          // accent (Ultramarine) - used on ~5% of pixels
           "--icr-accent": "#0027b3",
           "--icr-accent-700": "#001870",
           "--icr-accent-wash": "#eef1fc",
@@ -69,7 +69,7 @@ export default function BeaconScope({ children }: { children: React.ReactNode })
         } as React.CSSProperties
       }
     >
-      {/* Scoped keyframes (namespaced icr-*) so the Beacon demo carries its own
+      {/* Scoped keyframes (namespaced icr-*) so the Financial Comms demo carries its own
           motion without touching the global ocean stylesheet. Static literal. */}
       <style>{`
 @keyframes icr-pulse-ring { 0% { transform: scale(1); opacity: .5 } 100% { transform: scale(2.6); opacity: 0 } }

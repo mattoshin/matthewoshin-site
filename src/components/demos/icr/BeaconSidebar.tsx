@@ -4,7 +4,7 @@ import { BEACON_NAV, BEACON_ACCOUNT, type ModuleId } from "@/data/icr-demo";
 import { Wordmark, Icon, cx } from "./BeaconKit";
 
 /**
- * BeaconSidebar - the grouped left navigation rail. Mirrors the real Beacon
+ * BeaconSidebar - the grouped left navigation rail. Mirrors the real Financial Comms
  * structure (Overview / Earnings / Intelligence / Strategy / Workspace). Active
  * item gets the accent treatment that is the single place ultramarine appears in
  * the nav: accent-wash fill + accent text + a 2px left bar.
@@ -27,7 +27,7 @@ export default function BeaconSidebar({
       <div className="px-3 pb-2">
         <button className="flex w-full items-center gap-2 rounded-lg border border-[var(--icr-border)] bg-[var(--icr-card)] px-3 py-2 text-[13px] font-medium text-[var(--icr-muted)] transition-colors hover:border-[var(--icr-border-strong)] hover:text-[var(--icr-ink)]">
           <Icon name="sparkles" size={15} className="text-[var(--icr-accent)]" />
-          Ask Beacon
+          Ask Financial Comms
           <span className="ml-auto font-mono text-[10px] text-[var(--icr-faint)]">⌘K</span>
         </button>
       </div>

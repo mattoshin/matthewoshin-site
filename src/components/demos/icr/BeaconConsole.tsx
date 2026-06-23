@@ -21,7 +21,7 @@ import Resources from "./modules/Resources";
 import Admin from "./modules/Admin";
 
 /**
- * BeaconConsole - the Beacon app shell. The sidebar selection switches the active
+ * BeaconConsole - the Financial Comms app shell. The sidebar selection switches the active
  * module via local state (no route change), so all 13 module screens live behind
  * one Next route. A `?module=` query param deep-links to a module, resolved after
  * mount to keep the SSR markup stable (matches the GalacticConsole pattern).
