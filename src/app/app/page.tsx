@@ -70,6 +70,17 @@ const DEMOS: DemoCard[] = [
     accent: "#FFB224",
   },
   {
+    slug: "sec-intelligence",
+    name: "SEC Intelligence",
+    tagline:
+      "A real-time SEC-filing terminal for wealth managers and traders. Every material filing the moment it lands, an AI analyst that reads it for you, and alerts routed to email, phone, or your own agents.",
+    era: "Current build",
+    status: "live",
+    href: "/app/sec-intelligence",
+    caseStudy: "/projects/sec-intelligence",
+    accent: "#3da9fc",
+  },
+  {
     slug: "sigma",
     name: "Sigma",
     tagline:

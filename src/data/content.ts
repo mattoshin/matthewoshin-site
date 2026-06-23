@@ -372,6 +372,24 @@ export const BUILDS: readonly Build[] = [
     status: "Recent build",
   },
   {
+    slug: "sec-intelligence",
+    name: "SEC Intelligence",
+    hook: "A real-time SEC-filing intelligence terminal for financial professionals. Every material filing the moment it lands, an AI analyst that reads it, and alerts routed to email, phone, or your own agents.",
+    demoHref: "/app/sec-intelligence",
+    summary:
+      "Wealth managers and traders find out about a market-moving filing too late, after the price has already moved and the client has already seen it. SEC Intelligence watches EDGAR in real time, scores every filing for materiality, and has an AI analyst read each one in plain English: what changed, why it matters, and what to tell your clients, cited to the exact item. It is built for two roles from one product, a wealth-manager view of clients and exposure and a trader view of positions and speed. The signature is the channel router, which fans each alert to email, SMS, a phone call, or straight to your downstream AI agents over a webhook, by rules you set once. A theme tracker also scans every filing for AI exposure, so you see where the AI story is moving across your book.",
+    highlights: [
+      "A real-time filing feed across 8-K, 10-K/Q, S-1, Form 4, 13D/G, and proxy, filtered to your book and ranked by AI materiality.",
+      "An AI read on every filing: a plain-English summary of what changed and why it matters, cited to the exact item, plus a diff against the prior filing.",
+      "A role switch: a wealth-manager view of clients, exposure, and suitability, and a trader view of positions, the pre-market tape, and speed.",
+      "The channel router: fan each alert to email, SMS, a phone call, push, or a downstream AI agent over a webhook or MCP, by rules you set once.",
+      "Insider and ownership surveillance: Form 4 cluster buying, 13D activist stakes, and 13F rotation surfaced as signals, not noise.",
+      "An AI theme tracker that scans filings for AI capex, AI-attach revenue, and AI risk-factor language across every name you follow.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Anthropic Claude", "SEC EDGAR", "Postgres + pgvector", "Twilio", "Resend"],
+    status: "Current build",
+  },
+  {
     slug: "observly",
     name: "Observly",
     hook: "A two-sided marketplace for clinical shadowing.",
