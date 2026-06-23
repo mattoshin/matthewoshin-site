@@ -70,6 +70,17 @@ const DEMOS: DemoCard[] = [
     accent: "#FFB224",
   },
   {
+    slug: "vantage",
+    name: "Vantage",
+    tagline:
+      "An agentic security and IT operations command center. Autonomous agents triage incidents, hunt threats, patch vulnerabilities, and collect compliance evidence, in one console.",
+    era: "Concept build · Security + IT ops",
+    status: "live",
+    href: "/app/vantage",
+    caseStudy: "/projects/vantage",
+    accent: "#b6abff",
+  },
+  {
     slug: "sigma",
     name: "Sigma",
     tagline:

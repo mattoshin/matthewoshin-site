@@ -372,6 +372,23 @@ export const BUILDS: readonly Build[] = [
     status: "Recent build",
   },
   {
+    slug: "vantage",
+    name: "Vantage",
+    hook: "An agentic security and IT operations command center: autonomous agents triage, contain, patch, and audit while a human supervises the exceptions.",
+    demoHref: "/app/vantage",
+    summary:
+      "Vantage is a concept build that turns the kind of internal command-center console I've built into a security and IT operations cockpit. It unifies the SOC and the NOC into one console, an incident queue, detections and ATT&CK coverage, threat intel, asset inventory, vulnerability management, network and service health, identity and access, and compliance, and puts a roster of autonomous agents on the front line. A Triage Agent enriches and auto-closes alert noise, a Phishing Responder revokes compromised sessions, a Patch Orchestrator stages and applies fixes in maintenance windows, a Threat Hunter opens incidents from weak signals, and a Compliance Auditor collects control evidence continuously. Every agent has an autonomy level and a full, append-only action audit. This is a clickable recreation on sample data: every host, IP, CVE, threat actor, and figure is fictional.",
+    highlights: [
+      "AI-triaged incident queue: agents summarize, score, and draft the response playbook before a human opens the ticket, with a full action timeline.",
+      "Autonomous agent roster with per-agent autonomy levels (suggest, approve, auto), run history, success rates, and an append-only audit of every action taken.",
+      "Unified SOC and IT ops: detections and ATT&CK coverage, threat intel and IOCs, asset inventory, a CVSS-scored vulnerability backlog, network and zero-trust posture, and identity risk in one console.",
+      "Continuous compliance: SOC 2, ISO 27001, NIST, and PCI posture with agent-collected control evidence and audit-readiness scoring.",
+      "A dark command-center interface designed from a research pass over real security consoles: severity-driven color, mono telemetry, deterministic SVG charts, a live threat map, and an ATT&CK coverage matrix.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Anthropic Claude", "Autonomous agents", "PostgreSQL"],
+    status: "Concept demo",
+  },
+  {
     slug: "observly",
     name: "Observly",
     hook: "A two-sided marketplace for clinical shadowing.",
