@@ -125,7 +125,7 @@ function NarrativeChecker() {
       <section>
         <SectionHeading
           title="Documents in scope"
-          hint="Beacon checks these for a consistent message, numbers, and tone."
+          hint="Financial Comms checks these for a consistent message, numbers, and tone."
         />
         <div className="space-y-3">
           {NARRATIVE_DOCS.map((d) => (

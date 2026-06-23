@@ -1,5 +1,5 @@
 /**
- * icr-modules-demo.ts - per-module sample data for the ICR Beacon demo.
+ * icr-modules-demo.ts - per-module sample data for the Financial Comms demo.
  *
  * Everything here is fictional and illustrative (see icr-demo.ts header). The
  * focal company across the analyst modules is Quanta Labs (QNTA), a made-up

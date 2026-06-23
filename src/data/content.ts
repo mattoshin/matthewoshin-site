@@ -366,7 +366,7 @@ export const BUILDS: readonly Build[] = [
     hook: "An AI platform for investor relations, PR, and capital-markets teams: earnings prep, peer and investor intelligence, crisis command, and on-voice drafting in one workspace.",
     demoHref: "/app/icr-intelligence",
     summary:
-      "A single workspace for the work an investor-relations, PR, and capital-markets team does: earnings prep, peer and investor intelligence, crisis response, governance and activism monitoring, IPO readiness, and on-voice drafting, all grounded in live market data. Twelve modules sit on a Postgres brain fed by SEC EDGAR, FMP, FRED, Polygon, and other sources, with an AI layer on Anthropic Claude doing streaming generation, tool use, and retrieval over filings. I designed and shipped it as VP of AI at ICR, prototyping most of it solo on Claude Code. This is a faithful recreation on sample data: every company, figure, holder, and filing in the demo is fictional.",
+      "A single workspace for the work an investor-relations, PR, and capital-markets team does: earnings prep, peer and investor intelligence, crisis response, governance and activism monitoring, IPO readiness, and on-voice drafting, all grounded in live market data. Twelve modules sit on a Postgres brain fed by SEC EDGAR, FMP, FRED, Polygon, and other sources, with an AI layer on Anthropic Claude doing streaming generation, tool use, and retrieval over filings. I designed and shipped it as the in-house AI platform at a leading financial-communications firm, prototyping most of it solo on Claude Code. This is a faithful recreation on sample data: every company, figure, holder, and filing in the demo is fictional.",
     highlights: [
       "Earnings Hub: AI prep briefs, predicted analyst Q&A, a live earnings-call simulator, post-call analysis, and consensus tracking in one workspace.",
       "Intelligence suite: investor targeting with 13F and ownership tracking, peer benchmarking with transcript mining, and conference prep.",
@@ -376,7 +376,7 @@ export const BUILDS: readonly Build[] = [
       "Built largely solo on Claude Code: Next.js 16, React 19, Supabase Postgres, and Prisma, deployed on Vercel.",
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Anthropic Claude", "Supabase", "Prisma", "PostgreSQL", "SEC EDGAR", "Vercel"],
-    status: "Built at ICR",
+    status: "Production build",
   },
   {
     slug: "sonar",

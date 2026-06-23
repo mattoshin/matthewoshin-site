@@ -1,10 +1,10 @@
 /**
- * icr-demo.ts - sample data for the ICR Intelligence Platform (Beacon) demo.
+ * icr-demo.ts - sample data for the Financial Communications Platform demo.
  *
- * Beacon is the AI investor-relations + strategic-comms intelligence platform
- * Matthew built as VP of AI at ICR. This is a faithful, mock-data RECREATION for
+ * Financial Comms is the AI investor-relations + strategic-comms intelligence platform
+ * Matthew built in-house. This is a faithful, mock-data RECREATION for
  * the portfolio, not the real app: every company, ticker, figure, holder, and
- * filing below is fictional and illustrative. No real ICR client data, no
+ * filing below is fictional and illustrative. No real client data, no
  * proprietary scoring logic, nothing talks to a live server.
  *
  * Core data lives here (brand, companies, nav, dashboard); the heavier per-module
@@ -16,10 +16,10 @@ import type { CompanyCtx, IconName } from "@/components/demos/icr/BeaconKit";
 /* ----------------------------------------------------------------- brand --- */
 
 export const BEACON = {
-  name: "Beacon",
-  product: "ICR Intelligence Platform",
+  name: "Financial Comms",
+  product: "Financial Communications Platform",
   tagline: "The AI intelligence layer for investor relations",
-  domain: "icrintelligence.com",
+  domain: "financialcomms.io",
   ink: "#0c0e13",
   accent: "#0027b3",
 } as const;
@@ -29,7 +29,7 @@ export const BEACON_ACCOUNT = {
   name: "Dana Whitfield",
   initials: "DW",
   role: "Managing Director, IR Strategy",
-  firm: "ICR",
+  firm: "Crosswind Partners",
   clients: 14,
 } as const;
 
@@ -253,9 +253,9 @@ export const BEACON_PAIN_POINTS: readonly { title: string; body: string }[] = [
 ];
 
 export const BEACON_STEPS: readonly { n: number; title: string; body: string }[] = [
-  { n: 1, title: "Pin your companies", body: "Add the tickers you advise. Beacon pulls fundamentals, filings, ownership, and macro context automatically." },
+  { n: 1, title: "Pin your companies", body: "Add the tickers you advise. Financial Comms pulls fundamentals, filings, ownership, and macro context automatically." },
   { n: 2, title: "Open a module", body: "Earnings prep, a peer benchmark, a crisis sim, a press release. Each one is grounded in live data." },
-  { n: 3, title: "Generate and ship", body: "Beacon drafts the brief, the Q&A, or the statement, on-voice. You edit, approve, and send." },
+  { n: 3, title: "Generate and ship", body: "Financial Comms drafts the brief, the Q&A, or the statement, on-voice. You edit, approve, and send." },
 ];
 
 export const BEACON_FACTS: readonly { value: string; label: string }[] = [

@@ -1,8 +1,8 @@
 /**
- * BeaconKit - shared presentational primitives for the ICR Beacon demo. Pure,
+ * BeaconKit - shared presentational primitives for the Financial Comms demo. Pure,
  * dependency-free building blocks (inline-SVG icon set, cards, KPI stats, badges,
  * deltas, SSR-safe sparklines, the AI-provenance block, tabs, data tables, and the
- * company context header) that every Beacon module composes. All visuals read the
+ * company context header) that every Financial Comms module composes. All visuals read the
  * scoped `--icr-*` tokens from BeaconScope, so the institutional light theme stays
  * consistent: hairline borders over shadows, mono tabular numerics, ultramarine
  * accent on ~5% of pixels, and an accent-left-border "AI" signature on generated
@@ -15,7 +15,7 @@ export const cx = (...c: Array<string | false | null | undefined>) =>
 
 /* ----------------------------------------------------------------- wordmark --- */
 
-/** The ICR Beacon lockup: a concentric-signal mark + wordmark. */
+/** The Financial Comms lockup: a concentric-signal mark + wordmark. */
 export function Wordmark({ size = "md" }: { size?: "sm" | "md" }) {
   const text = size === "sm" ? "text-sm" : "text-[15px]";
   return (
@@ -25,10 +25,10 @@ export function Wordmark({ size = "md" }: { size?: "sm" | "md" }) {
         <span
           className={cx("block font-semibold tracking-tight text-[var(--icr-ink)]", text)}
         >
-          Beacon
+          Financial Comms
         </span>
         <span className="mt-0.5 block font-mono text-[9px] uppercase tracking-[0.22em] text-[var(--icr-faint)]">
-          ICR Intelligence
+          Investor Relations
         </span>
       </span>
     </span>

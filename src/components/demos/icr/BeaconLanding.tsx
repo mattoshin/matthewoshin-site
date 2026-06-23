@@ -11,8 +11,8 @@ import {
 import { Wordmark, Icon, cx } from "./BeaconKit";
 
 /**
- * BeaconLanding - a faithful recreation of the ICR Intelligence Platform's
- * marketing surface, rebuilt in this stack on Beacon's light, institutional brand
+ * BeaconLanding - a faithful recreation of the Financial Communications Platform's
+ * marketing surface, rebuilt in this stack on Financial Comms's light, institutional brand
  * (Inter on #fafafa, ink near-black, ultramarine accent used sparingly). Server
  * component: the only interactions are anchor scroll and links into the console
  * demo. Copy and figures are illustrative sample data.
@@ -47,7 +47,7 @@ export default function BeaconLanding() {
               href={DASH}
               className="rounded-lg bg-[var(--icr-ink)] px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-black"
             >
-              Open Beacon
+              Open Financial Comms
             </Link>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function BeaconLanding() {
             Investor relations, with an AI analyst on every desk.
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[var(--icr-ink-2)] sm:text-base">
-            Beacon turns the work of an IR and strategic-comms team, earnings prep, peer
+            Financial Comms turns the work of an IR and strategic-comms team, earnings prep, peer
             and investor intelligence, crisis response, and on-voice drafting, into a
             single workspace grounded in live market data.
           </p>
@@ -198,7 +198,7 @@ export default function BeaconLanding() {
             href={DASH}
             className="mt-8 inline-flex items-center gap-2 rounded-lg bg-white px-7 py-3.5 text-[14px] font-semibold text-[var(--icr-ink)] transition-transform hover:scale-[1.02]"
           >
-            Open Beacon <Icon name="chevron" size={16} />
+            Open Financial Comms <Icon name="chevron" size={16} />
           </Link>
         </div>
       </section>
