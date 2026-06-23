@@ -81,14 +81,15 @@ const DEMOS: DemoCard[] = [
     accent: "#b6abff",
   },
   {
-    slug: "sigma",
-    name: "Sigma",
+    slug: "riptide",
+    name: "Riptide",
     tagline:
-      "Distribution-first equity-research terminal. The options market's implied distribution versus your own view.",
-    era: "Current build",
-    status: "soon",
-    caseStudy: "/projects/sigma",
-    accent: "#36f5b0",
+      "Agentic equity-research terminal. Research in distributions: the options market's implied distribution versus your own models, scanned for gaps and graded over time.",
+    era: "Current build, live",
+    status: "live",
+    href: "https://riptide.matthewoshin.com",
+    caseStudy: "/projects/riptide",
+    accent: "#2fe3bf",
   },
 ];
 
