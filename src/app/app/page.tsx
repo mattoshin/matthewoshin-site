@@ -81,14 +81,26 @@ const DEMOS: DemoCard[] = [
     accent: "#6d4aff",
   },
   {
-    slug: "sigma",
-    name: "Sigma",
+    slug: "vantage",
+    name: "Vantage",
     tagline:
-      "Distribution-first equity-research terminal. The options market's implied distribution versus your own view.",
-    era: "Current build",
-    status: "soon",
-    caseStudy: "/projects/sigma",
-    accent: "#36f5b0",
+      "An agentic security and IT operations command center. Autonomous agents triage incidents, hunt threats, patch vulnerabilities, and collect compliance evidence, in one console.",
+    era: "Concept build · Security + IT ops",
+    status: "live",
+    href: "/app/vantage",
+    caseStudy: "/projects/vantage",
+    accent: "#b6abff",
+  },
+  {
+    slug: "riptide",
+    name: "Riptide",
+    tagline:
+      "Agentic equity-research terminal. Research in distributions: the options market's implied distribution versus your own models, scanned for gaps and graded over time.",
+    era: "Current build, live",
+    status: "live",
+    href: "https://riptide.matthewoshin.com",
+    caseStudy: "/projects/riptide",
+    accent: "#2fe3bf",
   },
 ];
 

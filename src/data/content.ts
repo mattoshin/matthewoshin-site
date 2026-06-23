@@ -304,19 +304,21 @@ export interface Build {
 
 export const BUILDS: readonly Build[] = [
   {
-    slug: "sigma",
-    name: "Sigma",
-    hook: "A distribution-first equity-research terminal.",
+    slug: "riptide",
+    name: "Riptide",
+    hook: "An agentic equity-research terminal that researches in distributions, not price targets.",
+    demoHref: "https://riptide.matthewoshin.com",
     summary:
-      "Most research tools give you a consensus mean and a single price target, throwing away the shape of your own conviction and how it disagrees with what the market already prices. Sigma takes the live options chain, derives the market's full risk-neutral distribution, overlays my own Bull/Base/Bear view on the same axis, and shades the gap as edge. Then it grades me: a calibration view tracks my probabilistic calls over time with a Brier score and a reliability diagram.",
+      "Every research tool ships a single number where the honest answer is a distribution. Riptide takes the live options chain, derives the market's full risk-neutral distribution, and puts my own Bull/Base/Bear view on the same axis, shading the gap between them as expected value and a half-Kelly size. On top of that sits an agentic layer: a Model Lab to author and save my own models, an Edge Radar that scans the whole universe for names where a model's distribution most disagrees with what options are pricing, and a Model Arena that overlays the market, my view, the Street, and an AI analyst on one axis and then grades which of them has actually been right. The quant engine is verified, dependency-free TypeScript with unit tests; the AI analyst is anchored to the implied base rate so it can't free-run overconfident.",
     highlights: [
-      "Verified quant engine in pure, dependency-free TypeScript: Black-Scholes, the Breeden-Litzenberger risk-neutral density pipeline, expected move, EV, and Kelly, all unit-tested.",
-      "Every view ends in an expected value, a strategy comparison, and a half-Kelly position size.",
-      "Calibration scorecard that grades forecasts over time the way a serious poker player measures process over outcome.",
-      "Honest math: the implied density is labeled risk-neutral (Q), not real-world (P), with a transparent Q-to-P drift adjustment instead of mislabeling it.",
+      "Verified quant engine in pure, dependency-free TypeScript: Black-Scholes, the Breeden-Litzenberger risk-neutral density, expected move, EV, and Kelly, all unit-tested.",
+      "Model Lab: author, save, and reload my own probabilistic models, with the expected value and half-Kelly size recomputing live.",
+      "Edge Radar: an agentic scan that ranks the universe by where a model's distribution diverges most from the options market, the gaps a single price target hides.",
+      "Model Arena: the market, my view, the Street, and an AI analyst overlaid on one axis, with a Brier-score scoreboard that grades which model has actually been calibrated.",
+      "Honest math: the implied density is labeled risk-neutral (Q), not real-world (P), with the volatility risk premium surfaced instead of mislabeled.",
     ],
-    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "d3", "Options math"],
-    status: "Current build",
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "d3", "Claude (anchored AI analyst)", "Options math"],
+    status: "Live",
   },
   {
     slug: "galactic-signals",
@@ -388,6 +390,23 @@ export const BUILDS: readonly Build[] = [
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Plus Jakarta Sans", "Hand-rolled SVG UI", "Anthropic Claude (concept)"],
     status: "Concept",
+  },
+  {
+    slug: "vantage",
+    name: "Vantage",
+    hook: "An agentic security and IT operations command center: autonomous agents triage, contain, patch, and audit while a human supervises the exceptions.",
+    demoHref: "/app/vantage",
+    summary:
+      "Vantage is a concept build that turns the kind of internal command-center console I've built into a security and IT operations cockpit. It unifies the SOC and the NOC into one console, an incident queue, detections and ATT&CK coverage, threat intel, asset inventory, vulnerability management, network and service health, identity and access, and compliance, and puts a roster of autonomous agents on the front line. A Triage Agent enriches and auto-closes alert noise, a Phishing Responder revokes compromised sessions, a Patch Orchestrator stages and applies fixes in maintenance windows, a Threat Hunter opens incidents from weak signals, and a Compliance Auditor collects control evidence continuously. Every agent has an autonomy level and a full, append-only action audit. This is a clickable recreation on sample data: every host, IP, CVE, threat actor, and figure is fictional.",
+    highlights: [
+      "AI-triaged incident queue: agents summarize, score, and draft the response playbook before a human opens the ticket, with a full action timeline.",
+      "Autonomous agent roster with per-agent autonomy levels (suggest, approve, auto), run history, success rates, and an append-only audit of every action taken.",
+      "Unified SOC and IT ops: detections and ATT&CK coverage, threat intel and IOCs, asset inventory, a CVSS-scored vulnerability backlog, network and zero-trust posture, and identity risk in one console.",
+      "Continuous compliance: SOC 2, ISO 27001, NIST, and PCI posture with agent-collected control evidence and audit-readiness scoring.",
+      "A dark command-center interface designed from a research pass over real security consoles: severity-driven color, mono telemetry, deterministic SVG charts, a live threat map, and an ATT&CK coverage matrix.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Anthropic Claude", "Autonomous agents", "PostgreSQL"],
+    status: "Concept demo",
   },
   {
     slug: "observly",
