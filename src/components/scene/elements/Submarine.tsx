@@ -27,7 +27,8 @@ import type { SceneElementProps } from "../types";
 const BAND_START = 0.33;
 const BAND_END   = 0.49;
 const FEATHER    = 0.04;
-const SPEED      = 0.55;        // units/sec, slow so it reads as large
+const BASE_SPEED   = 0.7;       // units/sec at the screen edges, slow so it reads as large
+const CENTER_BOOST = 2.4;       // extra speed multiplier behind the center cards
 const Z_DEPTH    = -12;
 const Y_OFFSET   = -0.8;
 const HW         = 4.4;         // hull half-length
@@ -260,7 +261,7 @@ const BLADES = [0, 1, 2, 3, 4, 5, 6]; // seven-blade skewed screw
 export default function Submarine({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const propRef  = useRef<THREE.Group>(null);
-  const subX     = useRef(-6); // start near center so it is visible on load
+  const subX     = useRef(NaN); // placed at the left edge on the first visible frame
 
   const hullGeo   = useMemo(() => makeHull(),          []);
   const deckGeo   = useMemo(() => makeDeckHighlight(), []);
@@ -290,8 +291,18 @@ export default function Submarine({ progress }: SceneElementProps) {
     if (vis <= 0) { if (g.visible) g.visible = false; return; }
     if (!g.visible) g.visible = true;
 
-    subX.current += SPEED * delta;
-    if (subX.current > 32) subX.current = -32;
+    // Viewport half-width at the sub's depth, so it enters exactly at the edge.
+    const cam = state.camera as THREE.PerspectiveCamera;
+    const dist = cam.position.z - Z_DEPTH;
+    const halfW = dist * Math.tan((cam.fov * Math.PI) / 360) * cam.aspect;
+
+    // Place it on the left side of the screen the first time it becomes visible.
+    if (Number.isNaN(subX.current)) subX.current = -halfW + HW;
+
+    // Drift left to right, faster through the center where the cards hide it.
+    const centerFactor = clamp01(1 - Math.abs(subX.current) / halfW);
+    subX.current += BASE_SPEED * (1 + CENTER_BOOST * centerFactor) * delta;
+    if (subX.current > halfW + HW) subX.current = -halfW - HW;
 
     const t = state.clock.elapsedTime;
     g.position.x = subX.current;
