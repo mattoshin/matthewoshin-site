@@ -197,7 +197,7 @@ export const EXPERIENCE: readonly Job[] = [
     slug: "qult",
     role: "AI Product Manager",
     org: "Qult.ai",
-    period: "2023, internship",
+    period: "2023",
     points: [
       "Led a team of four developers building an AI platform in the healthcare-career space.",
       "Owned product direction and the operational infrastructure of getting an early-stage product off the ground.",
@@ -208,10 +208,32 @@ export const EXPERIENCE: readonly Job[] = [
     slug: "top-floor",
     role: "Software Product Manager",
     org: "Top Floor",
-    period: "2022 to 2023, internship",
+    period: "2022 to 2023",
     points: [
       "Early product-management experience on the software side, sharpening the build-and-ship muscle.",
       "Built community and marketing infrastructure for AI companies, with automated marketing products sold to 3 clients.",
+    ],
+  },
+  {
+    slug: "powerhouse-assets",
+    role: "Wealth Management Analyst",
+    org: "PowerHouse Assets",
+    period: "2020, internship",
+    points: [
+      "Conducted sector analysis and return modeling across equities and alternative asset classes to support client portfolio allocation decisions.",
+      "Prepared investment memos and maintained CRM documentation for client strategy updates.",
+      "Utilized analytical skills to provide valuable insights for wealth management strategies.",
+    ],
+  },
+  {
+    slug: "saturn",
+    role: "User Experience Specialist",
+    org: "Saturn",
+    period: "2019 to 2020, internship",
+    points: [
+      "Streamlined Saturn's beta app into WHS community, improving scheduling features.",
+      "Acted as liaison between WHS students and Saturn development team.",
+      "Enhanced aesthetic appearance of app's scheduling portion for better user experience.",
     ],
   },
 ] as const;

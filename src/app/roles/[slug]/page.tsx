@@ -204,7 +204,7 @@ const ROLE_CONTEXT: Record<string, RoleContext> = {
   },
   qult: {
     overview:
-      "Qult.ai was an early-stage AI startup in the healthcare-career space. As AI PM, I led a four-person engineering team, owned product direction, and was responsible for getting the product off the ground operationally. Internship in 2023.",
+      "Qult.ai was an early-stage AI startup in the healthcare-career space. As AI PM, I led a four-person engineering team, owned product direction, and was responsible for getting the product off the ground operationally, in 2023.",
     lessons: [
       "Product management at an early-stage AI company is mostly about forcing clarity on what the product actually does and who it's actually for.",
       "Leading engineers as a non-engineer for the first time taught me how to communicate specs in ways that reduce back-and-forth and build trust with the team.",
@@ -212,10 +212,26 @@ const ROLE_CONTEXT: Record<string, RoleContext> = {
   },
   "top-floor": {
     overview:
-      "Top Floor was my first real product-management role. I built community and marketing infrastructure for AI companies, with automated marketing products sold to clients. Internship from 2022 to 2023.",
+      "Top Floor was my first real product-management role. I built community and marketing infrastructure for AI companies, with automated marketing products sold to clients, from 2022 to 2023.",
     lessons: [
       "Early PM experience sharpened my ability to translate a business problem into a product spec and hold a team accountable to shipping.",
       "Automated marketing products taught me that the most valuable thing you can build for a small client is something that runs without them touching it.",
+    ],
+  },
+  "powerhouse-assets": {
+    overview:
+      "PowerHouse Assets is a wealth-management firm in Lincoln, Massachusetts, where I worked as a wealth-management analyst. I ran sector analysis and return modeling across equities and alternative asset classes to support client portfolio allocation, prepared investment memos, and maintained the CRM documentation behind client strategy. An early, formative look at the markets from the advisory side. 2020.",
+    lessons: [
+      "An investment view only matters once it is translated into a portfolio decision a client can actually act on.",
+      "Modeling returns across equities and alternatives was my first real practice thinking in allocation and risk, not just single names.",
+    ],
+  },
+  saturn: {
+    overview:
+      "Saturn is a scheduling app, and I worked as a user-experience specialist bringing its beta into the WHS student community. I acted as the liaison between students and the development team and refined the scheduling experience so it was cleaner and easier to use. 2019 to 2020.",
+    lessons: [
+      "Sitting between real users and the engineers building for them taught me to turn messy feedback into specific, shippable product changes.",
+      "Small UX details in a scheduling flow compound into whether people actually adopt the product.",
     ],
   },
 };
