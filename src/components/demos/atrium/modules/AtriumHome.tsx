@@ -65,7 +65,7 @@ export default function AtriumHome() {
           <section>
             <SectionHeading
               title="Needs you"
-              hint="The short list. Everything else, Atrium handled."
+              hint="The short list. Everything else, Workplace AI handled."
               right={<Badge tone="warn" dot>{PENDING_FOR_YOU.length} waiting</Badge>}
             />
             <div className="space-y-3">

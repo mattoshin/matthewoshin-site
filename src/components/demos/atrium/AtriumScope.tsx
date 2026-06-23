@@ -1,7 +1,7 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 /**
- * AtriumScope - the styling boundary for the Atrium demo. Atrium is an unbranded
+ * AtriumScope - the styling boundary for the Workplace AI demo. Workplace AI is an unbranded
  * concept: a redesign of the corporate employee workspace, light and consumer-grade,
  * the antidote to the junk drawer of legacy corporate portals.
  *
@@ -9,7 +9,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
  * fields, so the frosted-glass surfaces (GlassCard) have color to refract. A single
  * violet accent (#6d4aff) with a cyan partner (#22b8e0) carries the brand; depth
  * comes from translucency and hairline borders rather than heavy shadows. Every
- * Atrium component reads these scoped `--atr-*` tokens; nothing leaks into the
+ * Workplace AI component reads these scoped `--atr-*` tokens; nothing leaks into the
  * global ocean theme in globals.css. Numerics use the shared mono (font-mono).
  */
 const jakarta = Plus_Jakarta_Sans({
@@ -64,7 +64,7 @@ export default function AtriumScope({ children }: { children: React.ReactNode })
         } as React.CSSProperties
       }
     >
-      {/* Scoped keyframes (namespaced atr-*) so the Atrium demo carries its own
+      {/* Scoped keyframes (namespaced atr-*) so the Workplace AI demo carries its own
           motion without touching the global ocean stylesheet. Static literal. */}
       <style>{`
 @keyframes atr-pulse-ring { 0% { transform: scale(1); opacity: .5 } 100% { transform: scale(2.6); opacity: 0 } }

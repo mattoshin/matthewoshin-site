@@ -1,7 +1,7 @@
 /**
- * atrium-demo.ts - core sample data for the Atrium demo.
+ * atrium-demo.ts - core sample data for the Workplace AI demo.
  *
- * Atrium is an UNBRANDED concept by Matthew Oshin: a redesign of the corporate
+ * Workplace AI is an UNBRANDED concept by Matthew Oshin: a redesign of the corporate
  * employee workspace that puts every internal tool (app launcher, IT, legal, HR)
  * in one place and lets AI quietly automate the busywork. This is a portfolio
  * design piece on entirely fictional sample data: the company (Northwind), the
@@ -18,7 +18,7 @@ import type { IconName } from "@/components/demos/atrium/AtriumKit";
 /* ----------------------------------------------------------------- brand --- */
 
 export const ATRIUM = {
-  name: "Atrium",
+  name: "Workplace AI",
   product: "The employee workspace",
   tagline: "Everything you need at work, in one place. Automated.",
   domain: "atrium.work",
@@ -82,7 +82,7 @@ export const ATRIUM_NAV: readonly NavSection[] = [
   {
     label: "Assistant",
     color: "var(--atr-sec-assistant)",
-    items: [{ id: "assistant", label: "Ask Atrium", icon: "sparkles" }],
+    items: [{ id: "assistant", label: "Ask Workplace AI", icon: "sparkles" }],
   },
 ] as const;
 
@@ -112,7 +112,7 @@ export const DAILY_BRIEF = {
 
 /* ----------------------------------------------- home: handled-for-you feed --- */
 
-/** One thing Atrium automated for the employee, no action required. */
+/** One thing Workplace AI automated for the employee, no action required. */
 export type HandledItem = {
   id: string;
   icon: IconName;
@@ -147,7 +147,7 @@ export type PendingItem = {
 export const PENDING_FOR_YOU: readonly PendingItem[] = [
   { id: "p1", kind: "approval", icon: "umbrella", title: "Approve PTO for Devin Park", detail: "5 days, July 8 to July 12. Coverage confirmed by the design pod.", module: "people", cta: "Review" },
   { id: "p2", kind: "signature", icon: "fileText", title: "Sign the contractor offer letter", detail: "Senior Motion Designer, 6-month contract. Legal cleared it Friday.", module: "legal", cta: "Sign", urgent: true },
-  { id: "p3", kind: "review", icon: "scale", title: "Review the Brightwave NDA redlines", detail: "Atrium drafted 2 redlines. Approve to send back to the vendor.", module: "legal", cta: "Open" },
+  { id: "p3", kind: "review", icon: "scale", title: "Review the Brightwave NDA redlines", detail: "Workplace AI drafted 2 redlines. Approve to send back to the vendor.", module: "legal", cta: "Open" },
 ];
 
 /* ----------------------------------------------------- home: announcements --- */
@@ -243,11 +243,11 @@ export type ModuleBlurb = { id: ModuleId; name: string; icon: IconName; blurb: s
 export const ATRIUM_MODULES: readonly ModuleBlurb[] = [
   { id: "home", name: "Home", icon: "home", blurb: "One calm landing place: your day, what AI handled overnight, and what still needs you." },
   { id: "apps", name: "App Hub", icon: "grid", blurb: "Every company app in one launcher. One-click SSO, request access, and role-based recommendations." },
-  { id: "automations", name: "Automations", icon: "bolt", blurb: "Describe a workflow in plain English and Atrium runs it. See exactly what it saved you." },
+  { id: "automations", name: "Automations", icon: "bolt", blurb: "Describe a workflow in plain English and Workplace AI runs it. See exactly what it saved you." },
   { id: "it", name: "IT Hub", icon: "lifebuoy", blurb: "Self-service help that resolves most issues instantly. Tickets, devices, access, and status in one place." },
   { id: "legal", name: "Legal", icon: "scale", blurb: "Request a contract, get an AI first-pass review, search policies, and sign, without the email chain." },
   { id: "people", name: "People & HR", icon: "users", blurb: "Time off, pay, the directory, and benefits. The HR portal that does not feel like one." },
-  { id: "assistant", name: "Ask Atrium", icon: "sparkles", blurb: "One assistant that can act across every tool: file a ticket, request access, summarize a policy, draft a request." },
+  { id: "assistant", name: "Ask Workplace AI", icon: "sparkles", blurb: "One assistant that can act across every tool: file a ticket, request access, summarize a policy, draft a request." },
 ];
 
 export const ATRIUM_PAINS: readonly { title: string; body: string }[] = [
@@ -257,7 +257,7 @@ export const ATRIUM_PAINS: readonly { title: string; body: string }[] = [
 ];
 
 export const ATRIUM_STEPS: readonly { n: number; title: string; body: string }[] = [
-  { n: 1, title: "Everything in one place", body: "Atrium unifies your apps, IT, legal, HR, and approvals behind a single, calm workspace and one login." },
+  { n: 1, title: "Everything in one place", body: "Workplace AI unifies your apps, IT, legal, HR, and approvals behind a single, calm workspace and one login." },
   { n: 2, title: "AI does the busywork", body: "It resolves common tickets, provisions access, files expenses, and pre-reviews contracts before you ever see them." },
   { n: 3, title: "You handle what matters", body: "What is left is the judgment only you can give: an approval, a signature, a decision. Nothing more." },
 ];

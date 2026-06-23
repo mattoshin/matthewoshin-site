@@ -1,7 +1,7 @@
 /**
- * VantageKit - shared presentational primitives for the Vantage demo (an agentic
+ * VantageKit - shared presentational primitives for the SecOps Command demo (an agentic
  * security + IT operations command center). Pure, dependency-free building blocks
- * that every Vantage module composes: an inline-SVG icon set, cards, KPI stats,
+ * that every SecOps Command module composes: an inline-SVG icon set, cards, KPI stats,
  * the severity scale, deltas, SSR-safe deterministic charts (sparkline, area,
  * bars, donut, score ring), the agent-provenance block, tabs, data tables, a
  * stylized threat map, a MITRE-style coverage matrix, status pills, and the
@@ -25,7 +25,7 @@ export const cx = (...c: Array<string | false | null | undefined>) =>
 export type Severity = "critical" | "high" | "medium" | "low" | "info";
 
 /** Canonical severity metadata: ordering, label, token color, and tile wash.
- *  The single source of truth for every severity-colored surface in Vantage. */
+ *  The single source of truth for every severity-colored surface in SecOps Command. */
 export const SEVERITY_META: Record<
   Severity,
   { label: string; color: string; order: number }
@@ -47,7 +47,7 @@ export const SEVERITY_ORDER: readonly Severity[] = [
 
 /* ----------------------------------------------------------------- wordmark --- */
 
-/** The Vantage lockup: a faceted shield/scope mark + wordmark. */
+/** The SecOps Command lockup: a faceted shield/scope mark + wordmark. */
 export function Wordmark({ size = "md" }: { size?: "sm" | "md" }) {
   const text = size === "sm" ? "text-sm" : "text-[15px]";
   return (
@@ -55,7 +55,7 @@ export function Wordmark({ size = "md" }: { size?: "sm" | "md" }) {
       <VantageMark size={size === "sm" ? 18 : 22} />
       <span className="leading-none">
         <span className={cx("block font-semibold tracking-tight text-[var(--vnt-ink)]", text)}>
-          Vantage
+          SecOps Command
         </span>
         <span className="mt-0.5 block font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--vnt-faint)]">
           Command Center

@@ -1,5 +1,5 @@
 /**
- * vantage-modules-demo.ts - the heavier per-module sample datasets for the Vantage
+ * vantage-modules-demo.ts - the heavier per-module sample datasets for the SecOps Command
  * demo (agentic security + IT operations command center). All data is fictional
  * and illustrative: invented hosts, IPs, CVE ids, actor names, users, and figures.
  * Nothing here is real and nothing talks to a live server.

@@ -15,10 +15,10 @@ import People from "./modules/People";
 import Assistant from "./modules/Assistant";
 
 /**
- * AtriumConsole - the Atrium app shell. The sidebar selection switches the active
+ * AtriumConsole - the Workplace AI app shell. The sidebar selection switches the active
  * module via local state (no route change), so all seven module screens live
  * behind one Next route. A `?module=` query param deep-links to a module, resolved
- * after mount to keep the SSR markup stable. A floating "Ask Atrium" launcher keeps
+ * after mount to keep the SSR markup stable. A floating "Ask Workplace AI" launcher keeps
  * the assistant one tap away from anywhere (the ambient-AI presence).
  */
 const MODULES: Record<ModuleId, React.ComponentType> = {
@@ -103,7 +103,7 @@ export default function AtriumConsole() {
                 className="hidden items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold text-white shadow-[0_6px_18px_-6px_rgba(91,74,255,0.5)] transition-all hover:brightness-[1.06] sm:inline-flex"
                 style={{ backgroundImage: ATR_GRADIENT }}
               >
-                <Icon name="sparkles" size={13} /> Ask Atrium
+                <Icon name="sparkles" size={13} /> Ask Workplace AI
               </button>
             )}
             <button className="relative flex h-8 w-8 items-center justify-center rounded-full text-[var(--atr-muted)] transition-colors hover:bg-[var(--atr-surface-2)] hover:text-[var(--atr-ink)]">
@@ -124,11 +124,11 @@ export default function AtriumConsole() {
         </main>
       </div>
 
-      {/* floating Ask Atrium launcher (ambient AI presence) */}
+      {/* floating Ask Workplace AI launcher (ambient AI presence) */}
       {active !== "assistant" && (
         <button
           onClick={() => select("assistant")}
-          aria-label="Ask Atrium"
+          aria-label="Ask Workplace AI"
           className="fixed bottom-6 right-6 z-40 flex h-13 w-13 items-center justify-center rounded-full text-white shadow-[0_12px_30px_-8px_rgba(91,74,255,0.6)] transition-transform hover:scale-105"
           style={{ backgroundImage: ATR_GRADIENT, height: 52, width: 52 }}
         >

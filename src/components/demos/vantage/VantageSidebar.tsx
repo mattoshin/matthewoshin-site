@@ -27,7 +27,7 @@ export default function VantageSidebar({
       <div className="px-3 pb-2">
         <button className="flex w-full items-center gap-2 rounded-full border border-[var(--vnt-border)] bg-[var(--vnt-card)] px-3 py-2 text-[13px] font-medium text-[var(--vnt-muted)] transition-colors hover:border-[var(--vnt-border-strong)] hover:text-[var(--vnt-ink)]">
           <Icon name="sparkles" size={15} className="text-[var(--vnt-highlight)]" />
-          Ask Vantage
+          Ask SecOps Command
           <span className="ml-auto font-mono text-[10px] text-[var(--vnt-faint)]">⌘K</span>
         </button>
       </div>

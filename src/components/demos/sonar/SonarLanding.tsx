@@ -14,10 +14,10 @@ import {
 import { Wordmark, SonarSweep, GridField, Icon, SentimentChip, SeverityChip, type IconName } from "./SonarKit";
 
 /**
- * SonarLanding - the marketing surface for the Sonar demo, in Sonar's own amber
+ * SonarLanding - the marketing surface for the Sonar Media demo, in Sonar Media's own amber
  * "midnight command-center" brand (Inter on #0A0C10, signal-amber accent,
  * monospace metadata). Server component: the only interactions are anchor scroll
- * and the links into the console demo. Copy frames Sonar as a real-time media
+ * and the links into the console demo. Copy frames Sonar Media as a real-time media
  * intelligence product; all figures are illustrative sample data.
  */
 
@@ -211,7 +211,7 @@ export default function SonarLanding() {
               Talk to it. It writes the monitor.
             </h2>
             <p className="mt-4 max-w-md text-base leading-relaxed text-[var(--s-muted)]">
-              Describe what you want in a sentence. Sonar resolves the entities, keywords, and
+              Describe what you want in a sentence. Sonar Media resolves the entities, keywords, and
               sources into a validated spec, estimates the volume and cost, then replays the last
               48 hours so you see what it would have caught before you ever switch it on.
             </p>

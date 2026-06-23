@@ -33,9 +33,9 @@ import { useAtriumNav } from "../nav-context";
 /**
  * Automations - the thesis made tangible: AI doing the busywork. Three tabs:
  * Active (the running automation gallery with live toggles), Create (the
- * plain-English builder showpiece: describe a workflow, watch Atrium compile it
+ * plain-English builder showpiece: describe a workflow, watch Workplace AI compile it
  * into runnable steps with a dry-run preview), and Activity (the run log of what
- * Atrium did and the time it gave back). Mirrors the Home module's composition.
+ * Workplace AI did and the time it gave back). Mirrors the Home module's composition.
  */
 type Tab = "active" | "create" | "activity";
 
@@ -177,7 +177,7 @@ function CreateTab() {
             </span>
             <div>
               <h3 className="text-[14px] font-semibold text-[var(--atr-ink)]">Describe a workflow</h3>
-              <p className="text-[12px] text-[var(--atr-muted)]">Plain English. Atrium compiles it into a runnable automation.</p>
+              <p className="text-[12px] text-[var(--atr-muted)]">Plain English. Workplace AI compiles it into a runnable automation.</p>
             </div>
           </div>
 
@@ -208,7 +208,7 @@ function CreateTab() {
           </div>
 
           <div className="flex items-center justify-between gap-3">
-            <span className="text-[11px] text-[var(--atr-faint)]">Tip: name a trigger and what should happen. Atrium fills in the rest.</span>
+            <span className="text-[11px] text-[var(--atr-faint)]">Tip: name a trigger and what should happen. Workplace AI fills in the rest.</span>
             <Button variant="accent" icon="sparkles" onClick={generate}>
               Generate workflow
             </Button>
@@ -221,7 +221,7 @@ function CreateTab() {
               <Icon name="bolt" size={16} />
             </span>
             <p className="text-[12.5px] text-[var(--atr-muted)]">
-              Your compiled workflow will appear here: the trigger, the steps Atrium will run, and a dry run against your real data, before anything goes live.
+              Your compiled workflow will appear here: the trigger, the steps Workplace AI will run, and a dry run against your real data, before anything goes live.
             </p>
           </Card>
         )}
@@ -311,7 +311,7 @@ function CreateTab() {
           <ul className="space-y-2.5 text-[12.5px] leading-relaxed text-[var(--atr-muted)]">
             {[
               "Describe the outcome you want, not the integrations.",
-              "Atrium maps it to your connected tools and permissions.",
+              "Workplace AI maps it to your connected tools and permissions.",
               "Dry-run against real data before anything goes live.",
             ].map((line, i) => (
               <li key={i} className="flex gap-2">
@@ -321,7 +321,7 @@ function CreateTab() {
             ))}
           </ul>
           <div className="flex items-center gap-1.5 text-[11px] text-[var(--atr-faint)]">
-            <TypingDots /> Built on Atrium AI tool use
+            <TypingDots /> Built on Workplace AI tool use
           </div>
         </GlassCard>
       </div>
@@ -339,7 +339,7 @@ function ActivityTab() {
     <div className="space-y-3">
       <SectionHeading
         title="Recent activity"
-        hint="Everything Atrium ran for you, and the time it gave back."
+        hint="Everything Workplace AI ran for you, and the time it gave back."
         right={
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--atr-up)]/25 bg-[#ecfdf3] px-3 py-1 font-mono text-[12px] font-medium text-[var(--atr-up)]">
             <Icon name="clock" size={13} /> {formatSaved(totalMins)} saved

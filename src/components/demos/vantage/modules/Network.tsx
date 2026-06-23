@@ -39,7 +39,7 @@ import {
 
 type ServiceFilter = "all" | "issues";
 
-/** Map a segment posture to a Vantage Badge tone (enforced -> teal, monitor ->
+/** Map a segment posture to a SecOps Command Badge tone (enforced -> teal, monitor ->
  *  warn, open -> crit) per the module contract. */
 const POSTURE_TONE: Record<NetSegment["posture"], Tone> = {
   enforced: "teal",

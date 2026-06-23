@@ -27,7 +27,7 @@ import {
  * 3-up metric row, the agent's mandate, and a last-action footer with inspect /
  * pause-tune controls. The needs-review agent is highlighted with a warm border.
  * Below, a recent-actions log with result chips. The whole screen is led by a
- * Vantage fleet one-liner. Reference screen for the demo's agentic motif.
+ * SecOps Command fleet one-liner. Reference screen for the demo's agentic motif.
  */
 
 /* map agent status -> the StatusPill's online/degraded/offline vocabulary */
@@ -81,7 +81,7 @@ export default function Agents() {
       {/* fleet one-liner */}
       <AIBlock
         tag="Fleet"
-        agent="Vantage"
+        agent="SecOps Command"
         title="Last 24h"
         footer={`${AGENTS.length} agents · ${totalActions.toLocaleString()} actions taken · ${reviewCount} awaiting your approval`}
       >

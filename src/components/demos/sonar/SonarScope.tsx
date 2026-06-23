@@ -1,10 +1,10 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 
 /**
- * SonarScope - the styling boundary for the Sonar demo. Applies Sonar's own
+ * SonarScope - the styling boundary for the Sonar Media demo. Applies Sonar Media's own
  * brand (Inter + JetBrains Mono on an amber "midnight command-center" palette,
  * grounded in a Refero style pass) as scoped CSS variables, fully isolated from
- * the site's ocean theme. Every Sonar component reads these tokens; nothing
+ * the site's ocean theme. Every Sonar Media component reads these tokens; nothing
  * leaks into the global @theme in globals.css.
  *
  * Foundation: deep charcoal surfaces, thin 1px borders, tight negative tracking
@@ -58,7 +58,7 @@ export default function SonarScope({
         } as React.CSSProperties
       }
     >
-      {/* Scoped keyframes (namespaced s-*) so the Sonar demo carries its own
+      {/* Scoped keyframes (namespaced s-*) so the Sonar Media demo carries its own
           motion without touching the global ocean-theme stylesheet. Static
           literal, no user input. */}
       <style>{`

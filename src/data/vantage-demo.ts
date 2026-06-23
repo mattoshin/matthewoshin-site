@@ -1,6 +1,6 @@
 /**
- * vantage-demo.ts - core sample data for the Vantage demo: an agentic security +
- * IT operations command center. Vantage is a genericized portfolio showpiece
+ * vantage-demo.ts - core sample data for the SecOps Command demo: an agentic security +
+ * IT operations command center. SecOps Command is a genericized portfolio showpiece
  * adapted from the internal "command center" admin console Matthew built at ICR.
  * It is NOT a real product and talks to no live server: every asset, host, IP,
  * CVE, threat actor, incident, operator, and figure below is fictional and
@@ -18,7 +18,7 @@ import type { IconName, Severity, ThreatPoint } from "@/components/demos/vantage
 /* ----------------------------------------------------------------- brand --- */
 
 export const VANTAGE = {
-  name: "Vantage",
+  name: "SecOps Command",
   product: "Agentic Security + IT Operations Command Center",
   tagline: "One command center for security and IT, run by autonomous agents",
   domain: "vantage.example.com",
@@ -229,7 +229,7 @@ export const VANTAGE_PAIN_POINTS: readonly { title: string; body: string }[] = [
 ];
 
 export const VANTAGE_STEPS: readonly { n: number; title: string; body: string }[] = [
-  { n: 1, title: "Connect your stack", body: "Wire in EDR, SIEM, cloud, and identity. Vantage reconciles assets, identities, and signals into one live picture." },
+  { n: 1, title: "Connect your stack", body: "Wire in EDR, SIEM, cloud, and identity. SecOps Command reconciles assets, identities, and signals into one live picture." },
   { n: 2, title: "Set agent autonomy", body: "Choose how far each autonomous agent can act on its own, from suggest-only to fully auto-remediate within guardrails." },
   { n: 3, title: "Run the command center", body: "Agents triage, contain, patch, and collect evidence around the clock. You supervise the exceptions, not the noise." },
 ];

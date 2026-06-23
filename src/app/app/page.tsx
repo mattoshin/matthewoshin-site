@@ -49,9 +49,9 @@ const DEMOS: DemoCard[] = [
   },
   {
     slug: "icr-intelligence",
-    name: "ICR Intelligence Platform",
+    name: "Financial Communications Platform",
     tagline:
-      "Beacon: the AI intelligence layer for investor relations. Earnings prep, peer and investor intel, crisis command, and on-voice comms in one console.",
+      "The AI platform for investor relations, PR, and capital markets: earnings prep, peer and investor intelligence, crisis command, and on-voice drafting in one console.",
     era: "2024 to 2026 · VP of AI at ICR",
     status: "live",
     href: "/app/icr-intelligence",
@@ -60,7 +60,7 @@ const DEMOS: DemoCard[] = [
   },
   {
     slug: "sonar",
-    name: "Sonar",
+    name: "Sonar Media",
     tagline:
       "Real-time media monitoring your team builds in plain English. Describe a monitor, AI wires up the agentic workflow, dry-run it over the last 48 hours, and it watches the internet for you.",
     era: "Recent build",
@@ -82,7 +82,7 @@ const DEMOS: DemoCard[] = [
   },
   {
     slug: "atrium",
-    name: "Atrium",
+    name: "Workplace AI",
     tagline:
       "An unbranded concept: the corporate employee workspace, reimagined. An app hub, IT, legal, and HR in one calm place, with an AI assistant that automates the busywork and shows you what it handled.",
     era: "Concept · self-directed",
@@ -93,7 +93,7 @@ const DEMOS: DemoCard[] = [
   },
   {
     slug: "vantage",
-    name: "Vantage",
+    name: "SecOps Command",
     tagline:
       "An agentic security and IT operations command center. Autonomous agents triage incidents, hunt threats, patch vulnerabilities, and collect compliance evidence, in one console.",
     era: "Concept build · Security + IT ops",
@@ -104,7 +104,7 @@ const DEMOS: DemoCard[] = [
   },
   {
     slug: "riptide",
-    name: "Riptide",
+    name: "Riptide Research",
     tagline:
       "Agentic equity-research terminal. Research in distributions: the options market's implied distribution versus your own models, scanned for gaps and graded over time.",
     era: "Current build, live",

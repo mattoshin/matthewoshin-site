@@ -10,7 +10,7 @@ import {
 import { Wordmark, Icon, GradientText, GlassCard, Avatar, ATR_GRADIENT } from "./AtriumKit";
 
 /**
- * AtriumLanding - the marketing surface for the Atrium concept, on the light
+ * AtriumLanding - the marketing surface for the Workplace AI concept, on the light
  * "Aurora" theme. Server component: the only interactions are anchor scroll and
  * links into the console demo. Copy and figures are illustrative sample data.
  */
@@ -45,7 +45,7 @@ export default function AtriumLanding() {
               className="rounded-full px-4 py-2 text-[13px] font-semibold text-white shadow-[0_6px_18px_-6px_rgba(91,74,255,0.5)] transition-all hover:brightness-[1.06]"
               style={{ backgroundImage: ATR_GRADIENT }}
             >
-              Open Atrium
+              Open Workplace AI
             </Link>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function AtriumLanding() {
             <GradientText>One calm place.</GradientText>
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[var(--atr-ink-2)] sm:text-base">
-            Corporate software is a junk drawer of disconnected portals. Atrium unifies
+            Corporate software is a junk drawer of disconnected portals. Workplace AI unifies
             your apps, IT, legal, and HR behind one workspace, then lets AI quietly
             automate the busywork. You handle what is left: only what actually needs you.
           </p>
@@ -186,7 +186,7 @@ export default function AtriumLanding() {
             href={DASH}
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[14px] font-semibold text-[var(--atr-accent)] transition-transform hover:scale-[1.02]"
           >
-            Open Atrium <Icon name="arrowRight" size={16} />
+            Open Workplace AI <Icon name="arrowRight" size={16} />
           </Link>
         </div>
       </section>

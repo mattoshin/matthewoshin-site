@@ -38,7 +38,7 @@ import { useAtriumNav } from "../nav-context";
 
 /**
  * ItHub - the self-service IT desk. The showpiece is the "Get help" tab, where a
- * typed issue is deflected by Atrium AI with a top fix before any ticket is filed.
+ * typed issue is deflected by Workplace AI with a top fix before any ticket is filed.
  * The other tabs cover the employee's own tickets, the request catalog, and a live
  * system status board. Mirrors the Home module's composition and Aurora craft.
  */
@@ -122,11 +122,11 @@ export default function ItHub() {
           </span>
           <div>
             <p className="text-[13px] font-semibold text-[var(--atr-ink)]">Stuck on something we can automate?</p>
-            <p className="text-[12px] text-[var(--atr-muted)]">Ask Atrium to fix it, request access, or file the ticket for you.</p>
+            <p className="text-[12px] text-[var(--atr-muted)]">Ask Workplace AI to fix it, request access, or file the ticket for you.</p>
           </div>
         </div>
         <Button size="sm" icon="sparkles" onClick={() => go("assistant")}>
-          Ask Atrium
+          Ask Workplace AI
         </Button>
       </Card>
     </div>
@@ -146,7 +146,7 @@ function GetHelpTab({ onTicket }: { onTicket: () => void }) {
     <div className="space-y-7">
       {/* search */}
       <GlassCard>
-        <SectionHeading title="Describe your issue" hint="Atrium searches the knowledge base and resolves most issues before a ticket is filed." />
+        <SectionHeading title="Describe your issue" hint="Workplace AI searches the knowledge base and resolves most issues before a ticket is filed." />
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -175,8 +175,8 @@ function GetHelpTab({ onTicket }: { onTicket: () => void }) {
         <div className="space-y-5">
           {/* top resolving answer */}
           <AIBlock
-            title="Atrium found a fix"
-            tag="Atrium AI"
+            title="Workplace AI found a fix"
+            tag="Workplace AI"
             footer={`Resolved ${top.helpful} similar issues · no ticket needed`}
           >
             <p className="font-semibold text-[var(--atr-ink)]">{top.title}</p>
@@ -222,7 +222,7 @@ function GetHelpTab({ onTicket }: { onTicket: () => void }) {
         <EmptyState
           icon="search"
           title="Describe what's going wrong"
-          body="Type your issue above and Atrium will surface the fastest known fix."
+          body="Type your issue above and Workplace AI will surface the fastest known fix."
         />
       )}
 
@@ -291,7 +291,7 @@ function TicketsTab() {
             <span className="truncate font-medium text-[var(--atr-ink)]">{t.subject}</span>
             {t.autoResolved && (
               <Badge tone="accent">
-                <Icon name="sparkles" size={11} /> Auto-resolved by Atrium
+                <Icon name="sparkles" size={11} /> Auto-resolved by Workplace AI
               </Badge>
             )}
           </div>
@@ -315,7 +315,7 @@ function TicketsTab() {
   ];
 
   if (!IT_TICKETS.length) {
-    return <EmptyState icon="checkCircle" title="No tickets" body="You have nothing open. Atrium will keep it that way." />;
+    return <EmptyState icon="checkCircle" title="No tickets" body="You have nothing open. Workplace AI will keep it that way." />;
   }
 
   return (

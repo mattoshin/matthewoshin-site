@@ -1,11 +1,11 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 
 /**
- * VantageScope - the styling boundary for the Vantage demo: an agentic security +
+ * VantageScope - the styling boundary for the SecOps Command demo: an agentic security +
  * IT operations command center. Where the Beacon scope is a light institutional
- * fintech surface, Vantage is a dark "midnight terminal" SOC console: carbon ->
+ * fintech surface, SecOps Command is a dark "midnight terminal" SOC console: carbon ->
  * obsidian surfaces, spectral-violet primary, electric-lime highlight, and
- * system-teal accent, with a red/amber/yellow/teal severity scale. Every Vantage
+ * system-teal accent, with a red/amber/yellow/teal severity scale. Every SecOps Command
  * component reads these scoped `--vnt-*` tokens; nothing leaks into the global
  * ocean theme in globals.css.
  *
@@ -79,7 +79,7 @@ export default function VantageScope({ children }: { children: React.ReactNode }
         } as React.CSSProperties
       }
     >
-      {/* Scoped keyframes (namespaced vnt-*) so the Vantage demo carries its own
+      {/* Scoped keyframes (namespaced vnt-*) so the SecOps Command demo carries its own
           motion without touching the global ocean stylesheet. Static literal. */}
       <style>{`
 @keyframes vnt-pulse-ring { 0% { transform: scale(1); opacity: .55 } 100% { transform: scale(2.6); opacity: 0 } }

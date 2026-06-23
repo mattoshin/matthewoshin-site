@@ -35,7 +35,7 @@ import {
  * strip, the integrations/connectors grid, an API-keys & secrets table (the
  * Secrets Registry auto-flags rotation), an operators roster paired with the
  * 4-week spend trend against the cap, and the append-only audit log. Composed
- * entirely from the Vantage kit + scoped tokens.
+ * entirely from the SecOps Command kit + scoped tokens.
  */
 
 const KEY_STATUS: Record<ApiKey["status"], { tone: Tone; label: string }> = {
