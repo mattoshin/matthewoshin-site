@@ -523,16 +523,22 @@ export function StatCard({
 }) {
   return (
     <Card>
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-2">
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex min-w-0 items-center gap-2">
           {icon && (
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[var(--vnt-surface-2)]" style={{ color: accent ?? "var(--vnt-muted)" }}>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[var(--vnt-surface-2)]" style={{ color: accent ?? "var(--vnt-muted)" }}>
               <Icon name={icon} size={13} />
             </span>
           )}
           <p className="text-[12px] font-medium text-[var(--vnt-muted)]">{label}</p>
         </div>
-        {spark && <Sparkline values={spark} color={accent} />}
+        {/* Sparkline is decorative; on cramped 2-col mobile cards it would crowd
+            the label, so it only appears once the card has room (sm+). */}
+        {spark && (
+          <span className="hidden shrink-0 sm:block">
+            <Sparkline values={spark} color={accent} />
+          </span>
+        )}
       </div>
       <div className="mt-2.5 font-mono text-[28px] font-semibold leading-none tracking-tight tabular-nums text-[var(--vnt-ink)]">
         {value}
