@@ -6,7 +6,7 @@ import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 /**
  * /portfolio - the products Matthew builds now, at the twilight depth (shares the
  * "projects" zone with /entrepreneurship). Demo-backed products (Mocean, Galactic
- * Signals, Sonar) lead as featured cards with a bright "View Demo" button; the
+ * Signals, Sonar, SEC Intelligence) lead as featured cards with a bright "View Demo" button; the
  * rest of the current builds follow, and any of those that also have a live demo
  * (ICR Intelligence) shows a "View Demo" button in place. Cards link to the full
  * case studies. The navLabel override keeps the eyebrow reading "Portfolio".
@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 const mocean = VENTURES.find((v) => v.slug === "mocean");
 const galactic = BUILDS.find((b) => b.slug === "galactic-signals");
 const sonar = BUILDS.find((b) => b.slug === "sonar");
+const sec = BUILDS.find((b) => b.slug === "sec-intelligence");
 
 interface FeaturedCard {
   name: string;
@@ -52,11 +53,23 @@ const FEATURED: FeaturedCard[] = [
     caseHref: "/projects/sonar",
     demoHref: sonar.demoHref,
   },
+  sec && {
+    name: sec.name,
+    hook: sec.hook,
+    status: sec.status,
+    caseHref: "/projects/sec-intelligence",
+    demoHref: sec.demoHref,
+  },
 ].filter(Boolean) as FeaturedCard[];
 
 export default function PortfolioPage() {
-  // The rest of the builds (galactic + sonar lead as featured cards above).
-  const rest = BUILDS.filter((b) => b.slug !== "galactic-signals" && b.slug !== "sonar");
+  // The rest of the builds (galactic, sonar, and SEC lead as featured cards above).
+  const rest = BUILDS.filter(
+    (b) =>
+      b.slug !== "galactic-signals" &&
+      b.slug !== "sonar" &&
+      b.slug !== "sec-intelligence"
+  );
 
   return (
     <PageShell
@@ -65,7 +78,7 @@ export default function PortfolioPage() {
       heading={PORTFOLIO.heading}
       intro={PORTFOLIO.blurb}
     >
-      {/* Featured: the two products you can try live, right now. */}
+      {/* Featured: demo-backed products you can try live, right now. */}
       <ul className="mt-10 grid gap-5 sm:grid-cols-2">
         {FEATURED.map((f) => (
           <li key={f.name}>
