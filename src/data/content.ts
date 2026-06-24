@@ -264,6 +264,8 @@ export interface Venture {
   };
   /** Pull-quotes (e.g. lines from the interview video), shown in an "In his words" block. */
   quotes?: readonly string[];
+  /** A brand logo/mark shown in the detail-page hero. */
+  logo?: { src: string; alt: string };
 }
 
 export const VENTURES: readonly Venture[] = [
@@ -325,10 +327,13 @@ export const VENTURES: readonly Venture[] = [
     era: "Co-founder, founded and acquired, 2019 to 2023",
     note: "Co-founded with my friend Peter. $35/month subscription Discord: guides, discount codes, release calendars, and the playbook to make money across sneakers, sports cards, Pokemon, toys, and collectibles. Grew to 200 paying members at peak, which is $7,000/month in recurring revenue. By 2023 there were 3,500+ members on the server. Made it free in 2023. Acquired. The lesson: when you know the edge, teach it. Members collectively generated over $2.1 million in profits from what we gave them.",
     storyParagraphs: [
-      "Profit Paradise was my first real company, started in high school during the COVID lockdown. It was an information-arbitrage business: a paid, invite-only Discord where resellers got the guides, the organizational tools, 24/7 one-on-one support, and the playbook to actually make money flipping sneakers, sports cards, Pokemon, toys, and collectibles. I co-founded it with my friend Peter and ran it like a real subscription product.",
-      "At its peak it had 200 members paying $35 a month, about $7,000 in monthly recurring revenue, and by 2023 the server had grown past 3,500 people. We made it free in 2023, and it was acquired. It was the first time I built a community that people paid to be part of, and the first time I saw recurring revenue compound.",
-      "The number I am proudest of is not ours. Our members collectively generated over $2.1 million in profits from what we taught them. That is the whole lesson, and it has shaped every company since: when you genuinely know the edge, the most valuable thing you can do is teach it and take a small cut of the upside everyone else makes.",
+      "Profit Paradise was my first company, and I started it in high school. It grew straight out of a hustle: I had been a dishwasher making $10 an hour, and my co-founder Peter had taught himself to flip sneakers at fourteen, walking out of Sneaker Con with more shoes and more cash than he came in with. He started texting me the drops, the raffles, and the discount codes, I made more in a weekend than a week of dishes, and we realized the real product was never the shoes. It was the information.",
+      "So we packaged it. Profit Paradise was a paid, invite-only Discord where resellers got a daily feed of profitable opportunities: discount-code 'brick' buys that let you purchase a model in bulk below market, hype-release and raffle alerts on the limited drops where demand outruns supply, and the research to know which was actually worth your capital. We charged a flat monthly membership and wrapped it in a real product, an organized server of essential and important channels, a twenty-page onboarding Starter Pack, release guides, and 24/7 one-on-one support.",
+      "The piece I am proudest of building is the automation layer. We ran a managed checkout operation: members handed us their slots, and on a limited release our bots would secure the item within milliseconds of it going live, far faster than anyone could by hand. We only took a small percentage of the profit on a successful checkout, so we earned only when our members did. It was the first time I productized a service and tied the price directly to the outcome.",
+      "At its peak Profit Paradise had 200 members paying $35 a month, roughly $7,000 in monthly recurring revenue, and by 2023 the server had grown past 3,500 people. We made it free in 2023, and it was acquired.",
+      "The number I am proudest of is not ours. Our members collectively made over $2.1 million in profit from what we taught and sourced for them. That is the whole thesis, and it has shaped every company since, from Mocean to today: when you genuinely have the edge, you package it, distribute it, and take a small cut of the upside everyone else makes. Profit Paradise is where I learned that teaching and distribution beat hoarding the secret.",
     ],
+    logo: { src: "/ventures/profit-paradise.png", alt: "Profit Paradise logo" },
   },
   {
     slug: "ocean-supply",

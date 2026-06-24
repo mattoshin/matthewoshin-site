@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { VENTURES } from "@/data/content";
@@ -52,6 +53,18 @@ export default async function VenturePage({
         </Link>
 
         <header className="mt-8">
+          {venture.logo && (
+            <div className="mb-5 inline-flex h-16 w-16 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] sm:h-20 sm:w-20">
+              <Image
+                src={venture.logo.src}
+                alt={venture.logo.alt}
+                width={160}
+                height={160}
+                className="h-full w-full object-cover"
+                priority
+              />
+            </div>
+          )}
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-full border border-white/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
               {venture.era}
