@@ -412,7 +412,7 @@ html.lenis body {
   }
 }
 .marquee-track {
-  animation: marquee-x 52s linear infinite;
+  animation: marquee-x 90s linear infinite;
 }
 .marquee-track--reverse {
   animation-direction: reverse;

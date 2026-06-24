@@ -447,24 +447,124 @@ function MoceanEngine() {
  */
 const TESTIMONIALS: { handle: string; quote: string }[] = [
   {
-    handle: "WayneDang",
+    handle: "louieeovo",
     quote:
-      "The owner is friendly and helpful, you can DM him anytime and get a fast response. The info is exact: early links, brick flips. The cheapest group I ever joined, and the team is the best.",
+      "I've been reselling since I was 16, I'm 33 now with four kids, and this group made real money for my family. When I hit a rough patch, Ocean gave me a lifetime membership out of nowhere. God bless.",
   },
   {
     handle: "UziFBA",
     quote:
-      "I started as an eBay seller at 13 and got into shoes at 14. I had no idea where to start, and this group helped me reach my highest potential. One of the most generous cook groups ever.",
+      "I started as an eBay seller at 13 and got into shoes at 14. This group helped me reach my highest potential, and Ocean legit gifted me lifetime. One of the most generous cook groups ever.",
   },
   {
-    handle: "louieeovo",
+    handle: "mattyice",
     quote:
-      "I've been reselling since I was 16, I'm 33 now with four kids, and this group made real money for my family. When I hit a rough patch, Ocean gave me a lifetime membership out of nowhere.",
+      "Joining Profit Paradise will be one of the best decisions you ever make, the best cook group I've ever been in. Keep working hard, Ocean. I appreciate everything you've done for me and this community.",
   },
   {
-    handle: "YB",
+    handle: "ayusuf16",
     quote:
-      "COP the membership, folks. A group full of cookers always keeping you up to date on the game. No regrets, never losing my key.",
+      "I joined knowing nothing about reselling, and the staff helped me grow so much. Joining Profit Paradise was one of the best decisions I've ever made. So happy to be part of this family.",
+  },
+  {
+    handle: "remmynyc",
+    quote:
+      "Less than 24 hours in and I could already see the work ethic of the staff and owner. Not many owners go out of their way to make sure you're comfortable, but Ocean took the time to.",
+  },
+  {
+    handle: "Tweezerss",
+    quote:
+      "This is literally the best cook group I've ever seen. The owners are so freaking helpful, constantly trying to help us make money. Even when the market is dead, they help you find cash.",
+  },
+  {
+    handle: "Blankaultra1",
+    quote:
+      "Ocean is a motivated leader who comes up with amazing giveaways and group buys. Thank you for the NBA Top Shot win!",
+  },
+  {
+    handle: "Chase shhh",
+    quote:
+      "One of the best groups I've ever been in. The owner is active in the server, and you'll probably be in a voice call with him your first week. This group is going to be big. No doubt.",
+  },
+  {
+    handle: "MYST",
+    quote:
+      "Great group. I spend more time with them than my family. I waited two months to join because I didn't think it was worth it, then joined and they helped me cop so much.",
+  },
+  {
+    handle: "WayneDang",
+    quote:
+      "The owner is friendly and helpful, you can DM him anytime and get a fast response. The cheapest group I ever joined, and the team is the best.",
+  },
+  {
+    handle: "HK",
+    quote:
+      "Definitely worth the money. I joined two weeks ago and made the monthly fee back in two days. Utilize all the resources. I appreciate the support and admins. Much love.",
+  },
+  {
+    handle: "axcn",
+    quote:
+      "Profit Paradise introduced me to the botting world. So many successful cops, including a PS5 and a 3070 Ti. Worth every bit of the small fee. Best group ever.",
+  },
+  {
+    handle: "Sobail",
+    quote:
+      "From experience, this is the cook group you want to join. I've been in tons of top-tier groups and none of them are like Profit Paradise. If you don't join, you don't like making money.",
+  },
+  {
+    handle: "squire8016",
+    quote:
+      "I do this with my kids and wife, and we compete over who wins on each drop. Family-focused admins. This group helped us cover all the extras for our family the budget didn't have room for.",
+  },
+  {
+    handle: "Denny_P",
+    quote:
+      "I've already felt more at home than I have with any other cook group. The price is awesome, the info is on point, and they're always teaching me something new. This group is OP.",
+  },
+  {
+    handle: "bobbytwogee",
+    quote:
+      "After taking L after L, I got connected with Profit Paradise and finally got my bag up. The staff and members support each other, from market advice to bot support. Always good vibes here.",
+  },
+  {
+    handle: "Rainmankicks",
+    quote:
+      "Since joining, my cops have increased tremendously. The auto-fill, early links, and free caps are unreal. I made my money back easily. If you're looking to make money, this is the group.",
+  },
+  {
+    handle: "Sanada",
+    quote:
+      "I joined a month ago and have already hit three or four group buys. The admins actually help and answer you, unlike other discords. With the giveaways and ACOs, you can't lose in here.",
+  },
+  {
+    handle: "xp1r4te",
+    quote:
+      "Hands down one of my favorites. It offers things you didn't know you were missing and a bunch of ways to make money. The community is welcoming and always there for support.",
+  },
+  {
+    handle: "Apaulo",
+    quote:
+      "This is the ultimate start to this community. With the guides, the support, and the involvement, you don't really need any other group. Everything but the kitchen sink.",
+  },
+  {
+    handle: "Ouroborosk",
+    quote:
+      "I'm new to reselling, but Profit Paradise made it feel like a breeze. The team really cares about you, a genuine one-on-one treatment. I had such a good time that I feel I owe them.",
+  },
+  {
+    handle: "TheLastGinger",
+    quote:
+      "I'm really surprised at how great this group turned out to be. Partnered servers, a ton of documentation, even a bot group buy, all in my first week. Looking forward to the next one.",
+  },
+  {
+    handle: "sayf",
+    quote:
+      "Ever since I joined, my chances of getting what I want have gone way up. I've cooked a lot: a box-logo hoodie, Supreme, a Smurf skateboard. I don't regret joining, and I'm staying.",
+  },
+  {
+    handle: "MDIGN",
+    quote:
+      "If you're looking for a reasonably priced group with constant group buys on solid, proven bots, ProfitParadise is the place to be.",
   },
   {
     handle: "Fklic",
@@ -472,14 +572,23 @@ const TESTIMONIALS: { handle: string; quote: string }[] = [
       "This group has helped me tremendously. Great knowledge, great ACOs, and support is always available.",
   },
   {
-    handle: "Anonymous",
+    handle: "Fernandixx",
     quote:
-      "The only cook group I knew of with an NFT section. I followed their guides and made over $3K on an NFT in my first month in the group.",
+      "Best staff ever. Profit Paradise is going to be one of the best cook groups this year.",
+  },
+  {
+    handle: "YB",
+    quote:
+      "COP the membership, folks. A group full of cookers always keeping you up to date on the game. No regrets, never losing my key.",
   },
   {
     handle: "Colt",
     quote:
       "Love this server. It tells me what's hot on the market and where to buy it. Would recommend you join, it's worth it.",
+  },
+  {
+    handle: "depresso",
+    quote: "Great support team.",
   },
 ];
 
@@ -503,8 +612,10 @@ function TestimonialCard({ handle, quote }: { handle: string; quote: string }) {
 }
 
 function TestimonialWall() {
-  const rowA = TESTIMONIALS.slice(0, 4);
-  const rowB = TESTIMONIALS.slice(4);
+  // Best-first order is preserved within each row by splitting on even/odd
+  // index, so both rows open with the strongest testimonials.
+  const rowA = TESTIMONIALS.filter((_, i) => i % 2 === 0);
+  const rowB = TESTIMONIALS.filter((_, i) => i % 2 === 1);
   const fade = {
     maskImage:
       "linear-gradient(to right, transparent, #000 7%, #000 93%, transparent)",
