@@ -470,6 +470,26 @@ html.lenis body {
     0 0 40px color-mix(in srgb, var(--chip) 28%, transparent);
 }
 
+/* Hero proof chips - same glow language as .skill-chip, but the base styling
+   (dark glass + cyan border + light type) comes from Tailwind so the chips stay
+   legible over the bright water surface. The fill stays dark on hover; only the
+   border brightens, the color bloom appears, and the chip springs up. */
+.proof-chip {
+  --chip: var(--bio-cyan);
+  transition:
+    transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+.proof-chip:hover {
+  border-color: color-mix(in srgb, var(--chip) 90%, transparent);
+  transform: translateY(-2px) scale(1.06);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--chip) 55%, transparent),
+    0 0 18px color-mix(in srgb, var(--chip) 60%, transparent),
+    0 0 40px color-mix(in srgb, var(--chip) 28%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -480,7 +500,8 @@ html.lenis body {
     scroll-behavior: auto !important;
   }
   /* Keep the color glow on hover but drop the springy lift. */
-  .skill-chip:hover {
+  .skill-chip:hover,
+  .proof-chip:hover {
     transform: none;
   }
 }

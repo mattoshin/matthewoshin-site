@@ -61,7 +61,7 @@ export default function HeroSection() {
             {PROOF.map((item) => (
               <li
                 key={item}
-                className="rounded-full border border-bio-cyan/50 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm"
+                className="proof-chip cursor-default rounded-full border border-bio-cyan/50 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm"
               >
                 {item}
               </li>
