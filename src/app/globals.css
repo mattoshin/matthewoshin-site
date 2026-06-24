@@ -440,6 +440,36 @@ html.lenis body {
 }
 
 /* Respect OS reduced-motion: kill all non-essential animation/transition. */
+/* -------------------------------------------------------------------------- */
+/* Skill chips - playful, glow-on-hover tags (the /skills wall).               */
+/* Each group sets its own --chip accent inline. The glow is COLOR, not a drop */
+/* shadow (the Bun / JetBrains / Vapi pattern): a tinted fill + accent border  */
+/* at rest, then a brighter fill, a colored bloom, and a small cartoony lift on */
+/* hover. The lift uses an overshoot easing so it feels springy, and it is     */
+/* neutralized under prefers-reduced-motion below.                             */
+.skill-chip {
+  --chip: var(--bio-cyan); /* default; overridden per group via inline style */
+  border: 1px solid color-mix(in srgb, var(--chip) 40%, transparent);
+  background: color-mix(in srgb, var(--chip) 9%, transparent);
+  color: var(--ink-heading);
+  transition:
+    transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+.skill-chip:hover {
+  border-color: color-mix(in srgb, var(--chip) 88%, transparent);
+  background: color-mix(in srgb, var(--chip) 22%, transparent);
+  color: #fff;
+  transform: translateY(-2px) scale(1.06);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--chip) 55%, transparent),
+    0 0 18px color-mix(in srgb, var(--chip) 60%, transparent),
+    0 0 40px color-mix(in srgb, var(--chip) 28%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -448,6 +478,10 @@ html.lenis body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  /* Keep the color glow on hover but drop the springy lift. */
+  .skill-chip:hover {
+    transform: none;
   }
 }
 
