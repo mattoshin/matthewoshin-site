@@ -76,6 +76,8 @@ export default async function VenturePage({
           )}
         </header>
 
+        {venture.video && <InterviewVideo video={venture.video} />}
+
         <section className="mt-12">
           <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
             The story
@@ -92,6 +94,10 @@ export default async function VenturePage({
             </p>
           )}
         </section>
+
+        {venture.quotes && venture.quotes.length > 0 && (
+          <InWords quotes={venture.quotes} />
+        )}
 
         <KeyNumbers slug={slug} />
 
@@ -118,6 +124,8 @@ function KeyNumbers({ slug }: { slug: string }) {
       { label: "Total users", value: "100,000+" },
       { label: "Investor communities served", value: "1,000+" },
       { label: "Analyst team size", value: "40+" },
+      { label: "First month, solo", value: "$12K" },
+      { label: "Per-client pricing", value: "$500–$2,000/mo" },
       { label: "Outcome", value: "Acquired May 1, 2023" },
     ],
     "element-underground": [
@@ -220,6 +228,74 @@ function WhatILearned({ slug }: { slug: string }) {
           </li>
         ))}
       </ul>
+    </section>
+  );
+}
+
+type VentureVideo = {
+  youtubeId: string;
+  title: string;
+  source: string;
+  date: string;
+  href: string;
+  blurb: string;
+};
+
+function InterviewVideo({ video }: { video: VentureVideo }) {
+  return (
+    <section className="mt-12">
+      <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+        Watch the story
+      </h2>
+      <figure className="mt-4">
+        {/* Responsive 16:9 player. youtube-nocookie + lazy so it never blocks the
+            page and sets no cookies until the visitor presses play. */}
+        <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.7)]">
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}
+            title={video.title}
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+        <figcaption className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm text-ink-muted">
+          <a
+            href={video.href}
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium text-bio-cyan hover:underline"
+          >
+            {video.source}
+          </a>
+          <span aria-hidden="true" className="text-ink-faint">
+            ·
+          </span>
+          <span>{video.date}</span>
+        </figcaption>
+      </figure>
+      <p className="measure mt-3 text-sm leading-relaxed text-ink-muted">{video.blurb}</p>
+    </section>
+  );
+}
+
+function InWords({ quotes }: { quotes: readonly string[] }) {
+  return (
+    <section className="mt-12">
+      <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+        From the interview
+      </h2>
+      <div className="mt-5 space-y-6">
+        {quotes.map((q) => (
+          <blockquote key={q} className="border-l-2 border-bio-cyan/50 pl-5">
+            <p className="font-display text-xl italic leading-snug text-ink-heading sm:text-2xl">
+              &ldquo;{q}&rdquo;
+            </p>
+          </blockquote>
+        ))}
+      </div>
     </section>
   );
 }
