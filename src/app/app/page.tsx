@@ -114,11 +114,11 @@ const DEMOS: DemoCard[] = [
     accent: "#2fe3bf",
   },
   {
-    slug: "mtrain",
-    name: "mTrain",
+    slug: "studio-os",
+    name: "Studio OS",
     tagline:
-      "The back office for a strength-and-wellness studio in Westport, CT. The class schedule, the lead pipeline, and every member over a Mindbody-style data layer, in one calm dashboard.",
-    era: "Client engagement · Studio admin",
+      "Gym and studio operation software: the class schedule, the lead pipeline, and every member over a Mindbody-style data layer, in one calm back office. Built first for mTrain in Westport, CT.",
+    era: "Product build · Studio operations",
     status: "live",
     href: "/app/mtrain",
     caseStudy: "/projects/mtrain",

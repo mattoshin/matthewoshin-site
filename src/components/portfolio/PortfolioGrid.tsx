@@ -23,8 +23,11 @@ export interface PortfolioItem {
   category: PortfolioCategory;
   /** Case-study detail route (/projects/* or /ventures/*). */
   caseHref: string;
-  /** When set, the card shows a bright "View Demo" button. */
+  /** When set, the card shows a bright "View Demo" button to a clickable demo. */
   demoHref?: string;
+  /** When set, the card shows a bright "View Site" button to the live external
+   *  site (active engagements). Takes precedence over demoHref as the primary CTA. */
+  siteHref?: string;
 }
 
 type FilterId = "all" | PortfolioCategory;
@@ -52,8 +55,37 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
     </div>
   );
 
-  // Demo-backed cards keep two distinct links (no nested anchors); case-study-only
-  // cards make the whole card a single link.
+  // Cards with a primary action (a live site or a clickable demo) keep two distinct
+  // links (no nested anchors); case-study-only cards make the whole card a single link.
+  const caseLink = (
+    <Link
+      href={item.caseHref}
+      className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity hover:opacity-100"
+    >
+      Case study <Arrow />
+    </Link>
+  );
+
+  if (item.siteHref) {
+    return (
+      <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-colors hover:border-bio-cyan/50">
+        {header}
+        <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
+        <div className="mt-auto flex flex-wrap items-center gap-3 pt-5">
+          <a
+            href={item.siteHref}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-demo inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs uppercase tracking-wider"
+          >
+            View Site <span aria-hidden="true">&#8599;</span>
+          </a>
+          {caseLink}
+        </div>
+      </div>
+    );
+  }
+
   if (item.demoHref) {
     return (
       <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-colors hover:border-bio-cyan/50">
@@ -66,12 +98,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
           >
             View Demo <Arrow />
           </Link>
-          <Link
-            href={item.caseHref}
-            className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity hover:opacity-100"
-          >
-            Case study <Arrow />
-          </Link>
+          {caseLink}
         </div>
       </div>
     );
