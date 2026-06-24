@@ -252,6 +252,18 @@ export interface Venture {
   storyParagraphs?: readonly string[];
   /** When set, the detail page shows a bright "View Demo" button to this route. */
   demoHref?: string;
+  /** An embedded interview/feature video for the detail page. */
+  video?: {
+    youtubeId: string;
+    title: string;
+    source: string;
+    date: string;
+    href: string;
+    /** One-line framing shown under the player. */
+    blurb: string;
+  };
+  /** Pull-quotes (e.g. lines from the interview video), shown in an "In his words" block. */
+  quotes?: readonly string[];
 }
 
 export const VENTURES: readonly Venture[] = [
@@ -268,6 +280,21 @@ export const VENTURES: readonly Venture[] = [
       "I built proprietary software that turned that fragmentation into a distribution business. My team of 40-plus analysts produced branded research, and the platform mirrored it across client servers at once, so a single piece of work could reach every community simultaneously. The research was good, but the distribution was the moat.",
       "At its peak the platform did $50K a month and reached more than 100,000 users across 1,000-plus investor communities, roughly $400K in all-time revenue. I sold it on May 1, 2023.",
       "Mocean taught me the lesson that runs through everything I have built since: distribution beats production. Anyone can write a good thesis; far fewer people can get it in front of a hundred thousand people at the same moment.",
+    ],
+    video: {
+      youtubeId: "jMkukkvVUVw",
+      title: "Matthew Oshin on building Mocean Technologies",
+      source: "THINK Business LIVE with Jon Dwoskin",
+      date: "March 2023",
+      href: "https://www.youtube.com/watch?v=jMkukkvVUVw",
+      blurb:
+        "Recorded weeks before the acquisition: the full story, from washing dishes to building the first e-commerce platform for information.",
+    },
+    quotes: [
+      "Don't go for the gold yourself. Always ask: is there a way I can sell a shovel for other people to look for the gold? Because then you'll always have customers.",
+      "You don't have a business until you can step away and nothing changes.",
+      "I didn't see exponential success until I was doing something no one else was doing. Now other people are trying to copy me, and that's how I know I really have something.",
+      "At one point, over a hundred thousand people were reading our research every single day.",
     ],
   },
   {
