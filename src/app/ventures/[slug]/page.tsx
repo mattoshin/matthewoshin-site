@@ -504,7 +504,7 @@ function TestimonialCard({ handle, quote }: { handle: string; quote: string }) {
 
 function TestimonialWall() {
   const rowA = TESTIMONIALS.slice(0, 4);
-  const rowB = TESTIMONIALS.slice(3);
+  const rowB = TESTIMONIALS.slice(4);
   const fade = {
     maskImage:
       "linear-gradient(to right, transparent, #000 7%, #000 93%, transparent)",
