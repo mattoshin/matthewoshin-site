@@ -355,6 +355,7 @@ export const VENTURES: readonly Venture[] = [
       "So at 16 I moved to sneakers. My friend Peter was already a serious reseller, he had bought a Range Rover with his own money in high school, and he taught me brick arbitrage. I would buy 20 to 50 pairs of low-cost sneakers a week and flip them for $10 to $20 a pair, sourcing drops and discount codes from a stack of Discord servers, some of which I paid to get into. It was arbitrage in the most literal sense: buy mispriced, sell into demand.",
       "The real lesson was that the edge was never the shoe, it was the signal: knowing which codes and which drops actually mattered before everyone else did. That insight still runs through everything I build. And at 18, when I realized I would rather help a thousand people make money than keep flipping shoes myself, Ocean Supply became Profit Paradise.",
     ],
+    logo: { src: "/ventures/ocean-supply.png", alt: "Ocean Supply logo" },
   },
 ] as const;
 
