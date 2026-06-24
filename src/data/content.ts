@@ -479,9 +479,26 @@ export const BUILDS: readonly Build[] = [
     status: "Active build",
   },
   {
+    slug: "brachyclip",
+    name: "BrachyClip",
+    hook: "The brand, investor narrative, and web presence for a pre-clearance medical-device company: a marketing site plus a gated, approval-based investor portal.",
+    demoHref: undefined,
+    summary:
+      "BrachyClip is an early-stage medical-device company affiliated with Brown University and Rhode Island Hospital. I lead its marketing and AI as Chief AI Officer, and I built its entire digital presence from scratch under a hard FDA-compliance constraint. The public surface is a brand and marketing site for a device that cannot yet make clinical claims; behind it sits a gated investor portal on Next.js 16 with an approval-based access flow, so the Series A materials reach vetted investors and no one else. The work is as much positioning as it is engineering: building trust and a credible narrative for a pre-clearance device where every word is a regulatory decision.",
+    highlights: [
+      "Brand, positioning, and investor narrative built from scratch for a pre-clearance device, including the Series A story.",
+      "A marketing site on the public web and a separate gated investor portal with an approval-based access flow, both on Next.js 16.",
+      "FDA-compliant content treated as a hard design constraint, not an afterthought: what the site can and cannot claim shaped the IA.",
+      "Driving AI integration into clinical and operational workflows alongside the marketing build.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Supabase (gated access)", "Vercel"],
+    status: "Current build",
+  },
+  {
     slug: "mtrain",
     name: "mTrain studio site",
     hook: "Marketing site and admin dashboard for a strength-and-wellness studio in Westport, CT.",
+    demoHref: "/app/mtrain",
     summary:
       "The owner ran an aging WordPress site on a real, established business. I rebuilt the public surface on a modern stack and framed the engagement as a conversion problem, not a commerce problem: send qualified traffic into a third-party booking flow and capture the leads the booking platform alone would miss. A house rule I hold the project to: never fabricate business facts, hours, stats, credentials, and prices are real or honestly marked as placeholders.",
     highlights: [
