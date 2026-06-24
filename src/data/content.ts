@@ -274,12 +274,12 @@ export const VENTURES: readonly Venture[] = [
       "Bloomberg for Discord. Founded at 19 on a gap year, scaled to acquisition.",
     era: "Founded and acquired, 2021 to 2023",
     demoHref: "/app/mocean-demo",
-    note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. The insight was simple: 1,000+ Discord servers were selling their own research to subscribers, but all the alpha was scattered. I built proprietary software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. The distribution edge was the moat. $400K in all-time revenue, peaking at $50K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
+    note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. The insight was simple: 1,000+ Discord servers were selling their own research to subscribers, but all the alpha was scattered. I built proprietary software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. The distribution edge was the moat. $400K in all-time revenue, peaking at almost $60K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
     storyParagraphs: [
-      "Mocean was Bloomberg for Discord. I started it at 19 during a gap year, splitting my time between recovering from ACL surgery and helping care for my mom as she fought ALS. The opening was hiding in plain sight: more than a thousand Discord servers were each selling their own market research to subscribers, but the alpha was scattered across all of them and none of it traveled.",
-      "I built proprietary software that turned that fragmentation into a distribution business. My team of 40-plus analysts produced branded research, and the platform mirrored it across client servers at once, so a single piece of work could reach every community simultaneously. The research was good, but the distribution was the moat.",
-      "At its peak the platform did $50K a month and reached more than 100,000 users across 1,000-plus investor communities, roughly $400K in all-time revenue. I sold it on May 1, 2023.",
-      "Mocean taught me the lesson that runs through everything I have built since: distribution beats production. Anyone can write a good thesis; far fewer people can get it in front of a hundred thousand people at the same moment.",
+      "Mocean was Bloomberg for Discord, and I started it at 19 on a gap year, splitting my time between recovering from ACL surgery and helping care for my mom as she fought ALS. The opening was structural and almost no one else saw it: more than a thousand Discord communities were each selling their own market research, but every server was an island. The alpha was real and it was everywhere, and none of it could travel. The bottleneck was never the research. It was distribution, so that is what I went and built.",
+      "I built the rails. I designed a branded distribution engine that took one piece of research and mirrored it across hundreds of client communities at once, with per-server templating and category- and channel-level syncing, so every client received exactly the streams they paid for. On top of it I built a fleet of custom market monitors across NFTs, crypto, and equities, and a self-serve dashboard that turned the whole operation into a product: pick your feeds, point them at your server, and start receiving branded, real-time alpha in minutes. Forty-plus analysts produced the signal. The software was the moat.",
+      "At its peak more than 100,000 people read our research every single day, across 1,000-plus investor communities, on a pricing engine that set every contract to the client's willingness to pay. Our best months were clearing almost $60K, on roughly $400K in all-time revenue. I sold the company on May 1, 2023.",
+      "Underneath the research business I was building the bigger thing: the first e-commerce platform for information, a Shopify for everyone selling intelligence. Mocean taught me the lesson that still runs through everything I build. Distribution beats production. Anyone can write a good thesis; almost no one can put it in front of a hundred thousand people at the same instant, and whoever owns that distribution layer owns the market.",
     ],
     video: {
       youtubeId: "jMkukkvVUVw",
@@ -324,6 +324,11 @@ export const VENTURES: readonly Venture[] = [
     oneLiner: "A paid alpha community for resellers, $7K/month at peak. Founded and acquired.",
     era: "Co-founder, founded and acquired, 2019 to 2023",
     note: "Co-founded with my friend Peter. $35/month subscription Discord: guides, discount codes, release calendars, and the playbook to make money across sneakers, sports cards, Pokemon, toys, and collectibles. Grew to 200 paying members at peak, which is $7,000/month in recurring revenue. By 2023 there were 3,500+ members on the server. Made it free in 2023. Acquired. The lesson: when you know the edge, teach it. Members collectively generated over $2.1 million in profits from what we gave them.",
+    storyParagraphs: [
+      "Profit Paradise was my first real company, started in high school during the COVID lockdown. It was an information-arbitrage business: a paid, invite-only Discord where resellers got the guides, the organizational tools, 24/7 one-on-one support, and the playbook to actually make money flipping sneakers, sports cards, Pokemon, toys, and collectibles. I co-founded it with my friend Peter and ran it like a real subscription product.",
+      "At its peak it had 200 members paying $35 a month, about $7,000 in monthly recurring revenue, and by 2023 the server had grown past 3,500 people. We made it free in 2023, and it was acquired. It was the first time I built a community that people paid to be part of, and the first time I saw recurring revenue compound.",
+      "The number I am proudest of is not ours. Our members collectively generated over $2.1 million in profits from what we taught them. That is the whole lesson, and it has shaped every company since: when you genuinely know the edge, the most valuable thing you can do is teach it and take a small cut of the upside everyone else makes.",
+    ],
   },
   {
     slug: "ocean-supply",
@@ -686,6 +691,16 @@ export const EDUCATION: readonly School[] = [
       "I graduated from the University of Michigan in August 2025 with a B.A. in Economics. The degree gave me the lens I still build with: markets, incentives, and how value actually moves through a system.",
       "The bigger education ran in parallel. I was operating companies the entire time I was enrolled, usually remotely. Mocean scaled to an acquisition, Element Underground grew across multiple cities, and earlier ventures had already taught me how to find an edge and sell it. Michigan was the backdrop; building was the real major.",
       "Economics is also what pulled me toward markets directly, from an equity-research seat at Manatuck Hill to building Sigma, my distribution-first research terminal. The classroom gave me the vocabulary and the ventures gave me the reps.",
+    ],
+  },
+  {
+    slug: "washu",
+    school: "Washington University in St. Louis",
+    detail: "Entrepreneurship · freshman year",
+    storyParagraphs: [
+      "I started college at Washington University in St. Louis, and I gravitated straight to the entrepreneurship department. I was already running Profit Paradise, my first company, and two professors there took me under their wing: they helped me think about how to scale it and plugged me into the founder community in St. Louis.",
+      "That year they selected me as the first freshman ever to speak at the department's alumni events, talking about building a real business while still in school. It was the first time I saw that the company I was running at night could stand next to anything in the classroom.",
+      "I left after freshman year to take a gap year, both to spend time with my mom and because building had started to outrun school. That gap year is when Mocean was born, and I went on to finish my degree at the University of Michigan.",
     ],
   },
   { school: "Weston High School", detail: "Weston, Connecticut" },
