@@ -619,18 +619,32 @@ export const SKILL_GROUPS: readonly SkillGroup[] = [
     ],
   },
   {
+    title: "Languages & frameworks",
+    items: [
+      "Python",
+      "JavaScript",
+      "TypeScript",
+      "C++",
+      "Java",
+      "PHP",
+      "React",
+      "React Native",
+      "Node.js",
+      "Laravel",
+      "SQL",
+    ],
+  },
+  {
     title: "Full-stack engineering",
     items: [
       "Next.js 16",
       "React 19",
-      "TypeScript (strict)",
       "Supabase",
       "Postgres + RLS",
       "Prisma",
       "Vercel",
       "Stripe",
       "Resend",
-      "Python",
     ],
   },
   {
@@ -651,6 +665,7 @@ export const SKILL_GROUPS: readonly SkillGroup[] = [
     items: [
       "Real-time data pipelines",
       "Async Python workers",
+      "MongoDB",
       "Circuit breakers and rate limiting",
       "Market data APIs",
       "Docker and self-hosting",
