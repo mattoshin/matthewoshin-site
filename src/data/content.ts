@@ -298,6 +298,7 @@ export const VENTURES: readonly Venture[] = [
       "I didn't see exponential success until I was doing something no one else was doing. Now other people are trying to copy me, and that's how I know I really have something.",
       "At one point, over a hundred thousand people were reading our research every single day.",
     ],
+    logo: { src: "/ventures/mocean.png", alt: "Mocean Technologies shark logo" },
   },
   {
     slug: "resell-network",
@@ -305,6 +306,12 @@ export const VENTURES: readonly Venture[] = [
     oneLiner: "An 11,000-member networking community. Founded and acquired.",
     era: "Founded and acquired, 2019 to 2023",
     note: "Built this alongside Mocean as the connective tissue of the reselling industry. The goal was to connect the researchers and subcontractors I worked with to the server owners and employers who needed them, and to give the broader reselling community access to the exclusive resources and people I had relationships with. Grew to 11,000+ Discord members organically. Sold as part of the Mocean deal. Years of compound brand recognition and a dense industry network are the kind of asset that looks quiet from the outside.",
+    storyParagraphs: [
+      "Resell Network was the connective tissue of the reselling industry, and I spent close to four years building it. Everything else I ran produced something: Ocean Supply produced flips, Profit Paradise produced research, Mocean produced software. Resell Network produced introductions. It was a Discord community whose entire job was to connect the researchers and subcontractors I worked with to the server owners and employers who would pay them for what they knew, and to give the broader reselling world access to the people and resources I had spent years getting close to.",
+      "It grew to more than 11,000 members, and it grew the slow way: entirely organic, no ads and no bought lists. It stayed quietly profitable the whole time it ran, off channel sponsorships and the simple value of being the room everyone in the industry wanted to be in. A dense network like that is the kind of asset that looks like nothing from the outside and compounds for years on the inside.",
+      "I sold it as part of the Mocean deal in 2023. The server eventually wound down, but the relationships it created did not, and that was the point. The lesson stuck with me: own the infrastructure that connects an industry and you own something far stickier than any single product, because people do not leave the place where all their relationships live.",
+    ],
+    logo: { src: "/ventures/resell-network.png", alt: "Resell Network logo" },
   },
   {
     slug: "element-underground",
@@ -319,6 +326,7 @@ export const VENTURES: readonly Venture[] = [
       "It started as free rooftop parties in Ann Arbor and grew into a real circuit: the first ticketed run proved it could sustain itself, the NYC debut at The Crown validated the biggest market, and a later show pulled more than 1,200 RSVPs. We have since run across NYC, Ann Arbor, and Boston, with the brand formalized for expansion into new cities.",
       "The piece I am proudest of is the operating model. We scale new cities through an agent model: local partners run their market under the Element brand, legal, and marketing umbrella while the core team supplies the strategy and the playbook. It lets the brand travel without diluting what it stands for.",
     ],
+    logo: { src: "/ventures/element-underground.png", alt: "Element Underground logo" },
   },
   {
     slug: "profit-paradise",
@@ -341,6 +349,11 @@ export const VENTURES: readonly Venture[] = [
     oneLiner: "Sneaker arbitrage, my first real operation.",
     era: "Early venture, started at 16",
     note: "Where the ocean theme on this whole site comes from. I was buying 20 to 50 pairs of low-cost sneakers every week and flipping them for $10 to $20 a pair. Joined every Discord server that posted discount codes and early releases, including paid ones. It was arbitrage in the most literal sense: buying mispriced, selling into demand. The lesson that shaped everything after: the edge was the signal, not the shoe.",
+    storyParagraphs: [
+      "Ocean Supply is where the ocean theme on this whole site comes from, but the story starts before it. My first real business was selling candy out of my bunk at sleepaway camp, buying the giant combo packs at Target with my dad before each summer and reselling them to the other campers. My first actual job was washing dishes at a local supermarket, up at six every Saturday and Sunday for about four years. It taught me one thing very clearly: I never wanted to make money with my hands again.",
+      "So at 16 I moved to sneakers. My friend Peter was already a serious reseller, he had bought a Range Rover with his own money in high school, and he taught me brick arbitrage. I would buy 20 to 50 pairs of low-cost sneakers a week and flip them for $10 to $20 a pair, sourcing drops and discount codes from a stack of Discord servers, some of which I paid to get into. It was arbitrage in the most literal sense: buy mispriced, sell into demand.",
+      "The real lesson was that the edge was never the shoe, it was the signal: knowing which codes and which drops actually mattered before everyone else did. That insight still runs through everything I build. And at 18, when I realized I would rather help a thousand people make money than keep flipping shoes myself, Ocean Supply became Profit Paradise.",
+    ],
   },
 ] as const;
 
