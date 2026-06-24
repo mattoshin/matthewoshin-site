@@ -113,6 +113,17 @@ const DEMOS: DemoCard[] = [
     caseStudy: "/projects/riptide",
     accent: "#2fe3bf",
   },
+  {
+    slug: "mtrain",
+    name: "mTrain",
+    tagline:
+      "The back office for a strength-and-wellness studio in Westport, CT. The class schedule, the lead pipeline, and every member over a Mindbody-style data layer, in one calm dashboard.",
+    era: "Client engagement · Studio admin",
+    status: "live",
+    href: "/app/mtrain",
+    caseStudy: "/projects/mtrain",
+    accent: "#1f3d34",
+  },
 ];
 
 export default function DemosHubPage() {
