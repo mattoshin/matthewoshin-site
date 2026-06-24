@@ -120,7 +120,7 @@ function KeyNumbers({ slug }: { slug: string }) {
   const numbers: Record<string, { label: string; value: string }[]> = {
     mocean: [
       { label: "All-time revenue", value: "$400K+" },
-      { label: "Peak monthly revenue", value: "$50K/month" },
+      { label: "Peak monthly revenue", value: "~$60K/month" },
       { label: "Total users", value: "100,000+" },
       { label: "Investor communities served", value: "1,000+" },
       { label: "Analyst team size", value: "40+" },
