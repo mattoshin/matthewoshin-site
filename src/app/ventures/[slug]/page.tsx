@@ -399,7 +399,10 @@ function MoceanEngine() {
             Mocean monitor
           </span>
         </div>
-        <pre className="overflow-x-auto px-4 py-4 font-mono text-xs leading-relaxed sm:text-[13px]">
+        <pre
+          className="overflow-x-auto px-4 py-4 text-xs leading-relaxed sm:text-[13px]"
+          style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" }}
+        >
           <code className="whitespace-pre text-ink-body">
             {ETH_MINTS_PY.map((line, i) => (
               <div key={i}>
