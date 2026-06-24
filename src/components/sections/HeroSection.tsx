@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { HERO } from "@/data/content";
+import RotatingHeadline from "./RotatingHeadline";
 
 /**
  * HeroSection - the SURFACE (0m). Decluttered per Matthew: no eyebrow line and no
@@ -7,8 +8,6 @@ import { HERO } from "@/data/content";
  * one-line hook as the headline, the short bio paragraph he likes, and the proof
  * chips. Light + bold type with a crisp dark shadow so it reads over the water.
  */
-
-const STATEMENT = "I'm a builder.";
 
 // Tasteful, public proof points only (no private figures, per content-review.md).
 const PROOF: readonly string[] = [
@@ -46,11 +45,9 @@ export default function HeroSection() {
 
         {/* Text - the hook is the headline now (name lives in the wordmark). */}
         <div className="min-w-0 max-w-xl text-center md:text-left">
-          <h1
+          <RotatingHeadline
             className={`font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl ${SHADOW}`}
-          >
-            {STATEMENT}
-          </h1>
+          />
 
           {/* The short bio paragraph (the one Matthew likes). */}
           <p
