@@ -69,7 +69,7 @@ export default function MtrainSidebar({
           <div className="min-w-0 leading-tight">
             <div className="truncate text-[12px] font-semibold text-[var(--mt-ink)]">{MTRAIN_USER.name}</div>
             <div className="truncate text-[11px] text-[var(--mt-muted)]">
-              {MTRAIN_USER.role} · {MTRAIN.location}
+              {MTRAIN_USER.role} · {MTRAIN.studio}
             </div>
           </div>
         </div>

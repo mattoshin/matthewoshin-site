@@ -25,11 +25,11 @@ export function Wordmark({ subtitle = true }: { subtitle?: boolean }) {
       <MtrainMark size={26} />
       <span className="leading-none">
         <span className={cx("block text-[17px] font-semibold tracking-tight text-[var(--mt-ink)]", MT_SERIF)}>
-          mTrain
+          Fitness OS
         </span>
         {subtitle && (
           <span className="mt-1 block font-mono text-[9px] uppercase tracking-[0.22em] text-[var(--mt-faint)]">
-            Studio admin
+            Studio operations
           </span>
         )}
       </span>

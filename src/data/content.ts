@@ -498,7 +498,7 @@ export const BUILDS: readonly Build[] = [
     slug: "mtrain",
     name: "mTrain studio site",
     hook: "Marketing site and admin dashboard for a strength-and-wellness studio in Westport, CT.",
-    demoHref: "/app/mtrain",
+    demoHref: "/app/fitness-os",
     summary:
       "The owner ran an aging WordPress site on a real, established business. I rebuilt the public surface on a modern stack and framed the engagement as a conversion problem, not a commerce problem: send qualified traffic into a third-party booking flow and capture the leads the booking platform alone would miss. A house rule I hold the project to: never fabricate business facts, hours, stats, credentials, and prices are real or honestly marked as placeholders.",
     highlights: [
