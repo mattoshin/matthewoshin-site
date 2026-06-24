@@ -63,7 +63,7 @@ export const BUCKETS: readonly Bucket[] = [
     zone: "about",
     label: "Experience",
     href: "/experience",
-    teaser: "CAIO at BrachyClip, ex-VP AI at ICR, hedge-fund equity research at Manatuck Hill.",
+    teaser: "Chief AI Officer at BrachyClip, ex-VP AI at ICR, hedge-fund equity research at Manatuck Hill.",
   },
   {
     id: "entrepreneurship",
