@@ -590,7 +590,7 @@ export const ENTREPRENEURSHIP = {
 export const PORTFOLIO = {
   heading: "Portfolio.",
   blurb:
-    "The products I'm building now, end to end. Each is a real bet on an edge, packaged and shipped. Open any of them for the full case study.",
+    "Everything I've built, past and present: the AI products I'm shipping now, the web and client work I've delivered, and the ventures I founded and ran. Each one is a real bet on an edge, taken end to end from idea to shipped, never just a concept. Open any of them for the full case study.",
 } as const;
 
 /* -------------------------------------------------------------------------- */
