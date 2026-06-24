@@ -8,7 +8,7 @@
 
 Add category filters to `/portfolio`, surface two missing projects (BrachyClip, Element
 Underground), drop Camp Ricky, give every card the turquoise treatment (today only the top
-four featured cards have it), and build a new clickable `/app/mtrain` studio-admin demo.
+four featured cards have it), and build a new clickable `/app/fitness-os` studio-admin demo.
 
 ## Decisions (locked with Matthew)
 
@@ -52,7 +52,7 @@ gated investor portal on Next.js 16. No live link (portal is gated/confidential)
 Already in VENTURES with a `/ventures/element-underground` detail page. Surface it as a
 Ventures card (case study link only).
 
-## Part 2 — mTrain studio-admin demo (`/app/mtrain`)
+## Part 2 — mTrain studio-admin demo (`/app/fitness-os`)
 
 Mirrors the Atrium demo architecture, scoped theme, mock data, clickable but non-functional.
 
@@ -66,7 +66,7 @@ Mirrors the Atrium demo architecture, scoped theme, mock data, clickable but non
 - `modules/Overview.tsx`, `modules/Schedule.tsx`, `modules/Leads.tsx`, `modules/Members.tsx`.
 - Data: `src/data/mtrain-demo.ts` (ModuleId + all mock data; "never fabricate real business
   facts" — everything clearly demo/sample, fictional clients).
-- Routes: `src/app/app/mtrain/page.tsx` (Landing), `src/app/app/mtrain/dashboard/page.tsx` (Console).
+- Routes: `src/app/app/fitness-os/page.tsx` (Landing), `src/app/app/fitness-os/dashboard/page.tsx` (Console).
 
 ### Theme tokens (warm sand + evergreen)
 Surfaces `--mt-bg #FAF8F4 / --mt-card #FFFFFF`; ink `#1C1B19`; accent evergreen `#1F3D34`,
@@ -84,7 +84,7 @@ mono for numerics. No indigo. Distinct from the site's bio-cyan.
 
 ### Registration
 Add mTrain to the `/app` index `DEMOS` array (accent evergreen `#1F3D34`), and set
-`demoHref: "/app/mtrain"` on the mtrain BUILDS entry so the portfolio card shows "View Demo".
+`demoHref: "/app/fitness-os"` on the mtrain BUILDS entry so the portfolio card shows "View Demo".
 
 ## Build order
 1. Portfolio content (categories, BrachyClip, exclude camp-ricky) + filter component + turquoise.

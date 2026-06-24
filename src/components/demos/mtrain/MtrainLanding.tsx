@@ -14,7 +14,7 @@ import { Wordmark, Icon, Card, CapacityBar, MT_SERIF, cx } from "./MtrainKit";
  * "Studio" theme. Server component: the only interactions are anchor scroll and
  * links into the dashboard. Copy and figures are illustrative sample data.
  */
-const DASH = "/app/mtrain/dashboard";
+const DASH = "/app/fitness-os/dashboard";
 
 const navLinks = [
   { label: "The dashboard", href: "#modules" },
@@ -49,7 +49,7 @@ export default function MtrainLanding() {
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-12 sm:px-8 sm:py-20 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-[var(--mt-accent)]/20 bg-[var(--mt-accent-wash)] px-3 py-1 text-[12px] font-medium text-[var(--mt-accent)]">
-            <Icon name="dumbbell" size={13} /> Studio back office · {MTRAIN.location}
+            <Icon name="dumbbell" size={13} /> Gym &amp; studio operations
           </div>
           <h1 className={cx("mt-5 text-4xl font-semibold leading-[1.06] tracking-tight text-[var(--mt-ink)] sm:text-[54px]", MT_SERIF)}>
             One calm place to run
@@ -57,8 +57,8 @@ export default function MtrainLanding() {
             <span className="text-[var(--mt-accent)] italic">the whole studio.</span>
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[var(--mt-ink-2)] sm:text-base">
-            mTrain ran on five tabs: Mindbody for bookings, a spreadsheet for leads, Instagram
-            DMs, email, and a notebook at the front desk. I rebuilt the back office into a single
+            A growing studio runs on five tabs: a booking tool, a spreadsheet for leads, Instagram
+            DMs, email, and a notebook at the front desk. Fitness OS pulls the back office into one
             dashboard, so the schedule, the lead pipeline, and every member live in one place.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-3">

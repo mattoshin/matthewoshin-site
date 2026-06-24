@@ -3,9 +3,9 @@ import MtrainScope from "@/components/demos/mtrain/MtrainScope";
 import MtrainLanding from "@/components/demos/mtrain/MtrainLanding";
 
 export const metadata: Metadata = {
-  title: "mTrain studio admin (demo)",
+  title: "Fitness OS - gym & studio operation software (demo)",
   description:
-    "A clickable recreation of the back-office dashboard Matthew Oshin built for mTrain, a strength-and-wellness studio in Westport, CT: schedule, leads, and members over a Mindbody-style data layer. Sample data; nothing talks to a live server.",
+    "A clickable demo of Fitness OS, gym and studio operation software by Matthew Oshin: the class schedule, lead pipeline, and member roster in one back office over a Mindbody-style data layer. Drawn from a real studio engagement; sample data, nothing talks to a live server.",
 };
 
 export default function MtrainPage() {

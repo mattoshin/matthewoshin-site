@@ -137,7 +137,7 @@ export default function Schedule() {
     <div className="space-y-6">
       <SectionHeading
         title="Schedule"
-        hint="Westport studio"
+        hint="Classes and capacity"
         right={
           <SegmentedTabs
             tabs={[

@@ -1,13 +1,13 @@
 /**
- * mtrain-demo.ts - sample data for the mTrain studio-admin demo.
+ * mtrain-demo.ts - sample data for the Fitness OS studio-operations demo.
  *
- * mTrain is a real strength-and-wellness studio in Westport, CT, that I built a
- * marketing site and admin dashboard for. This demo is a clickable recreation of
- * the BACK-OFFICE dashboard on entirely fictional sample data: the studio manager
- * (Jess Calder), every class, client, lead, and figure below is illustrative and
- * made up. Per the house rule on the real project, no genuine business facts are
- * fabricated here; this is a portfolio design piece, and nothing talks to a live
- * server. The real public site is a separate marketing build.
+ * Fitness OS is a concept product: gym + studio operation software (schedule, leads,
+ * members) drawn from the back-office dashboard I built for a real strength-and-
+ * wellness studio. This demo is a clickable, de-branded recreation on entirely
+ * fictional sample data: the studio (Foundry Strength), the manager (Jess Calder),
+ * and every class, client, lead, and figure below is illustrative and made up.
+ * Nothing talks to a live server. (Internal symbols keep the `Mtrain*`/`MT_*`
+ * prefix from when this was built; the product is Fitness OS.)
  *
  * Refero-grounded structure: time2book (class schedule), Runey/Teal (KPI overview),
  * Rox (leads pipeline). Warm sand + evergreen theme lives in MtrainScope.
@@ -18,10 +18,10 @@ import type { IconName } from "@/components/demos/mtrain/MtrainKit";
 /* ----------------------------------------------------------------- brand --- */
 
 export const MTRAIN = {
-  name: "mTrain",
-  product: "Studio admin",
-  tagline: "The back office for a strength-and-wellness studio.",
-  location: "Westport, CT",
+  name: "Fitness OS",
+  product: "Studio operations",
+  tagline: "The back office for a gym or strength-and-wellness studio.",
+  studio: "Foundry Strength",
 } as const;
 
 /** The signed-in studio manager (fictional). */

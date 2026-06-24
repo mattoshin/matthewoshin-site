@@ -21,8 +21,9 @@ export interface PortfolioItem {
   hook: string;
   status: string;
   category: PortfolioCategory;
-  /** Case-study detail route (/projects/* or /ventures/*). */
-  caseHref: string;
+  /** Case-study detail route (/projects/* or /ventures/*). Optional: demo/site-only
+   *  cards (e.g. a standalone product concept) can omit it. */
+  caseHref?: string;
   /** When set, the card shows a bright "View Demo" button to a clickable demo. */
   demoHref?: string;
   /** When set, the card shows a bright "View Site" button to the live external
@@ -57,14 +58,14 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
 
   // Cards with a primary action (a live site or a clickable demo) keep two distinct
   // links (no nested anchors); case-study-only cards make the whole card a single link.
-  const caseLink = (
+  const caseLink = item.caseHref ? (
     <Link
       href={item.caseHref}
       className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity hover:opacity-100"
     >
       Case study <Arrow />
     </Link>
-  );
+  ) : null;
 
   if (item.siteHref) {
     return (
@@ -104,27 +105,38 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
     );
   }
 
+  if (item.caseHref) {
+    return (
+      <Link
+        href={item.caseHref}
+        className="group flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/55 hover:bg-bio-cyan/[0.09]"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
+            {item.name}
+          </h2>
+          <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+            {item.status}
+          </span>
+        </div>
+        <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
+        <span className="mt-auto inline-flex items-center gap-1 pt-5 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity group-hover:opacity-100">
+          Open case study
+          <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
+            -&gt;
+          </span>
+        </span>
+      </Link>
+    );
+  }
+
+  // No primary action and no case study: a non-interactive card (e.g. a concept
+  // with only a demo handled above). Unreachable in practice.
   return (
-    <Link
-      href={item.caseHref}
-      className="group flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/55 hover:bg-bio-cyan/[0.09]"
-    >
-      <div className="flex items-center justify-between gap-3">
-        <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
-          {item.name}
-        </h2>
-        <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
-          {item.status}
-        </span>
-      </div>
+    <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm">
+      {header}
       <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
-      <span className="mt-auto inline-flex items-center gap-1 pt-5 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity group-hover:opacity-100">
-        Open case study
-        <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
-          -&gt;
-        </span>
-      </span>
-    </Link>
+    </div>
   );
 }
 

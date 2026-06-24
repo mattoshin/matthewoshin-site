@@ -114,14 +114,13 @@ const DEMOS: DemoCard[] = [
     accent: "#2fe3bf",
   },
   {
-    slug: "studio-os",
-    name: "Studio OS",
+    slug: "fitness-os",
+    name: "Fitness OS",
     tagline:
-      "Gym and studio operation software: the class schedule, the lead pipeline, and every member over a Mindbody-style data layer, in one calm back office. Built first for mTrain in Westport, CT.",
-    era: "Product build · Studio operations",
+      "Gym and studio operation software: the class schedule, the lead pipeline, and every member over a Mindbody-style data layer, in one calm back office. A concept drawn from a real studio engagement.",
+    era: "Product concept · Studio operations",
     status: "live",
-    href: "/app/mtrain",
-    caseStudy: "/projects/mtrain",
+    href: "/app/fitness-os",
     accent: "#1f3d34",
   },
 ];
