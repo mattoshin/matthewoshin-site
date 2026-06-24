@@ -114,6 +114,8 @@ export default async function VenturePage({
 
         {slug === "mocean" && <MoceanEngine />}
 
+        {slug === "profit-paradise" && <TestimonialWall />}
+
         <KeyNumbers slug={slug} />
 
         <WhatILearned slug={slug} />
@@ -433,6 +435,103 @@ function MoceanEngine() {
       <p className="mt-4 font-mono text-xs text-ink-faint">
         33 monitors. One engine. Over 100,000 readers a day.
       </p>
+    </section>
+  );
+}
+
+/**
+ * The Profit Paradise community wall: real member testimonials from the server's
+ * #testimonials channel, lightly trimmed, in two rows that auto-scroll opposite
+ * directions (a "rotating scroll wheel"). Handles are the members' own public
+ * Discord names. The marquee animation lives in globals.css.
+ */
+const TESTIMONIALS: { handle: string; quote: string }[] = [
+  {
+    handle: "WayneDang",
+    quote:
+      "The owner is friendly and helpful, you can DM him anytime and get a fast response. The info is exact: early links, brick flips. The cheapest group I ever joined, and the team is the best.",
+  },
+  {
+    handle: "UziFBA",
+    quote:
+      "I started as an eBay seller at 13 and got into shoes at 14. I had no idea where to start, and this group helped me reach my highest potential. One of the most generous cook groups ever.",
+  },
+  {
+    handle: "louieeovo",
+    quote:
+      "I've been reselling since I was 16, I'm 33 now with four kids, and this group made real money for my family. When I hit a rough patch, Ocean gave me a lifetime membership out of nowhere.",
+  },
+  {
+    handle: "YB",
+    quote:
+      "COP the membership, folks. A group full of cookers always keeping you up to date on the game. No regrets, never losing my key.",
+  },
+  {
+    handle: "Fklic",
+    quote:
+      "This group has helped me tremendously. Great knowledge, great ACOs, and support is always available.",
+  },
+  {
+    handle: "Anonymous",
+    quote:
+      "The only cook group I knew of with an NFT section. I followed their guides and made over $3K on an NFT in my first month in the group.",
+  },
+  {
+    handle: "Colt",
+    quote:
+      "Love this server. It tells me what's hot on the market and where to buy it. Would recommend you join, it's worth it.",
+  },
+];
+
+function TestimonialCard({ handle, quote }: { handle: string; quote: string }) {
+  return (
+    <figure className="mr-4 flex w-72 shrink-0 flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:w-80">
+      <blockquote className="text-sm leading-relaxed text-ink-body">
+        &ldquo;{quote}&rdquo;
+      </blockquote>
+      <figcaption className="mt-4 flex items-center gap-2">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-bio-cyan/15 font-mono text-[11px] font-semibold uppercase text-bio-cyan">
+          {handle.slice(0, 2)}
+        </span>
+        <span className="font-mono text-xs text-ink-muted">{handle}</span>
+        <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-ink-faint">
+          Profit Paradise
+        </span>
+      </figcaption>
+    </figure>
+  );
+}
+
+function TestimonialWall() {
+  const rowA = TESTIMONIALS.slice(0, 4);
+  const rowB = TESTIMONIALS.slice(4);
+  const fade = {
+    maskImage:
+      "linear-gradient(to right, transparent, #000 7%, #000 93%, transparent)",
+    WebkitMaskImage:
+      "linear-gradient(to right, transparent, #000 7%, #000 93%, transparent)",
+  } as const;
+  return (
+    <section className="mt-12">
+      <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+        From the community
+      </h2>
+      <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
+        Profit Paradise lived or died on one thing: whether members actually made money.
+        Here is what they said, lightly trimmed, in the server&rsquo;s testimonials channel.
+      </p>
+      <div className="marquee-wall relative mt-6 flex flex-col gap-4 overflow-hidden" style={fade}>
+        <div className="marquee-track flex w-max">
+          {[...rowA, ...rowA].map((t, i) => (
+            <TestimonialCard key={`a-${i}`} {...t} />
+          ))}
+        </div>
+        <div className="marquee-track marquee-track--reverse flex w-max">
+          {[...rowB, ...rowB].map((t, i) => (
+            <TestimonialCard key={`b-${i}`} {...t} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
