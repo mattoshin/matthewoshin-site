@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import PageShell from "@/components/page/PageShell";
-import { ENTREPRENEURSHIP, VENTURES } from "@/data/content";
+import { ENTREPRENEURSHIP, VENTURES, type Venture } from "@/data/content";
 
 /**
  * Ventures with a clickable interactive demo at /app/<slug>-demo. Keyed by
@@ -12,8 +13,8 @@ const VENTURE_DEMOS: Record<string, string> = {
 };
 
 /**
- * /entrepreneurship - a scannable index of the ventures: a short summary per
- * card, in roughly the order they happened. The full, comprehensive write-up
+ * /entrepreneurship - a scannable index of the ventures: a logo, a short summary
+ * per card, in roughly the order they happened. The full, comprehensive write-up
  * lives on each venture's own case study at /ventures/<slug>.
  */
 export const metadata: Metadata = {
@@ -21,6 +22,33 @@ export const metadata: Metadata = {
   description:
     "Mocean Technologies, Element Underground, Profit Paradise, Ocean Supply, and Resell Network.",
 };
+
+/** Same place, same scale on every card: the brand logo, or an initials monogram
+ *  when a venture (e.g. Ocean Supply) has no brand asset. */
+function CardLogo({ venture }: { venture: Venture }) {
+  const initials = venture.name
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("");
+  return (
+    <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] sm:h-16 sm:w-16">
+      {venture.logo ? (
+        <Image
+          src={venture.logo.src}
+          alt={venture.logo.alt}
+          width={128}
+          height={128}
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        <span className="font-display text-base font-semibold text-bio-cyan/80 sm:text-lg">
+          {initials}
+        </span>
+      )}
+    </div>
+  );
+}
 
 export default function EntrepreneurshipPage() {
   return (
@@ -42,15 +70,20 @@ export default function EntrepreneurshipPage() {
               key={venture.slug}
               className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
             >
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="font-display text-xl font-semibold text-ink-heading sm:text-2xl">
-                  {venture.name}
-                </h3>
-                <span className="font-mono text-[11px] uppercase tracking-wider text-bio-cyan/80">
-                  {venture.era}
-                </span>
+              <div className="flex items-start gap-4">
+                <CardLogo venture={venture} />
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h3 className="font-display text-xl font-semibold text-ink-heading sm:text-2xl">
+                      {venture.name}
+                    </h3>
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-bio-cyan/80">
+                      {venture.era}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-base font-medium text-ink-body">{venture.oneLiner}</p>
+                </div>
               </div>
-              <p className="mt-2 text-base font-medium text-ink-body">{venture.oneLiner}</p>
               <p className="measure mt-3 text-sm leading-relaxed text-ink-muted sm:text-base">
                 {summary}
               </p>
