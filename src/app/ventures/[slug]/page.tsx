@@ -112,6 +112,8 @@ export default async function VenturePage({
           <InWords quotes={venture.quotes} />
         )}
 
+        {slug === "mocean" && <MoceanEngine />}
+
         <KeyNumbers slug={slug} />
 
         <WhatILearned slug={slug} />
@@ -144,6 +146,8 @@ function KeyNumbers({ slug }: { slug: string }) {
     "element-underground": [
       { label: "Total attendees", value: "17,000+" },
       { label: "All-time revenue", value: "$117,000+" },
+      { label: "Shows produced", value: "50+" },
+      { label: "Peak team size", value: "40+" },
       { label: "Social media views (2025)", value: "1,540,000" },
       { label: "NYC debut profit (The Crown)", value: "$5,000+" },
       { label: "RSVPs for Music for a While", value: "1,200+" },
@@ -164,7 +168,9 @@ function KeyNumbers({ slug }: { slug: string }) {
     ],
     "resell-network": [
       { label: "Total Discord members", value: "11,000+" },
+      { label: "Community make-up", value: "100s of groups, 1,000s of resellers" },
       { label: "Growth method", value: "100% organic" },
+      { label: "Monetization", value: "Paid plugs + ad partnerships" },
       { label: "Outcome", value: "Sold as part of Mocean deal" },
     ],
   };
@@ -309,6 +315,124 @@ function InWords({ quotes }: { quotes: readonly string[] }) {
           </blockquote>
         ))}
       </div>
+    </section>
+  );
+}
+
+/**
+ * The Mocean "engine" block: a real (redacted) Python monitor plus the full
+ * fleet of 33 monitors, as an engineering proof-point that the moat was software.
+ */
+type CodeTok = { t: string; c?: "comment" | "str" };
+
+const ETH_MINTS_PY: CodeTok[][] = [
+  [{ t: "# Pull every collection minting today from rarity.tools", c: "comment" }],
+  [{ t: "r = requests.get(" }, { t: '"https://collections.rarity.tools/upcoming2"', c: "str" }, { t: ").json()" }],
+  [{ t: "" }],
+  [{ t: "desc = " }, { t: '""', c: "str" }],
+  [{ t: "for drop in r:" }],
+  [{ t: "    if drop[" }, { t: '"Sale Date"', c: "str" }, { t: "] == today:" }],
+  [{ t: "        desc += " }, { t: "f\"{drop['Project']} -> {drop['Website']}\\n\"", c: "str" }],
+  [{ t: "" }],
+  [{ t: "# Push a branded embed straight into every client server", c: "comment" }],
+  [{ t: "requests.post(WEBHOOK_URL, json={" }],
+  [
+    { t: "    " },
+    { t: '"embeds"', c: "str" },
+    { t: ": [{" },
+    { t: '"title"', c: "str" },
+    { t: ": " },
+    { t: '"ETH Mints"', c: "str" },
+    { t: ", " },
+    { t: '"description"', c: "str" },
+    { t: ": desc}]" },
+  ],
+  [{ t: "})" }],
+];
+
+const MONITOR_GROUPS: { group: string; items: readonly string[] }[] = [
+  {
+    group: "NFT mints & sales",
+    items: ["eth-mints", "free-mints", "hourly-mints", "hourly-sales", "trending-collections", "upcoming-drops", "crypto-punks", "top-buyers"],
+  },
+  {
+    group: "Crypto markets",
+    items: ["coingecko-marketcap", "coingecko-rockets", "coingecko-dumps", "coinmarketcap", "exchanges", "volume-traded", "top-sellers", "currencies"],
+  },
+  {
+    group: "Equities & macro",
+    items: ["dow", "nasdaq", "spy-monitor", "gold", "oil", "bonds", "company-holdings", "top-stock-gainers"],
+  },
+];
+
+function MoceanEngine() {
+  return (
+    <section className="mt-12">
+      <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+        Under the hood
+      </h2>
+      <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
+        Mocean&rsquo;s moat was software. I built a fleet of custom monitors in Python that
+        scraped NFT mints, crypto markets, and equities in real time and pushed branded,
+        formatted alerts straight into client Discord servers through webhooks. Here is one of
+        them, lightly trimmed.
+      </p>
+
+      <div className="mt-5 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.7)]">
+        <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
+          <span className="h-2.5 w-2.5 rounded-full bg-reef-coral/60" />
+          <span className="h-2.5 w-2.5 rounded-full bg-amber-300/50" />
+          <span className="h-2.5 w-2.5 rounded-full bg-bio-cyan/50" />
+          <span className="ml-2 font-mono text-xs text-ink-muted">eth-mints.py</span>
+          <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-ink-faint">
+            Mocean monitor
+          </span>
+        </div>
+        <pre className="overflow-x-auto px-4 py-4 font-mono text-xs leading-relaxed sm:text-[13px]">
+          <code className="whitespace-pre text-ink-body">
+            {ETH_MINTS_PY.map((line, i) => (
+              <div key={i}>
+                {line.length === 1 && line[0].t === ""
+                  ? " "
+                  : line.map((tok, j) => (
+                      <span
+                        key={j}
+                        className={
+                          tok.c === "comment"
+                            ? "text-ink-faint italic"
+                            : tok.c === "str"
+                              ? "text-bio-cyan/70"
+                              : undefined
+                        }
+                      >
+                        {tok.t}
+                      </span>
+                    ))}
+              </div>
+            ))}
+          </code>
+        </pre>
+      </div>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        {MONITOR_GROUPS.map(({ group, items }) => (
+          <div key={group} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-bio-cyan/70">
+              {group}
+            </div>
+            <ul className="mt-3 space-y-1.5">
+              {items.map((m) => (
+                <li key={m} className="font-mono text-xs text-ink-muted">
+                  {m}.py
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 font-mono text-xs text-ink-faint">
+        33 monitors. One engine. Over 100,000 readers a day.
+      </p>
     </section>
   );
 }
