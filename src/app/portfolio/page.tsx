@@ -16,7 +16,7 @@ import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Products I build, filterable by type: AI products (Riptide, Galactic Signals, Financial Communications Platform, SEC Intelligence, Sonar Media, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain), and ventures (Mocean, Element Underground).",
+    "Products I build, filterable by type: AI products (Riptide, Galactic Signals, Financial Communications Platform, SEC Intelligence, Sonar Media, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Studio OS), and ventures (Mocean, Element Underground).",
 };
 
 /** Pull a build into a portfolio item; case study lives at /projects/<slug>. */
@@ -49,9 +49,13 @@ function fromVenture(
   };
 }
 
+const brachyclip = BUILDS.find((b) => b.slug === "brachyclip");
+
 // Curated order for the "All" view: demo-backed flagships first, then the
 // web/client work, then the remaining case studies. (Camp Ricky is intentionally
-// not surfaced here.)
+// not surfaced here.) BrachyClip and mTrain are active engagements, so they link
+// to the live site ("View Site"); the studio back-office software is its own
+// product card, "Studio OS", which opens the clickable demo.
 const ITEMS: PortfolioItem[] = [
   fromVenture("mocean", "Founded & acquired"),
   fromBuild("galactic-signals", "ai-products"),
@@ -61,8 +65,30 @@ const ITEMS: PortfolioItem[] = [
   fromBuild("atrium", "ai-products"),
   fromBuild("vantage", "ai-products"),
   fromBuild("riptide", "ai-products"),
-  fromBuild("brachyclip", "web-client"),
-  fromBuild("mtrain", "web-client"),
+  {
+    name: "BrachyClip",
+    hook: brachyclip?.hook ?? "",
+    status: "Active engagement",
+    category: "web-client",
+    caseHref: "/projects/brachyclip",
+    siteHref: "https://brachyclip.com",
+  },
+  {
+    name: "mTrain",
+    hook: "Marketing site for a strength-and-wellness studio in Westport, CT, built for conversion: route qualified traffic into the studio's booking flow and capture the leads it would otherwise miss.",
+    status: "Active engagement",
+    category: "web-client",
+    caseHref: "/projects/mtrain",
+    siteHref: "https://mtrainstudio.com",
+  },
+  {
+    name: "Studio OS",
+    hook: "Gym and studio operation software: the class schedule, the lead pipeline, and the member roster in one back office over a Mindbody-style data layer. Built first for mTrain.",
+    status: "Product build",
+    category: "web-client",
+    caseHref: "/projects/mtrain",
+    demoHref: "/app/mtrain",
+  },
   fromVenture("element-underground", "Co-founded"),
   fromBuild("observly", "ai-products"),
   fromBuild("briefbridge", "ai-products"),
