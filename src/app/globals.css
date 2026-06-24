@@ -109,11 +109,11 @@ html {
   --color-ink-light-primary: var(--ink-light-primary);
   --color-ink-light-secondary: var(--ink-light-secondary);
 
-  /* Fonts. Headings are Georgia (classic, legible, what Matthew wants); body is
-     Hanken Grotesk (clean DigitalOcean-style sans); mono for metric labels. */
-  --font-display: Georgia, "Times New Roman", "Times", serif;
-  --font-sans: var(--font-hanken);
-  --font-mono: var(--font-jetbrains);
+  /* One font for the whole site: Poppins (rounded, friendly, coherent).
+     Display, body, and label type all resolve to it. */
+  --font-display: var(--font-poppins), system-ui, sans-serif;
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  --font-mono: var(--font-poppins), ui-monospace, monospace;
 }
 
 html {
