@@ -123,6 +123,8 @@ export default async function VenturePage({
 
         {slug === "ocean-supply" && <OceanSupplyLoop />}
 
+        {slug === "ocean-supply" && <OceanSupplyReel />}
+
         <KeyNumbers slug={slug} />
 
         <WhatILearned slug={slug} />
@@ -843,6 +845,57 @@ function OceanSupplyLoop() {
             )}
           </Fragment>
         ))}
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Ocean Supply: "The flips" - a rotating reel of the real pairs from the      */
+/* Ocean Supply Instagram, two rows scrolling opposite directions.            */
+/* -------------------------------------------------------------------------- */
+const OCEAN_FLIPS = Array.from({ length: 11 }, (_, i) => `/ventures/ocean-supply-flips/os-${i + 1}.jpg`);
+
+function FlipCard({ src }: { src: string }) {
+  return (
+    <div className="mr-4 h-40 w-40 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] sm:h-44 sm:w-44">
+      <Image
+        src={src}
+        alt="A pair flipped through Ocean Supply"
+        width={400}
+        height={400}
+        className="h-full w-full object-cover"
+      />
+    </div>
+  );
+}
+
+function OceanSupplyReel() {
+  const rowA = OCEAN_FLIPS.filter((_, i) => i % 2 === 0);
+  const rowB = OCEAN_FLIPS.filter((_, i) => i % 2 === 1);
+  const fade = {
+    maskImage: "linear-gradient(to right, transparent, #000 7%, #000 93%, transparent)",
+    WebkitMaskImage: "linear-gradient(to right, transparent, #000 7%, #000 93%, transparent)",
+  } as const;
+  return (
+    <section className="mt-12">
+      <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+        The flips
+      </h2>
+      <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
+        Real pairs that moved through the operation, straight off the Ocean Supply feed.
+      </p>
+      <div className="marquee-wall relative mt-6 flex flex-col gap-4 overflow-hidden" style={fade}>
+        <div className="marquee-track flex w-max">
+          {[...rowA, ...rowA].map((src, i) => (
+            <FlipCard key={`a-${i}`} src={src} />
+          ))}
+        </div>
+        <div className="marquee-track marquee-track--reverse flex w-max">
+          {[...rowB, ...rowB].map((src, i) => (
+            <FlipCard key={`b-${i}`} src={src} />
+          ))}
+        </div>
       </div>
     </section>
   );
