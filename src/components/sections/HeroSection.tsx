@@ -12,7 +12,7 @@ import RotatingHeadline from "./RotatingHeadline";
 // Tasteful, public proof points only (no private figures, per content-review.md).
 const PROOF: readonly string[] = [
   "2 acquisitions",
-  "CAIO at BrachyClip",
+  "Chief AI Officer, BrachyClip",
   "SaaS developer",
   "Hedge fund equity research",
   "Community builder",
@@ -57,11 +57,11 @@ export default function HeroSection() {
           </p>
 
           {/* Proof chips - dark glass + light type so they read on the water. */}
-          <ul className="mt-6 flex flex-wrap justify-center gap-2 md:justify-start">
+          <ul className="mt-6 flex flex-wrap justify-center gap-2.5 md:justify-start">
             {PROOF.map((item) => (
               <li
                 key={item}
-                className="rounded-full border border-bio-cyan/40 bg-abyss-void/55 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-ink-heading backdrop-blur-sm"
+                className="rounded-full border border-bio-cyan/50 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm"
               >
                 {item}
               </li>
