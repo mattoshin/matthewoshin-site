@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -116,6 +117,12 @@ export default async function VenturePage({
 
         {slug === "profit-paradise" && <TestimonialWall />}
 
+        {slug === "resell-network" && <ResellMarketplace />}
+
+        {slug === "element-underground" && <ElementCircuit />}
+
+        {slug === "ocean-supply" && <OceanSupplyLoop />}
+
         <KeyNumbers slug={slug} />
 
         <WhatILearned slug={slug} />
@@ -170,7 +177,7 @@ function KeyNumbers({ slug }: { slug: string }) {
     ],
     "resell-network": [
       { label: "Total Discord members", value: "11,000+" },
-      { label: "Community make-up", value: "100s of groups, 1,000s of resellers" },
+      { label: "Community make-up", value: "Group owners, freelancers, developers" },
       { label: "Growth method", value: "100% organic" },
       { label: "Monetization", value: "Paid plugs + ad partnerships" },
       { label: "Outcome", value: "Sold as part of Mocean deal" },
@@ -642,6 +649,200 @@ function TestimonialWall() {
             <TestimonialCard key={`b-${i}`} {...t} />
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Resell Network: "The marketplace" - the real Discord channel map, proving   */
+/* it was the town square of the reselling industry.                           */
+/* -------------------------------------------------------------------------- */
+const RESELL_MAP: { group: string; channels: readonly string[] }[] = [
+  { group: "Infrastructure & fulfillment", channels: ["bot-rental", "servers", "discount-codes"] },
+  { group: "Bots & monitors", channels: ["discord-bots", "twitter-monitors", "retail-monitors"] },
+  { group: "PR & marketing", channels: ["social-media-mgmt", "group-pr", "influencer"] },
+  { group: "Designers", channels: ["graphic-designers"] },
+  { group: "Developers", channels: ["developers"] },
+  { group: "Marketplace", channels: ["wtb-digital", "wts-digital"] },
+];
+
+const RESELL_STATS = [
+  { v: "11,000+", l: "members" },
+  { v: "100%", l: "organic growth" },
+  { v: "~4 yrs", l: "compounded" },
+  { v: "Acquired", l: "with Mocean" },
+];
+
+function ResellMarketplace() {
+  return (
+    <section className="mt-12">
+      <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+        The marketplace
+      </h2>
+      <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
+        Resell Network was not a feed, it was a floor: 11,000 people and every service the
+        reselling industry runs on, in one room. Channel by channel, this is how the marketplace
+        was laid out.
+      </p>
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {RESELL_MAP.map(({ group, channels }) => (
+          <div key={group} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-bio-cyan/70">
+              {group}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {channels.map((c) => (
+                <span
+                  key={c}
+                  className="rounded-md bg-white/[0.04] px-2 py-1 font-mono text-[11px] text-ink-muted"
+                >
+                  #{c}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {RESELL_STATS.map(({ v, l }) => (
+          <div
+            key={l}
+            className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center"
+          >
+            <dt className="font-display text-2xl font-semibold text-ink-heading">{v}</dt>
+            <dd className="mt-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+              {l}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-4 font-mono text-xs text-ink-faint">
+        Monetized through paid plugs and ad partnerships. Sold in the Mocean deal, 2023.
+      </p>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Element Underground: "The circuit" - the events-to-media-agency arc + the   */
+/* numbers behind it.                                                          */
+/* -------------------------------------------------------------------------- */
+const ELEMENT_ARC = [
+  { tag: "2023", title: "Rooftops", body: "Free parties in Ann Arbor, built to grow the brand." },
+  { tag: "Scale", title: "The circuit", body: "Ticketed shows across NYC, Miami, and Boston." },
+  { tag: "Now", title: "Media company", body: "Turned a live-events audience into a content engine: cinematic, multi-camera nightlife film." },
+];
+
+const ELEMENT_STATS = [
+  { v: "1.5M+", l: "views in 2025" },
+  { v: "17,000+", l: "attendees" },
+  { v: "50+", l: "shows produced" },
+  { v: "4", l: "cities" },
+  { v: "40+", l: "team at peak" },
+];
+
+function ElementCircuit() {
+  return (
+    <section className="mt-12">
+      <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+        The circuit
+      </h2>
+      <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
+        Element started as free rooftop parties and became a media company. The arc, and the
+        numbers behind it.
+      </p>
+      <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+        {ELEMENT_ARC.map((p, i) => (
+          <Fragment key={p.title}>
+            <div className="flex-1 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+              <div className="font-mono text-[10px] uppercase tracking-wider text-bio-cyan/70">
+                {p.tag}
+              </div>
+              <div className="mt-1 font-display text-lg font-semibold text-ink-heading">
+                {p.title}
+              </div>
+              <p className="mt-1 text-sm text-ink-muted">{p.body}</p>
+            </div>
+            {i < ELEMENT_ARC.length - 1 && (
+              <span
+                aria-hidden="true"
+                className="mx-auto rotate-90 font-mono text-bio-cyan/50 sm:rotate-0"
+              >
+                -&gt;
+              </span>
+            )}
+          </Fragment>
+        ))}
+      </div>
+      <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        {ELEMENT_STATS.map(({ v, l }) => (
+          <div
+            key={l}
+            className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center"
+          >
+            <dt className="font-display text-xl font-semibold text-ink-heading">{v}</dt>
+            <dd className="mt-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+              {l}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-4 font-mono text-xs text-ink-faint">
+        Now shooting cinematic, multi-camera film at Club Space, the Brooklyn Storehouse, and a
+        museum in LA.
+      </p>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Ocean Supply: "The arbitrage loop" - the repeatable model + the lineage     */
+/* into everything after.                                                      */
+/* -------------------------------------------------------------------------- */
+const OCEAN_LOOP = [
+  { n: "01", title: "Source the signal", body: "A private network of sourcing signals on what was about to be mispriced." },
+  { n: "02", title: "Buy mispriced", body: "20 to 50 pairs a week, bought below market." },
+  { n: "03", title: "Flip into demand", body: "$10 to $20 of profit on every pair." },
+  { n: "04", title: "Reinvest", body: "Compound the float and run it again." },
+];
+
+const OCEAN_CHAIN = ["Candy at camp", "Dishwasher", "Ocean Supply", "Profit Paradise"];
+
+function OceanSupplyLoop() {
+  return (
+    <section className="mt-12">
+      <h2 className="font-mono text-xs uppercase tracking-widest text-bio-cyan/80">
+        The arbitrage loop
+      </h2>
+      <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
+        The whole business was one loop, run every week from the age of 16. The edge was never the
+        shoe. It was the signal: knowing what was mispriced before anyone else did.
+      </p>
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {OCEAN_LOOP.map(({ n, title, body }) => (
+          <div key={n} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+            <div className="font-mono text-sm font-semibold text-bio-cyan/70">{n}</div>
+            <div className="mt-2 font-display text-base font-semibold text-ink-heading">
+              {title}
+            </div>
+            <p className="mt-1 text-sm text-ink-muted">{body}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-5 flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-faint">
+        {OCEAN_CHAIN.map((step, i) => (
+          <Fragment key={step}>
+            <span className={i === OCEAN_CHAIN.length - 1 ? "text-bio-cyan/80" : undefined}>
+              {step}
+            </span>
+            {i < OCEAN_CHAIN.length - 1 && (
+              <span aria-hidden="true" className="text-bio-cyan/50">
+                -&gt;
+              </span>
+            )}
+          </Fragment>
+        ))}
       </div>
     </section>
   );
