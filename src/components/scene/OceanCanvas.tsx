@@ -85,12 +85,12 @@ export default function OceanCanvas() {
   }
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10">
+    <div aria-hidden="true" className="ocean-fixed-layer pointer-events-none -z-10">
       {/* Static gradient sits underneath the canvas so any transparent area or
           a WebGL context loss still reads as ocean, not white. */}
       <StaticOcean />
       <Canvas
-        className="!fixed !inset-0"
+        className="ocean-canvas-layer"
         frameloop={frameloop}
         dpr={[dprMin, dprCeiling]}
         gl={{
