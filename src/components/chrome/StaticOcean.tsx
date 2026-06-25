@@ -51,7 +51,7 @@ export default function StaticOcean() {
   const offsetVh = clamp01(progress) * travel * -100;
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div aria-hidden="true" className="ocean-fixed-layer pointer-events-none -z-10 overflow-hidden">
       {/* Base depth gradient (data-driven from the zone palette in depth.ts, so
           it always matches the WebGL fog and stays a smooth light->deep descent).
           Panned vertically to the active route's depth band. */}
