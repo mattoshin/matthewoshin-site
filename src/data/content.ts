@@ -174,7 +174,7 @@ export const EXPERIENCE: readonly Job[] = [
     slug: "icr",
     role: "VP, AI & Innovation",
     org: "ICR",
-    period: "2025 to 2026",
+    period: "2026",
     points: [
       "Stood up the firm's AI function from scratch and led its AI & Intelligence Lab across three pillars: R&D, Education, and Discovery.",
       "Built and shipped the flagship internal AI platform: a Next.js app on Supabase and Vercel spanning IR, legal, project management, and intelligence, with Claude streaming under the hood.",
