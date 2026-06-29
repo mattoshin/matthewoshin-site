@@ -18,17 +18,17 @@ import type { CompanyCtx, IconName } from "@/components/demos/icr/BeaconKit";
 export const BEACON = {
   name: "Financial Comms",
   product: "Financial Communications Platform",
-  tagline: "The AI intelligence layer for investor relations",
+  tagline: "The AI intelligence layer for IR, PR, and capital markets",
   domain: "financialcomms.io",
   ink: "#0c0e13",
   accent: "#0027b3",
 } as const;
 
-/** The signed-in advisory user (an IR strategist at the firm). */
+/** The signed-in advisory user (a strategic-comms MD at the firm). */
 export const BEACON_ACCOUNT = {
   name: "Dana Whitfield",
   initials: "DW",
-  role: "Managing Director, IR Strategy",
+  role: "Managing Director, Strategic Communications",
   firm: "Crosswind Partners",
   clients: 14,
 } as const;
@@ -73,7 +73,7 @@ export const ACTIVE_COMPANY: CompanyCtx = {
 export const BEACON_PLATFORM = {
   clients: 14,
   briefsGenerated: 2840,
-  modules: 12,
+  modules: 25,
   dataSources: 21,
   hoursSavedWeekly: 32,
   scenariosRun: 410,
@@ -85,14 +85,27 @@ export type ModuleId =
   | "dashboard"
   | "data-sources"
   | "earnings"
+  | "earnings-prep"
   | "guidance"
   | "investor"
+  | "shareholder-match"
+  | "surveillance"
   | "peers"
   | "conference"
+  | "comms"
+  | "media-monitoring"
+  | "newsjacking"
+  | "ir-chatbot"
   | "crisis"
   | "ipo"
   | "governance"
-  | "comms"
+  | "roadshow-twin"
+  | "model-standardizer"
+  | "buyside-report"
+  | "retail-voice"
+  | "rils-trends"
+  | "ir-hosting"
+  | "ask-firm"
   | "resources"
   | "admin";
 
@@ -109,30 +122,55 @@ export const BEACON_NAV: readonly NavSection[] = [
     ],
   },
   {
-    label: "Earnings",
+    label: "Earnings & IR",
     color: "var(--icr-sec-earnings)",
     items: [
       { id: "earnings", label: "Earnings Hub", icon: "barchart" },
+      { id: "earnings-prep", label: "Earnings Prep", icon: "bolt" },
       { id: "guidance", label: "Guidance Analyzer", icon: "compass" },
     ],
   },
   {
-    label: "Intelligence",
+    label: "Investor Intelligence",
     color: "var(--icr-sec-intel)",
     items: [
       { id: "investor", label: "Investor Intel", icon: "target" },
+      { id: "shareholder-match", label: "Shareholder Matching", icon: "users" },
+      { id: "surveillance", label: "Stock Surveillance", icon: "search" },
       { id: "peers", label: "Peer Intel", icon: "users" },
       { id: "conference", label: "Conference Intel", icon: "calendar" },
     ],
   },
   {
-    label: "Strategy",
+    label: "Comms & Media",
+    color: "var(--icr-sec-comms)",
+    items: [
+      { id: "comms", label: "Corporate Comms & PR", icon: "megaphone" },
+      { id: "media-monitoring", label: "Media Monitoring", icon: "globe" },
+      { id: "newsjacking", label: "Newsjacking", icon: "sparkles" },
+      { id: "ir-chatbot", label: "IR Site Chatbot", icon: "send" },
+    ],
+  },
+  {
+    label: "Strategy & Situations",
     color: "var(--icr-sec-strategy)",
     items: [
       { id: "crisis", label: "Crisis Command", icon: "shield" },
       { id: "ipo", label: "IPO & Capital Markets", icon: "rocket" },
       { id: "governance", label: "Governance & Activism", icon: "scale" },
-      { id: "comms", label: "Corporate Comms", icon: "megaphone" },
+      { id: "roadshow-twin", label: "Roadshow Twin", icon: "play" },
+    ],
+  },
+  {
+    label: "Capital Markets Engines",
+    color: "var(--icr-sec-capmkts)",
+    items: [
+      { id: "model-standardizer", label: "Model Standardizer", icon: "fileText" },
+      { id: "buyside-report", label: "Sector Buy-Side Report", icon: "barchart" },
+      { id: "retail-voice", label: "Retail Investor Voice", icon: "heart" },
+      { id: "rils-trends", label: "Retail Loyalty Trends", icon: "trendingUp" },
+      { id: "ir-hosting", label: "IR Page Hosting", icon: "building" },
+      { id: "ask-firm", label: "Ask the Firm", icon: "info" },
     ],
   },
   {
@@ -155,16 +193,16 @@ export const MODULE_LABELS: Record<ModuleId, string> = Object.fromEntries(
 export const MORNING_BRIEF = {
   greeting: "Good morning, Dana.",
   date: "Monday, June 22",
-  body: "Three of your fourteen clients report this week, led by Quanta Labs on Thursday. Macro is constructive: the 2s10s remains inverted but cooling inflation has lifted software multiples 6% over the month. One activism signal worth watching on Apex Gaming.",
+  body: "Three of your fourteen clients report this week, led by Quanta Labs on Thursday. A peer of Meridian Apparel drew an activist letter overnight, a newsjacking opening worth a same-day pitch. Coverage on Apex Gaming turned negative after a downgrade, and Crisis Command already has a holding statement drafted for your review.",
 } as const;
 
 export const QUICK_ACTIONS: readonly { id: ModuleId; title: string; sub: string; color: string }[] = [
-  { id: "earnings", title: "Generate earnings prep", sub: "Brief, Q&A, simulator", color: "var(--icr-sec-earnings)" },
-  { id: "comms", title: "Draft a press release", sub: "10 templates, on-voice", color: "var(--icr-sec-strategy)" },
+  { id: "comms", title: "Draft a press release", sub: "On-voice, 10 templates", color: "var(--icr-sec-comms)" },
+  { id: "media-monitoring", title: "Scan today's coverage", sub: "Sentiment + breaking alerts", color: "var(--icr-sec-comms)" },
+  { id: "newsjacking", title: "Find a newsjack", sub: "Stories you can pitch today", color: "var(--icr-sec-comms)" },
+  { id: "earnings-prep", title: "Anticipate analyst Q&A", sub: "Ranked tough questions", color: "var(--icr-sec-earnings)" },
   { id: "crisis", title: "Run a crisis scenario", sub: "Simulate + draft response", color: "var(--icr-down)" },
-  { id: "governance", title: "Scan activism risk", sub: "13D/G + proxy signals", color: "var(--icr-sec-strategy)" },
-  { id: "peers", title: "Analyze peers", sub: "Comparison + transcripts", color: "var(--icr-sec-intel)" },
-  { id: "ipo", title: "IPO readiness check", sub: "S-1 analyzer + scoring", color: "var(--icr-accent)" },
+  { id: "shareholder-match", title: "Find gap investors", sub: "Accounts likely to buy", color: "var(--icr-sec-intel)" },
 ];
 
 export type MacroIndicator = { label: string; value: string; trend: number; asOf: string };
@@ -236,30 +274,34 @@ export const DATA_SOURCES: readonly DataSource[] = [
 
 export type ModuleBlurb = { id: ModuleId; name: string; icon: IconName; blurb: string };
 export const BEACON_MODULES: readonly ModuleBlurb[] = [
+  { id: "comms", name: "Corporate Comms & PR", icon: "megaphone", blurb: "Draft press releases, messaging, and media materials on-voice, and check narrative consistency across every document." },
+  { id: "media-monitoring", name: "Media Monitoring", icon: "globe", blurb: "Track coverage across 80k+ sources in real time, with sentiment, share-of-voice, and alerts the moment a story breaks." },
+  { id: "newsjacking", name: "Newsjacking", icon: "sparkles", blurb: "Surface the stories of the day and exactly how each can be made relevant to a client, so you can pitch reporters and win the hit." },
+  { id: "crisis", name: "Crisis Command", icon: "shield", blurb: "Simulate a crisis, forecast impact, and generate the full response playbook and holding statements in minutes." },
   { id: "earnings", name: "Earnings Hub", icon: "barchart", blurb: "Prep briefs, predicted Q&A, a live analyst simulator, and post-call analysis in one workspace." },
-  { id: "comms", name: "Corporate Comms", icon: "megaphone", blurb: "Draft press releases on-voice and check narrative consistency across every document." },
-  { id: "crisis", name: "Crisis Command", icon: "shield", blurb: "Simulate a crisis, forecast impact, and generate the full response playbook in minutes." },
+  { id: "earnings-prep", name: "Earnings Prep", icon: "bolt", blurb: "Surface the toughest probable analyst questions before the call, ranked and tagged with a recommended answer frame." },
   { id: "investor", name: "Investor Intel", icon: "target", blurb: "Profile holders, find sweet-spot targets, and track 13F and ownership shifts." },
-  { id: "peers", name: "Peer Intel", icon: "users", blurb: "Benchmark fundamentals and mine peer earnings-call transcripts for positioning." },
+  { id: "shareholder-match", name: "Shareholder Matching", icon: "users", blurb: "Rank the institutions most likely to buy: gap investors who hold your peers heavily but little of you." },
+  { id: "roadshow-twin", name: "Roadshow Twin", icon: "play", blurb: "A simulated investor that role-plays the toughest persona, grills management, and scores every answer." },
   { id: "governance", name: "Governance & Activism", icon: "scale", blurb: "Scan activism risk, analyze proxy exposure, and prep for shareholder engagement." },
   { id: "ipo", name: "IPO & Capital Markets", icon: "rocket", blurb: "Score IPO readiness and pressure-test an S-1 for disclosure gaps and narrative." },
-  { id: "guidance", name: "Guidance Analyzer", icon: "compass", blurb: "Model guidance scenarios and benchmark forward estimates against the peer set." },
+  { id: "ask-firm", name: "Ask the Firm", icon: "info", blurb: "A client-facing assistant that answers what the firm can do for you, grounded in the firm corpus and its house voice." },
 ];
 
 export const BEACON_PAIN_POINTS: readonly { title: string; body: string }[] = [
-  { title: "Prep is manual and slow", body: "An earnings cycle eats days of analyst time stitching together filings, estimates, and transcripts by hand." },
-  { title: "Intelligence is scattered", body: "Market data, ownership, news, and peer signals live in ten tools that never talk to each other." },
-  { title: "Speed wins the narrative", body: "When a crisis or activist hits, the team that drafts the right response first controls the story." },
+  { title: "The work is manual and slow", body: "An earnings cycle, a press release, or a crisis response eats hours stitching filings, coverage, and transcripts together by hand." },
+  { title: "Intelligence is scattered", body: "Market data, media coverage, ownership, and peer signals live in ten tools that never talk to each other." },
+  { title: "Speed wins the narrative", body: "When a story breaks, an activist files, or a peer stumbles, the team that drafts the right response first controls the narrative." },
 ];
 
 export const BEACON_STEPS: readonly { n: number; title: string; body: string }[] = [
-  { n: 1, title: "Pin your companies", body: "Add the tickers you advise. Financial Comms pulls fundamentals, filings, ownership, and macro context automatically." },
-  { n: 2, title: "Open a module", body: "Earnings prep, a peer benchmark, a crisis sim, a press release. Each one is grounded in live data." },
-  { n: 3, title: "Generate and ship", body: "Financial Comms drafts the brief, the Q&A, or the statement, on-voice. You edit, approve, and send." },
+  { n: 1, title: "Pin your companies", body: "Add the tickers you advise. Financial Comms pulls fundamentals, filings, ownership, media coverage, and macro context automatically." },
+  { n: 2, title: "Open a module", body: "A press release, a media scan, an earnings prep, a crisis sim, a shareholder match. Each one is grounded in live data." },
+  { n: 3, title: "Generate and ship", body: "Financial Comms drafts the brief, the release, the statement, or the pitch, on-voice. You edit, approve, and send." },
 ];
 
 export const BEACON_FACTS: readonly { value: string; label: string }[] = [
-  { value: "12", label: "modules" },
+  { value: "25", label: "modules" },
   { value: "21", label: "data sources" },
   { value: "32h", label: "saved / week" },
   { value: "2.8k", label: "briefs generated" },

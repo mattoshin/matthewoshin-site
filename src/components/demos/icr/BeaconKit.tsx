@@ -28,7 +28,7 @@ export function Wordmark({ size = "md" }: { size?: "sm" | "md" }) {
           Financial Comms
         </span>
         <span className="mt-0.5 block font-mono text-[9px] uppercase tracking-[0.22em] text-[var(--icr-faint)]">
-          Investor Relations
+          Financial Communications
         </span>
       </span>
     </span>
