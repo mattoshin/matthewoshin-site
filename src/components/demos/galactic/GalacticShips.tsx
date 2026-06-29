@@ -222,7 +222,7 @@ export function GalacticShips() {
     }
 
     function spawnShip() {
-      if (ships.length > 2) return
+      if (ships.length > 6) return
       const team = (Math.random() > 0.5 ? 1 : 0) as 0 | 1
       const fromLeft = Math.random() > 0.5
 
@@ -357,8 +357,8 @@ export function GalacticShips() {
         ctx!.fill()
       }
 
-      // ─ Spawn ships ─
-      if (frame % 600 === 0) {
+      // ─ Spawn ships ─ (frequent enough to keep several in the air at once)
+      if (frame % 150 === 0) {
         spawnShip()
       }
 
@@ -802,8 +802,8 @@ export function GalacticShips() {
 
     draw()
 
-    // Spawn initial ship
-    setTimeout(() => spawnShip(), 500)
+    // Seed several ships quickly so the scene opens populated, not one-at-a-time.
+    ;[300, 700, 1100, 1600, 2200].forEach((ms) => setTimeout(() => spawnShip(), ms))
 
     const handleResize = () => {
       w = canvas.clientWidth || window.innerWidth
