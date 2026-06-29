@@ -57,15 +57,15 @@ export default function BeaconLanding() {
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-12 sm:px-8 sm:py-20 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-[var(--icr-accent)]/25 bg-[var(--icr-accent-wash)] px-3 py-1 text-[12px] font-medium text-[var(--icr-accent)]">
-            <Icon name="sparkles" size={13} /> The AI intelligence layer for IR
+            <Icon name="sparkles" size={13} /> The AI intelligence layer for IR, PR, and capital markets
           </div>
           <h1 className="mt-5 text-4xl font-semibold leading-[1.08] tracking-tight text-[var(--icr-ink)] sm:text-[56px]">
-            Investor relations, with an AI analyst on every desk.
+            Financial communications, with an AI analyst on every desk.
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[var(--icr-ink-2)] sm:text-base">
-            Financial Comms turns the work of an IR and strategic-comms team, earnings prep, peer
-            and investor intelligence, crisis response, and on-voice drafting, into a
-            single workspace grounded in live market data.
+            Financial Comms turns the work of an IR, PR, and capital-markets team, media monitoring,
+            earnings prep, investor targeting, crisis response, and on-voice drafting, into a single
+            workspace grounded in live market and media data.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <Link href={DASH} className="inline-flex items-center gap-2 rounded-lg bg-[var(--icr-ink)] px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-black">
@@ -109,7 +109,7 @@ export default function BeaconLanding() {
       {/* pain points */}
       <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
         <h2 className="max-w-2xl text-2xl font-semibold tracking-tight text-[var(--icr-ink)] sm:text-3xl">
-          IR teams are drowning in prep, scattered data, and tight deadlines.
+          Comms and IR teams are drowning in prep, scattered data, and tight deadlines.
         </h2>
         <div className="mt-9 grid gap-4 md:grid-cols-3">
           {BEACON_PAIN_POINTS.map((p) => (
@@ -124,7 +124,7 @@ export default function BeaconLanding() {
       {/* modules */}
       <section id="modules" className="mx-auto max-w-6xl px-5 py-4 sm:px-8">
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--icr-accent)]">The platform</p>
-        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--icr-ink)] sm:text-3xl">Twelve modules, one workspace.</h2>
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--icr-ink)] sm:text-3xl">Twenty-five modules, one workspace.</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {BEACON_MODULES.map((m) => (
             <Link

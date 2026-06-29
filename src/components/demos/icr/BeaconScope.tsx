@@ -58,6 +58,8 @@ export default function BeaconScope({ children }: { children: React.ReactNode })
           "--icr-sec-intel": "#0d9488",
           "--icr-sec-strategy": "#7c3aed",
           "--icr-sec-rnd": "#d97706",
+          "--icr-sec-comms": "#db2777",
+          "--icr-sec-capmkts": "#0ea5e9",
           "--icr-pink": "#db2777",
           // fonts
           "--icr-mono": "var(--font-icr-mono)",

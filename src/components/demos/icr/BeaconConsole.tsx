@@ -19,14 +19,17 @@ import Governance from "./modules/Governance";
 import Comms from "./modules/Comms";
 import Resources from "./modules/Resources";
 import Admin from "./modules/Admin";
+import EngineScreen from "./modules/EngineScreen";
 
 /**
- * BeaconConsole - the Financial Comms app shell. The sidebar selection switches the active
- * module via local state (no route change), so all 13 module screens live behind
- * one Next route. A `?module=` query param deep-links to a module, resolved after
- * mount to keep the SSR markup stable (matches the GalacticConsole pattern).
+ * BeaconConsole - the Financial Comms app shell. The sidebar selection switches
+ * the active module via local state (no route change), so every module screen
+ * lives behind one Next route. Bespoke modules are mapped explicitly below; the
+ * Capital Markets + Comms engines share the data-driven EngineScreen fallback.
+ * A `?module=` query param deep-links to a module, resolved after mount to keep
+ * the SSR markup stable (matches the GalacticConsole pattern).
  */
-const MODULES: Record<ModuleId, React.ComponentType> = {
+const MODULES: Partial<Record<ModuleId, React.ComponentType>> = {
   dashboard: Dashboard,
   "data-sources": DataSources,
   earnings: EarningsHub,
@@ -42,7 +45,8 @@ const MODULES: Record<ModuleId, React.ComponentType> = {
   admin: Admin,
 };
 
-const VALID = new Set<string>(Object.keys(MODULES));
+// Every module that appears in the sidebar is a valid deep-link target.
+const VALID = new Set<string>(Object.keys(MODULE_LABELS));
 
 export default function BeaconConsole() {
   const [active, setActive] = useState<ModuleId>("dashboard");
@@ -123,7 +127,7 @@ export default function BeaconConsole() {
         <main className="flex-1">
           <div className={cx("mx-auto px-4 py-6 sm:px-6", active === "dashboard" ? "max-w-[1240px]" : "max-w-[1160px]")}>
             <BeaconNav.Provider value={select}>
-              <ActiveModule />
+              {ActiveModule ? <ActiveModule /> : <EngineScreen engine={active} />}
             </BeaconNav.Provider>
           </div>
         </main>
