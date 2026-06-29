@@ -6,7 +6,7 @@ import {
   COMMS_DRAFT,
   NARRATIVE_DOCS,
   NARRATIVE_RESULT,
-} from "@/data/icr-modules-demo";
+} from "@/data/fincomms-modules-demo";
 import {
   Card,
   SegmentedTabs,
@@ -63,22 +63,22 @@ function PressRelease() {
                   className={cx(
                     "h-full transition-colors",
                     active
-                      ? "border-[var(--icr-accent)] bg-[var(--icr-accent-wash)]"
-                      : "hover:border-[var(--icr-border-strong)]",
+                      ? "border-[var(--fc-accent)] bg-[var(--fc-accent-wash)]"
+                      : "hover:border-[var(--fc-border-strong)]",
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <span
                       className={cx(
                         "text-[13px] font-semibold",
-                        active ? "text-[var(--icr-accent)]" : "text-[var(--icr-ink)]",
+                        active ? "text-[var(--fc-accent)]" : "text-[var(--fc-ink)]",
                       )}
                     >
                       {t.name}
                     </span>
-                    {active && <Icon name="check" size={15} className="shrink-0 text-[var(--icr-accent)]" />}
+                    {active && <Icon name="check" size={15} className="shrink-0 text-[var(--fc-accent)]" />}
                   </div>
-                  <p className="mt-1.5 text-[12px] leading-relaxed text-[var(--icr-muted)]">{t.blurb}</p>
+                  <p className="mt-1.5 text-[12px] leading-relaxed text-[var(--fc-muted)]">{t.blurb}</p>
                 </Card>
               </button>
             );
@@ -87,12 +87,12 @@ function PressRelease() {
       </section>
 
       <Card>
-        <label className="text-[12px] font-semibold text-[var(--icr-ink)]">Context</label>
+        <label className="text-[12px] font-semibold text-[var(--fc-ink)]">Context</label>
         <textarea
           disabled
           placeholder="Add specific details or context..."
           rows={3}
-          className="mt-2 w-full resize-none rounded-lg border border-[var(--icr-border)] bg-[var(--icr-bg)] px-3 py-2 text-[13px] text-[var(--icr-muted)] placeholder:text-[var(--icr-faint)] focus:outline-none"
+          className="mt-2 w-full resize-none rounded-lg border border-[var(--fc-border)] bg-[var(--fc-bg)] px-3 py-2 text-[13px] text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none"
         />
         <div className="mt-3 flex justify-end">
           <Button variant="accent" icon="sparkles">Generate press release</Button>
@@ -105,8 +105,8 @@ function PressRelease() {
           <div className="flex items-center justify-between">
             <span>Drafted on-voice from the earnings-release template and FY26 guidance.</span>
             <span className="flex items-center gap-2">
-              <button className="rounded p-1 hover:bg-[var(--icr-surface-2)]"><Icon name="copy" size={14} /></button>
-              <button className="rounded p-1 hover:bg-[var(--icr-surface-2)]"><Icon name="download" size={14} /></button>
+              <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="copy" size={14} /></button>
+              <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="download" size={14} /></button>
             </span>
           </div>
         }
@@ -132,10 +132,10 @@ function NarrativeChecker() {
             <Card key={d.name}>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="text-[13px] font-semibold text-[var(--icr-ink)]">{d.name}</div>
-                  <p className="mt-1 truncate text-[12px] text-[var(--icr-muted)]">{d.excerpt}</p>
+                  <div className="text-[13px] font-semibold text-[var(--fc-ink)]">{d.name}</div>
+                  <p className="mt-1 truncate text-[12px] text-[var(--fc-muted)]">{d.excerpt}</p>
                 </div>
-                <button className="shrink-0 rounded p-1 text-[var(--icr-faint)] hover:bg-[var(--icr-surface-2)] hover:text-[var(--icr-ink)]">
+                <button className="shrink-0 rounded p-1 text-[var(--fc-faint)] hover:bg-[var(--fc-surface-2)] hover:text-[var(--fc-ink)]">
                   <Icon name="close" size={15} />
                 </button>
               </div>
@@ -153,31 +153,31 @@ function NarrativeChecker() {
         <Card>
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-[12px] font-medium text-[var(--icr-muted)]">Consistency score</p>
-              <div className="mt-1 font-mono text-[40px] font-semibold leading-none tabular-nums text-[var(--icr-ink)]">
+              <p className="text-[12px] font-medium text-[var(--fc-muted)]">Consistency score</p>
+              <div className="mt-1 font-mono text-[40px] font-semibold leading-none tabular-nums text-[var(--fc-ink)]">
                 {NARRATIVE_RESULT.score}
-                <span className="ml-1 text-[16px] text-[var(--icr-faint)]">/100</span>
+                <span className="ml-1 text-[16px] text-[var(--fc-faint)]">/100</span>
               </div>
             </div>
           </div>
-          <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-[var(--icr-surface-2)]">
-            <span className="block h-full rounded-full bg-[var(--icr-accent)]" style={{ width: `${NARRATIVE_RESULT.score}%` }} />
+          <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-[var(--fc-surface-2)]">
+            <span className="block h-full rounded-full bg-[var(--fc-accent)]" style={{ width: `${NARRATIVE_RESULT.score}%` }} />
           </div>
 
           <AIBlock className="mt-4">{NARRATIVE_RESULT.tone}</AIBlock>
 
           <div className="mt-4">
-            <p className="text-[12px] font-semibold text-[var(--icr-ink)]">Conflicts found</p>
+            <p className="text-[12px] font-semibold text-[var(--fc-ink)]">Conflicts found</p>
             <ul className="mt-2 space-y-3">
               {NARRATIVE_RESULT.conflicts.map((c, i) => (
                 <li key={i} className="flex gap-2.5">
                   <span
                     className="mt-0.5 shrink-0"
-                    style={{ color: c.severity === "high" ? "var(--icr-down)" : "var(--icr-warn)" }}
+                    style={{ color: c.severity === "high" ? "var(--fc-down)" : "var(--fc-warn)" }}
                   >
                     <Icon name="alert" size={16} />
                   </span>
-                  <span className="text-[13px] leading-relaxed text-[var(--icr-ink-2)]">{c.text}</span>
+                  <span className="text-[13px] leading-relaxed text-[var(--fc-ink-2)]">{c.text}</span>
                 </li>
               ))}
             </ul>

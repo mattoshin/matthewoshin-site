@@ -5,7 +5,7 @@ import {
   CRISIS_SCENARIOS,
   CRISIS_RESPONSE,
   CRISIS_DOC_TYPES,
-} from "@/data/icr-modules-demo";
+} from "@/data/fincomms-modules-demo";
 import {
   Card,
   AIBlock,
@@ -34,10 +34,10 @@ export default function CrisisCommand() {
     <div className="space-y-5">
       {/* header */}
       <div className="flex flex-wrap items-center gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--icr-accent-wash)] text-[var(--icr-accent)]">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--fc-accent-wash)] text-[var(--fc-accent)]">
           <Icon name="shield" size={18} />
         </span>
-        <h2 className="text-base font-semibold tracking-tight text-[var(--icr-ink)]">Crisis Command Center</h2>
+        <h2 className="text-base font-semibold tracking-tight text-[var(--fc-ink)]">Crisis Command Center</h2>
         <div className="ml-auto">
           <SegmentedTabs
             tabs={[
@@ -64,27 +64,27 @@ export default function CrisisCommand() {
                     onClick={() => setSelectedId(s.id)}
                     aria-pressed={active}
                     className={cx(
-                      "w-full rounded-[10px] border bg-[var(--icr-card)] p-3 text-left transition-colors",
+                      "w-full rounded-[10px] border bg-[var(--fc-card)] p-3 text-left transition-colors",
                       active
-                        ? "border-l-2 border-[var(--icr-accent)] bg-[var(--icr-accent-wash)]"
-                        : "border-[var(--icr-border)] hover:border-[var(--icr-border-strong)]",
+                        ? "border-l-2 border-[var(--fc-accent)] bg-[var(--fc-accent-wash)]"
+                        : "border-[var(--fc-border)] hover:border-[var(--fc-border-strong)]",
                     )}
                   >
                     <div className="flex items-start gap-2.5">
                       <span
                         className={cx(
                           "mt-0.5 shrink-0",
-                          active ? "text-[var(--icr-accent)]" : "text-[var(--icr-muted)]",
+                          active ? "text-[var(--fc-accent)]" : "text-[var(--fc-muted)]",
                         )}
                       >
                         <Icon name={s.icon} size={16} />
                       </span>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[13px] font-semibold text-[var(--icr-ink)]">{s.title}</span>
+                          <span className="text-[13px] font-semibold text-[var(--fc-ink)]">{s.title}</span>
                           <Badge tone={s.severity === "Severe" ? "down" : "neutral"}>{s.severity}</Badge>
                         </div>
-                        <p className="mt-1 text-[11.5px] leading-snug text-[var(--icr-muted)]">{s.desc}</p>
+                        <p className="mt-1 text-[11.5px] leading-snug text-[var(--fc-muted)]">{s.desc}</p>
                       </div>
                     </div>
                   </button>
@@ -103,8 +103,8 @@ export default function CrisisCommand() {
                 { label: "Investor concern", value: CRISIS_RESPONSE.impact.investorConcern },
               ].map((m) => (
                 <Card key={m.label}>
-                  <div className="text-[10px] font-semibold uppercase tracking-wide text-[var(--icr-faint)]">{m.label}</div>
-                  <div className="mt-1.5 text-[12.5px] font-medium leading-snug text-[var(--icr-ink)]">{m.value}</div>
+                  <div className="text-[10px] font-semibold uppercase tracking-wide text-[var(--fc-faint)]">{m.label}</div>
+                  <div className="mt-1.5 text-[12.5px] font-medium leading-snug text-[var(--fc-ink)]">{m.value}</div>
                 </Card>
               ))}
             </div>
@@ -132,8 +132,8 @@ export default function CrisisCommand() {
               <div className="flex items-center justify-between">
                 <span>Drafted on-voice and grounded in the {CRISIS_RESPONSE.scenario.toLowerCase()} playbook.</span>
                 <span className="flex items-center gap-2">
-                  <button className="rounded p-1 hover:bg-[var(--icr-surface-2)]"><Icon name="copy" size={14} /></button>
-                  <button className="rounded p-1 hover:bg-[var(--icr-surface-2)]"><Icon name="download" size={14} /></button>
+                  <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="copy" size={14} /></button>
+                  <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="download" size={14} /></button>
                 </span>
               </div>
             }

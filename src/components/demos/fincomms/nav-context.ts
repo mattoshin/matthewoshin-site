@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import type { ModuleId } from "@/data/icr-demo";
+import type { ModuleId } from "@/data/fincomms-demo";
 
 /**
  * Lets any Financial Comms module switch the active console module without prop-drilling

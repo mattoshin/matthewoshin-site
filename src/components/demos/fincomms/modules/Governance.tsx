@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ACTIVE_COMPANY } from "@/data/icr-demo";
+import { ACTIVE_COMPANY } from "@/data/fincomms-demo";
 import {
   GOVERNANCE_RISK,
   ACTIVIST_HOLDERS,
@@ -9,7 +9,7 @@ import {
   CONGRESS_TRADES,
   type GovFiling,
   type CongressTrade,
-} from "@/data/icr-modules-demo";
+} from "@/data/fincomms-modules-demo";
 import {
   Card,
   CompanyHeader,
@@ -56,7 +56,7 @@ export default function Governance() {
       {tab === "activism" && (
         <div className="space-y-6">
           <div className="flex items-center gap-2.5">
-            <span className="text-[12px] font-medium text-[var(--icr-muted)]">Risk level</span>
+            <span className="text-[12px] font-medium text-[var(--fc-muted)]">Risk level</span>
             <Badge tone="warn">{GOVERNANCE_RISK.level}</Badge>
           </div>
 
@@ -69,9 +69,9 @@ export default function Governance() {
               {GOVERNANCE_RISK.signals.map((s, i) => (
                 <li
                   key={i}
-                  className="flex items-center justify-between gap-3 border-b border-[var(--icr-border)] px-4 py-3 last:border-0"
+                  className="flex items-center justify-between gap-3 border-b border-[var(--fc-border)] px-4 py-3 last:border-0"
                 >
-                  <span className="text-[13px] text-[var(--icr-ink-2)]">{s.label}</span>
+                  <span className="text-[13px] text-[var(--fc-ink-2)]">{s.label}</span>
                   <Badge tone={WEIGHT_TONE[s.weight] ?? "neutral"}>{s.weight}</Badge>
                 </li>
               ))}
@@ -84,10 +84,10 @@ export default function Governance() {
               {ACTIVIST_HOLDERS.map((h) => (
                 <Card key={h.name}>
                   <div className="flex items-center justify-between gap-3">
-                    <span className="text-[13.5px] font-semibold text-[var(--icr-ink)]">{h.name}</span>
+                    <span className="text-[13.5px] font-semibold text-[var(--fc-ink)]">{h.name}</span>
                     <Badge tone="neutral"><span className="font-mono tabular-nums">{h.stake}</span></Badge>
                   </div>
-                  <p className="mt-2 text-[12.5px] leading-snug text-[var(--icr-muted)]">{h.posture}</p>
+                  <p className="mt-2 text-[12.5px] leading-snug text-[var(--fc-muted)]">{h.posture}</p>
                 </Card>
               ))}
             </div>

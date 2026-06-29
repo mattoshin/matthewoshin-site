@@ -5,7 +5,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
  * demo. Unlike the dark Galactic/Mocean scopes, Financial Comms is a LIGHT, institutional
  * fintech surface: Inter + JetBrains Mono on an off-white canvas, ink-near-black
  * text, and Ultramarine (#0027b3) used sparingly as the single accent. Every
- * Financial Comms component reads these scoped `--icr-*` tokens; nothing leaks into the
+ * Financial Comms component reads these scoped `--fc-*` tokens; nothing leaks into the
  * global ocean theme in globals.css.
  *
  * Exact hexes match the production app's design tokens (app/globals.css): canvas
@@ -32,41 +32,41 @@ export default function BeaconScope({ children }: { children: React.ReactNode })
       style={
         {
           // surfaces
-          "--icr-bg": "#fafafa",
-          "--icr-card": "#ffffff",
-          "--icr-surface-2": "#f3f4f6",
-          "--icr-recessed": "#f8fafc",
+          "--fc-bg": "#fafafa",
+          "--fc-card": "#ffffff",
+          "--fc-surface-2": "#f3f4f6",
+          "--fc-recessed": "#f8fafc",
           // ink + text
-          "--icr-ink": "#0c0e13",
-          "--icr-ink-2": "#3a3f4a",
-          "--icr-muted": "#6b7280",
-          "--icr-faint": "#9ca3af",
+          "--fc-ink": "#0c0e13",
+          "--fc-ink-2": "#3a3f4a",
+          "--fc-muted": "#6b7280",
+          "--fc-faint": "#9ca3af",
           // structure
-          "--icr-border": "#e1e4ea",
-          "--icr-border-strong": "#c8ccd4",
+          "--fc-border": "#e1e4ea",
+          "--fc-border-strong": "#c8ccd4",
           // accent (Ultramarine) - used on ~5% of pixels
-          "--icr-accent": "#0027b3",
-          "--icr-accent-700": "#001870",
-          "--icr-accent-wash": "#eef1fc",
+          "--fc-accent": "#0027b3",
+          "--fc-accent-700": "#001870",
+          "--fc-accent-wash": "#eef1fc",
           // semantic (never decorative)
-          "--icr-up": "#15803d",
-          "--icr-down": "#b91c1c",
-          "--icr-warn": "#b45309",
+          "--fc-up": "#15803d",
+          "--fc-down": "#b91c1c",
+          "--fc-warn": "#b45309",
           // nav-section / chart tints (small dots only)
-          "--icr-sec-overview": "#2563eb",
-          "--icr-sec-earnings": "#059669",
-          "--icr-sec-intel": "#0d9488",
-          "--icr-sec-strategy": "#7c3aed",
-          "--icr-sec-rnd": "#d97706",
-          "--icr-sec-comms": "#db2777",
-          "--icr-sec-capmkts": "#0ea5e9",
-          "--icr-pink": "#db2777",
+          "--fc-sec-overview": "#2563eb",
+          "--fc-sec-earnings": "#059669",
+          "--fc-sec-intel": "#0d9488",
+          "--fc-sec-strategy": "#7c3aed",
+          "--fc-sec-rnd": "#d97706",
+          "--fc-sec-comms": "#db2777",
+          "--fc-sec-capmkts": "#0ea5e9",
+          "--fc-pink": "#db2777",
           // fonts
-          "--icr-mono": "var(--font-icr-mono)",
+          "--fc-mono": "var(--font-icr-mono)",
           fontFamily: "var(--font-icr-sans)",
           minHeight: "100vh",
-          background: "var(--icr-bg)",
-          color: "var(--icr-ink)",
+          background: "var(--fc-bg)",
+          color: "var(--fc-ink)",
           fontFeatureSettings: '"cv11", "ss01", "tnum"',
         } as React.CSSProperties
       }

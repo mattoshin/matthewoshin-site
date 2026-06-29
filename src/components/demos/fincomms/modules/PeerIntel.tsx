@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ACTIVE_COMPANY } from "@/data/icr-demo";
-import { PEER_ROWS, PEER_TRANSCRIPTS, type PeerRow } from "@/data/icr-modules-demo";
+import { ACTIVE_COMPANY } from "@/data/fincomms-demo";
+import { PEER_ROWS, PEER_TRANSCRIPTS, type PeerRow } from "@/data/fincomms-modules-demo";
 import {
   CompanyHeader,
   SegmentedTabs,
@@ -52,7 +52,7 @@ function Comparison() {
               <span
                 className={cx(
                   "font-mono tabular-nums",
-                  r.subject && "font-semibold text-[var(--icr-accent)]",
+                  r.subject && "font-semibold text-[var(--fc-accent)]",
                 )}
               >
                 {r.ticker}
@@ -69,7 +69,7 @@ function Comparison() {
         rows={PEER_ROWS}
         getKey={(r) => r.ticker}
       />
-      <p className="text-[11px] text-[var(--icr-faint)]">{ACTIVE_COMPANY.ticker} pinned as the subject company.</p>
+      <p className="text-[11px] text-[var(--fc-faint)]">{ACTIVE_COMPANY.ticker} pinned as the subject company.</p>
     </div>
   );
 }
@@ -84,7 +84,7 @@ function Transcripts() {
           <ul className="space-y-1.5">
             {t.takeaways.map((b, j) => (
               <li key={j} className="flex gap-2">
-                <span className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--icr-accent)]" />
+                <span className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--fc-accent)]" />
                 <span>{b}</span>
               </li>
             ))}

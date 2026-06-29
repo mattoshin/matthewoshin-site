@@ -1,7 +1,7 @@
 "use client";
 
-import { ENGINES, type Engine, type EngineStat } from "@/data/icr-engines-demo";
-import type { ModuleId } from "@/data/icr-demo";
+import { ENGINES, type Engine, type EngineStat } from "@/data/fincomms-engines-demo";
+import type { ModuleId } from "@/data/fincomms-demo";
 import {
   Card,
   SectionHeading,
@@ -16,14 +16,14 @@ import {
 /**
  * EngineScreen - one shared, data-driven screen for the Capital Markets + Comms
  * engines (earnings prep, shareholder matching, media monitoring, newsjacking,
- * and the rest). Each engine's content lives in icr-engines-demo.ts; this renders
+ * and the rest). Each engine's content lives in fincomms-engines-demo.ts; this renders
  * the request inputs, key stats, the AI output, and an optional ranked table.
  * Static, sample-data showcase; nothing talks to a server.
  */
 function toneClass(tone?: EngineStat["tone"]) {
-  if (tone === "up") return "text-[var(--icr-up)]";
-  if (tone === "down") return "text-[var(--icr-down)]";
-  return "text-[var(--icr-ink)]";
+  if (tone === "up") return "text-[var(--fc-up)]";
+  if (tone === "down") return "text-[var(--fc-down)]";
+  return "text-[var(--fc-ink)]";
 }
 
 export default function EngineScreen({ engine }: { engine: ModuleId }) {
@@ -44,7 +44,7 @@ export default function EngineScreen({ engine }: { engine: ModuleId }) {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
             <Badge tone="accent">{e.serviceLine}</Badge>
-            <p className="mt-2 max-w-2xl text-[13.5px] leading-relaxed text-[var(--icr-ink-2)]">
+            <p className="mt-2 max-w-2xl text-[13.5px] leading-relaxed text-[var(--fc-ink-2)]">
               {e.summary}
             </p>
           </div>
@@ -62,12 +62,12 @@ export default function EngineScreen({ engine }: { engine: ModuleId }) {
             {e.inputs.map((it) => (
               <li
                 key={it.label}
-                className="flex items-start justify-between gap-3 border-t border-[var(--icr-border)] pt-2.5 first:border-0 first:pt-0"
+                className="flex items-start justify-between gap-3 border-t border-[var(--fc-border)] pt-2.5 first:border-0 first:pt-0"
               >
-                <span className="shrink-0 text-[11px] uppercase tracking-wide text-[var(--icr-faint)]">
+                <span className="shrink-0 text-[11px] uppercase tracking-wide text-[var(--fc-faint)]">
                   {it.label}
                 </span>
-                <span className="min-w-0 flex-1 text-right text-[13px] text-[var(--icr-ink-2)]">
+                <span className="min-w-0 flex-1 text-right text-[13px] text-[var(--fc-ink-2)]">
                   {it.value}
                 </span>
               </li>
@@ -78,7 +78,7 @@ export default function EngineScreen({ engine }: { engine: ModuleId }) {
         <div className="grid grid-cols-3 gap-3">
           {e.stats.map((s) => (
             <Card key={s.label} className="flex flex-col justify-center">
-              <div className="text-[11px] uppercase tracking-wide text-[var(--icr-faint)]">
+              <div className="text-[11px] uppercase tracking-wide text-[var(--fc-faint)]">
                 {s.label}
               </div>
               <div className={cx("mt-1 font-mono text-xl font-semibold tabular-nums", toneClass(s.tone))}>
@@ -101,7 +101,7 @@ export default function EngineScreen({ engine }: { engine: ModuleId }) {
           <div className="overflow-x-auto">
             <table className="w-full text-[13px]">
               <thead>
-                <tr className="border-b border-[var(--icr-border)] text-[11px] uppercase tracking-wide text-[var(--icr-faint)]">
+                <tr className="border-b border-[var(--fc-border)] text-[11px] uppercase tracking-wide text-[var(--fc-faint)]">
                   {e.table.columns.map((c) => (
                     <th
                       key={c.key}
@@ -114,12 +114,12 @@ export default function EngineScreen({ engine }: { engine: ModuleId }) {
               </thead>
               <tbody>
                 {e.table.rows.map((row, i) => (
-                  <tr key={i} className="border-b border-[var(--icr-border)] last:border-0">
+                  <tr key={i} className="border-b border-[var(--fc-border)] last:border-0">
                     {e.table!.columns.map((c) => (
                       <td
                         key={c.key}
                         className={cx(
-                          "py-2.5 text-[var(--icr-ink-2)]",
+                          "py-2.5 text-[var(--fc-ink-2)]",
                           c.align === "right" ? "text-right font-mono tabular-nums" : "text-left",
                         )}
                       >

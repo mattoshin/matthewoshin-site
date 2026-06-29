@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import BeaconScope from "@/components/demos/icr/BeaconScope";
-import BeaconLanding from "@/components/demos/icr/BeaconLanding";
+import BeaconScope from "@/components/demos/fincomms/BeaconScope";
+import BeaconLanding from "@/components/demos/fincomms/BeaconLanding";
 
 export const metadata: Metadata = {
   title: "Financial Communications Platform demo",

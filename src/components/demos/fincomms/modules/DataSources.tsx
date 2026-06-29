@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DATA_SOURCES, type DataSource } from "@/data/icr-demo";
+import { DATA_SOURCES, type DataSource } from "@/data/fincomms-demo";
 import {
   Card,
   SectionHeading,
@@ -19,13 +19,13 @@ import {
  */
 
 const CATEGORY_COLOR: Record<DataSource["category"], string> = {
-  Financial: "var(--icr-accent)",
-  Regulatory: "var(--icr-sec-overview)",
-  Macro: "var(--icr-sec-earnings)",
-  Market: "var(--icr-sec-intel)",
-  Media: "var(--icr-pink)",
-  Intelligence: "var(--icr-sec-strategy)",
-  AI: "var(--icr-sec-strategy)",
+  Financial: "var(--fc-accent)",
+  Regulatory: "var(--fc-sec-overview)",
+  Macro: "var(--fc-sec-earnings)",
+  Market: "var(--fc-sec-intel)",
+  Media: "var(--fc-pink)",
+  Intelligence: "var(--fc-sec-strategy)",
+  AI: "var(--fc-sec-strategy)",
 };
 
 const CATEGORIES = Array.from(new Set(DATA_SOURCES.map((s) => s.category)));
@@ -45,15 +45,15 @@ export default function DataSources() {
       {/* toolbar */}
       <div className="flex flex-wrap items-center gap-2.5">
         <div className="relative flex min-w-[240px] flex-1 items-center">
-          <span className="pointer-events-none absolute left-3 text-[var(--icr-faint)]">
+          <span className="pointer-events-none absolute left-3 text-[var(--fc-faint)]">
             <Icon name="search" size={15} />
           </span>
           <input
             disabled
             placeholder="Search sources with AI..."
-            className="w-full rounded-lg border border-[var(--icr-border)] bg-[var(--icr-card)] py-2 pl-9 pr-9 text-[13px] text-[var(--icr-muted)] placeholder:text-[var(--icr-faint)] focus:outline-none"
+            className="w-full rounded-lg border border-[var(--fc-border)] bg-[var(--fc-card)] py-2 pl-9 pr-9 text-[13px] text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none"
           />
-          <span className="pointer-events-none absolute right-3 text-[var(--icr-accent)]">
+          <span className="pointer-events-none absolute right-3 text-[var(--fc-accent)]">
             <Icon name="sparkles" size={14} />
           </span>
         </div>
@@ -83,15 +83,15 @@ export default function DataSources() {
                 {s.name.charAt(0)}
               </span>
               <div className="min-w-0 flex-1">
-                <div className="text-[13px] font-semibold text-[var(--icr-ink)]">{s.name}</div>
+                <div className="text-[13px] font-semibold text-[var(--fc-ink)]">{s.name}</div>
                 <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                   <Badge tone="neutral">{s.category}</Badge>
                   <Badge tone="neutral">{s.kind}</Badge>
                 </div>
               </div>
             </div>
-            <p className="mt-3 flex-1 text-[12.5px] leading-relaxed text-[var(--icr-muted)]">{s.blurb}</p>
-            <div className="mt-3 border-t border-[var(--icr-border)] pt-2.5">
+            <p className="mt-3 flex-1 text-[12.5px] leading-relaxed text-[var(--fc-muted)]">{s.blurb}</p>
+            <div className="mt-3 border-t border-[var(--fc-border)] pt-2.5">
               {s.status === "connected" ? (
                 <Badge tone="up" dot>Connected</Badge>
               ) : (

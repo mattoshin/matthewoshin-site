@@ -3,7 +3,7 @@
  * dependency-free building blocks (inline-SVG icon set, cards, KPI stats, badges,
  * deltas, SSR-safe sparklines, the AI-provenance block, tabs, data tables, and the
  * company context header) that every Financial Comms module composes. All visuals read the
- * scoped `--icr-*` tokens from BeaconScope, so the institutional light theme stays
+ * scoped `--fc-*` tokens from BeaconScope, so the institutional light theme stays
  * consistent: hairline borders over shadows, mono tabular numerics, ultramarine
  * accent on ~5% of pixels, and an accent-left-border "AI" signature on generated
  * content.
@@ -23,11 +23,11 @@ export function Wordmark({ size = "md" }: { size?: "sm" | "md" }) {
       <BeaconMark size={size === "sm" ? 18 : 22} />
       <span className="leading-none">
         <span
-          className={cx("block font-semibold tracking-tight text-[var(--icr-ink)]", text)}
+          className={cx("block font-semibold tracking-tight text-[var(--fc-ink)]", text)}
         >
           Financial Comms
         </span>
-        <span className="mt-0.5 block font-mono text-[9px] uppercase tracking-[0.22em] text-[var(--icr-faint)]">
+        <span className="mt-0.5 block font-mono text-[9px] uppercase tracking-[0.22em] text-[var(--fc-faint)]">
           Financial Communications
         </span>
       </span>
@@ -46,11 +46,11 @@ export function BeaconMark({ size = 22 }: { size?: number }) {
       aria-hidden="true"
       className="shrink-0"
     >
-      <rect width="24" height="24" rx="6" fill="var(--icr-ink)" />
-      <circle cx="12" cy="12" r="2.4" fill="var(--icr-accent)" />
+      <rect width="24" height="24" rx="6" fill="var(--fc-ink)" />
+      <circle cx="12" cy="12" r="2.4" fill="var(--fc-accent)" />
       <path
         d="M8.2 15.8a5.4 5.4 0 0 1 0-7.6M15.8 8.2a5.4 5.4 0 0 1 0 7.6"
-        stroke="var(--icr-accent)"
+        stroke="var(--fc-accent)"
         strokeWidth="1.6"
         strokeLinecap="round"
         opacity="0.9"
@@ -245,7 +245,7 @@ export function Icon({
 
 export function Eyebrow({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={cx("font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--icr-faint)]", className)}>
+    <p className={cx("font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--fc-faint)]", className)}>
       {children}
     </p>
   );
@@ -263,8 +263,8 @@ export function SectionHeading({
   return (
     <div className="mb-3 flex items-end justify-between gap-4">
       <div>
-        <h2 className="text-base font-semibold tracking-tight text-[var(--icr-ink)]">{title}</h2>
-        {hint && <p className="mt-0.5 text-[13px] text-[var(--icr-muted)]">{hint}</p>}
+        <h2 className="text-base font-semibold tracking-tight text-[var(--fc-ink)]">{title}</h2>
+        {hint && <p className="mt-0.5 text-[13px] text-[var(--fc-muted)]">{hint}</p>}
       </div>
       {right}
     </div>
@@ -287,7 +287,7 @@ export function Card({
   return (
     <div
       className={cx(
-        "rounded-[10px] border border-[var(--icr-border)] bg-[var(--icr-card)]",
+        "rounded-[10px] border border-[var(--fc-border)] bg-[var(--fc-card)]",
         padded && "p-5",
         hover && "transition-shadow hover:shadow-[0_1px_3px_rgba(12,14,19,0.08)]",
         className,
@@ -318,11 +318,11 @@ export function Button({
     "inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition-all disabled:opacity-50";
   const sizes = size === "sm" ? "px-3 py-1.5 text-xs" : "px-4 py-2 text-[13px]";
   const variants: Record<BtnVariant, string> = {
-    ink: "bg-[var(--icr-ink)] text-white hover:bg-[#000]",
-    accent: "bg-[var(--icr-accent)] text-white hover:bg-[var(--icr-accent-700)]",
+    ink: "bg-[var(--fc-ink)] text-white hover:bg-[#000]",
+    accent: "bg-[var(--fc-accent)] text-white hover:bg-[var(--fc-accent-700)]",
     outline:
-      "border border-[var(--icr-border-strong)] bg-[var(--icr-card)] text-[var(--icr-ink)] hover:bg-[var(--icr-surface-2)]",
-    ghost: "text-[var(--icr-muted)] hover:bg-[var(--icr-surface-2)] hover:text-[var(--icr-ink)]",
+      "border border-[var(--fc-border-strong)] bg-[var(--fc-card)] text-[var(--fc-ink)] hover:bg-[var(--fc-surface-2)]",
+    ghost: "text-[var(--fc-muted)] hover:bg-[var(--fc-surface-2)] hover:text-[var(--fc-ink)]",
   };
   return (
     <button className={cx(base, sizes, variants[variant], className)} {...rest}>
@@ -347,18 +347,18 @@ export function Badge({
   className?: string;
 }) {
   const tones: Record<Tone, string> = {
-    neutral: "border-[var(--icr-border)] bg-[var(--icr-surface-2)] text-[var(--icr-muted)]",
-    accent: "border-[var(--icr-accent)]/25 bg-[var(--icr-accent-wash)] text-[var(--icr-accent)]",
-    up: "border-[var(--icr-up)]/25 bg-[#ecfdf3] text-[var(--icr-up)]",
-    down: "border-[var(--icr-down)]/25 bg-[#fef2f2] text-[var(--icr-down)]",
-    warn: "border-[var(--icr-warn)]/25 bg-[#fffbeb] text-[var(--icr-warn)]",
+    neutral: "border-[var(--fc-border)] bg-[var(--fc-surface-2)] text-[var(--fc-muted)]",
+    accent: "border-[var(--fc-accent)]/25 bg-[var(--fc-accent-wash)] text-[var(--fc-accent)]",
+    up: "border-[var(--fc-up)]/25 bg-[#ecfdf3] text-[var(--fc-up)]",
+    down: "border-[var(--fc-down)]/25 bg-[#fef2f2] text-[var(--fc-down)]",
+    warn: "border-[var(--fc-warn)]/25 bg-[#fffbeb] text-[var(--fc-warn)]",
   };
   const dotColor: Record<Tone, string> = {
-    neutral: "var(--icr-faint)",
-    accent: "var(--icr-accent)",
-    up: "var(--icr-up)",
-    down: "var(--icr-down)",
-    warn: "var(--icr-warn)",
+    neutral: "var(--fc-faint)",
+    accent: "var(--fc-accent)",
+    up: "var(--fc-up)",
+    down: "var(--fc-down)",
+    warn: "var(--fc-warn)",
   };
   return (
     <span
@@ -404,7 +404,7 @@ export function Delta({
         "inline-flex items-center gap-0.5 font-mono tabular-nums font-medium",
         size === "md" ? "text-sm" : "text-[12px]",
       )}
-      style={{ color: up ? "var(--icr-up)" : "var(--icr-down)" }}
+      style={{ color: up ? "var(--fc-up)" : "var(--fc-down)" }}
     >
       <span aria-hidden="true">{up ? "▲" : "▼"}</span>
       {up ? "+" : ""}
@@ -432,15 +432,15 @@ export function StatCard({
   return (
     <Card>
       <div className="flex items-start justify-between">
-        <p className="text-[12px] font-medium text-[var(--icr-muted)]">{label}</p>
+        <p className="text-[12px] font-medium text-[var(--fc-muted)]">{label}</p>
         {spark && <Sparkline values={spark} />}
       </div>
-      <div className="mt-2 font-mono text-[28px] font-semibold leading-none tracking-tight tabular-nums text-[var(--icr-ink)]">
+      <div className="mt-2 font-mono text-[28px] font-semibold leading-none tracking-tight tabular-nums text-[var(--fc-ink)]">
         {value}
       </div>
       <div className="mt-2 flex items-center gap-2">
         {delta !== undefined && <Delta value={delta} />}
-        {hint && <span className="text-[12px] text-[var(--icr-faint)]">{hint}</span>}
+        {hint && <span className="text-[12px] text-[var(--fc-faint)]">{hint}</span>}
       </div>
     </Card>
   );
@@ -464,7 +464,7 @@ export function Sparkline({
   const min = Math.min(...values);
   const max = Math.max(...values);
   const span = max - min || 1;
-  const stroke = color ?? (values[values.length - 1] >= values[0] ? "var(--icr-up)" : "var(--icr-down)");
+  const stroke = color ?? (values[values.length - 1] >= values[0] ? "var(--fc-up)" : "var(--fc-down)");
   const pts = values
     .map((v, i) => {
       const x = (i / (values.length - 1)) * (width - 2) + 1;
@@ -501,7 +501,7 @@ export function AIBlock({
   return (
     <div
       className={cx(
-        "rounded-r-[10px] border border-l-2 border-[var(--icr-border)] border-l-[var(--icr-accent)] bg-[var(--icr-card)] p-4",
+        "rounded-r-[10px] border border-l-2 border-[var(--fc-border)] border-l-[var(--fc-accent)] bg-[var(--fc-card)] p-4",
         className,
       )}
     >
@@ -510,12 +510,12 @@ export function AIBlock({
           <Badge tone="accent">
             <Icon name="sparkles" size={11} /> {tag}
           </Badge>
-          {title && <span className="text-[13px] font-semibold text-[var(--icr-ink)]">{title}</span>}
+          {title && <span className="text-[13px] font-semibold text-[var(--fc-ink)]">{title}</span>}
           {streaming && <TypingDots />}
         </div>
       )}
-      <div className="text-[13.5px] leading-relaxed text-[var(--icr-ink-2)]">{children}</div>
-      {footer && <div className="mt-3 border-t border-[var(--icr-border)] pt-2 text-[11px] text-[var(--icr-faint)]">{footer}</div>}
+      <div className="text-[13.5px] leading-relaxed text-[var(--fc-ink-2)]">{children}</div>
+      {footer && <div className="mt-3 border-t border-[var(--fc-border)] pt-2 text-[11px] text-[var(--fc-faint)]">{footer}</div>}
     </div>
   );
 }
@@ -526,7 +526,7 @@ export function TypingDots() {
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="h-1 w-1 rounded-full bg-[var(--icr-accent)]"
+          className="h-1 w-1 rounded-full bg-[var(--fc-accent)]"
           style={{ animation: `icr-dot 1.1s ease-in-out ${i * 0.15}s infinite` }}
         />
       ))}
@@ -537,7 +537,7 @@ export function TypingDots() {
 /** Markdown-lite prose styling for AI text. Pass paragraphs/headings as children. */
 export function Prose({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cx("space-y-2.5 text-[13.5px] leading-relaxed text-[var(--icr-ink-2)] [&_h4]:text-[13px] [&_h4]:font-semibold [&_h4]:text-[var(--icr-ink)] [&_strong]:font-semibold [&_strong]:text-[var(--icr-ink)] [&_ul]:space-y-1.5 [&_ul]:pl-1 [&_li]:flex [&_li]:gap-2", className)}>
+    <div className={cx("space-y-2.5 text-[13.5px] leading-relaxed text-[var(--fc-ink-2)] [&_h4]:text-[13px] [&_h4]:font-semibold [&_h4]:text-[var(--fc-ink)] [&_strong]:font-semibold [&_strong]:text-[var(--fc-ink)] [&_ul]:space-y-1.5 [&_ul]:pl-1 [&_li]:flex [&_li]:gap-2", className)}>
       {children}
     </div>
   );
@@ -559,7 +559,7 @@ export function ProseSections({ sections }: { sections: readonly ProseBlock[] })
             <ul>
               {s.bullets.map((b, j) => (
                 <li key={j}>
-                  <span className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--icr-accent)]" />
+                  <span className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--fc-accent)]" />
                   <span>{b}</span>
                 </li>
               ))}
@@ -586,7 +586,7 @@ export function SegmentedTabs<T extends string>({
   size?: "sm" | "md";
 }) {
   return (
-    <div className="inline-flex items-center rounded-lg border border-[var(--icr-border)] bg-[var(--icr-surface-2)] p-0.5" role="tablist">
+    <div className="inline-flex items-center rounded-lg border border-[var(--fc-border)] bg-[var(--fc-surface-2)] p-0.5" role="tablist">
       {tabs.map((t) => {
         const active = t.id === value;
         return (
@@ -599,13 +599,13 @@ export function SegmentedTabs<T extends string>({
               "inline-flex items-center gap-1.5 rounded-md font-medium transition-all",
               size === "sm" ? "px-2.5 py-1 text-[12px]" : "px-3 py-1.5 text-[13px]",
               active
-                ? "bg-[var(--icr-card)] text-[var(--icr-ink)] shadow-[0_1px_2px_rgba(12,14,19,0.06)]"
-                : "text-[var(--icr-muted)] hover:text-[var(--icr-ink)]",
+                ? "bg-[var(--fc-card)] text-[var(--fc-ink)] shadow-[0_1px_2px_rgba(12,14,19,0.06)]"
+                : "text-[var(--fc-muted)] hover:text-[var(--fc-ink)]",
             )}
           >
             {t.label}
             {t.count !== undefined && (
-              <span className={cx("rounded-full px-1.5 text-[10px] font-semibold tabular-nums", active ? "bg-[var(--icr-accent-wash)] text-[var(--icr-accent)]" : "bg-[var(--icr-border)] text-[var(--icr-muted)]")}>
+              <span className={cx("rounded-full px-1.5 text-[10px] font-semibold tabular-nums", active ? "bg-[var(--fc-accent-wash)] text-[var(--fc-accent)]" : "bg-[var(--fc-border)] text-[var(--fc-muted)]")}>
                 {t.count}
               </span>
             )}
@@ -627,7 +627,7 @@ export function UnderlineTabs<T extends string>({
   onChange: (id: T) => void;
 }) {
   return (
-    <div className="flex items-center gap-1 border-b border-[var(--icr-border)]" role="tablist">
+    <div className="flex items-center gap-1 border-b border-[var(--fc-border)]" role="tablist">
       {tabs.map((t) => {
         const active = t.id === value;
         return (
@@ -639,12 +639,12 @@ export function UnderlineTabs<T extends string>({
             className={cx(
               "-mb-px border-b-2 px-3 py-2 text-[13px] font-medium transition-colors",
               active
-                ? "border-[var(--icr-accent)] text-[var(--icr-ink)]"
-                : "border-transparent text-[var(--icr-muted)] hover:text-[var(--icr-ink)]",
+                ? "border-[var(--fc-accent)] text-[var(--fc-ink)]"
+                : "border-transparent text-[var(--fc-muted)] hover:text-[var(--fc-ink)]",
             )}
           >
             {t.label}
-            {t.count !== undefined && <span className="ml-1.5 font-mono text-[11px] tabular-nums text-[var(--icr-faint)]">{t.count}</span>}
+            {t.count !== undefined && <span className="ml-1.5 font-mono text-[11px] tabular-nums text-[var(--fc-faint)]">{t.count}</span>}
           </button>
         );
       })}
@@ -677,16 +677,16 @@ export function DataTable<T extends Record<string, unknown>>({
   dense?: boolean;
 }) {
   return (
-    <div className="overflow-x-auto rounded-[10px] border border-[var(--icr-border)] bg-[var(--icr-card)]">
+    <div className="overflow-x-auto rounded-[10px] border border-[var(--fc-border)] bg-[var(--fc-card)]">
       <table className="w-full border-collapse text-left">
         <thead>
-          <tr className="border-b border-[var(--icr-border)]">
+          <tr className="border-b border-[var(--fc-border)]">
             {columns.map((col) => (
               <th
                 key={col.key}
                 style={{ width: col.width }}
                 className={cx(
-                  "px-3.5 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--icr-muted)]",
+                  "px-3.5 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--fc-muted)]",
                   col.align === "right" ? "text-right" : "text-left",
                 )}
               >
@@ -700,8 +700,8 @@ export function DataTable<T extends Record<string, unknown>>({
             <tr
               key={getKey(row, i)}
               className={cx(
-                "border-b border-[var(--icr-border)] last:border-0 transition-colors",
-                highlightRow?.(row) ? "bg-[var(--icr-accent-wash)]" : "hover:bg-[var(--icr-bg)]",
+                "border-b border-[var(--fc-border)] last:border-0 transition-colors",
+                highlightRow?.(row) ? "bg-[var(--fc-accent-wash)]" : "hover:bg-[var(--fc-bg)]",
               )}
             >
               {columns.map((col) => (
@@ -709,7 +709,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   key={col.key}
                   className={cx(
                     dense ? "px-3.5 py-2" : "px-3.5 py-3",
-                    "text-[13px] text-[var(--icr-ink-2)]",
+                    "text-[13px] text-[var(--fc-ink-2)]",
                     col.align === "right" ? "text-right" : "text-left",
                     col.mono && "font-mono tabular-nums",
                   )}
@@ -731,22 +731,22 @@ export function DataTable<T extends Record<string, unknown>>({
 export function ConsensusBar({ buy, hold, sell }: { buy: number; hold: number; sell: number }) {
   const total = buy + hold + sell || 1;
   const seg = [
-    { v: buy, c: "var(--icr-up)", l: "Buy" },
-    { v: hold, c: "var(--icr-warn)", l: "Hold" },
-    { v: sell, c: "var(--icr-down)", l: "Sell" },
+    { v: buy, c: "var(--fc-up)", l: "Buy" },
+    { v: hold, c: "var(--fc-warn)", l: "Hold" },
+    { v: sell, c: "var(--fc-down)", l: "Sell" },
   ];
   return (
     <div>
-      <div className="flex h-2 w-full overflow-hidden rounded-full bg-[var(--icr-surface-2)]">
+      <div className="flex h-2 w-full overflow-hidden rounded-full bg-[var(--fc-surface-2)]">
         {seg.map((s) => (
           <span key={s.l} style={{ width: `${(s.v / total) * 100}%`, background: s.c }} />
         ))}
       </div>
-      <div className="mt-1.5 flex items-center gap-3 text-[11px] text-[var(--icr-muted)]">
+      <div className="mt-1.5 flex items-center gap-3 text-[11px] text-[var(--fc-muted)]">
         {seg.map((s) => (
           <span key={s.l} className="inline-flex items-center gap-1">
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: s.c }} />
-            {s.l} <span className="font-mono tabular-nums text-[var(--icr-ink-2)]">{s.v}</span>
+            {s.l} <span className="font-mono tabular-nums text-[var(--fc-ink-2)]">{s.v}</span>
           </span>
         ))}
       </div>
@@ -769,24 +769,24 @@ export type CompanyCtx = {
 /** The sticky company-context header used across the analyst modules. */
 export function CompanyHeader({ company, right }: { company: CompanyCtx; right?: React.ReactNode }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-[10px] border border-[var(--icr-border)] bg-[var(--icr-card)] px-4 py-3">
+    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-[10px] border border-[var(--fc-border)] bg-[var(--fc-card)] px-4 py-3">
       <div className="flex items-center gap-2.5">
-        <span className="font-mono text-base font-semibold text-[var(--icr-accent)]">{company.ticker}</span>
+        <span className="font-mono text-base font-semibold text-[var(--fc-accent)]">{company.ticker}</span>
         <div className="leading-tight">
-          <div className="text-[13px] font-semibold text-[var(--icr-ink)]">{company.name}</div>
-          <div className="text-[11px] text-[var(--icr-muted)]">{company.sector}</div>
+          <div className="text-[13px] font-semibold text-[var(--fc-ink)]">{company.name}</div>
+          <div className="text-[11px] text-[var(--fc-muted)]">{company.sector}</div>
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <span className="font-mono text-sm font-semibold tabular-nums text-[var(--icr-ink)]">${company.price.toFixed(2)}</span>
+        <span className="font-mono text-sm font-semibold tabular-nums text-[var(--fc-ink)]">${company.price.toFixed(2)}</span>
         <Delta value={company.changePct} />
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-[11px] text-[var(--icr-muted)]">Consensus</span>
+        <span className="text-[11px] text-[var(--fc-muted)]">Consensus</span>
         <RatingBadge rating={company.consensus} />
       </div>
       {company.earningsIn && (
-        <div className="flex items-center gap-1.5 text-[12px] text-[var(--icr-muted)]">
+        <div className="flex items-center gap-1.5 text-[12px] text-[var(--fc-muted)]">
           <Icon name="calendar" size={13} /> Earnings {company.earningsIn}
         </div>
       )}
@@ -802,7 +802,7 @@ export function Skeleton({ className = "" }: { className?: string }) {
     <div
       className={cx("rounded bg-[length:200%_100%]", className)}
       style={{
-        backgroundImage: "linear-gradient(90deg, var(--icr-surface-2) 25%, #e9ebef 50%, var(--icr-surface-2) 75%)",
+        backgroundImage: "linear-gradient(90deg, var(--fc-surface-2) 25%, #e9ebef 50%, var(--fc-surface-2) 75%)",
         animation: "icr-shimmer 1.4s ease-in-out infinite",
       }}
     />
@@ -817,8 +817,8 @@ export function Chip({ children, active = false, onClick }: { children: React.Re
       className={cx(
         "rounded-full border px-3 py-1 text-[12px] font-medium transition-colors",
         active
-          ? "border-[var(--icr-accent)] bg-[var(--icr-accent-wash)] text-[var(--icr-accent)]"
-          : "border-[var(--icr-border)] bg-[var(--icr-card)] text-[var(--icr-muted)] hover:border-[var(--icr-border-strong)] hover:text-[var(--icr-ink)]",
+          ? "border-[var(--fc-accent)] bg-[var(--fc-accent-wash)] text-[var(--fc-accent)]"
+          : "border-[var(--fc-border)] bg-[var(--fc-card)] text-[var(--fc-muted)] hover:border-[var(--fc-border-strong)] hover:text-[var(--fc-ink)]",
       )}
     >
       {children}
@@ -828,12 +828,12 @@ export function Chip({ children, active = false, onClick }: { children: React.Re
 
 export function EmptyState({ icon = "sparkles", title, body, cta }: { icon?: IconName; title: string; body?: string; cta?: React.ReactNode }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-[10px] border border-dashed border-[var(--icr-border-strong)] bg-[var(--icr-card)] px-6 py-12 text-center">
-      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--icr-surface-2)] text-[var(--icr-muted)]">
+    <div className="flex flex-col items-center justify-center rounded-[10px] border border-dashed border-[var(--fc-border-strong)] bg-[var(--fc-card)] px-6 py-12 text-center">
+      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--fc-surface-2)] text-[var(--fc-muted)]">
         <Icon name={icon} size={18} />
       </span>
-      <p className="mt-3 text-[13px] font-semibold text-[var(--icr-ink)]">{title}</p>
-      {body && <p className="mt-1 max-w-xs text-[12px] text-[var(--icr-muted)]">{body}</p>}
+      <p className="mt-3 text-[13px] font-semibold text-[var(--fc-ink)]">{title}</p>
+      {body && <p className="mt-1 max-w-xs text-[12px] text-[var(--fc-muted)]">{body}</p>}
       {cta && <div className="mt-4">{cta}</div>}
     </div>
   );

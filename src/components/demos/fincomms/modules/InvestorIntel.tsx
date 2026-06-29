@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { ACTIVE_COMPANY } from "@/data/icr-demo";
+import { ACTIVE_COMPANY } from "@/data/fincomms-demo";
 import {
   SHAREHOLDERS,
   INVESTOR_MATCH,
   OWNERSHIP_13F,
   type Shareholder,
   type Filing13F,
-} from "@/data/icr-modules-demo";
+} from "@/data/fincomms-modules-demo";
 import {
   Card,
   CompanyHeader,
@@ -74,8 +74,8 @@ function Shareholders() {
             onClick={() => setMin(f.value)}
             className={
               min === f.value
-                ? "rounded-full border border-[var(--icr-accent)] bg-[var(--icr-accent-wash)] px-3 py-1 text-[12px] font-medium text-[var(--icr-accent)]"
-                : "rounded-full border border-[var(--icr-border)] bg-[var(--icr-card)] px-3 py-1 text-[12px] font-medium text-[var(--icr-muted)] transition-colors hover:border-[var(--icr-border-strong)] hover:text-[var(--icr-ink)]"
+                ? "rounded-full border border-[var(--fc-accent)] bg-[var(--fc-accent-wash)] px-3 py-1 text-[12px] font-medium text-[var(--fc-accent)]"
+                : "rounded-full border border-[var(--fc-border)] bg-[var(--fc-card)] px-3 py-1 text-[12px] font-medium text-[var(--fc-muted)] transition-colors hover:border-[var(--fc-border-strong)] hover:text-[var(--fc-ink)]"
             }
           >
             {f.label}
@@ -127,18 +127,18 @@ function Match() {
           <Card key={m.name}>
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div className="text-[13.5px] font-semibold text-[var(--icr-ink)]">{m.name}</div>
+                <div className="text-[13.5px] font-semibold text-[var(--fc-ink)]">{m.name}</div>
                 <div className="mt-1"><Badge tone="neutral">{m.style}</Badge></div>
               </div>
-              <span className="font-mono text-[15px] font-semibold tabular-nums text-[var(--icr-accent)]">{m.fit}</span>
+              <span className="font-mono text-[15px] font-semibold tabular-nums text-[var(--fc-accent)]">{m.fit}</span>
             </div>
             <div className="mt-2.5 flex items-center gap-2">
-              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--icr-surface-2)]">
-                <span className="block h-full rounded-full bg-[var(--icr-accent)]" style={{ width: `${m.fit}%` }} />
+              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--fc-surface-2)]">
+                <span className="block h-full rounded-full bg-[var(--fc-accent)]" style={{ width: `${m.fit}%` }} />
               </div>
-              <span className="text-[11px] text-[var(--icr-muted)]">fit</span>
+              <span className="text-[11px] text-[var(--fc-muted)]">fit</span>
             </div>
-            <p className="mt-3 text-[13px] leading-relaxed text-[var(--icr-ink-2)]">{m.thesis}</p>
+            <p className="mt-3 text-[13px] leading-relaxed text-[var(--fc-ink-2)]">{m.thesis}</p>
             <div className="mt-3">
               <Button variant="outline" size="sm">Add to roadshow</Button>
             </div>
@@ -154,10 +154,10 @@ function Match() {
 function ChangeCell({ change }: { change: string }) {
   if (change === "NEW") return <Badge tone="accent">NEW</Badge>;
   const color = change.startsWith("+")
-    ? "var(--icr-up)"
+    ? "var(--fc-up)"
     : change.startsWith("-")
-      ? "var(--icr-down)"
-      : "var(--icr-ink-2)";
+      ? "var(--fc-down)"
+      : "var(--fc-ink-2)";
   return <span style={{ color }}>{change}</span>;
 }
 

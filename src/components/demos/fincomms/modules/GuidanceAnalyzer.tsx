@@ -1,10 +1,10 @@
-import { ACTIVE_COMPANY } from "@/data/icr-demo";
+import { ACTIVE_COMPANY } from "@/data/fincomms-demo";
 import {
   GUIDANCE_SCENARIOS,
   GUIDANCE_PEERS,
   GUIDANCE_REC,
   type GuidancePeer,
-} from "@/data/icr-modules-demo";
+} from "@/data/fincomms-modules-demo";
 import {
   Card,
   CompanyHeader,
@@ -52,7 +52,7 @@ export default function GuidanceAnalyzer() {
           {GUIDANCE_SCENARIOS.map((s) => (
             <Card key={s.name}>
               <Badge tone={TONE_BY_SCENARIO[s.tone]}>{s.tone}</Badge>
-              <h3 className="mt-2.5 text-[15px] font-semibold tracking-tight text-[var(--icr-ink)]">{s.name}</h3>
+              <h3 className="mt-2.5 text-[15px] font-semibold tracking-tight text-[var(--fc-ink)]">{s.name}</h3>
               <dl className="mt-3 space-y-2">
                 {[
                   { label: "Revenue", value: s.revenue },
@@ -60,17 +60,17 @@ export default function GuidanceAnalyzer() {
                   { label: "FCF", value: s.fcf },
                 ].map((m) => (
                   <div key={m.label} className="flex items-center justify-between gap-3">
-                    <dt className="text-[12px] text-[var(--icr-muted)]">{m.label}</dt>
-                    <dd className="font-mono text-[13px] font-semibold tabular-nums text-[var(--icr-ink)]">{m.value}</dd>
+                    <dt className="text-[12px] text-[var(--fc-muted)]">{m.label}</dt>
+                    <dd className="font-mono text-[13px] font-semibold tabular-nums text-[var(--fc-ink)]">{m.value}</dd>
                   </div>
                 ))}
               </dl>
-              <div className="mt-3 border-t border-[var(--icr-border)] pt-3">
-                <p className="text-[10px] font-semibold uppercase tracking-wide text-[var(--icr-faint)]">Assumptions</p>
+              <div className="mt-3 border-t border-[var(--fc-border)] pt-3">
+                <p className="text-[10px] font-semibold uppercase tracking-wide text-[var(--fc-faint)]">Assumptions</p>
                 <ul className="mt-2 space-y-1.5">
                   {s.assumptions.map((a, i) => (
-                    <li key={i} className="flex gap-2 text-[12px] leading-snug text-[var(--icr-ink-2)]">
-                      <span className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--icr-accent)]" />
+                    <li key={i} className="flex gap-2 text-[12px] leading-snug text-[var(--fc-ink-2)]">
+                      <span className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--fc-accent)]" />
                       <span>{a}</span>
                     </li>
                   ))}
@@ -91,7 +91,7 @@ export default function GuidanceAnalyzer() {
               label: "Ticker",
               mono: true,
               render: (r) => (
-                <span className={r.subject ? "font-semibold text-[var(--icr-accent)]" : undefined}>{r.ticker}</span>
+                <span className={r.subject ? "font-semibold text-[var(--fc-accent)]" : undefined}>{r.ticker}</span>
               ),
             },
             { key: "name", label: "Name" },

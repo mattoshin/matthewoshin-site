@@ -10,7 +10,7 @@ import {
   YIELD_CURVE,
   YIELD_SPREAD_2S10S,
   MARKET_NEWS,
-} from "@/data/icr-demo";
+} from "@/data/fincomms-demo";
 import {
   Card,
   StatCard,
@@ -36,8 +36,8 @@ export default function BeaconDashboard() {
     <div className="space-y-7">
       {/* morning briefing */}
       <div>
-        <p className="text-[12px] font-medium uppercase tracking-wide text-[var(--icr-faint)]">{MORNING_BRIEF.date}</p>
-        <h2 className="mt-1 text-[22px] font-semibold tracking-tight text-[var(--icr-ink)]">{MORNING_BRIEF.greeting}</h2>
+        <p className="text-[12px] font-medium uppercase tracking-wide text-[var(--fc-faint)]">{MORNING_BRIEF.date}</p>
+        <h2 className="mt-1 text-[22px] font-semibold tracking-tight text-[var(--fc-ink)]">{MORNING_BRIEF.greeting}</h2>
         <AIBlock tag="Morning brief" className="mt-3" footer="Generated 7:02 AM · grounded in your 14 pinned clients and live macro data">
           {MORNING_BRIEF.body}
         </AIBlock>
@@ -57,7 +57,7 @@ export default function BeaconDashboard() {
           title="Pinned clients"
           hint="Live quotes and 30-day trend. Click a card to open its earnings workspace."
           right={
-            <button className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--icr-accent)] hover:underline">
+            <button className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--fc-accent)] hover:underline">
               <Icon name="plus" size={13} /> Add ticker
             </button>
           }
@@ -65,22 +65,22 @@ export default function BeaconDashboard() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {ICR_COMPANIES.map((c) => (
             <button key={c.ticker} onClick={() => go("earnings")} className="text-left">
-              <Card hover className="transition-colors hover:border-[var(--icr-border-strong)]">
+              <Card hover className="transition-colors hover:border-[var(--fc-border-strong)]">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm font-semibold text-[var(--icr-accent)]">{c.ticker}</span>
+                    <span className="font-mono text-sm font-semibold text-[var(--fc-accent)]">{c.ticker}</span>
                     <Badge tone="up" dot>Live</Badge>
                   </div>
                   <Sparkline values={c.spark} />
                 </div>
                 <div className="mt-2 flex items-baseline gap-2">
-                  <span className="font-mono text-lg font-semibold tabular-nums text-[var(--icr-ink)]">${c.price.toFixed(2)}</span>
+                  <span className="font-mono text-lg font-semibold tabular-nums text-[var(--fc-ink)]">${c.price.toFixed(2)}</span>
                   <Delta value={c.changePct} />
                 </div>
-                <div className="mt-1.5 text-[12px] font-medium text-[var(--icr-ink-2)]">{c.name}</div>
+                <div className="mt-1.5 text-[12px] font-medium text-[var(--fc-ink-2)]">{c.name}</div>
                 <div className="mt-0.5 flex items-center justify-between">
-                  <span className="text-[11px] text-[var(--icr-muted)]">{c.sector}</span>
-                  {c.earningsIn && <span className="font-mono text-[10px] text-[var(--icr-faint)]">{c.earningsIn}</span>}
+                  <span className="text-[11px] text-[var(--fc-muted)]">{c.sector}</span>
+                  {c.earningsIn && <span className="font-mono text-[10px] text-[var(--fc-faint)]">{c.earningsIn}</span>}
                 </div>
               </Card>
             </button>
@@ -94,15 +94,15 @@ export default function BeaconDashboard() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {QUICK_ACTIONS.map((a) => (
             <button key={a.id} onClick={() => go(a.id)} className="text-left">
-              <Card hover className="flex items-center gap-3 transition-colors hover:border-[var(--icr-border-strong)]">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg" style={{ background: "var(--icr-surface-2)", color: a.color }}>
+              <Card hover className="flex items-center gap-3 transition-colors hover:border-[var(--fc-border-strong)]">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg" style={{ background: "var(--fc-surface-2)", color: a.color }}>
                   <QuickIcon id={a.id} />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-[13px] font-semibold text-[var(--icr-ink)]">{a.title}</div>
-                  <div className="text-[11px] text-[var(--icr-muted)]">{a.sub}</div>
+                  <div className="text-[13px] font-semibold text-[var(--fc-ink)]">{a.title}</div>
+                  <div className="text-[11px] text-[var(--fc-muted)]">{a.sub}</div>
                 </div>
-                <Icon name="chevron" size={15} className="ml-auto text-[var(--icr-faint)]" />
+                <Icon name="chevron" size={15} className="ml-auto text-[var(--fc-faint)]" />
               </Card>
             </button>
           ))}
@@ -113,13 +113,13 @@ export default function BeaconDashboard() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card>
           <SectionHeading title="Macro environment" />
-          <p className="text-[12.5px] leading-relaxed text-[var(--icr-muted)]">{MACRO_NARRATIVE}</p>
+          <p className="text-[12.5px] leading-relaxed text-[var(--fc-muted)]">{MACRO_NARRATIVE}</p>
           <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
             {MACRO_INDICATORS.map((m) => (
-              <div key={m.label} className="rounded-lg border border-[var(--icr-border)] bg-[var(--icr-recessed)] p-2.5">
-                <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--icr-faint)]">{m.label}</div>
-                <div className="mt-1 font-mono text-[15px] font-semibold tabular-nums text-[var(--icr-ink)]">{m.value}</div>
-                <div className="mt-0.5 flex items-center gap-1 text-[10px] text-[var(--icr-faint)]">
+              <div key={m.label} className="rounded-lg border border-[var(--fc-border)] bg-[var(--fc-recessed)] p-2.5">
+                <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--fc-faint)]">{m.label}</div>
+                <div className="mt-1 font-mono text-[15px] font-semibold tabular-nums text-[var(--fc-ink)]">{m.value}</div>
+                <div className="mt-0.5 flex items-center gap-1 text-[10px] text-[var(--fc-faint)]">
                   <Trend v={m.trend} /> {m.asOf}
                 </div>
               </div>
@@ -144,12 +144,12 @@ export default function BeaconDashboard() {
                 className={cx(
                   "rounded-lg border p-2 text-center",
                   p.key
-                    ? "border-[var(--icr-accent)]/30 bg-[var(--icr-accent-wash)]"
-                    : "border-[var(--icr-border)] bg-[var(--icr-recessed)]",
+                    ? "border-[var(--fc-accent)]/30 bg-[var(--fc-accent-wash)]"
+                    : "border-[var(--fc-border)] bg-[var(--fc-recessed)]",
                 )}
               >
-                <div className={cx("text-[10px] font-medium uppercase", p.key ? "text-[var(--icr-accent)]" : "text-[var(--icr-faint)]")}>{p.maturity}</div>
-                <div className={cx("mt-1 font-mono text-[13px] font-semibold tabular-nums", p.key ? "text-[var(--icr-accent)]" : "text-[var(--icr-ink)]")}>{p.yield.toFixed(2)}</div>
+                <div className={cx("text-[10px] font-medium uppercase", p.key ? "text-[var(--fc-accent)]" : "text-[var(--fc-faint)]")}>{p.maturity}</div>
+                <div className={cx("mt-1 font-mono text-[13px] font-semibold tabular-nums", p.key ? "text-[var(--fc-accent)]" : "text-[var(--fc-ink)]")}>{p.yield.toFixed(2)}</div>
               </div>
             ))}
           </div>
@@ -162,10 +162,10 @@ export default function BeaconDashboard() {
         <Card padded={false}>
           <ul>
             {MARKET_NEWS.map((n, i) => (
-              <li key={i} className="flex items-center gap-3 border-b border-[var(--icr-border)] px-4 py-2.5 last:border-0 hover:bg-[var(--icr-bg)]">
-                <span className="min-w-0 flex-1 truncate text-[13px] text-[var(--icr-ink-2)] hover:text-[var(--icr-accent)]">{n.title}</span>
-                <span className="shrink-0 text-[11px] text-[var(--icr-muted)]">{n.source}</span>
-                <span className="shrink-0 font-mono text-[11px] tabular-nums text-[var(--icr-faint)]">{n.time}</span>
+              <li key={i} className="flex items-center gap-3 border-b border-[var(--fc-border)] px-4 py-2.5 last:border-0 hover:bg-[var(--fc-bg)]">
+                <span className="min-w-0 flex-1 truncate text-[13px] text-[var(--fc-ink-2)] hover:text-[var(--fc-accent)]">{n.title}</span>
+                <span className="shrink-0 text-[11px] text-[var(--fc-muted)]">{n.source}</span>
+                <span className="shrink-0 font-mono text-[11px] tabular-nums text-[var(--fc-faint)]">{n.time}</span>
               </li>
             ))}
           </ul>
@@ -176,10 +176,10 @@ export default function BeaconDashboard() {
 }
 
 function Trend({ v }: { v: number }) {
-  if (v === 0) return <span className="text-[var(--icr-faint)]">—</span>;
+  if (v === 0) return <span className="text-[var(--fc-faint)]">—</span>;
   const up = v > 0;
   return (
-    <span style={{ color: up ? "var(--icr-up)" : "var(--icr-down)" }}>
+    <span style={{ color: up ? "var(--fc-up)" : "var(--fc-down)" }}>
       {up ? "▲" : "▼"} {Math.abs(v).toFixed(1)}
     </span>
   );

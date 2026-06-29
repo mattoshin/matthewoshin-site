@@ -5,7 +5,7 @@ import {
   IPO_STATS,
   IPO_READINESS,
   IPO_S1_FINDINGS,
-} from "@/data/icr-modules-demo";
+} from "@/data/fincomms-modules-demo";
 import {
   Card,
   StatCard,
@@ -27,9 +27,9 @@ type View = "readiness" | "s1";
 type ReadinessStatus = (typeof IPO_READINESS)[number]["items"][number]["status"];
 
 const STATUS_META: Record<ReadinessStatus, { icon: IconName; color: string }> = {
-  ready: { icon: "check", color: "var(--icr-up)" },
-  progress: { icon: "clock", color: "var(--icr-warn)" },
-  gap: { icon: "alert", color: "var(--icr-down)" },
+  ready: { icon: "check", color: "var(--fc-up)" },
+  progress: { icon: "clock", color: "var(--fc-warn)" },
+  gap: { icon: "alert", color: "var(--fc-down)" },
 };
 
 export default function IpoCapitalMarkets() {
@@ -39,10 +39,10 @@ export default function IpoCapitalMarkets() {
     <div className="space-y-6">
       {/* header */}
       <div className="flex items-center gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--icr-accent-wash)] text-[var(--icr-accent)]">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--fc-accent-wash)] text-[var(--fc-accent)]">
           <Icon name="rocket" size={18} />
         </span>
-        <h2 className="text-base font-semibold tracking-tight text-[var(--icr-ink)]">IPO &amp; Capital Markets</h2>
+        <h2 className="text-base font-semibold tracking-tight text-[var(--fc-ink)]">IPO &amp; Capital Markets</h2>
       </div>
 
       {/* stats */}
@@ -67,12 +67,12 @@ export default function IpoCapitalMarkets() {
           {IPO_READINESS.map((g) => (
             <Card key={g.area}>
               <div className="flex items-center justify-between gap-3">
-                <h3 className="text-[13.5px] font-semibold text-[var(--icr-ink)]">{g.area}</h3>
-                <span className="font-mono text-[13px] font-semibold tabular-nums text-[var(--icr-ink)]">{g.score}</span>
+                <h3 className="text-[13.5px] font-semibold text-[var(--fc-ink)]">{g.area}</h3>
+                <span className="font-mono text-[13px] font-semibold tabular-nums text-[var(--fc-ink)]">{g.score}</span>
               </div>
-              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[var(--icr-surface-2)]">
+              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[var(--fc-surface-2)]">
                 <span
-                  className="block h-full rounded-full bg-[var(--icr-accent)]"
+                  className="block h-full rounded-full bg-[var(--fc-accent)]"
                   style={{ width: `${g.score}%` }}
                 />
               </div>
@@ -80,7 +80,7 @@ export default function IpoCapitalMarkets() {
                 {g.items.map((item) => {
                   const meta = STATUS_META[item.status];
                   return (
-                    <li key={item.label} className="flex items-start gap-2 text-[13px] text-[var(--icr-ink-2)]">
+                    <li key={item.label} className="flex items-start gap-2 text-[13px] text-[var(--fc-ink-2)]">
                       <span className="mt-0.5 shrink-0" style={{ color: meta.color }}>
                         <Icon name={meta.icon} size={15} />
                       </span>
@@ -97,20 +97,20 @@ export default function IpoCapitalMarkets() {
       {view === "s1" && (
         <div className="space-y-4">
           <Card>
-            <label className="text-[12px] font-semibold text-[var(--icr-ink)]">S-1 document</label>
+            <label className="text-[12px] font-semibold text-[var(--fc-ink)]">S-1 document</label>
             <textarea
               disabled
               placeholder="Paste S-1 content..."
               rows={5}
-              className="mt-2 w-full resize-none rounded-lg border border-[var(--icr-border)] bg-[var(--icr-bg)] px-3 py-2 text-[13px] leading-relaxed text-[var(--icr-muted)] placeholder:text-[var(--icr-faint)] focus:outline-none"
+              className="mt-2 w-full resize-none rounded-lg border border-[var(--fc-border)] bg-[var(--fc-bg)] px-3 py-2 text-[13px] leading-relaxed text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none"
             />
             <div className="mt-3 flex flex-wrap items-center gap-2">
-              <div className="flex flex-1 items-center gap-1.5 rounded-lg border border-[var(--icr-border)] bg-[var(--icr-bg)] px-3 py-2">
-                <Icon name="search" size={14} className="shrink-0 text-[var(--icr-faint)]" />
+              <div className="flex flex-1 items-center gap-1.5 rounded-lg border border-[var(--fc-border)] bg-[var(--fc-bg)] px-3 py-2">
+                <Icon name="search" size={14} className="shrink-0 text-[var(--fc-faint)]" />
                 <input
                   disabled
                   placeholder="Search SEC EDGAR by ticker or CIK..."
-                  className="w-full bg-transparent text-[13px] text-[var(--icr-muted)] placeholder:text-[var(--icr-faint)] focus:outline-none"
+                  className="w-full bg-transparent text-[13px] text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none"
                 />
               </div>
               <Button variant="outline" size="sm" icon="download">Load filing</Button>
@@ -127,10 +127,10 @@ export default function IpoCapitalMarkets() {
               {IPO_S1_FINDINGS.map((f, i) => {
                 const isStrength = f.kind === "strength";
                 return (
-                  <li key={i} className="flex items-start gap-2 text-[13px] text-[var(--icr-ink-2)]">
+                  <li key={i} className="flex items-start gap-2 text-[13px] text-[var(--fc-ink-2)]">
                     <span
                       className="mt-0.5 shrink-0"
-                      style={{ color: isStrength ? "var(--icr-up)" : "var(--icr-down)" }}
+                      style={{ color: isStrength ? "var(--fc-up)" : "var(--fc-down)" }}
                     >
                       <Icon name={isStrength ? "check" : "alert"} size={15} />
                     </span>
