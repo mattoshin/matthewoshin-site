@@ -1,23 +1,22 @@
 // Galactic Signals "Monitor Builder" API — turns a plain-English description into
-// a real, branded monitor config using Claude (Haiku) via plain fetch. This runs
-// on a PUBLIC demo, so it is deliberately cheap and capped:
-//   - model is Haiku 4.5 (cheapest), max_tokens is small
+// a real, branded monitor config using Groq (OpenAI-compatible) via plain fetch.
+// This runs on a PUBLIC demo, so it is deliberately cheap and capped:
+//   - model is a fast Groq model (free tier), max_tokens is small
 //   - per-IP rate limit + a process-wide daily call cap
 //   - it NEVER returns a 500 or runs uncapped: a missing key, rate-limit, budget
 //     cap, upstream failure, or unparseable output all degrade to a canned sample.
-// The Anthropic key (ANTHROPIC_API_KEY) lives only in the Vercel env, server-side.
+// The Groq key (GROQ_API_KEY) lives in the Vercel env (+ .env.local), server-side.
 
 import { ADMIN_BUILDER_FALLBACK } from "@/data/galactic-admin-demo";
 
-const MODEL = "claude-haiku-4-5";
+const MODEL = "llama-3.3-70b-versatile";
 const MAX_TOKENS = 800;
 const MAX_PROMPT_CHARS = 600;
-const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
-const ANTHROPIC_VERSION = "2023-06-01";
+const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 // --- Guardrails (best-effort, per warm serverless instance) ---------------
 const PER_IP_PER_MIN = 6;
-const DAILY_CALL_CAP = 300; // Haiku is ~fractions of a cent/call; this caps spend.
+const DAILY_CALL_CAP = 300; // Groq free tier; this still caps abuse on a public demo.
 
 const ipHits = new Map<string, number[]>();
 let dayKey = "";
@@ -88,21 +87,13 @@ function fallback(): Response {
   return json({ monitor: ADMIN_BUILDER_FALLBACK, fallback: true });
 }
 
-interface AnthropicTextBlock {
-  type: string;
-  text?: string;
-}
-interface AnthropicMessage {
-  content?: AnthropicTextBlock[];
+interface GroqResponse {
+  choices?: { message?: { content?: string } }[];
 }
 
-function extractText(data: AnthropicMessage): string {
-  if (!Array.isArray(data.content)) return "";
-  return data.content
-    .filter((b) => b.type === "text" && typeof b.text === "string")
-    .map((b) => b.text as string)
-    .join("")
-    .trim();
+function extractText(data: GroqResponse): string {
+  const content = data.choices?.[0]?.message?.content;
+  return typeof content === "string" ? content.trim() : "";
 }
 
 // Pull the first {...} JSON object out of the model text (handles stray fences).
@@ -162,19 +153,23 @@ export async function POST(req: Request): Promise<Response> {
   const ip = (req.headers.get("x-forwarded-for") ?? "anon").split(",")[0].trim();
   if (rateLimited(ip)) return fallback();
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return fallback();
   if (overDailyCap()) return fallback();
 
   try {
-    const upstream = await fetch(ANTHROPIC_URL, {
+    const upstream = await fetch(GROQ_URL, {
       method: "POST",
-      headers: { "x-api-key": apiKey, "anthropic-version": ANTHROPIC_VERSION, "content-type": "application/json" },
+      headers: { Authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
       body: JSON.stringify({
         model: MODEL,
         max_tokens: MAX_TOKENS,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: prompt }],
+        temperature: 0.7,
+        // OpenAI-compatible: system prompt is the first message.
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: prompt },
+        ],
       }),
     });
 
@@ -183,7 +178,7 @@ export async function POST(req: Request): Promise<Response> {
       return fallback();
     }
 
-    const data = (await upstream.json()) as AnthropicMessage;
+    const data = (await upstream.json()) as GroqResponse;
     const monitor = parseMonitor(extractText(data));
     if (!monitor) return fallback();
     return json({ monitor });
