@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { LAB_FINANCE, ADMIN_USERS, ADMIN_KEYS } from "@/data/icr-modules-demo";
+import { LAB_FINANCE, ADMIN_USERS, ADMIN_KEYS } from "@/data/fincomms-modules-demo";
 import {
   Card,
   StatCard,
@@ -49,7 +49,7 @@ function LabFinance() {
   const max = Math.max(...spend.map((s) => s.amount));
 
   const subColumns: ReadonlyArray<Column<Subscription>> = [
-    { key: "name", label: "Service", render: (r) => <span className="font-medium text-[var(--icr-ink)]">{r.name}</span> },
+    { key: "name", label: "Service", render: (r) => <span className="font-medium text-[var(--fc-ink)]">{r.name}</span> },
     { key: "category", label: "Category", render: (r) => <Badge tone="neutral">{r.category}</Badge> },
     { key: "cost", label: "Cost", align: "right", mono: true },
   ];
@@ -63,24 +63,24 @@ function LabFinance() {
       </div>
 
       <Card>
-        <p className="text-[12px] font-semibold text-[var(--icr-ink)]">Monthly spend</p>
+        <p className="text-[12px] font-semibold text-[var(--fc-ink)]">Monthly spend</p>
         <div className="mt-4 flex items-end gap-3" style={{ height: 140 }}>
           {spend.map((s: SpendPoint) => (
             <div key={s.month} className="flex flex-1 flex-col items-center justify-end gap-2">
-              <div className="font-mono text-[10px] tabular-nums text-[var(--icr-faint)]">{(s.amount / 1000).toFixed(1)}k</div>
+              <div className="font-mono text-[10px] tabular-nums text-[var(--fc-faint)]">{(s.amount / 1000).toFixed(1)}k</div>
               <div
                 title={`${s.month}: ${fmtUsd(s.amount)}`}
-                className="w-full rounded-t-[4px] bg-[var(--icr-accent)] transition-opacity hover:opacity-80"
+                className="w-full rounded-t-[4px] bg-[var(--fc-accent)] transition-opacity hover:opacity-80"
                 style={{ height: `${(s.amount / max) * 100}%` }}
               />
-              <div className="font-mono text-[11px] tabular-nums text-[var(--icr-muted)]">{s.month}</div>
+              <div className="font-mono text-[11px] tabular-nums text-[var(--fc-muted)]">{s.month}</div>
             </div>
           ))}
         </div>
       </Card>
 
       <section>
-        <p className="mb-3 text-[12px] font-semibold text-[var(--icr-ink)]">Subscriptions</p>
+        <p className="mb-3 text-[12px] font-semibold text-[var(--fc-ink)]">Subscriptions</p>
         <DataTable columns={subColumns} rows={LAB_FINANCE.subscriptions} getKey={(r) => r.name} />
       </section>
     </div>
@@ -92,7 +92,7 @@ function LabFinance() {
 type AdminUser = (typeof ADMIN_USERS)[number];
 
 const USER_COLUMNS: ReadonlyArray<Column<AdminUser>> = [
-  { key: "name", label: "Name", render: (r) => <span className="font-medium text-[var(--icr-ink)]">{r.name}</span> },
+  { key: "name", label: "Name", render: (r) => <span className="font-medium text-[var(--fc-ink)]">{r.name}</span> },
   {
     key: "role",
     label: "Role",
@@ -111,7 +111,7 @@ function Users() {
 type ApiKey = (typeof ADMIN_KEYS)[number];
 
 const KEY_COLUMNS: ReadonlyArray<Column<ApiKey>> = [
-  { key: "service", label: "Service", render: (r) => <span className="font-medium text-[var(--icr-ink)]">{r.service}</span> },
+  { key: "service", label: "Service", render: (r) => <span className="font-medium text-[var(--fc-ink)]">{r.service}</span> },
   { key: "key", label: "Key", mono: true },
   {
     key: "status",
@@ -123,7 +123,7 @@ const KEY_COLUMNS: ReadonlyArray<Column<ApiKey>> = [
 function Keys() {
   return (
     <div className="space-y-3">
-      <p className="text-[12px] text-[var(--icr-muted)]">Keys are masked. Rotate from the provider console.</p>
+      <p className="text-[12px] text-[var(--fc-muted)]">Keys are masked. Rotate from the provider console.</p>
       <DataTable columns={KEY_COLUMNS} rows={ADMIN_KEYS} getKey={(r) => r.service} />
     </div>
   );

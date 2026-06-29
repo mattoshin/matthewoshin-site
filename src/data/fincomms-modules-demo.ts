@@ -1,13 +1,13 @@
 /**
- * icr-modules-demo.ts - per-module sample data for the Financial Comms demo.
+ * fincomms-modules-demo.ts - per-module sample data for the Financial Comms demo.
  *
- * Everything here is fictional and illustrative (see icr-demo.ts header). The
+ * Everything here is fictional and illustrative (see fincomms-demo.ts header). The
  * focal company across the analyst modules is Quanta Labs (QNTA), a made-up
  * developer-tools company reporting this week. No real client data, no real
  * filings, no proprietary scoring.
  */
 
-import type { IconName } from "@/components/demos/icr/BeaconKit";
+import type { IconName } from "@/components/demos/fincomms/BeaconKit";
 
 export type ProseSection = { heading: string; paras?: string[]; bullets?: string[] };
 

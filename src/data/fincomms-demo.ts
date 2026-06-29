@@ -1,5 +1,5 @@
 /**
- * icr-demo.ts - sample data for the Financial Communications Platform demo.
+ * fincomms-demo.ts - sample data for the Financial Communications Platform demo.
  *
  * Financial Comms is the AI investor-relations + strategic-comms intelligence platform
  * Matthew built in-house. This is a faithful, mock-data RECREATION for
@@ -8,10 +8,10 @@
  * proprietary scoring logic, nothing talks to a live server.
  *
  * Core data lives here (brand, companies, nav, dashboard); the heavier per-module
- * datasets live in icr-modules-demo.ts.
+ * datasets live in fincomms-modules-demo.ts.
  */
 
-import type { CompanyCtx, IconName } from "@/components/demos/icr/BeaconKit";
+import type { CompanyCtx, IconName } from "@/components/demos/fincomms/BeaconKit";
 
 /* ----------------------------------------------------------------- brand --- */
 
@@ -115,7 +115,7 @@ export type NavSection = { label: string; color: string; items: NavItem[] };
 export const BEACON_NAV: readonly NavSection[] = [
   {
     label: "Overview",
-    color: "var(--icr-sec-overview)",
+    color: "var(--fc-sec-overview)",
     items: [
       { id: "dashboard", label: "Dashboard", icon: "dashboard" },
       { id: "data-sources", label: "Data Sources", icon: "database" },
@@ -123,7 +123,7 @@ export const BEACON_NAV: readonly NavSection[] = [
   },
   {
     label: "Earnings & IR",
-    color: "var(--icr-sec-earnings)",
+    color: "var(--fc-sec-earnings)",
     items: [
       { id: "earnings", label: "Earnings Hub", icon: "barchart" },
       { id: "earnings-prep", label: "Earnings Prep", icon: "bolt" },
@@ -132,7 +132,7 @@ export const BEACON_NAV: readonly NavSection[] = [
   },
   {
     label: "Investor Intelligence",
-    color: "var(--icr-sec-intel)",
+    color: "var(--fc-sec-intel)",
     items: [
       { id: "investor", label: "Investor Intel", icon: "target" },
       { id: "shareholder-match", label: "Shareholder Matching", icon: "users" },
@@ -143,7 +143,7 @@ export const BEACON_NAV: readonly NavSection[] = [
   },
   {
     label: "Comms & Media",
-    color: "var(--icr-sec-comms)",
+    color: "var(--fc-sec-comms)",
     items: [
       { id: "comms", label: "Corporate Comms & PR", icon: "megaphone" },
       { id: "media-monitoring", label: "Media Monitoring", icon: "globe" },
@@ -153,7 +153,7 @@ export const BEACON_NAV: readonly NavSection[] = [
   },
   {
     label: "Strategy & Situations",
-    color: "var(--icr-sec-strategy)",
+    color: "var(--fc-sec-strategy)",
     items: [
       { id: "crisis", label: "Crisis Command", icon: "shield" },
       { id: "ipo", label: "IPO & Capital Markets", icon: "rocket" },
@@ -163,7 +163,7 @@ export const BEACON_NAV: readonly NavSection[] = [
   },
   {
     label: "Capital Markets Engines",
-    color: "var(--icr-sec-capmkts)",
+    color: "var(--fc-sec-capmkts)",
     items: [
       { id: "model-standardizer", label: "Model Standardizer", icon: "fileText" },
       { id: "buyside-report", label: "Sector Buy-Side Report", icon: "barchart" },
@@ -175,7 +175,7 @@ export const BEACON_NAV: readonly NavSection[] = [
   },
   {
     label: "Workspace",
-    color: "var(--icr-sec-rnd)",
+    color: "var(--fc-sec-rnd)",
     items: [
       { id: "resources", label: "Resources", icon: "fileText" },
       { id: "admin", label: "Admin & Lab", icon: "settings" },
@@ -197,12 +197,12 @@ export const MORNING_BRIEF = {
 } as const;
 
 export const QUICK_ACTIONS: readonly { id: ModuleId; title: string; sub: string; color: string }[] = [
-  { id: "comms", title: "Draft a press release", sub: "On-voice, 10 templates", color: "var(--icr-sec-comms)" },
-  { id: "media-monitoring", title: "Scan today's coverage", sub: "Sentiment + breaking alerts", color: "var(--icr-sec-comms)" },
-  { id: "newsjacking", title: "Find a newsjack", sub: "Stories you can pitch today", color: "var(--icr-sec-comms)" },
-  { id: "earnings-prep", title: "Anticipate analyst Q&A", sub: "Ranked tough questions", color: "var(--icr-sec-earnings)" },
-  { id: "crisis", title: "Run a crisis scenario", sub: "Simulate + draft response", color: "var(--icr-down)" },
-  { id: "shareholder-match", title: "Find gap investors", sub: "Accounts likely to buy", color: "var(--icr-sec-intel)" },
+  { id: "comms", title: "Draft a press release", sub: "On-voice, 10 templates", color: "var(--fc-sec-comms)" },
+  { id: "media-monitoring", title: "Scan today's coverage", sub: "Sentiment + breaking alerts", color: "var(--fc-sec-comms)" },
+  { id: "newsjacking", title: "Find a newsjack", sub: "Stories you can pitch today", color: "var(--fc-sec-comms)" },
+  { id: "earnings-prep", title: "Anticipate analyst Q&A", sub: "Ranked tough questions", color: "var(--fc-sec-earnings)" },
+  { id: "crisis", title: "Run a crisis scenario", sub: "Simulate + draft response", color: "var(--fc-down)" },
+  { id: "shareholder-match", title: "Find gap investors", sub: "Accounts likely to buy", color: "var(--fc-sec-intel)" },
 ];
 
 export type MacroIndicator = { label: string; value: string; trend: number; asOf: string };
@@ -308,8 +308,8 @@ export const BEACON_FACTS: readonly { value: string; label: string }[] = [
 ];
 
 export const BEACON_STACK: readonly { group: string; color: string; items: string[] }[] = [
-  { group: "Frontend", color: "var(--icr-sec-overview)", items: ["Next.js 16", "React 19", "Tailwind v4", "shadcn/ui"] },
-  { group: "AI", color: "var(--icr-sec-strategy)", items: ["Anthropic Claude", "Streaming generation", "Tool use", "RAG over filings"] },
-  { group: "Data", color: "var(--icr-sec-earnings)", items: ["Supabase Postgres", "Prisma", "SEC EDGAR", "FMP · FRED · Polygon"] },
-  { group: "Platform", color: "var(--icr-sec-intel)", items: ["Vercel", "Role-based access", "Resend", "PostHog"] },
+  { group: "Frontend", color: "var(--fc-sec-overview)", items: ["Next.js 16", "React 19", "Tailwind v4", "shadcn/ui"] },
+  { group: "AI", color: "var(--fc-sec-strategy)", items: ["Anthropic Claude", "Streaming generation", "Tool use", "RAG over filings"] },
+  { group: "Data", color: "var(--fc-sec-earnings)", items: ["Supabase Postgres", "Prisma", "SEC EDGAR", "FMP · FRED · Polygon"] },
+  { group: "Platform", color: "var(--fc-sec-intel)", items: ["Vercel", "Role-based access", "Resend", "PostHog"] },
 ];

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MODULE_LABELS, ACTIVE_COMPANY, type ModuleId } from "@/data/icr-demo";
+import { MODULE_LABELS, ACTIVE_COMPANY, type ModuleId } from "@/data/fincomms-demo";
 import { Icon, cx } from "./BeaconKit";
 import BeaconSidebar from "./BeaconSidebar";
 import { BeaconNav } from "./nav-context";
@@ -70,9 +70,9 @@ export default function BeaconConsole() {
   const ActiveModule = MODULES[active];
 
   return (
-    <div className="flex min-h-screen bg-[var(--icr-bg)]">
+    <div className="flex min-h-screen bg-[var(--fc-bg)]">
       {/* sidebar - desktop */}
-      <aside className="sticky top-12 hidden h-[calc(100vh-3rem)] w-[248px] shrink-0 border-r border-[var(--icr-border)] bg-[var(--icr-card)] lg:block">
+      <aside className="sticky top-12 hidden h-[calc(100vh-3rem)] w-[248px] shrink-0 border-r border-[var(--fc-border)] bg-[var(--fc-card)] lg:block">
         <BeaconSidebar active={active} onSelect={select} />
       </aside>
 
@@ -80,7 +80,7 @@ export default function BeaconConsole() {
       {drawer && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="absolute inset-0 bg-black/30" onClick={() => setDrawer(false)} />
-          <div className="absolute left-0 top-0 h-full w-[280px] border-r border-[var(--icr-border)] bg-[var(--icr-card)] shadow-xl">
+          <div className="absolute left-0 top-0 h-full w-[280px] border-r border-[var(--fc-border)] bg-[var(--fc-card)] shadow-xl">
             <BeaconSidebar active={active} onSelect={select} />
           </div>
         </div>
@@ -89,31 +89,31 @@ export default function BeaconConsole() {
       {/* main */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* topbar */}
-        <header className="sticky top-12 z-30 flex items-center gap-3 border-b border-[var(--icr-border)] bg-[var(--icr-card)]/90 px-4 py-2.5 backdrop-blur">
+        <header className="sticky top-12 z-30 flex items-center gap-3 border-b border-[var(--fc-border)] bg-[var(--fc-card)]/90 px-4 py-2.5 backdrop-blur">
           <button
             onClick={() => setDrawer(true)}
-            className="rounded-md p-1.5 text-[var(--icr-muted)] hover:bg-[var(--icr-surface-2)] lg:hidden"
+            className="rounded-md p-1.5 text-[var(--fc-muted)] hover:bg-[var(--fc-surface-2)] lg:hidden"
             aria-label="Open navigation"
           >
             <Icon name="dashboard" size={18} />
           </button>
 
-          <h1 className="text-[14px] font-semibold text-[var(--icr-ink)]">{MODULE_LABELS[active]}</h1>
+          <h1 className="text-[14px] font-semibold text-[var(--fc-ink)]">{MODULE_LABELS[active]}</h1>
 
           {/* company selector pill */}
-          <button className="ml-1 hidden items-center gap-1.5 rounded-full border border-[var(--icr-border)] bg-[var(--icr-card)] px-2.5 py-1 text-[12px] font-medium text-[var(--icr-ink-2)] transition-colors hover:border-[var(--icr-border-strong)] sm:inline-flex">
-            <span className="font-mono font-semibold text-[var(--icr-accent)]">{ACTIVE_COMPANY.ticker}</span>
-            <span className="text-[var(--icr-faint)]">{ACTIVE_COMPANY.name}</span>
-            <Icon name="chevronDown" size={13} className="text-[var(--icr-faint)]" />
+          <button className="ml-1 hidden items-center gap-1.5 rounded-full border border-[var(--fc-border)] bg-[var(--fc-card)] px-2.5 py-1 text-[12px] font-medium text-[var(--fc-ink-2)] transition-colors hover:border-[var(--fc-border-strong)] sm:inline-flex">
+            <span className="font-mono font-semibold text-[var(--fc-accent)]">{ACTIVE_COMPANY.ticker}</span>
+            <span className="text-[var(--fc-faint)]">{ACTIVE_COMPANY.name}</span>
+            <Icon name="chevronDown" size={13} className="text-[var(--fc-faint)]" />
           </button>
 
           {/* search */}
-          <div className="ml-auto hidden items-center gap-2 rounded-lg border border-[var(--icr-border)] bg-[var(--icr-bg)] px-2.5 py-1.5 text-[var(--icr-faint)] md:flex">
+          <div className="ml-auto hidden items-center gap-2 rounded-lg border border-[var(--fc-border)] bg-[var(--fc-bg)] px-2.5 py-1.5 text-[var(--fc-faint)] md:flex">
             <Icon name="search" size={14} />
             <input
               disabled
               placeholder="Search company, ticker, or filing"
-              className="w-56 bg-transparent text-[12px] text-[var(--icr-muted)] placeholder:text-[var(--icr-faint)] focus:outline-none"
+              className="w-56 bg-transparent text-[12px] text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none"
             />
           </div>
 
@@ -138,7 +138,7 @@ export default function BeaconConsole() {
 
 function IconButton({ name }: { name: Parameters<typeof Icon>[0]["name"] }) {
   return (
-    <button className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--icr-muted)] transition-colors hover:bg-[var(--icr-surface-2)] hover:text-[var(--icr-ink)]">
+    <button className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--fc-muted)] transition-colors hover:bg-[var(--fc-surface-2)] hover:text-[var(--fc-ink)]">
       <Icon name={name} size={16} />
     </button>
   );

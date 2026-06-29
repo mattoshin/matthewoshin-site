@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RESOURCES, type Resource } from "@/data/icr-modules-demo";
+import { RESOURCES, type Resource } from "@/data/fincomms-modules-demo";
 import {
   SectionHeading,
   Button,
@@ -32,8 +32,8 @@ const COLUMNS: ReadonlyArray<Column<Resource>> = [
     label: "Name",
     render: (r) => (
       <span className="flex items-center gap-2.5">
-        <Icon name={CATEGORY_ICON[r.category]} size={16} className="shrink-0 text-[var(--icr-muted)]" />
-        <span className="font-medium text-[var(--icr-ink)]">{r.name}</span>
+        <Icon name={CATEGORY_ICON[r.category]} size={16} className="shrink-0 text-[var(--fc-muted)]" />
+        <span className="font-medium text-[var(--fc-ink)]">{r.name}</span>
       </span>
     ),
   },
@@ -70,13 +70,13 @@ export default function Resources() {
 
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative flex-1 sm:max-w-xs">
-          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--icr-faint)]">
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--fc-faint)]">
             <Icon name="search" size={15} />
           </span>
           <input
             disabled
             placeholder="Search resources..."
-            className="w-full rounded-lg border border-[var(--icr-border)] bg-[var(--icr-bg)] py-2 pl-9 pr-3 text-[13px] text-[var(--icr-muted)] placeholder:text-[var(--icr-faint)] focus:outline-none"
+            className="w-full rounded-lg border border-[var(--fc-border)] bg-[var(--fc-bg)] py-2 pl-9 pr-3 text-[13px] text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">

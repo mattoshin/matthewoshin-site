@@ -1,5 +1,5 @@
 /**
- * icr-engines-demo.ts - sample data for the Capital Markets + Comms engines added
+ * fincomms-engines-demo.ts - sample data for the Capital Markets + Comms engines added
  * to the Financial Comms demo. Each entry drives the shared EngineScreen module.
  *
  * Faithful, mock-data recreations of the real platform's engine suite. Every
@@ -7,8 +7,8 @@
  * No real client data, no proprietary scoring logic, nothing talks to a server.
  */
 
-import type { ModuleId } from "./icr-demo";
-import type { ProseBlock } from "@/components/demos/icr/BeaconKit";
+import type { ModuleId } from "./fincomms-demo";
+import type { ProseBlock } from "@/components/demos/fincomms/BeaconKit";
 
 export type EngineStat = { label: string; value: string; tone?: "up" | "down" | "neutral" };
 export type EngineTable = {
