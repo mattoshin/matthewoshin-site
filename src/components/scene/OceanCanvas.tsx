@@ -92,6 +92,13 @@ export default function OceanCanvas() {
       <Canvas
         className="ocean-canvas-layer"
         frameloop={frameloop}
+        // Debounce the WebGL buffer resize. R3F's default is `resize: 0`, which
+        // reallocates + clears the drawing buffer on EVERY resize event; during a
+        // continuous window-corner drag that strobes the canvas (the "blinking"
+        // bug) because each clear flashes the StaticOcean layer behind it. With a
+        // debounce the canvas just CSS-scales smoothly through the drag and does a
+        // single crisp buffer-resize once the drag settles. (scroll kept at 50.)
+        resize={{ debounce: { scroll: 50, resize: 200 } }}
         dpr={[dprMin, dprCeiling]}
         gl={{
           antialias: !isPhone, // MSAA off on phones: meaningful fill-rate saving

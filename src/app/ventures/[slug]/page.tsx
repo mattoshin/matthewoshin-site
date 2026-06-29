@@ -88,6 +88,31 @@ export default async function VenturePage({
               View Demo <span aria-hidden="true">-&gt;</span>
             </Link>
           )}
+          {(venture.website || venture.socials) && (
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+              {venture.website && (
+                <a
+                  href={venture.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-bio-cyan/40 bg-bio-cyan/10 px-5 py-2.5 font-mono text-xs uppercase tracking-wider text-bio-cyan transition-colors hover:bg-bio-cyan/20"
+                >
+                  Visit the site <span aria-hidden="true">-&gt;</span>
+                </a>
+              )}
+              {venture.socials?.map((s) => (
+                <a
+                  key={s.href}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[11px] uppercase tracking-wider text-ink-muted transition-colors hover:text-bio-cyan"
+                >
+                  {s.label}
+                </a>
+              ))}
+            </div>
+          )}
         </header>
 
         {venture.video && <InterviewVideo video={venture.video} />}

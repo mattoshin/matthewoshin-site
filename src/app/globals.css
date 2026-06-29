@@ -48,6 +48,17 @@ html {
   width: 100% !important;
   height: 100vh !important;
 }
+
+/* r3f sizes the inner <canvas> with an explicit pixel width/height (inline
+ * style) from its measured container, and that update lags the window during a
+ * resize (more so with the resize debounce). Forcing the canvas to always fill
+ * its container means it never leaves an uncovered strip in a newly-exposed
+ * corner while the WebGL drawing buffer catches up. The buffer just scales to
+ * fit for those frames instead of revealing the layer behind it. */
+.ocean-canvas-layer canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
 @supports (height: 100lvh) {
   .ocean-fixed-layer {
     height: 100lvh;

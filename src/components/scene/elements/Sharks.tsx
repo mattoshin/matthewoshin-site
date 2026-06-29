@@ -35,15 +35,19 @@ import type { SceneElementProps } from "../types";
 // ---------------------------------------------------------------------------
 const BIO_CYAN = new THREE.Color("#3FE0E6"); // primary glow
 const BIO_LUMEN = new THREE.Color("#8FE8FF"); // cool rim highlight
-const BODY_DARK = new THREE.Color("#020E1F"); // near-black midnight silhouette
+// Great-white counter-shading: a slate-gray back over a pale underside. Kept on
+// the darker/muted side so the pod still belongs in the moody midnight band.
+const SHARK_BACK = new THREE.Color("#33434F"); // slate-gray dorsal surface
+const SHARK_BELLY = new THREE.Color("#B6C4CE"); // pale counter-shaded belly
 
-const SHARK_COUNT = 3;
+const SHARK_COUNT = 2;
 
-// The ventures band, plus soft feather into the neighbours. Drives the global
-// fade. (Zone bounds live in depth.ts: ventures = 0.5..0.66.)
+// Tight band centered on the SKILLS card (scroll-progress ~0.56), with a small
+// feather so the pod stays the single feature there and does NOT bleed up into
+// the Portfolio card (where it was previously stacking with the submarine).
 const BAND_START = 0.5;
-const BAND_END = 0.66;
-const FEATHER = 0.07; // how far the fade bleeds into projects / writing
+const BAND_END = 0.63;
+const FEATHER = 0.04;
 
 // ---------------------------------------------------------------------------
 // Procedural shark geometry
@@ -66,8 +70,9 @@ function buildSharkGeometry(): THREE.BufferGeometry {
   // Shark silhouette: blunt-ish rounded snout, fat midsection, tapering to a
   // thin caudal peduncle near the tail.
   const profile = (t: number): { h: number; w: number } => {
-    // t: 0 (nose) -> 1 (tail)
-    const nose = Math.pow(Math.sin(Math.min(t, 0.14) / 0.14 * Math.PI * 0.5), 0.8);
+    // t: 0 (nose) -> 1 (tail). Higher exponent widens more gradually from the
+    // tip -> the pointed, conical snout of a great white (vs a blunt nose).
+    const nose = Math.pow(Math.sin(Math.min(t, 0.14) / 0.14 * Math.PI * 0.5), 1.5);
     const taper = Math.pow(1 - clamp01((t - 0.14) / 0.86), 1.35);
     const belly = 1 - Math.pow(Math.abs(t - 0.42) * 2.0, 2.4) * 0.22;
     const base = t < 0.14 ? nose : taper * belly;
@@ -116,8 +121,7 @@ function buildSharkGeometry(): THREE.BufferGeometry {
 
   // --- Nose cap (fan to the snout center) ---
   {
-    const { h } = profile(0);
-    const cx = 0.5 * LENGTH + h * 0.4; // a touch ahead for a rounded snout
+    const cx = 0.5 * LENGTH + 0.22; // extend the tip forward into a pointed snout
     const center = positions.length / 3;
     positions.push(cx, 0, 0);
     normals.push(1, 0, 0);
@@ -164,10 +168,10 @@ function buildSharkGeometry(): THREE.BufferGeometry {
     const baseT = 0.5;
     const xb = (0.5 - baseT) * LENGTH;
     const { h } = profile(baseT);
-    const front = xb + 0.18;
-    const back = xb - 0.34;
-    const tipX = xb - 0.16;
-    const tipY = h + 0.42;
+    const front = xb + 0.24;
+    const back = xb - 0.44;
+    const tipX = xb - 0.18;
+    const tipY = h + 0.62; // taller, more imposing great-white dorsal
     const baseY = h * 0.9;
     addFin(
       [
@@ -250,9 +254,11 @@ const vertexShader = /* glsl */ `
   varying vec3 vWorldNormal;
   varying vec3 vWorldPos;
   varying float vSpine;
+  varying float vLocalY; // body-local height, for counter-shading (belly..back)
 
   void main() {
     vSpine = spine;
+    vLocalY = position.y;
     vec3 pos = position;
 
     // Yaw the rear of the body left/right. Only the back half (spine > 0.4)
@@ -279,7 +285,8 @@ const vertexShader = /* glsl */ `
 
 const fragmentShader = /* glsl */ `
   precision highp float;
-  uniform vec3 uBody;
+  uniform vec3 uBack;
+  uniform vec3 uBelly;
   uniform vec3 uRim;
   uniform vec3 uGlow;
   uniform float uRimStrength;
@@ -288,6 +295,7 @@ const fragmentShader = /* glsl */ `
   varying vec3 vWorldNormal;
   varying vec3 vWorldPos;
   varying float vSpine;
+  varying float vLocalY;
 
   void main() {
     vec3 N = normalize(vWorldNormal);
@@ -297,8 +305,10 @@ const fragmentShader = /* glsl */ `
     // Fresnel rim: hot at grazing angles -> the cyan silhouette edge.
     float fres = pow(1.0 - ndv, 4.5);
 
-    // Base near-black body with a hair of vertical falloff so it reads volumetric.
-    vec3 col = uBody;
+    // Great-white counter-shading: pale belly low on the body, slate back up top,
+    // with a crisp-ish transition along the flank like the real animal.
+    float topness = smoothstep(-0.14, 0.06, vLocalY);
+    vec3 col = mix(uBelly, uBack, topness);
 
     // Cyan edge, slightly stronger toward the tail to echo the bio theme.
     float tailBias = 0.7 + 0.3 * vSpine;
@@ -359,7 +369,8 @@ function makeUniforms() {
     uTime: { value: 0 },
     uSwayPhase: { value: 0 },
     uSwayAmp: { value: 0.12 },
-    uBody: { value: BODY_DARK.clone() },
+    uBack: { value: SHARK_BACK.clone() },
+    uBelly: { value: SHARK_BELLY.clone() },
     uRim: { value: BIO_CYAN.clone() },
     uGlow: { value: BIO_LUMEN.clone() },
     uRimStrength: { value: 0.0 },

@@ -1,21 +1,22 @@
 "use client";
 
 /**
- * Clownfish - a small school of orange-and-white clownfish that cruises the
- * sunlit shallows (the `about` zone) in ONE calm LEFT -> RIGHT pass across the
- * screen, exactly like the ship: a slow traverse with a quick fade-in at the
- * entering (left) edge and a slow fade-out at the exit. No darting, no chaos -
- * a tidy little formation swimming by.
+ * Clownfish - two small schools of orange-and-white clownfish cruising the
+ * sunlit shallows (the `about` zone) BELOW the centered content card. One school
+ * crosses LEFT -> RIGHT, the other RIGHT -> LEFT, on two slightly different
+ * lanes, so they read as a couple of tidy little shoals passing each other (no
+ * darting, no chaos). Each school slow-traverses with a quick fade-in at its
+ * entering edge and a slow fade-out at its exit edge, exactly like the ship.
  *
  * Procedural low-poly geometry (kept) painted by a fragment shader (orange body,
  * two white bands, dark fin/edge trim); the tail wiggle is baked in the vertex
- * shader so the swim is free. The whole school is one InstancedMesh whose group
- * translates left->right; each fish holds a fixed formation offset + a gentle bob.
+ * shader so the swim is free. Each school is one InstancedMesh whose group
+ * translates across the screen; each fish holds a fixed formation offset + bob.
  *
  * Zone-gating: visible only inside the `about` band (0.16..0.32) + feather. The
- * camera-locked group keeps it framed through the band; off-band it hides and the
- * per-frame loop early-returns. Self-contained SceneElement; reads `progress`
- * imperatively. Procedural only - no external models/textures/network.
+ * camera-locked groups keep both schools framed through the band; off-band they
+ * hide and the per-frame loop early-returns. Self-contained SceneElement; reads
+ * `progress` imperatively. Procedural only - no external models/textures/network.
  */
 
 import { useMemo, useRef } from "react";
@@ -27,29 +28,36 @@ import type { SceneElementProps } from "../types";
 // ---------------------------------------------------------------------------
 // Tuning
 // ---------------------------------------------------------------------------
-const FISH_COUNT = 3; // a tidy little school that crosses as one element
+const COUNT = 3; // fish per school; two schools (opposite directions) = 6 total
 
-const BAND_START = 0.16; // sunlit shallows (`about`)
-const BAND_END = 0.32;
-const FEATHER = 0.06;
+// Tight band centered on the EXPERIENCE card (scroll-progress ~0.14) so the
+// clownfish are that section's single feature and don't bleed into the
+// Entrepreneurship card below (the turtle owns that one).
+const BAND_START = 0.08;
+const BAND_END = 0.22;
+const FEATHER = 0.04;
 
 const Z_CENTER = -13; // sit in front of the camera (camera z = 8)
-const Y_OFFSET = 6; // ride ABOVE the centered content card so the school is visible, not hidden behind it
+// Two lanes BELOW the centered content card so the schools read as separate
+// shoals crossing under the text, not one clump hidden behind it.
+const LANE_LR = -5; // the left -> right school rides the upper lane
+const LANE_RL = -7.5; // the right -> left school rides the lower lane
 
-// Slow LEFT -> RIGHT cruise across the screen, wrapping (like the ship).
+// Slow cruise across the screen, wrapping (like the ship).
 const X_LEFT = -16;
 const X_RIGHT = 16;
 const X_SPAN = X_RIGHT - X_LEFT;
-const SPEED = 1.7; // world units / second - a calm swim
+const SPEED = 1.05; // world units / second - an unhurried, tasteful drift
 
-// Asymmetric carousel fade: quick fade-IN at the left edge, slow fade-OUT right.
-const ENTER_AT = -12;
+// Asymmetric carousel fade relative to direction of travel: quick fade-IN at the
+// entering edge, slow fade-OUT at the exit edge. EDGE_NEAR is the |x| where a
+// fish begins entering / has begun exiting.
+const EDGE_NEAR = 12;
 const ENTER_SOFT = 1.6;
-const EXIT_AT = 12;
 const EXIT_SOFT = 6;
 
-// Fixed school formation (local, fish face +x = direction of travel). A loose
-// trailing line so it reads as a few fish swimming together, not a clump.
+// Fixed school formation (local). A loose trailing line so each school reads as
+// a few fish swimming together, not a clump.
 const FORMATION: ReadonlyArray<readonly [number, number, number]> = [
   [0.0, 0.7, 0.3],
   [-1.8, -0.2, 1.1],
@@ -60,6 +68,10 @@ const BOB_PHASE = [0.0, 2.1, 4.0];
 const TAIL_SPEED = [5.0, 5.6, 4.6];
 const TAIL_PHASE = [0.4, 2.7, 5.1];
 const TAIL_WIGGLE = [0.5, 0.7, 0.6];
+
+// Reused axis for the 180deg yaw that turns the geometry (nose +x) to face -x
+// for the right -> left school.
+const Y_AXIS = new THREE.Vector3(0, 1, 0);
 
 // Palette.
 const ORANGE = hexToRgb01("#FF7A3C");
@@ -244,7 +256,24 @@ const fishFragment = /* glsl */ `
   }
 `;
 
-export default function Clownfish({ progress }: SceneElementProps) {
+// ---------------------------------------------------------------------------
+// One school: COUNT fish translating across the screen in a single direction.
+//   dir  = +1 -> left -> right (geometry nose +x already faces travel)
+//   dir  = -1 -> right -> left (yaw 180deg so the nose faces travel)
+// `laneY` rides the school below the card; `phase` offsets it along x so the two
+// schools don't cross in lockstep.
+// ---------------------------------------------------------------------------
+function School({
+  progress,
+  dir,
+  laneY,
+  phase,
+}: {
+  progress: SceneElementProps["progress"];
+  dir: 1 | -1;
+  laneY: number;
+  phase: number;
+}) {
   const groupRef = useRef<THREE.Group>(null);
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
@@ -262,6 +291,13 @@ export default function Clownfish({ progress }: SceneElementProps) {
     }),
     [],
   );
+
+  // Facing quaternion for this school's travel direction (built once).
+  const facing = useMemo(() => {
+    const q = new THREE.Quaternion();
+    if (dir < 0) q.setFromAxisAngle(Y_AXIS, Math.PI); // nose +x -> -x (faces left)
+    return q;
+  }, [dir]);
 
   const scratch = useMemo(
     () => ({ m: new THREE.Matrix4(), q: new THREE.Quaternion(), p: new THREE.Vector3(), s: new THREE.Vector3() }),
@@ -300,21 +336,27 @@ export default function Clownfish({ progress }: SceneElementProps) {
     const t = state.clock.elapsedTime;
     mat.uniforms.uTime.value = t;
 
-    // Left -> right traverse, wrapping.
-    const x = X_LEFT + ((t * SPEED) % X_SPAN);
-    const fadeIn = clamp01((x - ENTER_AT) / ENTER_SOFT);
-    const fadeOut = clamp01((EXIT_AT - x) / EXIT_SOFT);
+    // Directional traverse, wrapping. Both directions sweep x across [-16, 16].
+    const travel = (t * SPEED + phase) % X_SPAN;
+    const x = dir > 0 ? X_LEFT + travel : X_RIGHT - travel;
+
+    // Carousel fade relative to the direction of travel: quick fade-in at the
+    // entering edge, slow fade-out at the exit edge.
+    const fadeIn =
+      dir > 0 ? clamp01((x + EDGE_NEAR) / ENTER_SOFT) : clamp01((EDGE_NEAR - x) / ENTER_SOFT);
+    const fadeOut =
+      dir > 0 ? clamp01((EDGE_NEAR - x) / EXIT_SOFT) : clamp01((x + EDGE_NEAR) / EXIT_SOFT);
     mat.uniforms.uFade.value = fade.current * Math.min(fadeIn, fadeOut);
 
-    // The school rides the live camera depth (framed through the band) and
-    // translates across the screen.
-    group.position.set(x, state.camera.position.y + Y_OFFSET, Z_CENTER);
+    // The school rides the live camera depth (framed through the band) on its
+    // lane below the card, and translates across the screen.
+    group.position.set(x, state.camera.position.y + laneY, Z_CENTER);
 
-    for (let i = 0; i < FISH_COUNT; i++) {
+    for (let i = 0; i < COUNT; i++) {
       const o = FORMATION[i];
       const bobY = Math.sin(t * 2.0 + BOB_PHASE[i]) * 0.18;
       scratch.p.set(o[0], o[1] + bobY, o[2]);
-      scratch.q.identity(); // nose +x -> faces the direction of travel (right)
+      scratch.q.copy(facing); // face the direction of travel
       scratch.s.setScalar(SCALES[i]);
       scratch.m.compose(scratch.p, scratch.q, scratch.s);
       mesh.setMatrixAt(i, scratch.m);
@@ -326,7 +368,7 @@ export default function Clownfish({ progress }: SceneElementProps) {
     <group ref={groupRef} visible={false}>
       <instancedMesh
         ref={meshRef}
-        args={[geometry, undefined, FISH_COUNT]}
+        args={[geometry, undefined, COUNT]}
         frustumCulled={false}
         renderOrder={1}
       >
@@ -343,5 +385,14 @@ export default function Clownfish({ progress }: SceneElementProps) {
         />
       </instancedMesh>
     </group>
+  );
+}
+
+export default function Clownfish({ progress }: SceneElementProps) {
+  return (
+    <>
+      <School progress={progress} dir={1} laneY={LANE_LR} phase={0} />
+      <School progress={progress} dir={-1} laneY={LANE_RL} phase={X_SPAN * 0.5} />
+    </>
   );
 }

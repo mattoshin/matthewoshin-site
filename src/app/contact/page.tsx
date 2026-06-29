@@ -49,8 +49,13 @@ export default function ContactPage() {
           </span>
         )}
 
+        {/* Opens a Gmail compose window in a new tab. A bare mailto: silently
+            does nothing on machines without a default mail app configured, which
+            read as a "broken" button; this always opens a real compose view. */}
         <a
-          href={`mailto:${SITE.email}`}
+          href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SITE.email)}`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="rounded-full border border-bio-cyan/40 px-7 py-3.5 text-base font-medium text-bio-cyan transition-colors hover:bg-bio-cyan/10"
         >
           {CONTACT.secondaryLabel}

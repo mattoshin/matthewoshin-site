@@ -98,7 +98,7 @@ export const BUCKETS: readonly Bucket[] = [
     zone: "skills",
     label: "Interests",
     href: "/interests",
-    teaser: "Markets, a real DJ rig, sneakers, networking, and emerging tech.",
+    teaser: "Music from sax to house sets, film and photography, markets, sneakers, and emerging tech.",
   },
   {
     id: "contact",
@@ -115,6 +115,8 @@ export const BUCKET_BY_HREF: Readonly<Record<string, Bucket>> =
 
 export const HERO = {
   name: "Matthew Oshin",
+  // Resume's opening positioning line, shown as a sub-headline under the hero.
+  tagline: "Engineer's hands, investor's judgment, founder's speed.",
   // Short punchy positioning line (eyebrow).
   positioning: "Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
   // One-sentence hook. This is the single strong instance of the "builder is the
@@ -122,7 +124,7 @@ export const HERO = {
   hook: "I'm a builder. It's the throughline of everything I've done, from scaling my first companies in high school to shipping AI products today.",
   // One concise bio for the front page, kept distinct from the hook so nothing
   // repeats. The full story lives in the deeper sections.
-  bio: "Today I'm Chief AI Officer at BrachyClip, an early-stage cancer medical device company, and most recently I led the AI & Intelligence Lab at ICR. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
+  bio: "Today I'm Chief AI Officer at BrachyClip, a cancer medical device company, and most recently I led the AI & Intelligence Lab at ICR. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
   scrollHint: "Pick a depth to dive",
 } as const;
 
@@ -140,7 +142,7 @@ export const ABOUT = {
     "At 19 I founded Mocean Technologies, a research platform I describe as Bloomberg for Discord: a team of 40-plus analysts producing alpha that my software reformatted, branded, and redistributed to other subscription businesses. It scaled to about $400K in revenue, 100,000+ users, and 1,000+ investor communities, and it was acquired. The lesson it taught me runs through everything since: distribution beats production.",
     "On the side I co-founded Element Underground, a dance-music events and media group that has drawn 17,000+ attendees across NYC, Miami, Boston, and Ann Arbor, and now keeps the content it shoots as its own owned asset. Earlier ventures, Ocean Supply, Profit Paradise, and Resell Network, are where the resale floor first taught me that the edge is the signal, not the shoe.",
     "Most recently I was VP of AI & Innovation at ICR, a leading investor-relations and strategic-communications firm, where I stood up the AI function from scratch and led the AI & Intelligence Lab across R&D, Education, and Discovery. I owned the data pipeline and shipped the firm's internal AI platform, prototyping most of it solo on Claude Code.",
-    "Today I'm Chief AI Officer and Director of Marketing at BrachyClip, an early-stage cancer medical-device company, plus a portfolio of my own builds. The flagship is Sigma, a distribution-first equity-research terminal that quantifies how my view disagrees with what the options market is pricing. It's the cleanest expression of who I am, markets reasoning shipped as a product.",
+    "Today I'm Chief AI Officer and Director of Marketing at BrachyClip, a cancer medical-device company, plus a portfolio of my own builds. The flagship is Sigma, a distribution-first equity-research terminal that quantifies how my view disagrees with what the options market is pricing. It's the cleanest expression of who I am, markets reasoning shipped as a product.",
     "University of Michigan econ grad. I think in probabilities and expected value, but I can also stand up the database, write the agent, and put a real UI in front of it. Always up to connect with other builders, especially around AI, investing, and emerging tech.",
   ],
 } as const;
@@ -164,10 +166,10 @@ export const EXPERIENCE: readonly Job[] = [
     org: "BrachyClip",
     period: "2025 to present",
     points: [
-      "BrachyClip is an early-stage medical device company (Brown University / Rhode Island Hospital affiliation) building a clip-based intraoperative permanent seed brachytherapy applicator for minimally invasive cancer surgery. $6.8B TAM across nine solid-tumor categories, 510(k) predicate pathway.",
-      "Built the brand, positioning, and investor narrative from scratch for a pre-clearance device: Series A pitch deck, the brachyclip.com marketing site, and a gated investor portal on Next.js 16 with an approval-based access flow.",
+      "BrachyClip is a cancer medical device company (Brown University / Rhode Island Hospital affiliation) building a clip-based intraoperative permanent seed brachytherapy applicator for minimally invasive cancer surgery. $6.8B TAM across nine solid-tumor categories, 510(k) predicate pathway.",
+      "Built the brand, positioning, and investor narrative from scratch for a pre-clearance device: Series A pitch deck, the brachyclip.com marketing site, and a gated investor portal on Next.js 16 with an approval-based access flow, supporting an active eight-figure raise.",
       "Set digital-marketing strategy designed around FDA-compliant content as a hard constraint, not an afterthought.",
-      "Driving AI integration into clinical and operational workflows, and supporting investor relations directly.",
+      "Driving agentic AI automations across clinical and operational workflows under FDA constraints (saving ~5 hours a week), and supporting investor relations directly.",
     ],
   },
   {
@@ -177,9 +179,9 @@ export const EXPERIENCE: readonly Job[] = [
     period: "2026",
     points: [
       "Stood up the firm's AI function from scratch and led its AI & Intelligence Lab across three pillars: R&D, Education, and Discovery.",
-      "Built and shipped the flagship internal AI platform: a Next.js app on Supabase and Vercel spanning IR, legal, project management, and intelligence, with Claude streaming under the hood.",
-      "Owned the data pipeline and the technical roadmap, from a RAG layer over the firm's work product to a labeling loop that captured advisor edits.",
-      "Drove firm-wide adoption with role-based training tied to real workflows, and hired and managed the technical staff.",
+      "Built and shipped the flagship internal AI platform, a Next.js app on Supabase and Vercel with Claude streaming, then embedded with practice teams to ship 11 custom production apps, including real-time media monitoring, an SEC intelligence platform, and an agentic security and IT-ops dashboard, with working prototypes inside four weeks.",
+      "Engineered the data pipeline: a RAG layer over the firm's 27 TB corpus, plus an advisor-edit labeling loop that captured training signal.",
+      "Drove the platform to 61% adoption across the 400-person firm with role-based training tied to real workflows, and hired and managed the technical team.",
     ],
   },
   {
@@ -266,6 +268,10 @@ export interface Venture {
   quotes?: readonly string[];
   /** A brand logo/mark shown in the detail-page hero. */
   logo?: { src: string; alt: string };
+  /** Live site for the venture; renders a "Visit the site" link. */
+  website?: string;
+  /** The venture's own social links, shown on its case-study page. */
+  socials?: readonly { label: string; href: string }[];
 }
 
 export const VENTURES: readonly Venture[] = [
@@ -328,6 +334,12 @@ export const VENTURES: readonly Venture[] = [
       "Element is the venture I am proudest of, and not because it made the most money. It is the one where the craft is visible, where the brand became art, and where I learned that if you do the service well enough, the asset you keep can quietly become a bigger business than the service ever was.",
     ],
     logo: { src: "/ventures/element-underground.png", alt: "Element Underground logo" },
+    website: "https://elementunderground.com",
+    socials: [
+      { label: "Instagram", href: "https://www.instagram.com/element.underground/" },
+      { label: "YouTube", href: "https://www.youtube.com/@element.underground" },
+      { label: "TikTok", href: "https://www.tiktok.com/@element.underground" },
+    ],
   },
   {
     slug: "profit-paradise",
@@ -536,7 +548,7 @@ export const BUILDS: readonly Build[] = [
     hook: "The brand, investor narrative, and web presence for a pre-clearance medical-device company: a marketing site plus a gated, approval-based investor portal.",
     demoHref: undefined,
     summary:
-      "BrachyClip is an early-stage medical-device company affiliated with Brown University and Rhode Island Hospital. I lead its marketing and AI as Chief AI Officer, and I built its entire digital presence from scratch under a hard FDA-compliance constraint. The public surface is a brand and marketing site for a device that cannot yet make clinical claims; behind it sits a gated investor portal on Next.js 16 with an approval-based access flow, so the Series A materials reach vetted investors and no one else. The work is as much positioning as it is engineering: building trust and a credible narrative for a pre-clearance device where every word is a regulatory decision.",
+      "BrachyClip is a cancer medical-device company affiliated with Brown University and Rhode Island Hospital. I lead its marketing and AI as Chief AI Officer, and I built its entire digital presence from scratch under a hard FDA-compliance constraint. The public surface is a brand and marketing site for a device that cannot yet make clinical claims; behind it sits a gated investor portal on Next.js 16 with an approval-based access flow, so the Series A materials reach vetted investors and no one else. The work is as much positioning as it is engineering: building trust and a credible narrative for a pre-clearance device where every word is a regulatory decision.",
     highlights: [
       "Brand, positioning, and investor narrative built from scratch for a pre-clearance device, including the Series A story.",
       "A marketing site on the public web and a separate gated investor portal with an approval-based access flow, both on Next.js 16.",
@@ -616,6 +628,16 @@ export const SKILL_GROUPS: readonly SkillGroup[] = [
       "AI SDK",
       "MCP",
       "Streaming",
+      "Codex",
+      "Cursor",
+      "pgvector",
+      "Pinecone",
+      "Ollama",
+      "Local open models (Llama, Qwen, Hermes)",
+      "Hugging Face",
+      "Whisper",
+      "Exa",
+      "Firecrawl",
     ],
   },
   {
@@ -671,6 +693,12 @@ export const SKILL_GROUPS: readonly SkillGroup[] = [
       "Docker and self-hosting",
       "GitHub Actions CI/CD",
       "d3 and Recharts",
+      "AWS",
+      "Azure",
+      "n8n",
+      "Playwright",
+      "Sentry",
+      "PostHog",
     ],
   },
   {
@@ -761,9 +789,14 @@ export const INTERESTS: readonly Interest[] = [
       "I still write long-form theses for fun, the same buy-side loop I ran at Manatuck Hill: build a view, pressure-test it, size it. They range from a Meta bull case to a Constellation Brands valuation, and lately I track how AI infrastructure gets priced.",
   },
   {
-    title: "DJ with a real rig",
+    title: "A musician, first",
     detail:
-      "House and melodic techno on an actual rig, not a laptop. It grew into Element Underground, the events brand I co-founded, and I sketch sounds and references with AI tools like Suno when I am chasing an idea.",
+      "I grew up playing saxophone and piano. Over time I taught myself to make rap beats and produce house music, and now I DJ for fun. The instruments came first, and everything since has grown out of that.",
+  },
+  {
+    title: "Film and photography",
+    detail:
+      "I shoot on a Sony A7 IV and fly a DJI drone, chasing the intersection of film and photo. What I love is capturing a moment that holds up as both a still and a frame of motion.",
   },
   {
     title: "Sneakers, the origin story",

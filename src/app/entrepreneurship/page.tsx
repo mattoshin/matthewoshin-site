@@ -102,6 +102,16 @@ export default function EntrepreneurshipPage() {
                     Try the live demo <span aria-hidden="true">-&gt;</span>
                   </Link>
                 )}
+                {venture.website && (
+                  <a
+                    href={venture.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[11px] uppercase tracking-wider text-ink-muted transition-colors hover:text-bio-cyan"
+                  >
+                    Visit the site <span aria-hidden="true">-&gt;</span>
+                  </a>
+                )}
               </div>
             </li>
           );
