@@ -50,10 +50,10 @@ function fromVenture(slug: string, status: string, siteHref?: string): Portfolio
 const brachyclip = BUILDS.find((b) => b.slug === "brachyclip");
 
 // Curated order for the "All" view: demo-backed flagships first, then the
-// web/client work, then the remaining case studies. (Camp Ricky is intentionally
-// not surfaced here.) BrachyClip and mTrain are active engagements, so they link
-// to the live site ("View Site"); the studio back-office software is its own
-// product card, "Fitness OS", which opens the clickable demo.
+// web/client work, then the remaining case studies. BrachyClip and mTrain are
+// active engagements, so they link to the live site ("View Site"); the studio
+// back-office software is its own product card, "Fitness OS", which opens the
+// clickable demo.
 const ITEMS: PortfolioItem[] = [
   fromVenture("mocean", "Founded & acquired"),
   fromBuild("galactic-signals", "ai-products"),

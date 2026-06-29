@@ -77,7 +77,7 @@ export const BUCKETS: readonly Bucket[] = [
     zone: "projects",
     label: "Portfolio",
     href: "/portfolio",
-    teaser: "The products I build now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, mTrain, Camp Ricky.",
+    teaser: "The products I build now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, mTrain.",
   },
   {
     id: "skills",
@@ -573,21 +573,6 @@ export const BUILDS: readonly Build[] = [
     ],
     stack: ["Next.js 16", "Tailwind v4", "shadcn-style UI", "Supabase", "Resend", "Vercel"],
     status: "Active client engagement",
-  },
-  {
-    slug: "camp-ricky",
-    name: "Camp Ricky",
-    hook: "A tiny weekend-availability poll for my friend group.",
-    summary:
-      "A friend has a lake house, and the group needed to pick which summer weekends to claim it. So I shipped a two-screen app: a poll where each person enters their name, checks off which of 15 candidate weekends they can make, and leaves a note, and a public dashboard that tallies everyone's picks. It's the lightweight counterpoint to my heavier builds, finished and doing its one job.",
-    highlights: [
-      "Name-keyed updates: responses key on the normalized name, so re-entering overwrites your prior answer instead of duplicating it.",
-      "No accounts and no auth, every write goes through a server action on the service role, so the browser never holds credentials.",
-      "Two screens: a response form and a public tally dashboard.",
-      "Shipped fast and kept simple on purpose.",
-    ],
-    stack: ["Next.js 16", "TypeScript", "Tailwind v4", "Supabase Postgres", "Vercel"],
-    status: "Shipped",
   },
 ] as const;
 
