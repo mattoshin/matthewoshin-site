@@ -57,7 +57,7 @@ const brachyclip = BUILDS.find((b) => b.slug === "brachyclip");
 const ITEMS: PortfolioItem[] = [
   fromVenture("mocean", "Founded & acquired"),
   fromBuild("galactic-signals", "ai-products"),
-  fromBuild("icr-intelligence", "ai-products"),
+  fromBuild("financial-comms", "ai-products"),
   fromBuild("sec-intelligence", "ai-products"),
   fromBuild("sonar", "ai-products"),
   fromBuild("atrium", "ai-products"),

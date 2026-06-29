@@ -48,14 +48,14 @@ const DEMOS: DemoCard[] = [
     accent: "#1DD1A1",
   },
   {
-    slug: "icr-intelligence",
+    slug: "financial-comms",
     name: "Financial Communications Platform",
     tagline:
       "The AI platform for investor relations, PR, and capital markets: earnings prep, peer and investor intelligence, crisis command, and on-voice drafting in one console.",
     era: "2024 to 2026 · Production build",
     status: "live",
-    href: "/app/icr-intelligence",
-    caseStudy: "/projects/icr-intelligence",
+    href: "/app/financial-comms",
+    caseStudy: "/projects/financial-comms",
     accent: "#0027b3",
   },
   {

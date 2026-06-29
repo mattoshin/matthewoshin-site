@@ -17,7 +17,7 @@ import { Wordmark, Icon, cx } from "./BeaconKit";
  * component: the only interactions are anchor scroll and links into the console
  * demo. Copy and figures are illustrative sample data.
  */
-const DASH = "/app/icr-intelligence/dashboard";
+const DASH = "/app/financial-comms/dashboard";
 
 const navLinks = [
   { label: "Modules", href: "#modules" },
