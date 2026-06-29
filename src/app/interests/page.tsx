@@ -4,11 +4,12 @@ import { INTERESTS, INTERESTS_META } from "@/data/content";
 
 /**
  * /interests - off the clock, at the seabed depth (zone id "skills").
- * DJ rig, sneakers, markets, networking, emerging tech.
+ * Music, film and photography, markets, sneakers, networking, emerging tech.
  */
 export const metadata: Metadata = {
   title: "Interests",
-  description: "DJ with a real rig, sneakers, markets, networking, emerging tech.",
+  description:
+    "Musician (sax, piano, beats, house, DJ sets), film and photography on Sony and DJI, markets, sneakers, networking, emerging tech.",
 };
 
 export default function InterestsPage() {

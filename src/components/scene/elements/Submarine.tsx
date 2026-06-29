@@ -24,7 +24,9 @@ import type { SceneElementProps } from "../types";
  * render path).
  */
 
-const BAND_START = 0.33;
+// Centered on the PORTFOLIO card (scroll-progress ~0.42). Starts after the
+// turtle (Entrepreneurship) fades out so only one feature shows per section.
+const BAND_START = 0.38;
 const BAND_END   = 0.49;
 const FEATHER    = 0.04;
 const BASE_SPEED   = 0.7;       // units/sec at the screen edges, slow so it reads as large

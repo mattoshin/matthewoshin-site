@@ -12,6 +12,7 @@ import RotatingHeadline from "./RotatingHeadline";
 // Tasteful, public proof points only (no private figures, per content-review.md).
 const PROOF: readonly string[] = [
   "2 acquisitions",
+  "20+ products shipped",
   "Chief AI Officer, BrachyClip",
   "SaaS developer",
   "Hedge fund equity research",
@@ -48,6 +49,13 @@ export default function HeroSection() {
           <RotatingHeadline
             className={`font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl ${SHADOW}`}
           />
+
+          {/* Resume positioning line, a tight three-beat sub-headline. */}
+          <p
+            className={`mt-3 font-display text-lg font-semibold text-bio-cyan sm:text-xl ${SHADOW}`}
+          >
+            {HERO.tagline}
+          </p>
 
           {/* The short bio paragraph (the one Matthew likes). */}
           <p

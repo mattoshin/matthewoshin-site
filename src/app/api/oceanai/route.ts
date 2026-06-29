@@ -1,7 +1,8 @@
 // OceanAI chat API route — a playful deep-sea guide to Matthew Oshin's world.
-// Talks to the Anthropic Messages API via plain fetch (no SDK dependency).
-// Node runtime (default). Never returns a 500 to the user: missing key or
-// upstream failure both degrade to a warm, on-brand canned reply.
+// Talks to the Groq API (OpenAI-compatible Chat Completions) via plain fetch (no
+// SDK dependency), using GROQ_API_KEY. Node runtime (default). Never returns a
+// 500 to the user: missing key or upstream failure both degrade to a warm,
+// on-brand canned reply.
 
 type Role = "user" | "assistant";
 
@@ -18,10 +19,9 @@ interface OceanAIResponse {
 // --- Tuning knobs ---------------------------------------------------------
 const MAX_TURNS = 12; // keep only the last ~12 turns of context
 const MAX_CONTENT_CHARS = 1500; // cap each message's content length
-const MODEL = "claude-haiku-4-5";
+const MODEL = "llama-3.3-70b-versatile";
 const MAX_TOKENS = 600;
-const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
-const ANTHROPIC_VERSION = "2023-06-01";
+const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 // A short, warm canned reply used whenever the live model is unavailable.
 // Still delivers a real one-line bio plus where to go next.
@@ -39,17 +39,17 @@ Never use em dashes. Use periods, commas, or shorter sentences instead.
 
 Here is what you know about Matthew Oshin. Use it to answer accurately; do not invent facts beyond this.
 
-Matthew Oshin is a builder. He is Chief AI Officer at BrachyClip, an early-stage cancer medical device company. Most recently he was VP of AI & Innovation at ICR, where he led the AI & Intelligence Lab: building internal tools and client-facing AI products, driving firm-wide AI adoption, and setting AI strategy.
+Matthew Oshin is a builder. He is Chief AI Officer at BrachyClip, a cancer medical device company. Most recently he was VP of AI & Innovation at ICR, where he led the AI & Intelligence Lab: building the flagship internal AI platform and 11 custom production apps, driving it to 61% adoption across the 400-person firm, and setting AI strategy.
 
 His foundation is in markets. He did equity research at Manatuck Hill, a hedge fund, covering AI infrastructure, nuclear energy, and precious metals.
 
-He co-founded Element Underground, a hospitality group running large-scale events across NYC, Miami, Boston, and Ann Arbor, with more than 17,000 attendees. He founded Mocean Technologies, a research platform he scaled to $400K in revenue, more than 100,000 users, and over 1,000 investor communities before its acquisition. Earlier ventures: Profit Paradise, a paid community grown to roughly 3,500 members; Ocean Supply, sneaker arbitrage, which is where the ocean theme started; and Resell Network, an 11,000-member community sold along with Mocean.
+He co-founded Element Underground, a hospitality group running large-scale events across NYC, Miami, Boston, and Ann Arbor, with more than 17,000 attendees. He founded Mocean Technologies, a research platform he scaled to $400K in revenue, more than 100,000 users, and over 1,000 investor communities before its acquisition. Earlier ventures: Profit Paradise, a paid community grown to roughly 3,500 members; Ocean Supply, his sneaker reselling business; and Resell Network, an 11,000-member community sold along with Mocean. He has been a hustler since childhood, from flipping baseball cards to washing dishes to building the sneaker business. The ocean theme of this site comes from his last name, Oshin, not from any of these ventures.
 
 What he builds now: Sigma, an options-implied distribution equity-research terminal, and Galactic Signals, a trading-signals platform.
 
 Education: University of Michigan, B.A. in Economics.
 
-Interests: DJing, sneakers, markets and investing, networking, and emerging tech.
+Interests: music (he grew up playing saxophone and piano, then learned to make rap beats and produce house music, and now DJs for fun), film and photography (he shoots on a Sony A7 IV and flies a DJI drone, chasing the intersection of film and photo), markets and investing, sneakers, networking, and emerging tech.
 
 How to reach him: matthewoshin@gmail.com, linkedin.com/in/mattoshin, and github.com/mattoshin.`;
 
@@ -96,23 +96,18 @@ function parseMessages(raw: unknown): ChatMessage[] | null {
   return cleaned.slice(-MAX_TURNS);
 }
 
-// Anthropic returns content as an array of blocks; concatenate text blocks.
-interface AnthropicTextBlock {
-  type: string;
-  text?: string;
+// Groq (OpenAI-compatible) returns choices[].message.content.
+interface GroqChoice {
+  message?: { content?: string };
 }
 
-interface AnthropicMessage {
-  content?: AnthropicTextBlock[];
+interface GroqResponse {
+  choices?: GroqChoice[];
 }
 
-function extractText(data: AnthropicMessage): string {
-  if (!Array.isArray(data.content)) return "";
-  return data.content
-    .filter((block) => block.type === "text" && typeof block.text === "string")
-    .map((block) => block.text as string)
-    .join("")
-    .trim();
+function extractText(data: GroqResponse): string {
+  const content = data.choices?.[0]?.message?.content;
+  return typeof content === "string" ? content.trim() : "";
 }
 
 export async function POST(req: Request): Promise<Response> {
@@ -136,25 +131,25 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   // --- Graceful fallback: no API key configured -------------------------
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     return jsonResponse({ reply: FALLBACK_REPLY, fallback: true });
   }
 
-  // --- Call Anthropic, degrading gracefully on any failure --------------
+  // --- Call Groq, degrading gracefully on any failure -------------------
   try {
-    const upstream = await fetch(ANTHROPIC_URL, {
+    const upstream = await fetch(GROQ_URL, {
       method: "POST",
       headers: {
-        "x-api-key": apiKey,
-        "anthropic-version": ANTHROPIC_VERSION,
+        Authorization: `Bearer ${apiKey}`,
         "content-type": "application/json",
       },
       body: JSON.stringify({
         model: MODEL,
         max_tokens: MAX_TOKENS,
-        system: SYSTEM_PROMPT,
-        messages,
+        temperature: 0.6,
+        // OpenAI-compatible: the system prompt is the first message.
+        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
       }),
     });
 
@@ -164,7 +159,7 @@ export async function POST(req: Request): Promise<Response> {
       return jsonResponse({ reply: FALLBACK_REPLY, fallback: true });
     }
 
-    const data = (await upstream.json()) as AnthropicMessage;
+    const data = (await upstream.json()) as GroqResponse;
     const reply = extractText(data);
 
     if (!reply) {

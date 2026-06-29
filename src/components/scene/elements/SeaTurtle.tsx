@@ -49,13 +49,13 @@ const PLASTRON = new THREE.Color("#CFE6C2"); // pale belly
 const SKIN = new THREE.Color("#5BA86A"); // head / flipper skin (slightly lighter)
 const RIM = new THREE.Color("#8FE8FF"); // cool bio rim that grows with depth
 
-// Band: soft entrance in `about` (0.16), full through `projects` (0.32..0.5) and
-// `ventures` (0.5..0.66), gone by `writing` (>=0.66). Asymmetric feathers: a long
-// gentle fade-in up top, a tighter fade-out so it's clear by the abyss.
-const BAND_START = 0.76; // the turtle's single zone: the seabed (Interests)
-const BAND_END = 0.90; // hands off to the octopus on the floor below
-const FEATHER_IN = 0.1; // long, graceful entrance
-const FEATHER_OUT = 0.06; // crisper exit before `writing`
+// Tight band centered on the ENTREPRENEURSHIP card (scroll-progress ~0.28) so
+// the turtle is that section's single feature: it fades in after the clownfish
+// (Experience) and out before the submarine (Portfolio), one creature at a time.
+const BAND_START = 0.23;
+const BAND_END = 0.35;
+const FEATHER_IN = 0.04;
+const FEATHER_OUT = 0.04;
 
 // Part ids written into the aPart attribute (must match the shader switch).
 const PART_SHELL = 0.0;
