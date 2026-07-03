@@ -157,7 +157,6 @@ export const MORE_BUCKETS: readonly Bucket[] = BUCKETS.filter(
  * achievement, I can't click on it.") Figures are LinkedIn-public.
  */
 export const HERO_PROOF: readonly { label: string; href: string }[] = [
-  { label: "2 acquisitions", href: "/entrepreneurship" },
   { label: "$400K revenue, 100K+ users at Mocean", href: "/ventures/mocean" },
   { label: "20+ products shipped", href: "/portfolio" },
   { label: "Chief AI Officer, BrachyClip", href: "/experience" },
