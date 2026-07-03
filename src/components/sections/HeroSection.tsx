@@ -1,17 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HERO, HERO_PROOF } from "@/data/content";
-import RotatingHeadline from "./RotatingHeadline";
 
 /**
  * HeroSection - the SURFACE (0m). Decluttered per Matthew: no eyebrow line and no
- * big name (the wordmark up top carries the identity). Just the portrait, the
- * one-line hook as the headline, the short bio paragraph he likes, and the proof
- * chips. Light + bold type with a crisp dark shadow so it reads over the water.
+ * big name (the wordmark up top carries the identity). Light + bold type with a
+ * crisp dark shadow so it reads over the water.
  *
  * CURATED 2026-07-03 (Gabe's feedback): seven static chips became FOUR clickable
  * proof stats (HERO_PROOF in content.ts), each routing to its evidence, with an
  * arrow affordance so they read as doors, not decoration.
+ *
+ * CUT DOWN 2026-07-03 round two (Matthew: "too much going on... especially the
+ * motion"): the rotating six-identity headline is GONE, replaced by the static
+ * throughline "I'm a builder." The four-sentence bio paragraph left the hero
+ * too (its facts live on /experience, About, and the chips). First view is now:
+ * headline, tagline, four proof chips, scroll hint. Do not re-add motion or
+ * copy here without asking him.
  */
 
 // Crisp dark legibility shadow for light type over the variable surface.
@@ -38,24 +43,19 @@ export default function HeroSection() {
           />
         </div>
 
-        {/* Text - the hook is the headline now (name lives in the wordmark). */}
+        {/* Text - one static line, one beat, proof. Calm over the water. */}
         <div className="min-w-0 max-w-xl text-center md:text-left">
-          <RotatingHeadline
-            className={`font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl ${SHADOW}`}
-          />
+          <h1
+            className={`font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl ${SHADOW}`}
+          >
+            I&rsquo;m a <span className="text-bio-cyan">builder</span>.
+          </h1>
 
           {/* Resume positioning line, a tight three-beat sub-headline. */}
           <p
             className={`mt-3 font-display text-lg font-semibold text-bio-cyan sm:text-xl ${SHADOW}`}
           >
             {HERO.tagline}
-          </p>
-
-          {/* The short bio paragraph (the one Matthew likes). */}
-          <p
-            className={`mx-auto mt-6 max-w-xl text-base leading-relaxed text-ink-body ${SHADOW} sm:text-lg md:mx-0`}
-          >
-            {HERO.bio}
           </p>
 
           {/* Proof stats - dark glass chips, each a LINK to its evidence. The

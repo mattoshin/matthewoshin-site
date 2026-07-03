@@ -172,8 +172,8 @@ export const HERO = {
   // One-sentence hook. This is the single strong instance of the "builder is the
   // throughline" line; the About block no longer repeats it.
   hook: "I'm a builder. It's the throughline of everything I've done, from scaling my first companies in high school to shipping AI products today.",
-  // One concise bio for the front page, kept distinct from the hook so nothing
-  // repeats. The full story lives in the deeper sections.
+  // Held for reuse (OFF the hero since 2026-07-03: "too much going on"). The
+  // full story lives in the deeper sections; the chips carry the hero proof.
   bio: "Today I'm Chief AI Officer at BrachyClip, a cancer medical device company, and most recently I led the AI & Intelligence Lab at ICR. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
   scrollHint: "Pick a depth to dive",
 } as const;
