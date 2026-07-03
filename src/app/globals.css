@@ -401,22 +401,21 @@ html.lenis body {
 .btn-demo:hover {
   background: color-mix(in srgb, var(--bio-cyan) 88%, white);
 }
+/* Toned down 2026-07-03 (Matthew: "make the blinking a little bit less"): no
+   expanding ring, a much smaller glow delta, and a slower cycle, so a grid
+   full of demo buttons breathes instead of strobing. */
 @keyframes demo-pulse {
   0%,
   100% {
-    box-shadow:
-      0 0 0 0 color-mix(in srgb, var(--bio-cyan) 60%, transparent),
-      0 0 16px 1px color-mix(in srgb, var(--bio-cyan) 45%, transparent);
+    box-shadow: 0 0 14px 1px color-mix(in srgb, var(--bio-cyan) 35%, transparent);
   }
   50% {
-    box-shadow:
-      0 0 0 7px color-mix(in srgb, var(--bio-cyan) 0%, transparent),
-      0 0 30px 7px color-mix(in srgb, var(--bio-cyan) 70%, transparent);
+    box-shadow: 0 0 20px 3px color-mix(in srgb, var(--bio-cyan) 50%, transparent);
   }
 }
 @media (prefers-reduced-motion: no-preference) {
   .btn-demo {
-    animation: demo-pulse 1.8s ease-in-out infinite;
+    animation: demo-pulse 3.6s ease-in-out infinite;
   }
 }
 
@@ -429,11 +428,11 @@ html.lenis body {
     opacity: 1;
   }
   50% {
-    opacity: 0.4;
+    opacity: 0.65;
   }
 }
 .demo-blink {
-  animation: demo-blink 1.3s ease-in-out infinite;
+  animation: demo-blink 2.4s ease-in-out infinite;
 }
 
 /* SharkLoader: the brand shark gently swims + glows while the ocean loads. The

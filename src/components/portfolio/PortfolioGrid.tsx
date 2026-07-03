@@ -45,15 +45,12 @@ function Arrow() {
 }
 
 function PortfolioCard({ item }: { item: PortfolioItem }) {
+  // Status tags dropped from the card header (Matthew, 2026-07-03): the CTA
+  // already says live vs demo, so the top-right chip was noise.
   const header = (
-    <div className="flex items-center justify-between gap-3">
-      <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading">
-        {item.name}
-      </h2>
-      <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
-        {item.status}
-      </span>
-    </div>
+    <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading">
+      {item.name}
+    </h2>
   );
 
   // Cards with a primary action (a live site or a clickable demo) keep two distinct
@@ -111,14 +108,9 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
         href={item.caseHref}
         className="group flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/55 hover:bg-bio-cyan/[0.09]"
       >
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
-            {item.name}
-          </h2>
-          <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
-            {item.status}
-          </span>
-        </div>
+        <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
+          {item.name}
+        </h2>
         <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
         <span className="mt-auto inline-flex items-center gap-1 pt-5 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity group-hover:opacity-100">
           Open case study
