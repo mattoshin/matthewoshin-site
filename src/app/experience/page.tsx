@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import PageShell from "@/components/page/PageShell";
-import { EXPERIENCE } from "@/data/content";
+import { EXPERIENCE, SITE } from "@/data/content";
 
 /**
  * /experience - the jobs, at the sunlit-shallows depth (zone id "about").
  * Most recent first: a clean timeline of role + org + period with bullets.
+ * The one-page resume PDF anchors the top (Fingerprint case-study pattern):
+ * institutional readers get the takeaway artifact before the scroll.
  */
 export const metadata: Metadata = {
   title: "Experience",
@@ -19,6 +21,24 @@ export default function ExperiencePage() {
       heading="Experience"
       intro="Where I have worked, building AI products and learning the markets."
     >
+      {/* The takeaway artifact, before the scroll: the one-page resume. */}
+      <div className="mt-8">
+        <a
+          href={SITE.resumeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-2 rounded-full bg-bio-cyan px-5 py-2.5 text-sm font-semibold text-abyss-void shadow-[0_0_22px_-4px_var(--bio-cyan)] transition-colors hover:bg-bio-aqua"
+        >
+          Resume (PDF)
+          <span
+            aria-hidden="true"
+            className="transition-transform group-hover:translate-y-0.5"
+          >
+            &darr;
+          </span>
+        </a>
+      </div>
+
       <ol className="mt-10 space-y-4">
         {EXPERIENCE.map((job) => (
           <li

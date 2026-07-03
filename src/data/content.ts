@@ -32,6 +32,10 @@ export const SITE = {
   instagram: "https://www.instagram.com/mattoshin/",
   x: "https://x.com/matthewsoshin",
   calendlyUrl: "https://calendly.com/mattoshin",
+  /** The Gabe-approved one-pager (public/matthew-oshin-resume.pdf). The hero's
+      primary CTA: institutional readers want the takeaway artifact immediately
+      (Fingerprint case-study pattern from the 2026-07-03 Refero pass). */
+  resumeUrl: "/matthew-oshin-resume.pdf",
 } as const;
 
 /**
