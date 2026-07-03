@@ -83,7 +83,8 @@ export const BUCKETS: readonly Bucket[] = [
     zone: "about",
     label: "Experience",
     href: "/experience",
-    teaser: "Chief AI Officer at BrachyClip, ex-VP AI at ICR, hedge-fund equity research at Manatuck Hill.",
+    teaser:
+      "Chief AI Officer at BrachyClip, a cancer medical device company. Before that I stood up and led the AI function at ICR, a financial communications firm in New York, and learned markets doing equity research at Manatuck Hill, a hedge fund.",
     nav: true,
     proof: "61% firm-wide AI adoption at ICR. 11 internal apps shipped.",
   },
@@ -92,7 +93,8 @@ export const BUCKETS: readonly Bucket[] = [
     zone: "projects",
     label: "Entrepreneurship",
     href: "/entrepreneurship",
-    teaser: "Five ventures, from sneaker arbitrage to Mocean. Founded, scaled, two acquired.",
+    teaser:
+      "Five ventures between high school and college, from sneaker arbitrage to Mocean, a research platform that grew to 100,000+ users. Two were acquired. Each one is written up honestly, including what went wrong.",
     nav: true,
     navLabel: "Ventures",
     proof: "2 companies acquired. $400K revenue, 100,000+ users at Mocean.",
@@ -102,7 +104,8 @@ export const BUCKETS: readonly Bucket[] = [
     zone: "projects",
     label: "Portfolio",
     href: "/portfolio",
-    teaser: "The products I build now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, mTrain.",
+    teaser:
+      "The products I build and run now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, and mTrain. Each card says what it is and what it does, and opens a live demo you can click through yourself.",
     nav: true,
     proof: "20+ products shipped. Every one opens as a live, clickable demo.",
   },
@@ -111,28 +114,32 @@ export const BUCKETS: readonly Bucket[] = [
     zone: "ventures",
     label: "Skills",
     href: "/skills",
-    teaser: "AI engineering, full-stack, markets and quant, data, product, and design.",
+    teaser:
+      "AI engineering, full-stack development, markets and quant, data, product, and design. Not a keyword wall: these are the tools I ship with every day, from Next.js and Supabase to RAG pipelines and Claude.",
   },
   {
     id: "education",
     zone: "writing",
     label: "Education",
     href: "/education",
-    teaser: "University of Michigan, B.A. Economics.",
+    teaser:
+      "University of Michigan, B.A. in Economics. I started at WashU St. Louis in entrepreneurship before transferring. Econ gave me the markets lens the rest of this site is built on.",
   },
   {
     id: "interests",
     zone: "skills",
     label: "Interests",
     href: "/interests",
-    teaser: "Music from sax to house sets, film and photography, markets, sneakers, and emerging tech.",
+    teaser:
+      "Music runs deepest: sax and piano first, then producing, now house sets behind a DJ rig. I also shoot photo and video on a Sony A7 IV and DJI gear. The rest of the rotation: markets, sneakers, and whatever is new in tech.",
   },
   {
     id: "contact",
     zone: "contact",
     label: "Contact",
     href: "/contact",
-    teaser: "Email, LinkedIn, GitHub, or book a time.",
+    teaser:
+      "Booking a time directly is the fastest path; LinkedIn and email work too. Always happy to talk AI, markets, or building.",
   },
 ] as const;
 
