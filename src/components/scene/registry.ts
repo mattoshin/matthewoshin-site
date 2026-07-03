@@ -42,23 +42,25 @@ import Surface from "./elements/Surface";
 import type { SceneElementEntry } from "./types";
 import type { DeviceTier } from "@/lib/useDeviceTier";
 
+// `actor: true` marks the moving vessels + creatures that hide during a live
+// window resize (see SceneElementEntry.actor). Water + scenery have no flag.
 export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
   { id: "surface", Component: Surface },
   { id: "water-column", Component: WaterColumn },
   { id: "bioparticles", Component: BioParticles },
   { id: "coral-reef", Component: CoralReef },
   { id: "kelp", Component: Kelp },
-  { id: "octopus", Component: Octopus },
-  { id: "anglerfish", Component: Anglerfish },
-  { id: "submarine", Component: Submarine },
-  { id: "sharks", Component: Sharks },
-  { id: "sea-turtle", Component: SeaTurtle },
-  { id: "clownfish", Component: Clownfish },
+  { id: "octopus", Component: Octopus, actor: true },
+  { id: "anglerfish", Component: Anglerfish, actor: true },
+  { id: "submarine", Component: Submarine, actor: true },
+  { id: "sharks", Component: Sharks, actor: true },
+  { id: "sea-turtle", Component: SeaTurtle, actor: true },
+  { id: "clownfish", Component: Clownfish, actor: true },
   { id: "caustics-light", Component: CausticsLight },
   { id: "water-surface", Component: WaterSurface },
-  { id: "sailboats", Component: Sailboats },
-  { id: "water-skier", Component: WaterSkier },
-  { id: "dolphin", Component: Dolphin },
+  { id: "sailboats", Component: Sailboats, actor: true },
+  { id: "water-skier", Component: WaterSkier, actor: true },
+  { id: "dolphin", Component: Dolphin, actor: true },
 ];
 
 /**

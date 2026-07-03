@@ -20,6 +20,7 @@ import { PerformanceMonitor } from "@react-three/drei";
 import { useDescentStore } from "@/lib/store";
 import { isWebGL2Available } from "@/lib/webgl";
 import { useDeviceTier } from "@/lib/useDeviceTier";
+import { useWindowResizing } from "@/lib/useWindowResizing";
 import OceanScene from "./OceanScene";
 import StaticOcean from "../chrome/StaticOcean";
 
@@ -47,6 +48,13 @@ export default function OceanCanvas() {
   // Black Pearl survive every degradation path.
   const [lite, setLite] = useState(false);
   const [frameloop, setFrameloop] = useState<"always" | "never">("always");
+
+  // During a live window-corner drag, hide the moving actors (boats, dolphin,
+  // creatures) while the WATER keeps rendering; the actors pop back in once the
+  // drag has settled for a second. Desktop/tablet only: phones fire `resize` on
+  // every URL-bar collapse while scrolling, and the scene must not lose its
+  // hero mid-scroll there.
+  const resizing = useWindowResizing(1000, !isPhone);
 
   // Floor is 1.0 everywhere: never render below native CSS resolution, which is
   // what made the phone surface look soft and blurry. Phones may climb to their
@@ -132,7 +140,7 @@ export default function OceanCanvas() {
             }
           }}
         >
-          <OceanScene tier={tier} lite={lite} />
+          <OceanScene tier={tier} lite={lite} hideActors={resizing} />
         </PerformanceMonitor>
       </Canvas>
     </div>
