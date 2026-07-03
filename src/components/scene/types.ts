@@ -70,4 +70,11 @@ export interface SceneElementEntry {
   id: string;
   /** The element component. */
   Component: SceneElement;
+  /**
+   * Moving actor (boats, creatures) vs water/scenery. Actors are hidden while
+   * the window is being resized - a mid-drag stale frame stretches them into
+   * visible artifacts - and pop back in ~1s after the drag settles. Water and
+   * scenery keep rendering through the whole drag.
+   */
+  actor?: boolean;
 }

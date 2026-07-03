@@ -114,11 +114,6 @@ function DepthController() {
 }
 
 /**
- * @param tier  "phone" runs the trimmed registry; "full" the complete scene.
- * @param lite  phone-only graceful-degradation flag -> hero-only element set.
- * Defaults keep the full scene if ever rendered without props.
- */
-/**
  * Flips the store's `sceneReady` once the WebGL scene has actually painted a few
  * frames, so the SharkLoader fades out over a rendered ocean rather than guessing
  * with a timer. Fires once, then the per-frame work is a single cheap compare.
@@ -138,12 +133,24 @@ function SceneReadySignal() {
   return null;
 }
 
+/**
+ * @param tier       "phone" runs the trimmed registry; "full" the complete scene.
+ * @param lite       phone-only graceful-degradation flag -> hero-only element set.
+ * @param hideActors true while the window is being live-resized: the moving
+ *                   vessels + creatures (registry `actor: true`) toggle invisible
+ *                   so a mid-drag stale frame can't stretch them into artifacts,
+ *                   while the water keeps rendering. Visibility (not unmount) so
+ *                   no model state resets and repopulating is free.
+ * Defaults keep the full scene if ever rendered without props.
+ */
 export default function OceanScene({
   tier = "full",
   lite = false,
+  hideActors = false,
 }: {
   tier?: DeviceTier;
   lite?: boolean;
+  hideActors?: boolean;
 }) {
   const progress = useDescentProgress();
   const elements = elementsForTier(tier, lite);
@@ -154,9 +161,18 @@ export default function OceanScene({
       <SceneReadySignal />
       <AdaptiveDpr pixelated={false} />
       <ambientLight intensity={0.6} />
-      {elements.map(({ id, Component }) => (
-        <Component key={id} progress={progress} />
-      ))}
+      {elements.map(({ id, Component, actor }) =>
+        // Each actor gets its OWN visibility group (not one shared wrapper) so
+        // registry draw order is preserved exactly - the transparent water
+        // shaders depend on it.
+        actor ? (
+          <group key={id} visible={!hideActors}>
+            <Component progress={progress} />
+          </group>
+        ) : (
+          <Component key={id} progress={progress} />
+        ),
+      )}
     </>
   );
 }
