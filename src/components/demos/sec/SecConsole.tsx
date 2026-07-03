@@ -19,7 +19,7 @@ import SecAdmin from "./modules/SecAdmin";
  * active module via local state (no route change), so all seven screens live behind
  * one Next route. A `?module=` query param deep-links to a module and `?role=`
  * deep-links to the wealth-manager / trader view, both resolved after mount to keep
- * the SSR markup stable (matches the Beacon + Galactic patterns).
+ * the SSR markup stable (matches the fincomms + Galactic patterns).
  */
 const MODULES: Record<ModuleId, React.ComponentType> = {
   dashboard: SecDashboard,

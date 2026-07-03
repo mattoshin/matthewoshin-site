@@ -1,15 +1,15 @@
 "use client";
 
-import { BEACON_NAV, BEACON_ACCOUNT, type ModuleId } from "@/data/fincomms-demo";
-import { Wordmark, Icon, cx } from "./BeaconKit";
+import { FINCOMMS_NAV, FINCOMMS_ACCOUNT, type ModuleId } from "@/data/fincomms-demo";
+import { Wordmark, Icon, cx } from "./FcKit";
 
 /**
- * BeaconSidebar - the grouped left navigation rail. Mirrors the real Financial Comms
+ * FcSidebar - the grouped left navigation rail. Mirrors the real Financial Comms
  * structure (Overview / Earnings / Intelligence / Strategy / Workspace). Active
  * item gets the accent treatment that is the single place ultramarine appears in
  * the nav: accent-wash fill + accent text + a 2px left bar.
  */
-export default function BeaconSidebar({
+export default function FcSidebar({
   active,
   onSelect,
 }: {
@@ -23,7 +23,7 @@ export default function BeaconSidebar({
         <Wordmark />
       </div>
 
-      {/* ask beacon */}
+      {/* ask financial comms */}
       <div className="px-3 pb-2">
         <button className="flex w-full items-center gap-2 rounded-lg border border-[var(--fc-border)] bg-[var(--fc-card)] px-3 py-2 text-[13px] font-medium text-[var(--fc-muted)] transition-colors hover:border-[var(--fc-border-strong)] hover:text-[var(--fc-ink)]">
           <Icon name="sparkles" size={15} className="text-[var(--fc-accent)]" />
@@ -34,7 +34,7 @@ export default function BeaconSidebar({
 
       {/* nav */}
       <nav className="flex-1 overflow-y-auto px-3 py-2">
-        {BEACON_NAV.map((section) => (
+        {FINCOMMS_NAV.map((section) => (
           <div key={section.label} className="mb-4">
             <div className="flex items-center gap-1.5 px-2 pb-1.5">
               <span className="h-1.5 w-1.5 rounded-full" style={{ background: section.color }} />
@@ -75,11 +75,11 @@ export default function BeaconSidebar({
       <div className="border-t border-[var(--fc-border)] p-3">
         <div className="flex items-center gap-2.5">
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--fc-ink)] text-[11px] font-semibold text-white">
-            {BEACON_ACCOUNT.initials}
+            {FINCOMMS_ACCOUNT.initials}
           </span>
           <div className="min-w-0 leading-tight">
-            <div className="truncate text-[12px] font-semibold text-[var(--fc-ink)]">{BEACON_ACCOUNT.name}</div>
-            <div className="truncate text-[11px] text-[var(--fc-muted)]">{BEACON_ACCOUNT.role}</div>
+            <div className="truncate text-[12px] font-semibold text-[var(--fc-ink)]">{FINCOMMS_ACCOUNT.name}</div>
+            <div className="truncate text-[11px] text-[var(--fc-muted)]">{FINCOMMS_ACCOUNT.role}</div>
           </div>
         </div>
       </div>

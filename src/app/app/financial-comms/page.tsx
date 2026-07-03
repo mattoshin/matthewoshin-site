@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import BeaconScope from "@/components/demos/fincomms/BeaconScope";
-import BeaconLanding from "@/components/demos/fincomms/BeaconLanding";
+import FcScope from "@/components/demos/fincomms/FcScope";
+import FcLanding from "@/components/demos/fincomms/FcLanding";
 
 export const metadata: Metadata = {
   title: "Financial Communications Platform demo",
@@ -8,10 +8,10 @@ export const metadata: Metadata = {
     "A faithful, clickable recreation of Financial Comms, the AI financial-communications platform Matthew Oshin built in-house: corporate comms and PR, media monitoring, earnings prep, investor targeting, crisis command, and a full Capital Markets engine suite. Rebuilt on sample data.",
 };
 
-export default function IcrIntelligencePage() {
+export default function FinancialCommsPage() {
   return (
-    <BeaconScope>
-      <BeaconLanding />
-    </BeaconScope>
+    <FcScope>
+      <FcLanding />
+    </FcScope>
   );
 }

@@ -1,7 +1,7 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 
 /**
- * BeaconScope - the styling boundary for the Financial Communications Platform
+ * FcScope - the styling boundary for the Financial Communications Platform
  * demo. Unlike the dark Galactic/Mocean scopes, Financial Comms is a LIGHT, institutional
  * fintech surface: Inter + JetBrains Mono on an off-white canvas, ink-near-black
  * text, and Ultramarine (#0027b3) used sparingly as the single accent. Every
@@ -14,18 +14,18 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-icr-sans",
+  variable: "--font-fc-sans",
   display: "swap",
 });
 
 const jbMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-icr-mono",
+  variable: "--font-fc-mono",
   display: "swap",
 });
 
-export default function BeaconScope({ children }: { children: React.ReactNode }) {
+export default function FcScope({ children }: { children: React.ReactNode }) {
   return (
     <div
       className={`${inter.variable} ${jbMono.variable}`}
@@ -62,8 +62,8 @@ export default function BeaconScope({ children }: { children: React.ReactNode })
           "--fc-sec-capmkts": "#0ea5e9",
           "--fc-pink": "#db2777",
           // fonts
-          "--fc-mono": "var(--font-icr-mono)",
-          fontFamily: "var(--font-icr-sans)",
+          "--fc-mono": "var(--font-fc-mono)",
+          fontFamily: "var(--font-fc-sans)",
           minHeight: "100vh",
           background: "var(--fc-bg)",
           color: "var(--fc-ink)",
@@ -71,16 +71,16 @@ export default function BeaconScope({ children }: { children: React.ReactNode })
         } as React.CSSProperties
       }
     >
-      {/* Scoped keyframes (namespaced icr-*) so the Financial Comms demo carries its own
+      {/* Scoped keyframes (namespaced fc-*) so the Financial Comms demo carries its own
           motion without touching the global ocean stylesheet. Static literal. */}
       <style>{`
-@keyframes icr-pulse-ring { 0% { transform: scale(1); opacity: .5 } 100% { transform: scale(2.6); opacity: 0 } }
-@keyframes icr-blink { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
-@keyframes icr-shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
-@keyframes icr-dot { 0%,80%,100% { opacity:.25; transform: translateY(0) } 40% { opacity:1; transform: translateY(-2px) } }
-@keyframes icr-pop { 0% { opacity: 0; transform: translateY(6px) } 100% { opacity: 1; transform: translateY(0) } }
-@keyframes icr-slide-in { 0% { opacity: 0; transform: translateX(14px) } 100% { opacity: 1; transform: translateX(0) } }
-@keyframes icr-caret { 0%,100% { opacity: 0 } 50% { opacity: 1 } }
+@keyframes fc-pulse-ring { 0% { transform: scale(1); opacity: .5 } 100% { transform: scale(2.6); opacity: 0 } }
+@keyframes fc-blink { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+@keyframes fc-shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
+@keyframes fc-dot { 0%,80%,100% { opacity:.25; transform: translateY(0) } 40% { opacity:1; transform: translateY(-2px) } }
+@keyframes fc-pop { 0% { opacity: 0; transform: translateY(6px) } 100% { opacity: 1; transform: translateY(0) } }
+@keyframes fc-slide-in { 0% { opacity: 0; transform: translateX(14px) } 100% { opacity: 1; transform: translateX(0) } }
+@keyframes fc-caret { 0%,100% { opacity: 0 } 50% { opacity: 1 } }
 `}</style>
       {children}
     </div>

@@ -1,9 +1,9 @@
 /**
- * BeaconKit - shared presentational primitives for the Financial Comms demo. Pure,
+ * FcKit - shared presentational primitives for the Financial Comms demo. Pure,
  * dependency-free building blocks (inline-SVG icon set, cards, KPI stats, badges,
  * deltas, SSR-safe sparklines, the AI-provenance block, tabs, data tables, and the
  * company context header) that every Financial Comms module composes. All visuals read the
- * scoped `--fc-*` tokens from BeaconScope, so the institutional light theme stays
+ * scoped `--fc-*` tokens from FcScope, so the institutional light theme stays
  * consistent: hairline borders over shadows, mono tabular numerics, ultramarine
  * accent on ~5% of pixels, and an accent-left-border "AI" signature on generated
  * content.
@@ -20,7 +20,7 @@ export function Wordmark({ size = "md" }: { size?: "sm" | "md" }) {
   const text = size === "sm" ? "text-sm" : "text-[15px]";
   return (
     <span className="flex items-center gap-2.5">
-      <BeaconMark size={size === "sm" ? 18 : 22} />
+      <FcMark size={size === "sm" ? 18 : 22} />
       <span className="leading-none">
         <span
           className={cx("block font-semibold tracking-tight text-[var(--fc-ink)]", text)}
@@ -36,7 +36,7 @@ export function Wordmark({ size = "md" }: { size?: "sm" | "md" }) {
 }
 
 /** A small concentric-arc "signal" mark in the accent color. */
-export function BeaconMark({ size = 22 }: { size?: number }) {
+export function FcMark({ size = 22 }: { size?: number }) {
   return (
     <svg
       width={size}
@@ -370,7 +370,7 @@ export function Badge({
     >
       {dot && (
         <span className="relative flex h-1.5 w-1.5">
-          <span className="absolute inline-flex h-full w-full rounded-full" style={{ background: dotColor[tone], animation: "icr-pulse-ring 1.8s ease-out infinite" }} />
+          <span className="absolute inline-flex h-full w-full rounded-full" style={{ background: dotColor[tone], animation: "fc-pulse-ring 1.8s ease-out infinite" }} />
           <span className="relative inline-flex h-1.5 w-1.5 rounded-full" style={{ background: dotColor[tone] }} />
         </span>
       )}
@@ -527,7 +527,7 @@ export function TypingDots() {
         <span
           key={i}
           className="h-1 w-1 rounded-full bg-[var(--fc-accent)]"
-          style={{ animation: `icr-dot 1.1s ease-in-out ${i * 0.15}s infinite` }}
+          style={{ animation: `fc-dot 1.1s ease-in-out ${i * 0.15}s infinite` }}
         />
       ))}
     </span>
@@ -803,7 +803,7 @@ export function Skeleton({ className = "" }: { className?: string }) {
       className={cx("rounded bg-[length:200%_100%]", className)}
       style={{
         backgroundImage: "linear-gradient(90deg, var(--fc-surface-2) 25%, #e9ebef 50%, var(--fc-surface-2) 75%)",
-        animation: "icr-shimmer 1.4s ease-in-out infinite",
+        animation: "fc-shimmer 1.4s ease-in-out infinite",
       }}
     />
   );

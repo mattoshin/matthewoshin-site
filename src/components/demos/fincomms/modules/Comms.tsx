@@ -16,7 +16,7 @@ import {
   Button,
   Icon,
   cx,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * Comms - Corporate Comms workspace. Two views: a press-release generator (pick a

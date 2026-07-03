@@ -11,7 +11,7 @@ import {
   DataTable,
   type IconName,
   type Column,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * Resources - the client-asset library. A searchable, category-filterable table of

@@ -9,7 +9,7 @@ import {
   AIBlock,
   DataTable,
   cx,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * PeerIntel - benchmark the focal company against its peer set, and mine peer

@@ -11,11 +11,11 @@
  * datasets live in fincomms-modules-demo.ts.
  */
 
-import type { CompanyCtx, IconName } from "@/components/demos/fincomms/BeaconKit";
+import type { CompanyCtx, IconName } from "@/components/demos/fincomms/FcKit";
 
 /* ----------------------------------------------------------------- brand --- */
 
-export const BEACON = {
+export const FINCOMMS = {
   name: "Financial Comms",
   product: "Financial Communications Platform",
   tagline: "The AI intelligence layer for IR, PR, and capital markets",
@@ -25,7 +25,7 @@ export const BEACON = {
 } as const;
 
 /** The signed-in advisory user (a strategic-comms MD at the firm). */
-export const BEACON_ACCOUNT = {
+export const FINCOMMS_ACCOUNT = {
   name: "Dana Whitfield",
   initials: "DW",
   role: "Managing Director, Strategic Communications",
@@ -35,7 +35,7 @@ export const BEACON_ACCOUNT = {
 
 /* ------------------------------------------------------------- companies --- */
 
-export type ICRCompany = {
+export type FcCompany = {
   ticker: string;
   name: string;
   sector: string;
@@ -48,7 +48,7 @@ export type ICRCompany = {
 };
 
 /** The advisor's pinned client roster (all fictional). */
-export const ICR_COMPANIES: readonly ICRCompany[] = [
+export const FC_COMPANIES: readonly FcCompany[] = [
   { ticker: "QNTA", name: "Quanta Labs", sector: "Software / Developer Tools", price: 142.5, changePct: 1.82, consensus: "Buy", marketCap: "$18.4B", spark: [128, 131, 129, 134, 138, 136, 140, 142.5], earningsIn: "in 5 days" },
   { ticker: "NWND", name: "Northwind Foods", sector: "Consumer / Restaurants", price: 88.13, changePct: -0.74, consensus: "Hold", marketCap: "$6.1B", spark: [92, 91, 90, 91, 89, 90, 88.8, 88.13], earningsIn: "in 12 days" },
   { ticker: "MRDN", name: "Meridian Apparel", sector: "Consumer Discretionary / Apparel", price: 54.07, changePct: 2.41, consensus: "Buy", marketCap: "$4.3B", spark: [48, 49, 51, 50, 52, 53, 52.6, 54.07], earningsIn: "in 3 weeks" },
@@ -70,11 +70,11 @@ export const ACTIVE_COMPANY: CompanyCtx = {
 
 /* ------------------------------------------------------- platform stats --- */
 
-export const BEACON_PLATFORM = {
+export const FINCOMMS_PLATFORM = {
   clients: 14,
   briefsGenerated: 2840,
-  modules: 25,
-  dataSources: 21,
+  modules: 26,
+  dataSources: 14,
   hoursSavedWeekly: 32,
   scenariosRun: 410,
 } as const;
@@ -112,7 +112,7 @@ export type ModuleId =
 export type NavItem = { id: ModuleId; label: string; icon: IconName };
 export type NavSection = { label: string; color: string; items: NavItem[] };
 
-export const BEACON_NAV: readonly NavSection[] = [
+export const FINCOMMS_NAV: readonly NavSection[] = [
   {
     label: "Overview",
     color: "var(--fc-sec-overview)",
@@ -185,7 +185,7 @@ export const BEACON_NAV: readonly NavSection[] = [
 
 /** Flat lookup of module id -> label, for the topbar/title. */
 export const MODULE_LABELS: Record<ModuleId, string> = Object.fromEntries(
-  BEACON_NAV.flatMap((s) => s.items.map((i) => [i.id, i.label])),
+  FINCOMMS_NAV.flatMap((s) => s.items.map((i) => [i.id, i.label])),
 ) as Record<ModuleId, string>;
 
 /* ------------------------------------------------------------ dashboard --- */
@@ -273,7 +273,7 @@ export const DATA_SOURCES: readonly DataSource[] = [
 /* -------------------------------------------------------- landing copy --- */
 
 export type ModuleBlurb = { id: ModuleId; name: string; icon: IconName; blurb: string };
-export const BEACON_MODULES: readonly ModuleBlurb[] = [
+export const FINCOMMS_MODULES: readonly ModuleBlurb[] = [
   { id: "comms", name: "Corporate Comms & PR", icon: "megaphone", blurb: "Draft press releases, messaging, and media materials on-voice, and check narrative consistency across every document." },
   { id: "media-monitoring", name: "Media Monitoring", icon: "globe", blurb: "Track coverage across 80k+ sources in real time, with sentiment, share-of-voice, and alerts the moment a story breaks." },
   { id: "newsjacking", name: "Newsjacking", icon: "sparkles", blurb: "Surface the stories of the day and exactly how each can be made relevant to a client, so you can pitch reporters and win the hit." },
@@ -288,26 +288,26 @@ export const BEACON_MODULES: readonly ModuleBlurb[] = [
   { id: "ask-firm", name: "Ask the Firm", icon: "info", blurb: "A client-facing assistant that answers what the firm can do for you, grounded in the firm corpus and its house voice." },
 ];
 
-export const BEACON_PAIN_POINTS: readonly { title: string; body: string }[] = [
+export const FINCOMMS_PAIN_POINTS: readonly { title: string; body: string }[] = [
   { title: "The work is manual and slow", body: "An earnings cycle, a press release, or a crisis response eats hours stitching filings, coverage, and transcripts together by hand." },
   { title: "Intelligence is scattered", body: "Market data, media coverage, ownership, and peer signals live in ten tools that never talk to each other." },
   { title: "Speed wins the narrative", body: "When a story breaks, an activist files, or a peer stumbles, the team that drafts the right response first controls the narrative." },
 ];
 
-export const BEACON_STEPS: readonly { n: number; title: string; body: string }[] = [
+export const FINCOMMS_STEPS: readonly { n: number; title: string; body: string }[] = [
   { n: 1, title: "Pin your companies", body: "Add the tickers you advise. Financial Comms pulls fundamentals, filings, ownership, media coverage, and macro context automatically." },
   { n: 2, title: "Open a module", body: "A press release, a media scan, an earnings prep, a crisis sim, a shareholder match. Each one is grounded in live data." },
   { n: 3, title: "Generate and ship", body: "Financial Comms drafts the brief, the release, the statement, or the pitch, on-voice. You edit, approve, and send." },
 ];
 
-export const BEACON_FACTS: readonly { value: string; label: string }[] = [
-  { value: "25", label: "modules" },
-  { value: "21", label: "data sources" },
+export const FINCOMMS_FACTS: readonly { value: string; label: string }[] = [
+  { value: "26", label: "modules" },
+  { value: "14", label: "data sources" },
   { value: "32h", label: "saved / week" },
   { value: "2.8k", label: "briefs generated" },
 ];
 
-export const BEACON_STACK: readonly { group: string; color: string; items: string[] }[] = [
+export const FINCOMMS_STACK: readonly { group: string; color: string; items: string[] }[] = [
   { group: "Frontend", color: "var(--fc-sec-overview)", items: ["Next.js 16", "React 19", "Tailwind v4", "shadcn/ui"] },
   { group: "AI", color: "var(--fc-sec-strategy)", items: ["Anthropic Claude", "Streaming generation", "Tool use", "RAG over filings"] },
   { group: "Data", color: "var(--fc-sec-earnings)", items: ["Supabase Postgres", "Prisma", "SEC EDGAR", "FMP · FRED · Polygon"] },

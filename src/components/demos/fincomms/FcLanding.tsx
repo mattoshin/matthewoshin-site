@@ -1,17 +1,17 @@
 import Link from "next/link";
 import {
-  BEACON,
-  BEACON_PLATFORM,
-  BEACON_MODULES,
-  BEACON_PAIN_POINTS,
-  BEACON_STEPS,
-  BEACON_FACTS,
-  BEACON_STACK,
+  FINCOMMS,
+  FINCOMMS_PLATFORM,
+  FINCOMMS_MODULES,
+  FINCOMMS_PAIN_POINTS,
+  FINCOMMS_STEPS,
+  FINCOMMS_FACTS,
+  FINCOMMS_STACK,
 } from "@/data/fincomms-demo";
-import { Wordmark, Icon, cx } from "./BeaconKit";
+import { Wordmark, Icon, cx } from "./FcKit";
 
 /**
- * BeaconLanding - a faithful recreation of the Financial Communications Platform's
+ * FcLanding - a faithful recreation of the Financial Communications Platform's
  * marketing surface, rebuilt in this stack on Financial Comms's light, institutional brand
  * (Inter on #fafafa, ink near-black, ultramarine accent used sparingly). Server
  * component: the only interactions are anchor scroll and links into the console
@@ -25,7 +25,7 @@ const navLinks = [
   { label: "Stack", href: "#stack" },
 ];
 
-export default function BeaconLanding() {
+export default function FcLanding() {
   return (
     <div className="relative">
       {/* nav */}
@@ -63,9 +63,9 @@ export default function BeaconLanding() {
             Financial communications, with an AI analyst on every desk.
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[var(--fc-ink-2)] sm:text-base">
-            Financial Comms turns the work of an IR, PR, and capital-markets team, media monitoring,
-            earnings prep, investor targeting, crisis response, and on-voice drafting, into a single
-            workspace grounded in live market and media data.
+            Financial Comms turns the work of an IR, PR, and capital-markets team into a single
+            workspace grounded in live market and media data: media monitoring, earnings prep,
+            investor targeting, crisis response, and on-voice drafting.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <Link href={DASH} className="inline-flex items-center gap-2 rounded-lg bg-[var(--fc-ink)] px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-black">
@@ -76,7 +76,7 @@ export default function BeaconLanding() {
             </a>
           </div>
           <div className="mt-10 grid max-w-md grid-cols-4 gap-4">
-            {BEACON_FACTS.map((f) => (
+            {FINCOMMS_FACTS.map((f) => (
               <div key={f.label}>
                 <div className="font-mono text-xl font-semibold tabular-nums text-[var(--fc-ink)] sm:text-2xl">{f.value}</div>
                 <div className="mt-0.5 text-[11px] uppercase tracking-wider text-[var(--fc-faint)]">{f.label}</div>
@@ -93,10 +93,10 @@ export default function BeaconLanding() {
       <section className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid grid-cols-2 overflow-hidden rounded-[12px] border border-[var(--fc-border)] sm:grid-cols-4">
           {[
-            { v: `${BEACON_PLATFORM.clients}`, l: "Client engagements" },
+            { v: `${FINCOMMS_PLATFORM.clients}`, l: "Client engagements" },
             { v: "2.8k", l: "Briefs generated" },
-            { v: `${BEACON_PLATFORM.dataSources}`, l: "Data sources" },
-            { v: `${BEACON_PLATFORM.hoursSavedWeekly}h`, l: "Saved per week" },
+            { v: `${FINCOMMS_PLATFORM.dataSources}`, l: "Data sources" },
+            { v: `${FINCOMMS_PLATFORM.hoursSavedWeekly}h`, l: "Saved per week" },
           ].map((s, i) => (
             <div key={s.l} className={cx("bg-[var(--fc-card)] px-6 py-7 text-center", i < 3 && "sm:border-r", "border-[var(--fc-border)]")}>
               <div className="font-mono text-2xl font-semibold tabular-nums text-[var(--fc-ink)] sm:text-3xl">{s.v}</div>
@@ -112,7 +112,7 @@ export default function BeaconLanding() {
           Comms and IR teams are drowning in prep, scattered data, and tight deadlines.
         </h2>
         <div className="mt-9 grid gap-4 md:grid-cols-3">
-          {BEACON_PAIN_POINTS.map((p) => (
+          {FINCOMMS_PAIN_POINTS.map((p) => (
             <div key={p.title} className="rounded-[10px] border border-[var(--fc-border)] bg-[var(--fc-card)] p-6">
               <h3 className="text-[15px] font-semibold text-[var(--fc-ink)]">{p.title}</h3>
               <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--fc-muted)]">{p.body}</p>
@@ -124,9 +124,9 @@ export default function BeaconLanding() {
       {/* modules */}
       <section id="modules" className="mx-auto max-w-6xl px-5 py-4 sm:px-8">
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fc-accent)]">The platform</p>
-        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--fc-ink)] sm:text-3xl">Twenty-five modules, one workspace.</h2>
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--fc-ink)] sm:text-3xl">Twenty-six modules, one workspace.</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {BEACON_MODULES.map((m) => (
+          {FINCOMMS_MODULES.map((m) => (
             <Link
               key={m.id}
               href={`${DASH}?module=${m.id}`}
@@ -149,7 +149,7 @@ export default function BeaconLanding() {
       <section id="how" className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
         <h2 className="text-2xl font-semibold tracking-tight text-[var(--fc-ink)] sm:text-3xl">From ticker to talking points in minutes.</h2>
         <div className="mt-9 grid gap-4 md:grid-cols-3">
-          {BEACON_STEPS.map((s) => (
+          {FINCOMMS_STEPS.map((s) => (
             <div key={s.n} className="rounded-[10px] border border-[var(--fc-border)] bg-[var(--fc-card)] p-6">
               <span className="font-mono text-[13px] font-semibold text-[var(--fc-accent)]">0{s.n}</span>
               <h3 className="mt-2.5 text-[15px] font-semibold text-[var(--fc-ink)]">{s.title}</h3>
@@ -170,7 +170,7 @@ export default function BeaconLanding() {
             tool use and RAG over filings, and a Postgres brain fed by live market-data APIs.
           </p>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {BEACON_STACK.map((g) => (
+            {FINCOMMS_STACK.map((g) => (
               <div key={g.group}>
                 <div className="flex items-center gap-2">
                   <span className="h-1.5 w-1.5 rounded-full" style={{ background: g.color }} />
@@ -207,7 +207,7 @@ export default function BeaconLanding() {
       <footer className="border-t border-[var(--fc-border)]">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-8 sm:px-8">
           <Wordmark size="sm" />
-          <p className="text-[12px] text-[var(--fc-faint)]">Recreated demo · sample data. {BEACON.product}.</p>
+          <p className="text-[12px] text-[var(--fc-faint)]">Recreated demo · sample data. {FINCOMMS.product}.</p>
         </div>
       </footer>
     </div>

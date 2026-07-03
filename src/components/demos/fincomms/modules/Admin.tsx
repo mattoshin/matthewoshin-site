@@ -9,7 +9,7 @@ import {
   Badge,
   DataTable,
   type Column,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * Admin - the Admin & Lab back office. Three tabs: Lab Finance (MRR, spend trend,

@@ -10,7 +10,7 @@ import {
   Button,
   ProseSections,
   CompanyHeader,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * ConferenceIntel - upcoming investor-conference schedule, AI conference-prep, and

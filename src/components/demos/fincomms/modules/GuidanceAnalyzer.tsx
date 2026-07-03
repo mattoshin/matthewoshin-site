@@ -14,7 +14,7 @@ import {
   Button,
   DataTable,
   ProseSections,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * GuidanceAnalyzer - models conservative/base/optimistic revenue, margin, and FCF

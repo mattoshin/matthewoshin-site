@@ -1,7 +1,7 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 
 /**
- * SecScope - the styling boundary for the SEC Intelligence demo. Where the Beacon
+ * SecScope - the styling boundary for the SEC Intelligence demo. Where the fincomms
  * demo is a LIGHT institutional surface, SEC Intelligence is a DARK, "modern
  * Bloomberg terminal": near-black canvas, glassy hairline-bordered cards, white +
  * gray doing most of the work, a single cool azure for interaction, green/red for

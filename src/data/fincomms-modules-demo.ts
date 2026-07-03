@@ -7,7 +7,7 @@
  * filings, no proprietary scoring.
  */
 
-import type { IconName } from "@/components/demos/fincomms/BeaconKit";
+import type { IconName } from "@/components/demos/fincomms/FcKit";
 
 export type ProseSection = { heading: string; paras?: string[]; bullets?: string[] };
 
@@ -133,25 +133,25 @@ export type Shareholder = { holder: string; shares: string; pct: number; value: 
 export const SHAREHOLDERS: readonly Shareholder[] = [
   { holder: "Vanguard Group", shares: "12.4M", pct: 8.7, value: "$1.77B", change: 0.3, type: "Index" },
   { holder: "BlackRock", shares: "10.9M", pct: 7.6, value: "$1.55B", change: -0.2, type: "Index" },
+  { holder: "Harborline Partners", shares: "7.4M", pct: 5.2, value: "$1.05B", change: 5.2, type: "Activist" },
   { holder: "Sands Capital", shares: "6.1M", pct: 4.3, value: "$869M", change: 1.4, type: "Active" },
   { holder: "Whale Rock", shares: "4.8M", pct: 3.4, value: "$684M", change: 2.1, type: "Hedge" },
   { holder: "T. Rowe Price", shares: "4.2M", pct: 2.9, value: "$599M", change: -0.6, type: "Active" },
   { holder: "Coatue", shares: "3.5M", pct: 2.5, value: "$499M", change: 0.9, type: "Hedge" },
-  { holder: "Starboard Value", shares: "2.1M", pct: 1.5, value: "$299M", change: 1.5, type: "Activist" },
 ];
 
 export type InvestorTarget = { name: string; style: string; fit: number; thesis: string };
 export const INVESTOR_MATCH: readonly InvestorTarget[] = [
-  { name: "Brookline Equity", style: "Long-only growth", fit: 94, thesis: "Owns the developer-tools theme and is underweight QNTA versus its software book. The consumption-durability story maps directly to their TAM-led process." },
-  { name: "Cedar Ridge Securities", style: "GARP", fit: 88, thesis: "Values margin inflection over pure growth. The 22% exit-rate target and FCF profile fit their quality-at-a-reasonable-price screen." },
-  { name: "Lansing & Co.", style: "Concentrated quality", fit: 81, thesis: "Holds two adjacent platform names. A non-deal roadshow could anchor a new position around the AI-workload optionality." },
+  { name: "Anvil Point Partners", style: "Long-only growth", fit: 94, thesis: "Owns the developer-tools theme and is underweight QNTA versus its software book. The consumption-durability story maps directly to their TAM-led process." },
+  { name: "Marewood Capital", style: "GARP", fit: 88, thesis: "Values margin inflection over pure growth. The 22% exit-rate target and FCF profile fit their quality-at-a-reasonable-price screen." },
+  { name: "Kestrel Bay Advisors", style: "Concentrated quality", fit: 81, thesis: "Holds two adjacent platform names. A non-deal roadshow could anchor a new position around the AI-workload optionality." },
 ];
 
 export type Filing13F = { manager: string; filed: string; reportDate: string; shares: string; change: string };
 export const OWNERSHIP_13F: readonly Filing13F[] = [
   { manager: "Whale Rock Capital", filed: "May 15", reportDate: "Q1", shares: "4.8M", change: "+640K" },
   { manager: "Coatue Management", filed: "May 15", reportDate: "Q1", shares: "3.5M", change: "+310K" },
-  { manager: "Starboard Value", filed: "May 14", reportDate: "Q1", shares: "2.1M", change: "NEW" },
+  { manager: "Harborline Partners", filed: "May 14", reportDate: "Q1", shares: "7.4M", change: "NEW" },
   { manager: "Sands Capital", filed: "May 12", reportDate: "Q1", shares: "6.1M", change: "+85K" },
   { manager: "T. Rowe Price", filed: "May 10", reportDate: "Q1", shares: "4.2M", change: "-250K" },
 ];
@@ -282,7 +282,7 @@ export const GOVERNANCE_RISK = {
   summary:
     "Activism risk has stepped up following a new 13D position and below-peer governance scores on board independence. The setup favors a settlement-oriented activist seeking one or two board seats rather than a control contest.",
   signals: [
-    { label: "New 13D filer (1.5% stake)", weight: "High" },
+    { label: "New 13D filer (5.2% stake)", weight: "High" },
     { label: "Board independence below peer median", weight: "Medium" },
     { label: "Two-year TSR underperformance vs proxy peers", weight: "Medium" },
     { label: "Say-on-pay support slipped to 84%", weight: "Low" },
@@ -291,13 +291,13 @@ export const GOVERNANCE_RISK = {
 
 export type ActivistHolder = { name: string; stake: string; posture: string };
 export const ACTIVIST_HOLDERS: readonly ActivistHolder[] = [
-  { name: "Starboard Value", stake: "1.5%", posture: "Newly disclosed; history of board-seat settlements" },
-  { name: "Legion Partners", stake: "0.8%", posture: "Engaged privately on capital allocation" },
+  { name: "Harborline Partners", stake: "5.2%", posture: "Newly disclosed; history of board-seat settlements" },
+  { name: "Calder Point Capital", stake: "0.8%", posture: "Engaged privately on capital allocation" },
 ];
 
 export type GovFiling = { form: string; filer: string; date: string; type: "Activist" | "Passive" };
 export const GOVERNANCE_FILINGS: readonly GovFiling[] = [
-  { form: "SC 13D", filer: "Starboard Value", date: "Jun 18", type: "Activist" },
+  { form: "SC 13D", filer: "Harborline Partners", date: "Jun 18", type: "Activist" },
   { form: "SC 13G/A", filer: "Vanguard Group", date: "Jun 10", type: "Passive" },
   { form: "SC 13G", filer: "BlackRock", date: "Jun 09", type: "Passive" },
   { form: "DEF 14A", filer: "Quanta Labs", date: "Apr 22", type: "Passive" },
@@ -382,7 +382,7 @@ export const LAB_FINANCE = {
     { name: "Supabase Pro", cost: "$240/mo", category: "Infra" },
     { name: "Vercel Pro", cost: "$200/mo", category: "Infra" },
   ],
-  mrr: "$5,900",
+  mrr: "$6,450",
   activeUsers: 18,
 };
 

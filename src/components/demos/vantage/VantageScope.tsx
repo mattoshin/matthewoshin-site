@@ -2,7 +2,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 
 /**
  * VantageScope - the styling boundary for the SecOps Command demo: an agentic security +
- * IT operations command center. Where the Beacon scope is a light institutional
+ * IT operations command center. Where the fincomms scope is a light institutional
  * fintech surface, SecOps Command is a dark "midnight terminal" SOC console: carbon ->
  * obsidian surfaces, spectral-violet primary, electric-lime highlight, and
  * system-teal accent, with a red/amber/yellow/teal severity scale. Every SecOps Command

@@ -2,8 +2,8 @@
 
 import {
   MORNING_BRIEF,
-  BEACON_PLATFORM,
-  ICR_COMPANIES,
+  FINCOMMS_PLATFORM,
+  FC_COMPANIES,
   QUICK_ACTIONS,
   MACRO_INDICATORS,
   MACRO_NARRATIVE,
@@ -21,16 +21,16 @@ import {
   SectionHeading,
   AIBlock,
   cx,
-} from "../BeaconKit";
-import { useBeaconNav } from "../nav-context";
+} from "../FcKit";
+import { useFcNav } from "../nav-context";
 
 /**
- * BeaconDashboard - the Overview home. Morning briefing, portfolio KPIs, the
+ * FcDashboard - the Overview home. Morning briefing, portfolio KPIs, the
  * pinned-client roster, quick actions into every module, and the macro + market
  * context (indicators, yield curve, news). Reference screen for the demo's craft.
  */
-export default function BeaconDashboard() {
-  const go = useBeaconNav();
+export default function FcDashboard() {
+  const go = useFcNav();
 
   return (
     <div className="space-y-7">
@@ -45,10 +45,10 @@ export default function BeaconDashboard() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Pinned clients" value={String(BEACON_PLATFORM.clients)} hint="across 6 sectors" />
+        <StatCard label="Pinned clients" value={String(FINCOMMS_PLATFORM.clients)} hint="across 6 sectors" />
         <StatCard label="Briefs generated" value="2,840" hint="+186 this month" />
-        <StatCard label="Hours saved / week" value={`${BEACON_PLATFORM.hoursSavedWeekly}h`} hint="team average" />
-        <StatCard label="Scenarios run" value={String(BEACON_PLATFORM.scenariosRun)} hint="crisis + guidance" />
+        <StatCard label="Hours saved / week" value={`${FINCOMMS_PLATFORM.hoursSavedWeekly}h`} hint="team average" />
+        <StatCard label="Scenarios run" value={String(FINCOMMS_PLATFORM.scenariosRun)} hint="crisis + guidance" />
       </div>
 
       {/* pinned clients */}
@@ -63,7 +63,7 @@ export default function BeaconDashboard() {
           }
         />
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {ICR_COMPANIES.map((c) => (
+          {FC_COMPANIES.map((c) => (
             <button key={c.ticker} onClick={() => go("earnings")} className="text-left">
               <Card hover className="transition-colors hover:border-[var(--fc-border-strong)]">
                 <div className="flex items-start justify-between">
@@ -176,7 +176,7 @@ export default function BeaconDashboard() {
 }
 
 function Trend({ v }: { v: number }) {
-  if (v === 0) return <span className="text-[var(--fc-faint)]">—</span>;
+  if (v === 0) return <span className="text-[var(--fc-faint)]">·</span>;
   const up = v > 0;
   return (
     <span style={{ color: up ? "var(--fc-up)" : "var(--fc-down)" }}>

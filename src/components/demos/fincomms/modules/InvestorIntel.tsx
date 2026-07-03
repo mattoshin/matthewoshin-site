@@ -18,7 +18,7 @@ import {
   Button,
   Delta,
   DataTable,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * InvestorIntel - holder profiling, AI-matched investor targets, and 13F filing

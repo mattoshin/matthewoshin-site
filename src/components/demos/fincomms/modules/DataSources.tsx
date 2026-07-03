@@ -10,7 +10,7 @@ import {
   Chip,
   Icon,
   cx,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * DataSources - the catalog of APIs, MCPs, and feeds powering Financial Comms. A filterable
