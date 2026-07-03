@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { HERO } from "@/data/content";
+import Link from "next/link";
+import { HERO, HERO_PROOF } from "@/data/content";
 import RotatingHeadline from "./RotatingHeadline";
 
 /**
@@ -7,18 +8,11 @@ import RotatingHeadline from "./RotatingHeadline";
  * big name (the wordmark up top carries the identity). Just the portrait, the
  * one-line hook as the headline, the short bio paragraph he likes, and the proof
  * chips. Light + bold type with a crisp dark shadow so it reads over the water.
+ *
+ * CURATED 2026-07-03 (Gabe's feedback): seven static chips became FOUR clickable
+ * proof stats (HERO_PROOF in content.ts), each routing to its evidence, with an
+ * arrow affordance so they read as doors, not decoration.
  */
-
-// Tasteful, public proof points only (no private figures, per content-review.md).
-const PROOF: readonly string[] = [
-  "2 acquisitions",
-  "20+ products shipped",
-  "Chief AI Officer, BrachyClip",
-  "SaaS developer",
-  "Hedge fund equity research",
-  "Community builder",
-  "Hospitality operator",
-];
 
 // Crisp dark legibility shadow for light type over the variable surface.
 const SHADOW =
@@ -64,14 +58,23 @@ export default function HeroSection() {
             {HERO.bio}
           </p>
 
-          {/* Proof chips - dark glass + light type so they read on the water. */}
+          {/* Proof stats - dark glass chips, each a LINK to its evidence. The
+              arrow slides in on hover so they read as doors, not decoration. */}
           <ul className="mt-6 flex flex-wrap justify-center gap-2.5 md:justify-start">
-            {PROOF.map((item) => (
-              <li
-                key={item}
-                className="proof-chip cursor-default rounded-full border border-bio-cyan/50 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm"
-              >
-                {item}
+            {HERO_PROOF.map((item) => (
+              <li key={item.label}>
+                <Link
+                  href={item.href}
+                  className="proof-chip group inline-flex items-center gap-1.5 rounded-full border border-bio-cyan/50 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm transition-colors hover:border-bio-cyan hover:bg-abyss-void/95 hover:text-bio-cyan"
+                >
+                  {item.label}
+                  <span
+                    aria-hidden="true"
+                    className="text-bio-cyan transition-transform group-hover:translate-x-0.5"
+                  >
+                    -&gt;
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>

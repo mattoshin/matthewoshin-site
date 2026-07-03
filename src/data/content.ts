@@ -55,6 +55,22 @@ export interface Bucket {
   label: string;
   href: string;
   teaser: string;
+  /**
+   * In the top nav? Only the recruiter path is (Experience, Ventures,
+   * Portfolio; Contact rides separately as the nav CTA button). Everything
+   * else stays a full page + home section, reachable from the dive and the
+   * footer. (Gabe's feedback 2026-06-30: "where do I click? there's so much
+   * shit." Fewer doors, one obvious action.)
+   */
+  nav?: boolean;
+  /** Short display label for the nav pill when `label` runs long. */
+  navLabel?: string;
+  /**
+   * One line of hard, public numbers for the home section card, so every
+   * claim leads with its gold nugget and the card CTA is the click-through
+   * to the evidence. All figures are LinkedIn-public / already on the site.
+   */
+  proof?: string;
 }
 
 export const BUCKETS: readonly Bucket[] = [
@@ -64,6 +80,8 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Experience",
     href: "/experience",
     teaser: "Chief AI Officer at BrachyClip, ex-VP AI at ICR, hedge-fund equity research at Manatuck Hill.",
+    nav: true,
+    proof: "61% firm-wide AI adoption at ICR. 11 internal apps shipped.",
   },
   {
     id: "entrepreneurship",
@@ -71,6 +89,9 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Entrepreneurship",
     href: "/entrepreneurship",
     teaser: "Five ventures, from sneaker arbitrage to Mocean. Founded, scaled, two acquired.",
+    nav: true,
+    navLabel: "Ventures",
+    proof: "2 companies acquired. $400K revenue, 100,000+ users at Mocean.",
   },
   {
     id: "portfolio",
@@ -78,6 +99,8 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Portfolio",
     href: "/portfolio",
     teaser: "The products I build now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, mTrain.",
+    nav: true,
+    proof: "20+ products shipped. Every one opens as a live, clickable demo.",
   },
   {
     id: "skills",
@@ -112,6 +135,29 @@ export const BUCKETS: readonly Bucket[] = [
 /** Quick lookups for the nav active-state + page headers. */
 export const BUCKET_BY_HREF: Readonly<Record<string, Bucket>> =
   Object.fromEntries(BUCKETS.map((b) => [b.href, b]));
+
+/**
+ * The top-nav pills: just the recruiter path. Every other bucket keeps its page
+ * and home section but leaves the doorway (demote, don't delete).
+ */
+export const NAV_BUCKETS: readonly Bucket[] = BUCKETS.filter((b) => b.nav);
+
+/** The nav buckets demoted OUT of the top bar; listed in the footer + mobile sheet. */
+export const MORE_BUCKETS: readonly Bucket[] = BUCKETS.filter(
+  (b) => !b.nav && b.id !== "contact",
+);
+
+/**
+ * Hero proof stats: four gold nuggets, each CLICKABLE to its evidence.
+ * (Gabe: "you talk about your achievements, but if I want to see the
+ * achievement, I can't click on it.") Figures are LinkedIn-public.
+ */
+export const HERO_PROOF: readonly { label: string; href: string }[] = [
+  { label: "2 acquisitions", href: "/entrepreneurship" },
+  { label: "$400K revenue, 100K+ users at Mocean", href: "/ventures/mocean" },
+  { label: "20+ products shipped", href: "/portfolio" },
+  { label: "Chief AI Officer, BrachyClip", href: "/experience" },
+] as const;
 
 export const HERO = {
   name: "Matthew Oshin",

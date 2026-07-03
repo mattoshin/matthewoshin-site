@@ -41,6 +41,7 @@ export default function HomePage() {
             navLabel={bucket.label}
             heading={bucket.label}
             beat={BEATS[bucket.id]}
+            proof={bucket.proof}
             href={bucket.href}
             cta={`Open ${bucket.label}`}
           >

@@ -16,6 +16,7 @@ export default function HomeSection({
   zone,
   heading,
   beat,
+  proof,
   navLabel,
   children,
   href,
@@ -24,6 +25,9 @@ export default function HomeSection({
   zone: ZoneId;
   heading: string;
   beat?: string;
+  /** One line of hard numbers, the section's gold nugget, shown right under the
+      heading so the claim leads and the CTA is the click-through to evidence. */
+  proof?: string;
   navLabel?: string;
   children: ReactNode;
   href?: string;
@@ -52,6 +56,12 @@ export default function HomeSection({
         <h2 className="font-display text-3xl font-semibold leading-tight text-ink-heading sm:text-5xl">
           {heading}
         </h2>
+
+        {proof ? (
+          <p className="mt-3 font-mono text-[13px] font-medium tracking-wide text-bio-cyan sm:text-sm">
+            {proof}
+          </p>
+        ) : null}
 
         {beat ? (
           <p className="mt-4 max-w-prose border-l-2 border-bio-cyan/50 pl-4 font-display text-lg italic leading-snug text-ink-heading/85 sm:text-xl">
