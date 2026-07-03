@@ -9,14 +9,19 @@
  * resolved from usePathname (aria-current). Clicking a deeper bucket navigates
  * client-side and the persistent ocean dives the camera to that page's depth.
  *
+ * CURATED (2026-07-03, Gabe's feedback): the top bar carries ONLY the recruiter
+ * path (Home + NAV_BUCKETS: Experience, Ventures, Portfolio) with Contact as the
+ * single CTA button at right. Skills / Education / Interests are demoted, not
+ * deleted: full pages remain, reachable from the home dive, the mobile sheet's
+ * "more" group, and the footer.
+ *
  * Responsive behavior:
- *   - lg and up: the full hugged pill row (wordmark left, six bucket links
- *     centered, motion + "read flat" controls right).
- *   - below lg: the six links + controls cannot fit one phone row without
- *     clipping, so they collapse to a clean MENU. The wordmark stays at left and
+ *   - lg and up: the hugged pill row (wordmark left, nav pills centered,
+ *     socials + Contact CTA right).
+ *   - below lg: links collapse to a clean MENU. The wordmark stays at left and
  *     a compact hamburger button sits at right. Tapping it opens an accessible
- *     sheet listing every bucket plus "Skip the dive, read flat" and the motion
- *     toggle. Tapping a link navigates and closes the sheet.
+ *     sheet: primary links + Contact CTA, then the demoted pages, then socials.
+ *     Tapping a link navigates and closes the sheet.
  *
  * Accessibility:
  *   - Bucket links are real <a> (Next Link); controls are real <button>, all
@@ -32,7 +37,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BUCKETS, SITE } from "@/data/content";
+import { MORE_BUCKETS, NAV_BUCKETS, SITE } from "@/data/content";
 import { Socials } from "./Socials";
 
 export default function BucketNav() {
@@ -139,7 +144,7 @@ export default function BucketNav() {
                 Home
               </Link>
             </li>
-            {BUCKETS.map((bucket) => {
+            {NAV_BUCKETS.map((bucket) => {
               const active = pathname === bucket.href;
               return (
                 <li key={bucket.id} className="shrink-0">
@@ -152,7 +157,7 @@ export default function BucketNav() {
                         : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
                     }`}
                   >
-                    {bucket.label}
+                    {bucket.navLabel ?? bucket.label}
                   </Link>
                 </li>
               );
@@ -160,9 +165,17 @@ export default function BucketNav() {
           </ul>
         </nav>
 
-        {/* DESKTOP right controls: social logos (lg+). */}
-        <div className="hidden shrink-0 items-center gap-2 lg:flex">
+        {/* DESKTOP right controls (lg+): socials + Contact as THE nav CTA. One
+            obvious action instead of eight equal pills. */}
+        <div className="hidden shrink-0 items-center gap-3 lg:flex">
           <Socials />
+          <Link
+            href="/contact"
+            aria-current={pathname === "/contact" ? "page" : undefined}
+            className="rounded-full bg-bio-cyan px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)] transition-colors hover:bg-bio-aqua"
+          >
+            Contact
+          </Link>
         </div>
 
         {/* MOBILE hamburger (below lg). Compact, never clips. */}
@@ -215,7 +228,7 @@ export default function BucketNav() {
                     Home
                   </Link>
                 </li>
-                {BUCKETS.map((bucket) => {
+                {NAV_BUCKETS.map((bucket) => {
                   const active = pathname === bucket.href;
                   return (
                     <li key={bucket.id}>
@@ -227,6 +240,44 @@ export default function BucketNav() {
                           active
                             ? "bg-bio-cyan text-abyss-void"
                             : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
+                        }`}
+                      >
+                        {bucket.navLabel ?? bucket.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+                {/* Contact rides as the CTA here too. */}
+                <li>
+                  <Link
+                    href="/contact"
+                    onClick={closeMenu}
+                    aria-current={pathname === "/contact" ? "page" : undefined}
+                    className="mt-1 block w-full rounded-xl bg-bio-cyan px-4 py-3 text-left text-sm font-semibold text-abyss-void transition-colors hover:bg-bio-aqua"
+                  >
+                    Contact
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+
+            <div className="my-2 h-px bg-white/10" />
+
+            {/* Demoted pages: still here, just out of the main path. */}
+            <nav aria-label="More sections">
+              <ul className="flex flex-col gap-0.5">
+                {MORE_BUCKETS.map((bucket) => {
+                  const active = pathname === bucket.href;
+                  return (
+                    <li key={bucket.id}>
+                      <Link
+                        href={bucket.href}
+                        onClick={closeMenu}
+                        aria-current={active ? "page" : undefined}
+                        className={`block w-full rounded-xl px-4 py-2 text-left text-[13px] transition-colors ${
+                          active
+                            ? "bg-bio-cyan text-abyss-void"
+                            : "text-ink-muted hover:bg-white/10 hover:text-ink-heading"
                         }`}
                       >
                         {bucket.label}

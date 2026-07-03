@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SITE } from "@/data/content";
+import { MORE_BUCKETS, SITE } from "@/data/content";
 
 /**
  * SiteFooter - a quiet footer at the bottom of every page (rides over the deep
- * ocean, where the water is dark, so light type reads). Carries the Writing
- * (blog) link plus socials so the blog is discoverable site-wide without
- * touching the depth-bucket nav.
+ * ocean, where the water is dark, so light type reads). Carries the pages
+ * demoted out of the top nav (Skills / Education / Interests, per the
+ * 2026-07-03 nav curation), the Writing (blog) link, and socials, so everything
+ * stays discoverable site-wide without re-crowding the depth-bucket nav.
  */
 export default function SiteFooter() {
   // The /app/* demo section provides its own footer/chrome; hide the ocean one.
@@ -18,6 +19,15 @@ export default function SiteFooter() {
   return (
     <footer className="relative z-10 px-4 pb-12 pt-6 sm:px-8">
       <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">
+        {MORE_BUCKETS.map((bucket) => (
+          <Link
+            key={bucket.id}
+            href={bucket.href}
+            className="transition-colors hover:text-bio-cyan"
+          >
+            {bucket.label}
+          </Link>
+        ))}
         <Link href="/blog" className="transition-colors hover:text-bio-cyan">
           Writing
         </Link>
