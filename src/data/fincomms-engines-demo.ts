@@ -8,7 +8,7 @@
  */
 
 import type { ModuleId } from "./fincomms-demo";
-import type { ProseBlock } from "@/components/demos/fincomms/BeaconKit";
+import type { ProseBlock } from "@/components/demos/fincomms/FcKit";
 
 export type EngineStat = { label: string; value: string; tone?: "up" | "down" | "neutral" };
 export type EngineTable = {
