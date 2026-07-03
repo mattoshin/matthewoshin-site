@@ -9,5 +9,5 @@ import type { ModuleId } from "@/data/fincomms-demo";
  * provides the real setter; the default is a no-op so modules render safely in
  * isolation.
  */
-export const BeaconNav = createContext<(id: ModuleId) => void>(() => {});
-export const useBeaconNav = () => useContext(BeaconNav);
+export const FcNav = createContext<(id: ModuleId) => void>(() => {});
+export const useFcNav = () => useContext(FcNav);

@@ -9,7 +9,7 @@
  * sentiment, one gold flag for "material", and an accent-left-border "AI"
  * signature on generated content.
  *
- * No "use client" directive on purpose (mirrors BeaconKit): these are pure
+ * No "use client" directive on purpose (mirrors FcKit): these are pure
  * presentational components. Stateful behavior lives in the modules/console, which
  * carry their own "use client". The one interactive piece here, ChannelMatrix, is
  * fully controlled (value + onToggle).

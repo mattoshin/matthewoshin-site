@@ -18,7 +18,7 @@ import {
   Badge,
   DataTable,
   UnderlineTabs,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * Governance - governance & activism intelligence for the focal company. Scan

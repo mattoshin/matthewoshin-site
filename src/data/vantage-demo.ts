@@ -1,7 +1,7 @@
 /**
  * vantage-demo.ts - core sample data for the SecOps Command demo: an agentic security +
  * IT operations command center. SecOps Command is a genericized portfolio showpiece
- * adapted from the internal "command center" admin console Matthew built at ICR.
+ * adapted from an internal "command center" admin console concept.
  * It is NOT a real product and talks to no live server: every asset, host, IP,
  * CVE, threat actor, incident, operator, and figure below is fictional and
  * illustrative. No real customer or company data appears anywhere.

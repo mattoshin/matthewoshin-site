@@ -24,7 +24,7 @@ import {
   ConsensusBar,
   ProseSections,
   cx,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * EarningsHub - the flagship earnings workspace. Five tabs (Prep Brief, Predicted

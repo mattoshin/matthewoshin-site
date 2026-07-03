@@ -13,7 +13,7 @@ import { Wordmark, Icon, FormBadge, cx } from "./SecKit";
 /**
  * SecLanding - the marketing surface for the SEC Intelligence demo, rebuilt on the
  * dark "modern Bloomberg terminal" brand (Inter on near-black, white doing the
- * work, a single azure accent, gold reserved for "material"). Mirrors the Beacon
+ * work, a single azure accent, gold reserved for "material"). Mirrors the fincomms
  * landing's section structure: sticky nav, two-column hero with a product preview,
  * a stats band, pain points, the feature grid, how-it-works, the stack card, a
  * final CTA, and a footer. Server component: the only interactions are anchor

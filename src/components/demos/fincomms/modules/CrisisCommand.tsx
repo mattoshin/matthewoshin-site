@@ -15,7 +15,7 @@ import {
   SegmentedTabs,
   ProseSections,
   cx,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * CrisisCommand - the crisis-response war room. Simulate a scenario to forecast

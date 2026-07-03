@@ -14,7 +14,7 @@ import {
   Icon,
   SegmentedTabs,
   type IconName,
-} from "../BeaconKit";
+} from "../FcKit";
 
 /**
  * IpoCapitalMarkets - IPO readiness scoring and an S-1 analyzer. Score the four

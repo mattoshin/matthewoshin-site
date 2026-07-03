@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { MODULE_LABELS, ACTIVE_COMPANY, type ModuleId } from "@/data/fincomms-demo";
-import { Icon, cx } from "./BeaconKit";
-import BeaconSidebar from "./BeaconSidebar";
-import { BeaconNav } from "./nav-context";
+import { Icon, cx } from "./FcKit";
+import FcSidebar from "./FcSidebar";
+import { FcNav } from "./nav-context";
 
-import Dashboard from "./modules/BeaconDashboard";
+import Dashboard from "./modules/FcDashboard";
 import DataSources from "./modules/DataSources";
 import EarningsHub from "./modules/EarningsHub";
 import GuidanceAnalyzer from "./modules/GuidanceAnalyzer";
@@ -22,7 +22,7 @@ import Admin from "./modules/Admin";
 import EngineScreen from "./modules/EngineScreen";
 
 /**
- * BeaconConsole - the Financial Comms app shell. The sidebar selection switches
+ * FcConsole - the Financial Comms app shell. The sidebar selection switches
  * the active module via local state (no route change), so every module screen
  * lives behind one Next route. Bespoke modules are mapped explicitly below; the
  * Capital Markets + Comms engines share the data-driven EngineScreen fallback.
@@ -48,7 +48,7 @@ const MODULES: Partial<Record<ModuleId, React.ComponentType>> = {
 // Every module that appears in the sidebar is a valid deep-link target.
 const VALID = new Set<string>(Object.keys(MODULE_LABELS));
 
-export default function BeaconConsole() {
+export default function FcConsole() {
   const [active, setActive] = useState<ModuleId>("dashboard");
   const [drawer, setDrawer] = useState(false);
 
@@ -73,7 +73,7 @@ export default function BeaconConsole() {
     <div className="flex min-h-screen bg-[var(--fc-bg)]">
       {/* sidebar - desktop */}
       <aside className="sticky top-12 hidden h-[calc(100vh-3rem)] w-[248px] shrink-0 border-r border-[var(--fc-border)] bg-[var(--fc-card)] lg:block">
-        <BeaconSidebar active={active} onSelect={select} />
+        <FcSidebar active={active} onSelect={select} />
       </aside>
 
       {/* sidebar - mobile drawer */}
@@ -81,7 +81,7 @@ export default function BeaconConsole() {
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="absolute inset-0 bg-black/30" onClick={() => setDrawer(false)} />
           <div className="absolute left-0 top-0 h-full w-[280px] border-r border-[var(--fc-border)] bg-[var(--fc-card)] shadow-xl">
-            <BeaconSidebar active={active} onSelect={select} />
+            <FcSidebar active={active} onSelect={select} />
           </div>
         </div>
       )}
@@ -126,9 +126,9 @@ export default function BeaconConsole() {
         {/* content */}
         <main className="flex-1">
           <div className={cx("mx-auto px-4 py-6 sm:px-6", active === "dashboard" ? "max-w-[1240px]" : "max-w-[1160px]")}>
-            <BeaconNav.Provider value={select}>
+            <FcNav.Provider value={select}>
               {ActiveModule ? <ActiveModule /> : <EngineScreen engine={active} />}
-            </BeaconNav.Provider>
+            </FcNav.Provider>
           </div>
         </main>
       </div>
