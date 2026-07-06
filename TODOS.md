@@ -2,12 +2,16 @@
 
 ## CI
 
-### Add a production build gate
-**Priority:** P3
-CI runs typecheck + vitest but never `next build`, so Next-specific failures
-(invalid metadata exports, RSC/client boundary violations, route conflicts)
-only surface in the Vercel preview build. Either add a parallel `pnpm build`
-job or make the Vercel preview deployment a required status check before merge.
+### Make the CI gate an actual gate
+**Priority:** P2
+Two gaps, confirmed 2026-07-06: (1) CI runs typecheck + vitest but never
+`next build`, so Next-specific failures (invalid metadata exports, RSC/client
+boundary violations, route conflicts) only surface in the Vercel build; (2)
+main has NO branch protection (verified via the GitHub API), so under the
+merge-on-green auto-deploy policy the workflow is advisory, not a gate, and a
+direct push to main deploys before CI reports. Fix: add branch protection on
+main requiring the `test` workflow (and ideally the Vercel preview deployment)
+as status checks, and add a parallel `pnpm build` job or required Vercel check.
 
 ### Pin GitHub Actions to commit SHAs
 **Priority:** P3

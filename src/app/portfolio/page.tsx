@@ -84,11 +84,9 @@ const ITEMS: PortfolioItem[] = [
     siteHref: "https://mtrainstudio.com",
   },
   {
-    name: "Dog House",
-    hook: doghouse?.hook ?? "",
-    status: doghouse?.status ?? "Shipped",
-    category: "web-client",
-    caseHref: "/projects/dog-house",
+    // Fail-loud: fromBuild throws at build time if the slug ever drifts,
+    // instead of shipping a blank-hook card with a 404 case study.
+    ...fromBuild("dog-house", "web-client"),
     siteHref: doghouse?.href,
   },
   {

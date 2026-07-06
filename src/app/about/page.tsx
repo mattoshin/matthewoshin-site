@@ -85,10 +85,7 @@ export default function AboutPage() {
         <SectionHeader accent={ACCENT.story} title="The story" />
         <div className="measure mt-4 space-y-4">
           {ABOUT.paragraphs.map((paragraph) => (
-            <p
-              key={paragraph.slice(0, 32)}
-              className="text-base leading-relaxed text-ink-body"
-            >
+            <p key={paragraph} className="text-base leading-relaxed text-ink-body">
               {paragraph}
             </p>
           ))}
