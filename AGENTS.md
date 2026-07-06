@@ -7,6 +7,6 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Testing
 
 - `pnpm test` runs the vitest suite (`src/__tests__/`), ~1s. See TESTING.md.
-- CI (`.github/workflows/test.yml`) gates every push/PR on `pnpm typecheck` + `pnpm test`.
+- CI (`.github/workflows/test.yml`) gates every PR and push to main on `pnpm typecheck` + `pnpm test`.
 - When adding a feature or fixing a bug, add or update a test in the same change.
 - Never commit code that fails `pnpm test` or `pnpm typecheck`.
