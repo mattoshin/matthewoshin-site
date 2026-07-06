@@ -17,7 +17,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL("https://matthewoshin.com"),
   title: {
-    default: "Matthew Oshin, builder of AI products and companies",
+    default: "Matthew Oshin",
     template: "%s, Matthew Oshin",
   },
   description:
