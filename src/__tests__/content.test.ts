@@ -39,6 +39,7 @@ describe("content.ts integrity", () => {
   });
 
   it("slugged schools have story paragraphs for their detail pages", () => {
+    expect(EDUCATION.some((school) => school.slug)).toBe(true);
     for (const school of EDUCATION) {
       if (school.slug) {
         expect(school.storyParagraphs?.length ?? 0).toBeGreaterThan(0);
@@ -47,6 +48,7 @@ describe("content.ts integrity", () => {
   });
 
   it("hero proof chips all route somewhere", () => {
+    expect(HERO_PROOF.length).toBeGreaterThan(0);
     for (const chip of HERO_PROOF) {
       expect(chip.label.trim()).not.toBe("");
       expect(chip.href).toMatch(/^\//);

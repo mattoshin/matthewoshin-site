@@ -105,7 +105,7 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Portfolio",
     href: "/portfolio",
     teaser:
-      "The products I build and run now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, and mTrain. Each card says what it is and what it does, and opens a live demo you can click through yourself.",
+      "The products I build and run now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, mTrain, and the Dog House band site. Each card says what it is and what it does, and opens a live demo you can click through yourself.",
     nav: true,
     proof: "20+ products shipped. Every one opens as a live, clickable demo.",
   },
@@ -131,7 +131,7 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Interests",
     href: "/interests",
     teaser:
-      "Music runs deepest: sax and piano first, then producing, now house sets behind a DJ rig. I also shoot photo and video on a Sony A7 IV and DJI gear. The rest of the rotation: markets, sneakers, and whatever is new in tech.",
+      "Music runs deepest: sax and piano first, then producing, now house sets behind the decks. I also shoot photo and video on a Sony A7 IV and DJI gear. The rest of the rotation: markets, sneakers, and whatever is new in tech.",
   },
   {
     id: "contact",
@@ -191,7 +191,17 @@ export const HERO = {
  * deeper sections.
  */
 export const ABOUT = {
-  heading: "About me",
+  heading: "About me.",
+  blurb:
+    "The whole picture in one read: the story, the toolkit, the schooling, and what I'm about off the clock.",
+  /** At-a-glance facts for skimmers; every one is backed by a deeper page. */
+  facts: [
+    "Chief AI Officer & Director of Marketing, BrachyClip",
+    "Previously VP of AI & Innovation, ICR",
+    "University of Michigan, B.A. Economics",
+    "2 companies acquired",
+    "20+ products shipped",
+  ],
   paragraphs: [
     "I'm a builder. That's the one word that survives every chapter. I started flipping sneakers in high school, scaled a research-and-signal company in college, did equity research on a hedge-fund desk, and now I ship AI products end to end. Different surfaces, same instinct: find an edge, pressure-test it, and build the thing that captures or distributes it.",
     "My foundation is in markets. At Manatuck Hill, a Connecticut hedge fund, I produced differentiated views across AI, nuclear, and precious metals, sat in on management interviews, and built an intelligence-aggregation system. Markets taught me the edge part. Code let me build it myself, which is why my work leads with volatility, expected moves, and expected value around catalysts.",
@@ -629,6 +639,22 @@ export const BUILDS: readonly Build[] = [
     ],
     stack: ["Next.js 16", "Tailwind v4", "shadcn-style UI", "Supabase", "Resend", "Vercel"],
     status: "Active client engagement",
+  },
+  {
+    slug: "dog-house",
+    name: "Dog House",
+    hook: "A photo-led site and self-serve CMS for a NYC rock band, designed, built, and shipped end to end.",
+    summary:
+      "Dog House is a New York City rock band that gigs constantly but had no website and no link in bio, so I designed and built them one. The public site is a dark, photo-led single page that turns the band's own concert photography into the hub for shows, music, and booking, with an email capture so they keep their fans. Behind it sits a self-serve CMS: the band logs into an admin dashboard and edits shows, photos, bio, and links themselves, and the public page reflects every change instantly. I hand over the keys instead of becoming the bottleneck.",
+    highlights: [
+      "A 'Backstage' visual direction grounded in design research: near-black, photo-led, with one electric accent pulled from the band's actual stage lighting.",
+      "Full-viewport hero, a live shows list, a keyboard-accessible gallery lightbox, and a join-the-list email capture.",
+      "A self-serve admin CMS with password login: the band manages shows, gallery uploads and ordering, bio, and links without touching code.",
+      "Content and photos live on Vercel Blob, and the public pages render dynamically, so edits go live the moment the band saves.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Motion", "Vercel Blob"],
+    status: "Shipped",
+    href: "https://doghouseband.matthewoshin.com",
   },
 ] as const;
 

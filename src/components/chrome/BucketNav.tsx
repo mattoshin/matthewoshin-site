@@ -15,6 +15,10 @@
  * deleted: full pages remain, reachable from the home dive, the mobile sheet's
  * "more" group, and the footer.
  *
+ * RESTYLED (2026-07-06, Matthew): the Contact CTA rests as quiet translucent
+ * glass and fills bio-cyan only on hover/press, desktop row and mobile sheet
+ * alike. The turquoise is feedback, not furniture.
+ *
  * Responsive behavior:
  *   - lg and up: the hugged pill row (wordmark left, nav pills centered,
  *     socials + Contact CTA right).
@@ -165,14 +169,14 @@ export default function BucketNav() {
           </ul>
         </nav>
 
-        {/* DESKTOP right controls (lg+): socials + Contact as THE nav CTA. One
-            obvious action instead of eight equal pills. */}
+        {/* DESKTOP right controls (lg+): socials + the Contact CTA. Quiet
+            glass at rest; the bio-cyan fill is reserved for hover/press. */}
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
           <Socials />
           <Link
             href="/contact"
             aria-current={pathname === "/contact" ? "page" : undefined}
-            className="rounded-full bg-bio-cyan px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)] transition-colors hover:bg-bio-aqua"
+            className="rounded-full border border-white/15 bg-deep-body/40 px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-ink-heading backdrop-blur-md transition-all hover:border-bio-cyan hover:bg-bio-cyan hover:text-abyss-void hover:shadow-[0_0_18px_-3px_var(--bio-cyan)] active:border-bio-cyan active:bg-bio-cyan active:text-abyss-void"
           >
             Contact
           </Link>
@@ -253,7 +257,7 @@ export default function BucketNav() {
                     href="/contact"
                     onClick={closeMenu}
                     aria-current={pathname === "/contact" ? "page" : undefined}
-                    className="mt-1 block w-full rounded-xl bg-bio-cyan px-4 py-3 text-left text-sm font-semibold text-abyss-void transition-colors hover:bg-bio-aqua"
+                    className="mt-1 block w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-left text-sm font-semibold text-ink-heading transition-colors hover:border-bio-cyan hover:bg-bio-cyan hover:text-abyss-void active:border-bio-cyan active:bg-bio-cyan active:text-abyss-void"
                   >
                     Contact
                   </Link>
@@ -263,9 +267,25 @@ export default function BucketNav() {
 
             <div className="my-2 h-px bg-white/10" />
 
-            {/* Demoted pages: still here, just out of the main path. */}
+            {/* Demoted pages: still here, just out of the main path. About
+                leads the group: it is the digest of everything below it
+                (hand-linked, not a bucket, so the home dive stays curated). */}
             <nav aria-label="More sections">
               <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link
+                    href="/about"
+                    onClick={closeMenu}
+                    aria-current={pathname === "/about" ? "page" : undefined}
+                    className={`block w-full rounded-xl px-4 py-2 text-left text-[13px] transition-colors ${
+                      pathname === "/about"
+                        ? "bg-bio-cyan text-abyss-void"
+                        : "text-ink-muted hover:bg-white/10 hover:text-ink-heading"
+                    }`}
+                  >
+                    About
+                  </Link>
+                </li>
                 {MORE_BUCKETS.map((bucket) => {
                   const active = pathname === bucket.href;
                   return (
