@@ -26,3 +26,19 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Catches Next-specific build failures (invalid metadata, RSC/client
+      # boundary violations, route conflicts) that typecheck + vitest miss.
+      # Runtime secrets are read request-time, so the build needs no env.
+      - run: pnpm build
