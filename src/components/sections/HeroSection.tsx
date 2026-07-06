@@ -11,6 +11,10 @@ import { HERO, HERO_PROOF } from "@/data/content";
  * proof stats (HERO_PROOF in content.ts), each routing to its evidence, with an
  * arrow affordance so they read as doors, not decoration.
  *
+ * EXTENDED 2026-07-06 (Matthew's ask): a "More about me" chip rides at the end
+ * of the proof row as the door to the person (/about digest). Softer white
+ * border on purpose: it is a door, not a stat.
+ *
  * CUT DOWN 2026-07-03 round two (Matthew: "too much going on... especially the
  * motion"): the rotating six-identity headline is GONE, replaced by the static
  * throughline "I'm a builder." The four-sentence bio paragraph left the hero
@@ -77,6 +81,22 @@ export default function HeroSection() {
                 </Link>
               </li>
             ))}
+            {/* The door to the person, not a stat: /about gathers the story,
+                skills, education, and interests in one read. */}
+            <li>
+              <Link
+                href="/about"
+                className="proof-chip group inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm transition-colors hover:border-bio-cyan hover:bg-abyss-void/95 hover:text-bio-cyan"
+              >
+                More about me
+                <span
+                  aria-hidden="true"
+                  className="text-bio-cyan transition-transform group-hover:translate-x-0.5"
+                >
+                  -&gt;
+                </span>
+              </Link>
+            </li>
           </ul>
 
           <p

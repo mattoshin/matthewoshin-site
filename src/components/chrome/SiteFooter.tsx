@@ -19,6 +19,11 @@ export default function SiteFooter() {
   return (
     <footer className="relative z-10 px-4 pb-12 pt-6 sm:px-8">
       <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">
+        {/* /about is a digest page, not a bucket (a bucket would add a home
+            dive section), so it is hand-linked here and in the mobile sheet. */}
+        <Link href="/about" className="transition-colors hover:text-bio-cyan">
+          About
+        </Link>
         {MORE_BUCKETS.map((bucket) => (
           <Link
             key={bucket.id}
