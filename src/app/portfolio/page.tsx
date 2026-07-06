@@ -19,7 +19,7 @@ import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Products I build, filterable by type: AI products (Riptide, Galactic Signals, Financial Communications Platform, SEC Intelligence, Sonar Media, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Fitness OS), and ventures (Mocean, Element Underground).",
+    "Products I build, filterable by type: AI products (Riptide, Galactic Signals, Financial Communications Platform, SEC Intelligence, Sonar Media, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Fitness OS, Dog House), and ventures (Mocean, Element Underground).",
 };
 
 /** Pull a build into a portfolio item; case study lives at /projects/<slug>. */
@@ -51,6 +51,7 @@ function fromVenture(slug: string, status: string, siteHref?: string): Portfolio
 }
 
 const brachyclip = BUILDS.find((b) => b.slug === "brachyclip");
+const doghouse = BUILDS.find((b) => b.slug === "dog-house");
 
 // Curated order for the "All" view: demo-backed flagships first, then the
 // web/client work, then the remaining case studies. BrachyClip and mTrain are
@@ -81,6 +82,14 @@ const ITEMS: PortfolioItem[] = [
     category: "web-client",
     caseHref: "/projects/mtrain",
     siteHref: "https://mtrainstudio.com",
+  },
+  {
+    name: "Dog House",
+    hook: doghouse?.hook ?? "",
+    status: doghouse?.status ?? "Shipped",
+    category: "web-client",
+    caseHref: "/projects/dog-house",
+    siteHref: doghouse?.href,
   },
   {
     name: "Fitness OS",
