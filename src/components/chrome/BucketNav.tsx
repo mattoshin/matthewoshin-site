@@ -15,6 +15,12 @@
  * deleted: full pages remain, reachable from the home dive, the mobile sheet's
  * "more" group, and the footer.
  *
+ * ABOUT ME (2026-07-07, Matthew): an "About Me" pill now sits in the primary row
+ * (desktop + mobile) after the work buckets, before Contact, linking to /about
+ * (the personal digest of skills/education/interests). Hand-rendered like the
+ * Contact CTA, not a bucket, so the curated home ocean-dive is untouched. It was
+ * removed from the mobile "more" group to avoid listing it twice.
+ *
  * RESTYLED (2026-07-06, Matthew): the Contact CTA rests as quiet translucent
  * glass and fills bio-cyan only on hover/press, desktop row and mobile sheet
  * alike. The turquoise is feedback, not furniture.
@@ -166,6 +172,22 @@ export default function BucketNav() {
                 </li>
               );
             })}
+            {/* About Me - the personal digest (/about), a peer nav destination
+                after the work buckets and before the Contact CTA. Hand-rendered
+                (not a bucket) so the home ocean-dive stays curated. */}
+            <li className="shrink-0">
+              <Link
+                href="/about"
+                aria-current={pathname === "/about" ? "page" : undefined}
+                className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+                  pathname === "/about"
+                    ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
+                    : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
+                }`}
+              >
+                About Me
+              </Link>
+            </li>
           </ul>
         </nav>
 
@@ -251,6 +273,21 @@ export default function BucketNav() {
                     </li>
                   );
                 })}
+                {/* About Me - promoted into the primary group (was in "more"). */}
+                <li>
+                  <Link
+                    href="/about"
+                    onClick={closeMenu}
+                    aria-current={pathname === "/about" ? "page" : undefined}
+                    className={`block w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
+                      pathname === "/about"
+                        ? "bg-bio-cyan text-abyss-void"
+                        : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
+                    }`}
+                  >
+                    About Me
+                  </Link>
+                </li>
                 {/* Contact rides as the CTA here too. */}
                 <li>
                   <Link
@@ -267,25 +304,11 @@ export default function BucketNav() {
 
             <div className="my-2 h-px bg-white/10" />
 
-            {/* Demoted pages: still here, just out of the main path. About
-                leads the group: it is the digest of everything below it
-                (hand-linked, not a bucket, so the home dive stays curated). */}
+            {/* Demoted pages: still here, just out of the main path. About Me
+                now lives in the primary group above; only Skills / Education /
+                Interests remain here (full pages, off the curated home dive). */}
             <nav aria-label="More sections">
               <ul className="flex flex-col gap-0.5">
-                <li>
-                  <Link
-                    href="/about"
-                    onClick={closeMenu}
-                    aria-current={pathname === "/about" ? "page" : undefined}
-                    className={`block w-full rounded-xl px-4 py-2 text-left text-[13px] transition-colors ${
-                      pathname === "/about"
-                        ? "bg-bio-cyan text-abyss-void"
-                        : "text-ink-muted hover:bg-white/10 hover:text-ink-heading"
-                    }`}
-                  >
-                    About
-                  </Link>
-                </li>
                 {MORE_BUCKETS.map((bucket) => {
                   const active = pathname === bucket.href;
                   return (

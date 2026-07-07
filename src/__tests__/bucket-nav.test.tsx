@@ -34,3 +34,12 @@ describe("BucketNav Contact CTA", () => {
     expect(classes).toContain("active:bg-bio-cyan");
   });
 });
+
+describe("BucketNav About Me", () => {
+  it("puts an About Me link in the primary desktop nav pointing to /about", () => {
+    render(<BucketNav />);
+    const sections = screen.getByRole("navigation", { name: "Sections" });
+    const about = within(sections).getByRole("link", { name: "About Me" });
+    expect(about.getAttribute("href")).toBe("/about");
+  });
+});
