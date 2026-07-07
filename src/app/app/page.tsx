@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { DEMOS } from "@/data/demos";
 
 export const metadata: Metadata = {
   title: "App demos",
@@ -11,119 +12,9 @@ export const metadata: Metadata = {
  * The demos hub at /app. A simple index of clickable product demos. Styled with
  * the site's own dark palette (the ocean canvas is gated off for /app/*), so it
  * reads as a native section of matthewoshin.com rather than any one product.
+ * The demo list itself lives in src/data/demos.ts, shared with the DemoBar
+ * breadcrumb.
  */
-
-type DemoCard = {
-  slug: string;
-  name: string;
-  tagline: string;
-  era: string;
-  status: "live" | "soon";
-  href?: string;
-  caseStudy?: string;
-  accent: string; // brand dot color
-};
-
-const DEMOS: DemoCard[] = [
-  {
-    slug: "mocean",
-    name: "Mocean",
-    tagline:
-      "Discord-native B2B research SaaS. Subscribe to data feeds, wire each to a Discord channel, deliver alpha automatically.",
-    era: "2021 to 2023 · Founded and acquired",
-    status: "live",
-    href: "/app/mocean-demo",
-    caseStudy: "/ventures/mocean",
-    accent: "#5ecdd1",
-  },
-  {
-    slug: "galactic",
-    name: "Galactic Signals",
-    tagline:
-      "A cross-asset monitoring marketplace for retail investors and online communities. Subscribe to feeds, wire a webhook, get branded real-time alerts, built toward the AI agent data layer beneath it.",
-    era: "Current build",
-    status: "live",
-    href: "/app/galactic-signals",
-    caseStudy: "/projects/galactic-signals",
-    accent: "#1DD1A1",
-  },
-  {
-    slug: "financial-comms",
-    name: "Financial Communications Platform",
-    tagline:
-      "The AI platform for investor relations, PR, and capital markets: earnings prep, peer and investor intelligence, crisis command, and on-voice drafting in one console.",
-    era: "2024 to 2026 · Production build",
-    status: "live",
-    href: "/app/financial-comms",
-    caseStudy: "/projects/financial-comms",
-    accent: "#0027b3",
-  },
-  {
-    slug: "sonar",
-    name: "Sonar Media",
-    tagline:
-      "Real-time media monitoring your team builds in plain English. Describe a monitor, AI wires up the agentic workflow, dry-run it over the last 48 hours, and it watches the internet for you.",
-    era: "Recent build",
-    status: "live",
-    href: "/app/sonar",
-    caseStudy: "/projects/sonar",
-    accent: "#FFB224",
-  },
-  {
-    slug: "sec-intelligence",
-    name: "SEC Intelligence",
-    tagline:
-      "A real-time SEC-filing terminal for wealth managers and traders. Every material filing the moment it lands, an AI analyst that reads it for you, and alerts routed to email, phone, or your own agents.",
-    era: "Current build",
-    status: "live",
-    href: "/app/sec-intelligence",
-    caseStudy: "/projects/sec-intelligence",
-    accent: "#3da9fc",
-  },
-  {
-    slug: "atrium",
-    name: "Workplace AI",
-    tagline:
-      "An unbranded concept: the corporate employee workspace, reimagined. An app hub, IT, legal, and HR in one calm place, with an AI assistant that automates the busywork and shows you what it handled.",
-    era: "Concept · self-directed",
-    status: "live",
-    href: "/app/atrium",
-    caseStudy: "/projects/atrium",
-    accent: "#6d4aff",
-  },
-  {
-    slug: "vantage",
-    name: "SecOps Command",
-    tagline:
-      "An agentic security and IT operations command center. Autonomous agents triage incidents, hunt threats, patch vulnerabilities, and collect compliance evidence, in one console.",
-    era: "Concept build · Security + IT ops",
-    status: "live",
-    href: "/app/vantage",
-    caseStudy: "/projects/vantage",
-    accent: "#b6abff",
-  },
-  {
-    slug: "riptide",
-    name: "Riptide Research",
-    tagline:
-      "Agentic equity-research terminal. Research in distributions: the options market's implied distribution versus your own models, scanned for gaps and graded over time.",
-    era: "Current build, live",
-    status: "live",
-    href: "https://riptide.matthewoshin.com",
-    caseStudy: "/projects/riptide",
-    accent: "#2fe3bf",
-  },
-  {
-    slug: "fitness-os",
-    name: "Fitness OS",
-    tagline:
-      "Gym and studio operation software: the class schedule, the lead pipeline, and every member over a Mindbody-style data layer, in one calm back office. A concept drawn from a real studio engagement.",
-    era: "Product concept · Studio operations",
-    status: "live",
-    href: "/app/fitness-os",
-    accent: "#1f3d34",
-  },
-];
 
 export default function DemosHubPage() {
   return (
