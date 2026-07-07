@@ -2,6 +2,16 @@
 
 Release notes for matthewoshin.com. Versions use MAJOR.MINOR.PATCH.MICRO.
 
+## [1.2.0.0] - 2026-07-07
+
+### Added
+- Demo top bar is now a hierarchy-aware breadcrumb: Portfolio › Demo ›
+  Dashboard. From any demo's dashboard the Demo crumb links straight back to
+  that demo's own landing page, so you can step up one level without
+  detouring through Portfolio and re-launching the demo. The demo registry
+  moved to `src/data/demos.ts` (shared by the demos hub and the DemoBar), and
+  a test covers the landing, dashboard, and index breadcrumb states.
+
 ## [1.1.0.0] - 2026-07-06
 
 ### Added
