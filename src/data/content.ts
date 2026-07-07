@@ -171,7 +171,9 @@ export const HERO_PROOF: readonly { label: string; href: string }[] = [
 
 export const HERO = {
   name: "Matthew Oshin",
-  // Resume's opening positioning line, shown as a sub-headline under the hero.
+  // Resume's opening positioning line. Source copy for the hero <h1> — the
+  // component (HeroSection) renders it with the three roles accented in bio-cyan,
+  // so keep this string in sync with that markup if the wording changes.
   tagline: "Engineer's hands, investor's judgment, founder's speed.",
   // Short punchy positioning line (eyebrow).
   positioning: "Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
