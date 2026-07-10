@@ -7,14 +7,15 @@ import PortfolioGrid, {
 import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 
 /**
- * /portfolio - the products Matthew builds, at the FLOOR (zone "contact"):
- * Matthew wants the page over the seabed scene, the colorful coral reef and
- * kelp from the bottom of the home dive (moved down from the twilight
- * "projects" zone 2026-07-03; the home Portfolio SECTION keeps its projects
- * band, this only changes where the route itself dives). Every card carries
- * the turquoise treatment and a category, and the grid is filterable by type:
- * AI Products, Web & Client, and Ventures. Cards link to the full case
- * studies; demo-backed ones also show a bright "View Demo" button.
+ * /portfolio - the products Matthew builds, at the "projects" zone: the same
+ * depth as /entrepreneurship, right after it in the nav order (2026-07-09
+ * fix: it was pinned to the "contact" floor zone, the same depth as the
+ * Contact page itself, which broke the depth order between Ventures and the
+ * demoted pages). Matches its own BUCKETS zone declaration and the home
+ * Portfolio section's band. Every card carries the turquoise treatment and a
+ * category, and the grid is filterable by type: AI Products, Web & Client,
+ * and Ventures. Cards link to the full case studies; demo-backed ones also
+ * show a bright "View Demo" button.
  */
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -104,7 +105,7 @@ const ITEMS: PortfolioItem[] = [
 export default function PortfolioPage() {
   return (
     <PageShell
-      zone="contact"
+      zone="projects"
       navLabel="Portfolio"
       heading={PORTFOLIO.heading}
       intro={PORTFOLIO.blurb}
