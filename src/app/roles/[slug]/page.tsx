@@ -218,12 +218,4 @@ const ROLE_CONTEXT: Record<string, RoleContext> = {
       "Automated marketing products taught me that the most valuable thing you can build for a small client is something that runs without them touching it.",
     ],
   },
-  saturn: {
-    overview:
-      "Saturn is a scheduling app, and I worked as a user-experience specialist bringing its beta into the WHS student community. I acted as the liaison between students and the development team and refined the scheduling experience so it was cleaner and easier to use. 2019 to 2020.",
-    lessons: [
-      "Sitting between real users and the engineers building for them taught me to turn messy feedback into specific, shippable product changes.",
-      "Small UX details in a scheduling flow compound into whether people actually adopt the product.",
-    ],
-  },
 };

@@ -17,14 +17,13 @@ const BEATS: Record<string, string> = {
   experience:
     "Every desk I've sat at taught the same lesson a different way: find the edge, then go build it.",
   entrepreneurship:
-    "I've always been a hustler. Flipping baseball cards, washing dishes, then a sneaker empire. And the ocean? That's just my last name. Oshin.",
-  portfolio:
-    "And here's what that instinct ships now: real products, end to end.",
+    "I've always been a hustler. Flipping baseball cards, washing dishes, then a sneaker empire.",
+  portfolio: "What that instinct ships now: real products, end to end.",
   skills:
     "All those years of building, across markets and code, became a real toolkit.",
   education: "With the foundation underneath all of it.",
   interests: "And a life outside the work, though most of it circles back to it.",
-  contact: "That's the dive. If any of it resonates, let's build something.",
+  contact: "If any of this resonates, let's build something.",
 };
 
 export default function HomePage() {

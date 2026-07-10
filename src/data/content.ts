@@ -166,7 +166,6 @@ export const MORE_BUCKETS: readonly Bucket[] = BUCKETS.filter(
 export const HERO_PROOF: readonly { label: string; href: string }[] = [
   { label: "$400K revenue, 100K+ users at Mocean", href: "/ventures/mocean" },
   { label: "20+ products shipped", href: "/portfolio" },
-  { label: "61% AI adoption driven at ICR", href: "/experience" },
 ] as const;
 
 export const HERO = {
@@ -183,7 +182,7 @@ export const HERO = {
   // Held for reuse (OFF the hero since 2026-07-03: "too much going on"). The
   // full story lives in the deeper sections; the chips carry the hero proof.
   bio: "Most recently I led the AI & Intelligence Lab at ICR, and today I'm also Chief AI Officer at BrachyClip, a cancer medical device company. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
-  scrollHint: "Pick a depth to dive",
+  scrollHint: "Scroll to explore",
 } as const;
 
 /**
@@ -282,17 +281,6 @@ export const EXPERIENCE: readonly Job[] = [
     points: [
       "Early product-management experience on the software side, sharpening the build-and-ship muscle.",
       "Built community and marketing infrastructure for AI companies, with automated marketing products sold to 3 clients.",
-    ],
-  },
-  {
-    slug: "saturn",
-    role: "User Experience Specialist",
-    org: "Saturn",
-    period: "2019 to 2020, internship",
-    points: [
-      "Streamlined Saturn's beta app into WHS community, improving scheduling features.",
-      "Acted as liaison between WHS students and Saturn development team.",
-      "Enhanced aesthetic appearance of app's scheduling portion for better user experience.",
     ],
   },
 ] as const;

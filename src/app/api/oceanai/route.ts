@@ -1,4 +1,4 @@
-// OceanAI chat API route — a playful deep-sea guide to Matthew Oshin's world.
+// OceanAI chat API route — answers questions about Matthew Oshin's work.
 // Talks to the Groq API (OpenAI-compatible Chat Completions) via plain fetch (no
 // SDK dependency), using GROQ_API_KEY. Node runtime (default). Never returns a
 // 500 to the user: missing key or upstream failure both degrade to a warm,
@@ -29,12 +29,12 @@ const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 // only: Calendly + LinkedIn (the personal email is deliberately not on the
 // site, per the 2026-06-19 privacy pass).
 const FALLBACK_REPLY =
-  "I'm OceanAI, your guide to Matthew Oshin's world. Matthew is a builder, formerly VP of AI & Innovation at ICR, " +
+  "I'm OceanAI, an assistant for Matthew Oshin's site. Matthew is a builder, formerly VP of AI & Innovation at ICR, " +
   "also Chief AI Officer at BrachyClip, with a track record spanning equity research, hospitality (Element Underground), " +
-  "and ventures like Mocean Technologies. Surface the buckets above to explore his work, or book a time with him at " +
+  "and ventures like Mocean Technologies. Explore the sections above to see his work, or book a time with him at " +
   "calendly.com/mattoshin.";
 
-const SYSTEM_PROMPT = `You are OceanAI, a playful, warm deep-sea guide to the world of Matthew Oshin. You speak with light, tasteful ocean flavor: the occasional sea metaphor (currents, depths, tides, charting a course), never forced and never cringe. You are concise (2 to 5 sentences), genuinely helpful, and conversational.
+const SYSTEM_PROMPT = `You are OceanAI, an assistant that answers questions about Matthew Oshin. You are direct, professional, and concise (2 to 5 sentences), while staying warm and conversational. Do not use ocean, sea, or diving metaphors.
 
 You ONLY discuss Matthew Oshin: who he is, his work, his ventures, his skills, and this website. If someone asks about anything off-topic (general trivia, coding help, world events, other people), gently and briefly steer back to Matthew, then offer something you can actually help with.
 

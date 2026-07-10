@@ -42,16 +42,15 @@ interface ChatMessage {
 const MAX_TURNS = 12;
 
 const GREETING =
-  "Hi, I'm OceanAI, your guide to the deep. Ask me anything about Matthew, what he's built, or this strange glowing site.";
+  "Hi, I'm OceanAI. Ask me anything about Matthew and his work.";
 
 const STARTERS = [
   "What has Matthew built?",
   "Tell me about Mocean",
-  "Why the ocean theme?",
+  "What's his background in AI?",
 ] as const;
 
-const ERROR_TEXT =
-  "Something stirred in the dark and the signal dropped. Please try again.";
+const ERROR_TEXT = "Something went wrong. Please try again.";
 
 export default function OceanAI() {
   const [open, setOpen] = useState(false);
@@ -180,7 +179,7 @@ export default function OceanAI() {
         onClick={() => (open ? setOpen(false) : openPanel())}
         aria-haspopup="dialog"
         aria-expanded={open}
-        aria-label={open ? "Close OceanAI chat" : "Open OceanAI, your guide to the deep"}
+        aria-label={open ? "Close OceanAI chat" : "Open OceanAI chat"}
         title="OceanAI"
         className={`pointer-events-auto fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-bio-cyan/40 bg-black/55 text-bio-cyan backdrop-blur-md transition-[transform,box-shadow,border-color] duration-300 hover:border-bio-cyan/80 hover:text-bio-aqua focus-visible:outline-none motion-reduce:transition-none ${
           open
@@ -229,7 +228,7 @@ export default function OceanAI() {
                   OceanAI
                 </h2>
                 <p id={taglineId} className="text-[11px] leading-tight text-ink-muted">
-                  your guide to the deep
+                  Ask about Matthew's work
                 </p>
               </div>
             </div>
@@ -302,7 +301,7 @@ export default function OceanAI() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={onInputKeyDown}
                 rows={1}
-                placeholder="Ask the deep…"
+                placeholder="Ask a question…"
                 disabled={pending}
                 className="max-h-28 min-h-[2.5rem] flex-1 resize-none rounded-xl border border-white/12 bg-black/40 px-3 py-2 text-sm text-ink-heading placeholder:text-ink-faint focus-visible:border-bio-cyan/60 focus-visible:outline-none disabled:opacity-60"
               />
