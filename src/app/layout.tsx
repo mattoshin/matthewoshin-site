@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s, Matthew Oshin",
   },
   description:
-    "Matthew Oshin is a serial entrepreneur and builder. Chief AI Officer at BrachyClip, previously VP of AI and Innovation at ICR. He builds AI products and trading research tools.",
+    "Matthew Oshin is a serial entrepreneur and builder. Previously VP of AI and Innovation at ICR, and Chief AI Officer at BrachyClip. He builds AI products and trading research tools.",
   authors: [{ name: SITE.name }],
   openGraph: {
     title: "Matthew Oshin",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Matthew Oshin",
     description:
-      "Builder. Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
+      "Builder. VP of AI & Innovation, ICR. Markets, AI, and emerging tech.",
     images: ["/og.png"],
   },
 };

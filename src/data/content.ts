@@ -84,7 +84,7 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Experience",
     href: "/experience",
     teaser:
-      "Chief AI Officer at BrachyClip, a cancer medical device company. Before that I stood up and led the AI function at ICR, a financial communications firm in New York, and learned markets doing equity research at Manatuck Hill, a hedge fund.",
+      "VP of AI & Innovation at ICR, a financial communications firm in New York, where I stood up and led the AI function firm-wide. Today I'm Chief AI Officer at BrachyClip, a cancer medical device company, and I learned markets doing equity research at Manatuck Hill, a hedge fund.",
     nav: true,
     proof: "61% firm-wide AI adoption at ICR. 11 internal apps shipped.",
   },
@@ -166,7 +166,7 @@ export const MORE_BUCKETS: readonly Bucket[] = BUCKETS.filter(
 export const HERO_PROOF: readonly { label: string; href: string }[] = [
   { label: "$400K revenue, 100K+ users at Mocean", href: "/ventures/mocean" },
   { label: "20+ products shipped", href: "/portfolio" },
-  { label: "Chief AI Officer, BrachyClip", href: "/experience" },
+  { label: "61% AI adoption driven at ICR", href: "/experience" },
 ] as const;
 
 export const HERO = {
@@ -176,13 +176,13 @@ export const HERO = {
   // so keep this string in sync with that markup if the wording changes.
   tagline: "Engineer's hands, investor's judgment, founder's speed.",
   // Short punchy positioning line (eyebrow).
-  positioning: "Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
+  positioning: "VP of AI & Innovation, ICR. Markets, AI, and emerging tech.",
   // One-sentence hook. This is the single strong instance of the "builder is the
   // throughline" line; the About block no longer repeats it.
   hook: "I'm a builder. It's the throughline of everything I've done, from scaling my first companies in high school to shipping AI products today.",
   // Held for reuse (OFF the hero since 2026-07-03: "too much going on"). The
   // full story lives in the deeper sections; the chips carry the hero proof.
-  bio: "Today I'm Chief AI Officer at BrachyClip, a cancer medical device company, and most recently I led the AI & Intelligence Lab at ICR. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
+  bio: "Most recently I led the AI & Intelligence Lab at ICR, and today I'm also Chief AI Officer at BrachyClip, a cancer medical device company. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
   scrollHint: "Pick a depth to dive",
 } as const;
 
@@ -198,8 +198,8 @@ export const ABOUT = {
     "The whole picture in one read: the story, the toolkit, the schooling, and what I'm about off the clock.",
   /** At-a-glance facts for skimmers; every one is backed by a deeper page. */
   facts: [
-    "Chief AI Officer & Director of Marketing, BrachyClip",
     "Previously VP of AI & Innovation, ICR",
+    "Chief AI Officer & Director of Marketing, BrachyClip",
     "University of Michigan, B.A. Economics",
     "2 companies acquired",
     "20+ products shipped",
@@ -282,17 +282,6 @@ export const EXPERIENCE: readonly Job[] = [
     points: [
       "Early product-management experience on the software side, sharpening the build-and-ship muscle.",
       "Built community and marketing infrastructure for AI companies, with automated marketing products sold to 3 clients.",
-    ],
-  },
-  {
-    slug: "powerhouse-assets",
-    role: "Wealth Management Analyst",
-    org: "PowerHouse Assets",
-    period: "2020, internship",
-    points: [
-      "Conducted sector analysis and return modeling across equities and alternative asset classes to support client portfolio allocation decisions.",
-      "Prepared investment memos and maintained CRM documentation for client strategy updates.",
-      "Utilized analytical skills to provide valuable insights for wealth management strategies.",
     ],
   },
   {
