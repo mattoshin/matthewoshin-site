@@ -3,7 +3,9 @@ import PageShell from "@/components/page/PageShell";
 import { CONTACT, SITE } from "@/data/content";
 
 /**
- * /contact - the floor (zone id "contact"), the deepest page.
+ * /contact - at the "skills" zone depth, shared with /interests (2026-07-10,
+ * Matthew: /about is now the floor, the deepest page, so Contact moved up to
+ * make room and shares its depth with Interests instead).
  *
  * The single warm bio-hot CTA is the Calendly button; email is the working
  * secondary. The Calendly URL is a placeholder (SITE.calendlyUrl ===
@@ -24,7 +26,7 @@ export default function ContactPage() {
     calendlyUrl !== "CALENDLY_URL" && calendlyUrl.startsWith("http");
 
   return (
-    <PageShell zone="contact" heading={CONTACT.heading} intro={CONTACT.blurb}>
+    <PageShell zone="skills" heading={CONTACT.heading} intro={CONTACT.blurb}>
       <div className="mt-10 flex flex-col items-start justify-start gap-4 sm:flex-row sm:items-center">
         {/* The single hot CTA. */}
         {calendlyReady ? (
