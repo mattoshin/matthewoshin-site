@@ -265,7 +265,7 @@ function makeNameTexture(): THREE.CanvasTexture | null {
   if (typeof document === "undefined") return null;
   const c = document.createElement("canvas");
   c.width = 1024;
-  c.height = 150;
+  c.height = 185;
   const ctx = c.getContext("2d");
   if (!ctx) return null;
   ctx.clearRect(0, 0, c.width, c.height);
@@ -274,7 +274,9 @@ function makeNameTexture(): THREE.CanvasTexture | null {
   const jitter = (amt: number) => (rand() - 0.5) * 2 * amt;
 
   const TEXT = "BLACK PEARL";
-  const BASE_SIZE = 92;
+  // 2026-07-09 (Matthew: "hard to see"): bumped from 92, filling more of the
+  // canvas so the hull wordmark reads clearly instead of getting lost.
+  const BASE_SIZE = 120;
   const midY = c.height / 2 + 6;
 
   // Lay the letters out first (jittered sizes change widths), then center.
@@ -565,7 +567,7 @@ export default function Sailboats({ progress }: SceneElementProps) {
         {/* ---- "BLACK PEARL" name on the hull ---- */}
         {nameTex && (
           <mesh position={[-0.32, -0.05, 0.027]}>
-            <planeGeometry args={[2.5, 0.366]} />
+            <planeGeometry args={[2.5, 0.452]} />
             <meshBasicMaterial
               ref={collect}
               map={nameTex}
