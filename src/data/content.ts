@@ -84,7 +84,7 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Experience",
     href: "/experience",
     teaser:
-      "Chief AI Officer at BrachyClip, a cancer medical device company. Before that I stood up and led the AI function at ICR, a financial communications firm in New York, and learned markets doing equity research at Manatuck Hill, a hedge fund.",
+      "VP of AI & Innovation at ICR, a financial communications firm in New York, where I stood up and led the AI function firm-wide. Today I'm Chief AI Officer at BrachyClip, a cancer medical device company, and I learned markets doing equity research at Manatuck Hill, a hedge fund.",
     nav: true,
     proof: "61% firm-wide AI adoption at ICR. 11 internal apps shipped.",
   },
@@ -97,7 +97,7 @@ export const BUCKETS: readonly Bucket[] = [
       "Five ventures between high school and college, from sneaker arbitrage to Mocean, a research platform that grew to 100,000+ users. Two were acquired. Each one is written up honestly, including what went wrong.",
     nav: true,
     navLabel: "Ventures",
-    proof: "2 companies acquired. $400K revenue, 100,000+ users at Mocean.",
+    proof: "2 companies acquired. $400K+ revenue, 100,000+ users at Mocean.",
   },
   {
     id: "portfolio",
@@ -164,9 +164,8 @@ export const MORE_BUCKETS: readonly Bucket[] = BUCKETS.filter(
  * achievement, I can't click on it.") Figures are LinkedIn-public.
  */
 export const HERO_PROOF: readonly { label: string; href: string }[] = [
-  { label: "$400K revenue, 100K+ users at Mocean", href: "/ventures/mocean" },
+  { label: "$400K+ revenue, 100K+ users at Mocean", href: "/ventures/mocean" },
   { label: "20+ products shipped", href: "/portfolio" },
-  { label: "Chief AI Officer, BrachyClip", href: "/experience" },
 ] as const;
 
 export const HERO = {
@@ -176,14 +175,14 @@ export const HERO = {
   // so keep this string in sync with that markup if the wording changes.
   tagline: "Engineer's hands, investor's judgment, founder's speed.",
   // Short punchy positioning line (eyebrow).
-  positioning: "Chief AI Officer at BrachyClip. Markets, AI, and emerging tech.",
+  positioning: "VP of AI & Innovation, ICR. Markets, AI, and emerging tech.",
   // One-sentence hook. This is the single strong instance of the "builder is the
   // throughline" line; the About block no longer repeats it.
   hook: "I'm a builder. It's the throughline of everything I've done, from scaling my first companies in high school to shipping AI products today.",
   // Held for reuse (OFF the hero since 2026-07-03: "too much going on"). The
   // full story lives in the deeper sections; the chips carry the hero proof.
-  bio: "Today I'm Chief AI Officer at BrachyClip, a cancer medical device company, and most recently I led the AI & Intelligence Lab at ICR. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
-  scrollHint: "Pick a depth to dive",
+  bio: "Most recently I led the AI & Intelligence Lab at ICR, and today I'm also Chief AI Officer at BrachyClip, a cancer medical device company. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
+  scrollHint: "Scroll to explore",
 } as const;
 
 /**
@@ -198,8 +197,8 @@ export const ABOUT = {
     "The whole picture in one read: the story, the toolkit, the schooling, and what I'm about off the clock.",
   /** At-a-glance facts for skimmers; every one is backed by a deeper page. */
   facts: [
-    "Chief AI Officer & Director of Marketing, BrachyClip",
     "Previously VP of AI & Innovation, ICR",
+    "Chief AI Officer & Director of Marketing, BrachyClip",
     "University of Michigan, B.A. Economics",
     "2 companies acquired",
     "20+ products shipped",
@@ -207,7 +206,7 @@ export const ABOUT = {
   paragraphs: [
     "I'm a builder. That's the one word that survives every chapter. I started flipping sneakers in high school, scaled a research-and-signal company in college, did equity research on a hedge-fund desk, and now I ship AI products end to end. Different surfaces, same instinct: find an edge, pressure-test it, and build the thing that captures or distributes it.",
     "My foundation is in markets. At Manatuck Hill, a Connecticut hedge fund, I produced differentiated views across AI, nuclear, and precious metals, sat in on management interviews, and built an intelligence-aggregation system. Markets taught me the edge part. Code let me build it myself, which is why my work leads with volatility, expected moves, and expected value around catalysts.",
-    "At 19 I founded Mocean Technologies, a research platform I describe as Bloomberg for Discord: a team of 40-plus analysts producing alpha that my software reformatted, branded, and redistributed to other subscription businesses. It scaled to about $400K in revenue, 100,000+ users, and 1,000+ investor communities, and it was acquired. The lesson it taught me runs through everything since: distribution beats production.",
+    "At 19 I founded Mocean Technologies, a research platform I describe as Bloomberg for Discord: a team of 40-plus analysts producing alpha that my software reformatted, branded, and redistributed to other subscription businesses. It scaled to $400K+ in revenue, 100,000+ users, and 1,000+ investor communities, and it was acquired. The lesson it taught me runs through everything since: distribution beats production.",
     "On the side I co-founded Element Underground, a dance-music events and media group that has drawn 17,000+ attendees across NYC, Miami, Boston, and Ann Arbor, and now keeps the content it shoots as its own owned asset. Earlier ventures, Ocean Supply, Profit Paradise, and Resell Network, are where the resale floor first taught me that the edge is the signal, not the shoe.",
     "Most recently I was VP of AI & Innovation at ICR, a leading investor-relations and strategic-communications firm, where I stood up the AI function from scratch and led the AI & Intelligence Lab across R&D, Education, and Discovery. I owned the data pipeline and shipped the firm's internal AI platform, prototyping most of it solo on Claude Code.",
     "Today I'm Chief AI Officer and Director of Marketing at BrachyClip, a cancer medical-device company, plus a portfolio of my own builds. The flagship is Sigma, a distribution-first equity-research terminal that quantifies how my view disagrees with what the options market is pricing. It's the cleanest expression of who I am, markets reasoning shipped as a product.",
@@ -284,28 +283,6 @@ export const EXPERIENCE: readonly Job[] = [
       "Built community and marketing infrastructure for AI companies, with automated marketing products sold to 3 clients.",
     ],
   },
-  {
-    slug: "powerhouse-assets",
-    role: "Wealth Management Analyst",
-    org: "PowerHouse Assets",
-    period: "2020, internship",
-    points: [
-      "Conducted sector analysis and return modeling across equities and alternative asset classes to support client portfolio allocation decisions.",
-      "Prepared investment memos and maintained CRM documentation for client strategy updates.",
-      "Utilized analytical skills to provide valuable insights for wealth management strategies.",
-    ],
-  },
-  {
-    slug: "saturn",
-    role: "User Experience Specialist",
-    org: "Saturn",
-    period: "2019 to 2020, internship",
-    points: [
-      "Streamlined Saturn's beta app into WHS community, improving scheduling features.",
-      "Acted as liaison between WHS students and Saturn development team.",
-      "Enhanced aesthetic appearance of app's scheduling portion for better user experience.",
-    ],
-  },
 ] as const;
 
 /* -------------------------------------------------------------------------- */
@@ -350,11 +327,11 @@ export const VENTURES: readonly Venture[] = [
       "Bloomberg for Discord. Founded at 19 on a gap year, scaled to acquisition.",
     era: "Founded and acquired, 2021 to 2023",
     demoHref: "/app/mocean-demo",
-    note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. The insight was simple: 1,000+ Discord servers were selling their own research to subscribers, but all the alpha was scattered. I built proprietary software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. The distribution edge was the moat. $400K in all-time revenue, peaking at almost $60K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
+    note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. The insight was simple: 1,000+ Discord servers were selling their own research to subscribers, but all the alpha was scattered. I built proprietary software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. The distribution edge was the moat. $400K+ in all-time revenue, peaking at almost $60K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
     storyParagraphs: [
       "Mocean was Bloomberg for Discord, and I started it at 19 on a gap year, splitting my time between recovering from ACL surgery and helping care for my mom as she fought ALS. The opening was structural and almost no one else saw it: more than a thousand Discord communities were each selling their own market research, but every server was an island. The alpha was real and it was everywhere, and none of it could travel. The bottleneck was never the research. It was distribution, so that is what I went and built.",
       "I built the rails. I designed a branded distribution engine that took one piece of research and mirrored it across hundreds of client communities at once, with per-server templating and category- and channel-level syncing, so every client received exactly the streams they paid for. On top of it I built a fleet of custom market monitors across NFTs, crypto, and equities, and a self-serve dashboard that turned the whole operation into a product: pick your feeds, point them at your server, and start receiving branded, real-time alpha in minutes. Forty-plus analysts produced the signal. The software was the moat.",
-      "At its peak more than 100,000 people read our research every single day, across 1,000-plus investor communities, on a pricing engine that set every contract to the client's willingness to pay. Our best months were clearing almost $60K, on roughly $400K in all-time revenue. I sold the company on May 1, 2023.",
+      "At its peak more than 100,000 people read our research every single day, across 1,000-plus investor communities, on a pricing engine that set every contract to the client's willingness to pay. Our best months were clearing almost $60K, on $400K+ in all-time revenue. I sold the company on May 1, 2023.",
       "Underneath the research business I was building the bigger thing: the first e-commerce platform for information, a Shopify for everyone selling intelligence. Mocean taught me the lesson that still runs through everything I build. Distribution beats production. Anyone can write a good thesis; almost no one can put it in front of a hundred thousand people at the same instant, and whoever owns that distribution layer owns the market.",
     ],
     video: {

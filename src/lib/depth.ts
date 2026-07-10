@@ -74,7 +74,7 @@ export const ZONES: readonly DepthZone[] = [
     // enough in luminance that the zone's LIGHT body/heading type stays WCAG AA.
     id: "about",
     label: "Experience",
-    depthLabel: "Sunlit shallows",
+    depthLabel: "40m",
     start: 0.16,
     end: 0.32,
     palette: {
@@ -89,7 +89,7 @@ export const ZONES: readonly DepthZone[] = [
     // deepens here but the water stays colorful, never murky-grey or black.
     id: "projects",
     label: "Entrepreneurship",
-    depthLabel: "Twilight",
+    depthLabel: "150m",
     start: 0.32,
     end: 0.5,
     palette: {
@@ -103,7 +103,7 @@ export const ZONES: readonly DepthZone[] = [
     // Deeper midwater rolling into the moody band: a rich ocean teal-blue.
     id: "ventures",
     label: "Skills",
-    depthLabel: "Midnight",
+    depthLabel: "300m",
     start: 0.5,
     end: 0.66,
     palette: {
@@ -118,7 +118,7 @@ export const ZONES: readonly DepthZone[] = [
     // void, so the bioluminescence pops against a colored deep, not nothing.
     id: "writing",
     label: "Education",
-    depthLabel: "Abyss",
+    depthLabel: "650m",
     start: 0.66,
     end: 0.8,
     palette: {
@@ -133,7 +133,7 @@ export const ZONES: readonly DepthZone[] = [
     // floor reads as deep ocean rather than ink.
     id: "skills",
     label: "Interests",
-    depthLabel: "Seabed",
+    depthLabel: "900m",
     start: 0.8,
     end: 0.92,
     palette: {
@@ -148,7 +148,7 @@ export const ZONES: readonly DepthZone[] = [
     // and give the closing zone a settled, grounded, not pitch-black, base.
     id: "contact",
     label: "Contact",
-    depthLabel: "The Floor",
+    depthLabel: "1,200m",
     start: 0.92,
     end: 1.0,
     palette: {

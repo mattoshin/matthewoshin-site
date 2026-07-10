@@ -10,11 +10,13 @@ import {
 } from "@/data/content";
 
 /**
- * /about - the whole person in one read, at the "about" depth (shared with
- * /experience). Refero pattern (Partiful, portfolio About pages): quick facts
- * for skimmers up top, then the long-form story, then compact previews of
- * skills, education, and interests that each link to their full page. This
- * page is deliberately a digest: the deep pages stay the immersive versions.
+ * /about - the whole person in one read, at the "contact" depth: the floor,
+ * the deepest zone (2026-07-10, Matthew: the personal digest should be the
+ * bottom of the dive, not shared with /experience). Refero pattern (Partiful,
+ * portfolio About pages): quick facts for skimmers up top, then the long-form
+ * story, then compact previews of skills, education, and interests that each
+ * link to their full page. This page is deliberately a digest: the deep
+ * pages stay the immersive versions.
  */
 export const metadata: Metadata = {
   title: "About",
@@ -63,7 +65,7 @@ function MoreLink({ href, label }: { href: string; label: string }) {
 export default function AboutPage() {
   return (
     <PageShell
-      zone="about"
+      zone="contact"
       navLabel="About"
       heading={ABOUT.heading}
       intro={ABOUT.blurb}
