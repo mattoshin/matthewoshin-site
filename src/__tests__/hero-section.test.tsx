@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import HeroSection from "@/components/sections/HeroSection";
-import { HERO_PROOF } from "@/data/content";
+import { HERO, HERO_PROOF } from "@/data/content";
 
 describe("HeroSection", () => {
   it("renders every proof chip plus the About door", () => {
@@ -13,11 +13,10 @@ describe("HeroSection", () => {
     expect(about.getAttribute("href")).toBe("/about");
   });
 
-  it("leads with the plain what-I-build line as the h1", () => {
+  it("leads with a plain, quiet greeting as the h1, no portrait", () => {
     render(<HeroSection />);
     const heading = screen.getByRole("heading", { level: 1 });
-    expect(heading.textContent).toMatch(
-      /i build ai products, trading research tools, and companies\./i,
-    );
+    expect(heading.textContent).toBe(HERO.tagline);
+    expect(screen.queryByRole("img")).toBeNull();
   });
 });

@@ -1,11 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { HERO, HERO_PROOF } from "@/data/content";
 
 /**
  * HeroSection - the SURFACE (0m). Decluttered per Matthew: no eyebrow line and no
- * big name (the wordmark up top carries the identity). Light + bold type with a
- * crisp dark shadow so it reads over the water.
+ * big name (the wordmark up top carries the identity). Light type with a crisp
+ * dark shadow so it reads over the water.
  *
  * CURATED 2026-07-03 (Gabe's feedback): seven static chips became FOUR clickable
  * proof stats (HERO_PROOF in content.ts), each routing to its evidence, with an
@@ -20,13 +19,13 @@ import { HERO, HERO_PROOF } from "@/data/content";
  * throughline "I'm a builder." The four-sentence bio paragraph left the hero
  * too (its facts live on /experience, About, and the chips).
  *
- * HEADLINE 2026-07-19 (Matthew's humility pass): the resume positioning line
- * ("Engineer's hands, investor's judgment, founder's speed.") is replaced by the
- * plain, factual "I build AI products, trading research tools, and companies."
- * Same display treatment: three beats accented in bio-cyan, display scale, white
- * over the water (WaPo + Medium editorial-hero grounding from the 2026-07-07
- * pass still applies). Source copy: HERO.tagline in content.ts, keep in sync.
- * Do not re-add motion, bio copy, or self-praise headlines without asking him.
+ * HUMBLED FURTHER 2026-07-20 (Matthew: "get rid of the headline, get rid of
+ * the photo... I need to see humble and easy to work with"). The bold
+ * display headline and its cyan-accented beats are GONE, replaced by a plain,
+ * quiet greeting at normal weight. The portrait moved to /about, where a photo
+ * belongs on a personal bio rather than announcing itself on arrival. Source
+ * copy: HERO.tagline in content.ts, keep in sync. Do not re-add a big display
+ * headline, motion, or the portrait here without asking him.
  */
 
 // Crisp dark legibility shadow for light type over the variable surface.
@@ -39,63 +38,26 @@ export default function HeroSection() {
       id="surface"
       className="relative z-10 flex min-h-screen items-center justify-center px-6 py-20"
     >
-      {/* Compressed, centered cluster (photo + text) over the full-bleed ocean. */}
-      <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-10 md:flex-row md:gap-12">
-        {/* Portrait - kept; soft frame so it sits in the scene. */}
-        <div className="shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/45 shadow-[0_24px_60px_-18px_rgba(4,34,46,0.6)]">
-          <Image
-            src="/matthew.jpg"
-            alt="Matthew Oshin"
-            width={933}
-            height={1400}
-            priority
-            className="h-72 w-auto sm:h-80 md:h-[28rem]"
-          />
-        </div>
+      <div className="mx-auto flex w-full max-w-xl flex-col items-center text-center">
+        {/* Plain, quiet greeting. Normal weight, modest size, single color: no
+            display-scale type, no per-word accents. Semantic <h1> kept for
+            SEO/a11y, just styled humbly. */}
+        <h1
+          className={`font-display text-2xl font-medium leading-snug text-white sm:text-3xl ${SHADOW}`}
+        >
+          {HERO.tagline}
+        </h1>
 
-        {/* Text - the positioning headline, then proof. Calm over the water. */}
-        <div className="min-w-0 max-w-xl text-center md:text-left">
-          {/* Positioning line PROMOTED to the hero headline. Grounded in Refero
-              research (WaPo + Medium editorial heroes lead with large display
-              type, never sub-headline size): display scale, tight leading, white
-              for contrast over the water, with the three roles accented in
-              bio-cyan so the line reads as three beats. Semantic <h1> restored
-              for SEO/a11y. Source copy: HERO.tagline in content.ts. */}
-          <h1
-            className={`font-display text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl ${SHADOW}`}
-          >
-            I build <span className="text-bio-cyan">AI products</span>,{" "}
-            <span className="text-bio-cyan">trading research tools</span>, and{" "}
-            <span className="text-bio-cyan">companies</span>.
-          </h1>
-
-          {/* Proof stats - dark glass chips, each a LINK to its evidence. The
-              arrow slides in on hover so they read as doors, not decoration. */}
-          <ul className="mt-6 flex flex-wrap justify-center gap-2.5 md:justify-start">
-            {HERO_PROOF.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  className="proof-chip group inline-flex items-center gap-1.5 rounded-full border border-bio-cyan/50 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm transition-colors hover:border-bio-cyan hover:bg-abyss-void/95 hover:text-bio-cyan"
-                >
-                  {item.label}
-                  <span
-                    aria-hidden="true"
-                    className="text-bio-cyan transition-transform group-hover:translate-x-0.5"
-                  >
-                    -&gt;
-                  </span>
-                </Link>
-              </li>
-            ))}
-            {/* The door to the person, not a stat: /about gathers the story,
-                skills, education, and interests in one read. */}
-            <li>
+        {/* Proof stats - dark glass chips, each a LINK to its evidence. The
+            arrow slides in on hover so they read as doors, not decoration. */}
+        <ul className="mt-6 flex flex-wrap justify-center gap-2.5">
+          {HERO_PROOF.map((item) => (
+            <li key={item.label}>
               <Link
-                href="/about"
-                className="proof-chip group inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm transition-colors hover:border-bio-cyan hover:bg-abyss-void/95 hover:text-bio-cyan"
+                href={item.href}
+                className="proof-chip group inline-flex items-center gap-1.5 rounded-full border border-bio-cyan/50 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm transition-colors hover:border-bio-cyan hover:bg-abyss-void/95 hover:text-bio-cyan"
               >
-                More about me
+                {item.label}
                 <span
                   aria-hidden="true"
                   className="text-bio-cyan transition-transform group-hover:translate-x-0.5"
@@ -104,17 +66,33 @@ export default function HeroSection() {
                 </span>
               </Link>
             </li>
-          </ul>
+          ))}
+          {/* The door to the person, not a stat: /about gathers the story,
+              skills, education, and interests in one read. */}
+          <li>
+            <Link
+              href="/about"
+              className="proof-chip group inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-abyss-void/80 px-4 py-2 text-[13px] font-medium uppercase tracking-wide text-ink-heading backdrop-blur-sm transition-colors hover:border-bio-cyan hover:bg-abyss-void/95 hover:text-bio-cyan"
+            >
+              More about me
+              <span
+                aria-hidden="true"
+                className="text-bio-cyan transition-transform group-hover:translate-x-0.5"
+              >
+                -&gt;
+              </span>
+            </Link>
+          </li>
+        </ul>
 
-          <p
-            className={`mt-8 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-ink-muted ${SHADOW}`}
-          >
-            {HERO.scrollHint}
-            <span aria-hidden="true" className="ml-2">
-              &darr;
-            </span>
-          </p>
-        </div>
+        <p
+          className={`mt-8 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-ink-muted ${SHADOW}`}
+        >
+          {HERO.scrollHint}
+          <span aria-hidden="true" className="ml-2">
+            &darr;
+          </span>
+        </p>
       </div>
     </section>
   );
