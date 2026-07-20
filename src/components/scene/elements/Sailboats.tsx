@@ -2,11 +2,11 @@
 
 /**
  * Sailboats - THE BLACK PEARL. A papercut galleon silhouette riding the surface:
- * a long near-black hull with a tall stern castle + stern lantern, the ship's
- * name "BLACK PEARL" in white on the hull, three masts of WHITE square sails, a
- * skull-and-crossbones on the mainsail, rigging stays, flags at each masthead,
- * and a bowsprit + figurehead. Flat camera-facing shapes (ShapeGeometry / Plane),
- * the scene's papercut idiom - just bigger and menacing.
+ * a long near-black hull with a tall stern castle + stern lantern, three masts
+ * of WHITE square sails, a skull-and-crossbones on the mainsail, rigging stays,
+ * flags at each masthead, and a bowsprit + figurehead. Flat camera-facing shapes
+ * (ShapeGeometry / Plane), the scene's papercut idiom - just bigger and menacing.
+ * No name lettering on the hull (removed 2026-07-19 by Matthew's call).
  *
  * SURFACE band: past ~progress 0.24 it hides + early-returns. While visible it
  * DRIFTS UP with the surface. It rides a FAR plane (z=-15) vs the Lamborghini
@@ -241,124 +241,6 @@ function makeNoseGeometry(): THREE.BufferGeometry {
   return new THREE.ShapeGeometry(s);
 }
 
-/** Tiny seeded PRNG (mulberry32) so the "hand-painted" jitter is identical on
-    every load; the scrappiness is part of the brand, not a dice roll. */
-function mulberry32(seed: number) {
-  let a = seed >>> 0;
-  return () => {
-    a |= 0;
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-/**
- * "BLACK PEARL" hull wordmark as a transparent canvas texture (client-only).
- * NOT typeset (it used to read as Times New Roman): each letter is painted by
- * hand, with per-letter rotation/size/baseline jitter riding a gentle hull
- * arc, weathered per-letter opacity, flaked-paint speckle distress, and a few
- * drips, like a deckhand lettered it with a brush and half a bucket of paint.
- */
-function makeNameTexture(): THREE.CanvasTexture | null {
-  if (typeof document === "undefined") return null;
-  const c = document.createElement("canvas");
-  c.width = 1024;
-  c.height = 185;
-  const ctx = c.getContext("2d");
-  if (!ctx) return null;
-  ctx.clearRect(0, 0, c.width, c.height);
-
-  const rand = mulberry32(0x9e4a17);
-  const jitter = (amt: number) => (rand() - 0.5) * 2 * amt;
-
-  const TEXT = "BLACK PEARL";
-  // 2026-07-09 (Matthew: "hard to see"): bumped from 92, filling more of the
-  // canvas so the hull wordmark reads clearly instead of getting lost.
-  const BASE_SIZE = 120;
-  const midY = c.height / 2 + 6;
-
-  // Lay the letters out first (jittered sizes change widths), then center.
-  const letters = TEXT.split("").map((ch) => {
-    const size = ch === " " ? BASE_SIZE : BASE_SIZE + jitter(9);
-    ctx.font = `900 ${size}px Impact, 'Arial Black', sans-serif`;
-    return {
-      ch,
-      size,
-      w: ch === " " ? BASE_SIZE * 0.34 : ctx.measureText(ch).width + 7 + jitter(4),
-      rot: jitter(0.055),
-      dy: jitter(4.5),
-      alpha: 0.82 + rand() * 0.18,
-    };
-  });
-  const total = letters.reduce((acc, l) => acc + l.w, 0);
-
-  // Paint pass: every letter sits on a gentle arc (ends rise like the hull
-  // sheer), individually rotated + offset, in weathered off-white.
-  let x = (c.width - total) / 2;
-  const dripAt: { x: number; y: number }[] = [];
-  for (const l of letters) {
-    const cx = x + l.w / 2;
-    if (l.ch !== " ") {
-      const t = (cx - c.width / 2) / (c.width / 2); // -1 .. 1 across the name
-      // Gentle sheer arc: the ends ride up ~8px like the hull line does.
-      const y = midY - 8 * t * t + l.dy;
-      ctx.save();
-      ctx.translate(cx, y);
-      ctx.rotate(l.rot);
-      ctx.font = `900 ${l.size}px Impact, 'Arial Black', sans-serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = `rgba(246, 242, 234, ${l.alpha})`;
-      ctx.fillText(l.ch, 0, 0);
-      // Second, slightly offset ghost pass: brush going over it twice.
-      ctx.fillStyle = `rgba(246, 242, 234, ${l.alpha * 0.35})`;
-      ctx.fillText(l.ch, jitter(2.5), jitter(2));
-      ctx.restore();
-      if (rand() < 0.3) dripAt.push({ x: cx + jitter(14), y: y + l.size * 0.34 });
-    }
-    x += l.w;
-  }
-
-  // Drips: thin tapering runs under a few letters, like wet paint sagged.
-  for (const d of dripAt.slice(0, 3)) {
-    const len = 14 + rand() * 22;
-    const grad = ctx.createLinearGradient(0, d.y, 0, d.y + len);
-    grad.addColorStop(0, "rgba(246, 242, 234, 0.75)");
-    grad.addColorStop(1, "rgba(246, 242, 234, 0)");
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.ellipse(d.x, d.y + len / 2, 2.2, len / 2, 0, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // Distress pass: flake the paint. Small punched-out speckles + a few long
-  // horizontal scratches, erased from what's already painted.
-  ctx.globalCompositeOperation = "destination-out";
-  for (let i = 0; i < 240; i++) {
-    const sx = rand() * c.width;
-    const sy = rand() * c.height;
-    const r = 0.6 + rand() * 2.4;
-    ctx.globalAlpha = 0.25 + rand() * 0.55;
-    ctx.beginPath();
-    ctx.arc(sx, sy, r, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  for (let i = 0; i < 7; i++) {
-    const sy = rand() * c.height;
-    ctx.globalAlpha = 0.18 + rand() * 0.3;
-    ctx.fillRect(rand() * c.width * 0.8, sy, 60 + rand() * 240, 1 + rand() * 2);
-  }
-  ctx.globalAlpha = 1;
-  ctx.globalCompositeOperation = "source-over";
-
-  const tex = new THREE.CanvasTexture(c);
-  tex.anisotropy = 4;
-  tex.needsUpdate = true;
-  return tex;
-}
-
 // Masts: mizzen (stern/left), main (center, tallest), fore (bow/right).
 const MASTS = [
   { x: -1.0, h: 2.7, sails: [
@@ -395,7 +277,6 @@ export default function Sailboats({ progress }: SceneElementProps) {
   const figureGeo = useMemo(() => makeFigureheadGeometry(), []);
   const lanternGeo = useMemo(() => makeLanternGeometry(), []);
   const flagGeo = useMemo(() => makeFlagGeometry(), []);
-  const nameTex = useMemo(() => makeNameTexture(), []);
 
   // Jolly Roger pieces.
   const craniumGeo = useMemo(() => makeDiscGeometry(0.16), []);
@@ -563,22 +444,6 @@ export default function Sailboats({ progress }: SceneElementProps) {
         <mesh geometry={bowspritGeo} position={[0, 0, 0.021]}>{mat(mastCol)}</mesh>
         <mesh geometry={figureGeo} position={[0, 0, 0.022]}>{mat(trimCol)}</mesh>
         <mesh geometry={gunwaleGeo} position={[0, 0, 0.024]}>{mat(trimCol)}</mesh>
-
-        {/* ---- "BLACK PEARL" name on the hull ---- */}
-        {nameTex && (
-          <mesh position={[-0.32, -0.05, 0.027]}>
-            <planeGeometry args={[2.5, 0.452]} />
-            <meshBasicMaterial
-              ref={collect}
-              map={nameTex}
-              transparent
-              opacity={0}
-              depthWrite={false}
-              side={THREE.DoubleSide}
-              fog
-            />
-          </mesh>
-        )}
 
         {/* ---- STERN LANTERN ---- */}
         <mesh geometry={lanternGeo} position={[0, 0, 0.03]}>{mat(lanternCol)}</mesh>

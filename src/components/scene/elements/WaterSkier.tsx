@@ -3,10 +3,10 @@
 /**
  * WaterSkier - a Lamborghini speedboat + skier silhouette at the surface.
  *
- * The boat is a papercut speedboat in Lamborghini livery: a giallo-yellow hull
- * with black cockpit, smoked windshield, and "LAMBORGHINI" lettering on the
- * hull side. It tows a deep teal skier silhouette on two white skis, well behind
- * the stern on a long rope.
+ * The boat is a papercut speedboat: a yellow hull with black cockpit and smoked
+ * windshield. It tows a deep teal skier silhouette on two white skis, well behind
+ * the stern on a long rope. No lettering on the hull (removed 2026-07-19 by
+ * Matthew's call).
  *
  * CAROUSEL: the rig glides RIGHT -> LEFT and loops seamlessly. As it nears either
  * screen edge its opacity fades to 0, so the wrap from the left edge back to the
@@ -136,31 +136,6 @@ function makeCockpitGeometry(): THREE.BufferGeometry {
   return new THREE.ShapeGeometry(s);
 }
 
-/** "LAMBORGHINI" wordmark as a transparent canvas texture (client-only). */
-function makeNameTexture(): THREE.CanvasTexture | null {
-  if (typeof document === "undefined") return null;
-  const c = document.createElement("canvas");
-  c.width = 1024;
-  c.height = 128;
-  const ctx = c.getContext("2d");
-  if (!ctx) return null;
-  ctx.clearRect(0, 0, c.width, c.height);
-  ctx.fillStyle = "#0A0A0A";
-  ctx.font = "800 84px Arial, Helvetica, sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  try {
-    (ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = "10px";
-  } catch {
-    // ignore on engines without letterSpacing
-  }
-  ctx.fillText("LAMBORGHINI", c.width / 2, c.height / 2 + 4);
-  const tex = new THREE.CanvasTexture(c);
-  tex.anisotropy = 4;
-  tex.needsUpdate = true;
-  return tex;
-}
-
 // ---------------------------------------------------------------------------
 // Skier silhouette — single connected ShapeGeometry, papercut style.
 // ---------------------------------------------------------------------------
@@ -224,7 +199,6 @@ export default function WaterSkier({ progress }: SceneElementProps) {
   const cockpitGeo    = useMemo(() => makeCockpitGeometry(), []);
   const skierBodyGeo  = useMemo(() => makeSkierBodyGeometry(), []);
   const skiGeo        = useMemo(() => makeSkiGeometry(), []);
-  const nameTex       = useMemo(() => makeNameTexture(), []);
 
   const hullCol       = useMemo(() => C(HULL_RGB), []);
   const stripeCol     = useMemo(() => C(STRIPE_RGB), []);
@@ -316,14 +290,6 @@ export default function WaterSkier({ progress }: SceneElementProps) {
         <mesh geometry={hullGeo}>
           <meshBasicMaterial ref={collect} color={hullCol} transparent side={THREE.DoubleSide} fog />
         </mesh>
-
-        {/* LAMBORGHINI wordmark on the hull side */}
-        {nameTex && (
-          <mesh position={[-0.05, -0.02, 0.30]}>
-            <planeGeometry args={[1.5, 0.1875]} />
-            <meshBasicMaterial ref={collect} map={nameTex} transparent depthWrite={false} side={THREE.DoubleSide} fog />
-          </mesh>
-        )}
 
         {/* Gunwale stripe */}
         <mesh geometry={stripeGeo} position={[0, 0, 0.27]}>
