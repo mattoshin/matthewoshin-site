@@ -77,7 +77,7 @@ export default function AboutPage() {
       intro={ABOUT.blurb}
     >
       {/* Portrait + at-a-glance facts: the five-second version for skimmers. */}
-      <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start">
+      <div className="mt-8 flex flex-col items-start gap-6 sm:flex-row">
         <div className="shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/15">
           <Image
             src="/matthew.jpg"
