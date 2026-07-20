@@ -17,7 +17,7 @@ const BEATS: Record<string, string> = {
   experience:
     "Every desk I've sat at taught the same lesson a different way: find the edge, then go build it.",
   entrepreneurship:
-    "I've always been a hustler. Flipping baseball cards, washing dishes, then a sneaker empire.",
+    "It started small: flipping baseball cards, washing dishes, then reselling sneakers.",
   portfolio: "What that instinct ships now: real products, end to end.",
   skills:
     "All those years of building, across markets and code, became a real toolkit.",

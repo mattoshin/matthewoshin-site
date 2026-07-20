@@ -20,13 +20,13 @@ import { HERO, HERO_PROOF } from "@/data/content";
  * throughline "I'm a builder." The four-sentence bio paragraph left the hero
  * too (its facts live on /experience, About, and the chips).
  *
- * HEADLINE 2026-07-07 (Matthew, Refero-researched): "I'm a builder." is GONE.
- * The resume positioning line ("Engineer's hands, investor's judgment, founder's
- * speed.") is PROMOTED to the hero <h1> at display scale, white over the water
- * with the three roles accented in bio-cyan so it reads as three beats. Grounded
- * in WaPo + Medium editorial heroes: the lead line carries display weight, never
- * sub-headline size. First view is now: positioning headline, four proof chips +
- * About door, scroll hint. Do not re-add motion or bio copy without asking him.
+ * HEADLINE 2026-07-19 (Matthew's humility pass): the resume positioning line
+ * ("Engineer's hands, investor's judgment, founder's speed.") is replaced by the
+ * plain, factual "I build AI products, trading research tools, and companies."
+ * Same display treatment: three beats accented in bio-cyan, display scale, white
+ * over the water (WaPo + Medium editorial-hero grounding from the 2026-07-07
+ * pass still applies). Source copy: HERO.tagline in content.ts, keep in sync.
+ * Do not re-add motion, bio copy, or self-praise headlines without asking him.
  */
 
 // Crisp dark legibility shadow for light type over the variable surface.
@@ -64,9 +64,9 @@ export default function HeroSection() {
           <h1
             className={`font-display text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl ${SHADOW}`}
           >
-            <span className="text-bio-cyan">Engineer&rsquo;s</span> hands,{" "}
-            <span className="text-bio-cyan">investor&rsquo;s</span> judgment,{" "}
-            <span className="text-bio-cyan">founder&rsquo;s</span> speed.
+            I build <span className="text-bio-cyan">AI products</span>,{" "}
+            <span className="text-bio-cyan">trading research tools</span>, and{" "}
+            <span className="text-bio-cyan">companies</span>.
           </h1>
 
           {/* Proof stats - dark glass chips, each a LINK to its evidence. The

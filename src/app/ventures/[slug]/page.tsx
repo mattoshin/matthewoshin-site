@@ -408,7 +408,7 @@ function MoceanEngine() {
         Under the hood
       </h2>
       <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
-        Mocean&rsquo;s moat was software. I built a fleet of custom monitors in Python that
+        The core of Mocean was software. I built a fleet of custom monitors in Python that
         scraped NFT mints, crypto markets, and equities in real time and pushed branded,
         formatted alerts straight into client Discord servers through webhooks. Here is one of
         them, lightly trimmed.

@@ -26,21 +26,21 @@ export default function DepthGauge() {
       aria-hidden="true"
       className="pointer-events-none fixed right-4 top-1/2 z-30 hidden -translate-y-1/2 lg:block"
     >
-      <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/30 p-3 backdrop-blur-md">
-        {/* Progress track */}
-        <div className="relative h-40 w-1 rounded-full bg-white/10">
+      {/* Fixed outer box: only the fill bar animates, never the chrome dimensions. */}
+      <div className="flex h-44 w-[6.5rem] shrink-0 items-center gap-3 rounded-2xl border border-white/10 bg-black/30 p-3 backdrop-blur-md">
+        <div className="relative h-36 w-1 shrink-0 rounded-full bg-white/10">
           <div
-            className="absolute left-0 top-0 w-full rounded-full bg-gradient-to-b from-surface-water via-bio-cyan to-bio-aqua"
+            className="absolute left-0 top-0 w-full rounded-full bg-gradient-to-b from-surface-water via-bio-cyan to-bio-aqua transition-[height] duration-150 ease-out"
             style={{ height: `${pct}%` }}
           />
         </div>
-        {/* Readout (rotated to sit beside the track) */}
-        <div className="flex flex-col items-start">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-bio-cyan/80">
-            {zone?.depthLabel}
+        <div className="flex w-[3.25rem] shrink-0 flex-col items-start justify-center gap-0.5">
+          <span className="block w-full truncate font-mono text-[10px] uppercase tracking-widest text-bio-cyan/80">
+            {zone?.depthLabel ?? "\u00a0"}
           </span>
-          <span className="font-mono text-[10px] tabular-nums text-ink-faint">
-            Depth {pct}%
+          <span className="block w-full font-mono text-[10px] tabular-nums text-ink-faint">
+            Depth{" "}
+            <span className="inline-block w-[1.35rem] text-right">{pct}</span>%
           </span>
         </div>
       </div>
