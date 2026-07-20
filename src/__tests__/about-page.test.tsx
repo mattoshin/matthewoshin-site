@@ -30,6 +30,11 @@ describe("/about page", () => {
     }
   });
 
+  it("renders the portrait (moved here from the home hero)", () => {
+    render(<AboutPage />);
+    expect(screen.getByRole("img", { name: "Matthew Oshin" })).toBeTruthy();
+  });
+
   it("renders the story, toolkit groups, interest cards, and non-linked school", () => {
     render(<AboutPage />);
     // The long-form story renders in full, not just the facts.

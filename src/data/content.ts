@@ -170,11 +170,10 @@ export const HERO_PROOF: readonly { label: string; href: string }[] = [
 
 export const HERO = {
   name: "Matthew Oshin",
-  // Source copy for the hero <h1> — the component (HeroSection) renders it with
-  // the three things he builds accented in bio-cyan, so keep this string in sync
-  // with that markup if the wording changes. Plain and factual on purpose
-  // (2026-07-19 humility pass: say what I do, not how good I am at it).
-  tagline: "I build AI products, trading research tools, and companies.",
+  // Source copy for the hero <h1>, rendered plain and small (no display-scale
+  // type, no color accents). A quiet greeting, nothing more (2026-07-20,
+  // Matthew: "get rid of the headline... I need to see humble").
+  tagline: "Hi, I'm Matthew Oshin.",
   // Short punchy positioning line (eyebrow).
   positioning: "VP of AI & Innovation, ICR. Markets, AI, and emerging tech.",
   // One-sentence hook. This is the single strong instance of the "builder is the

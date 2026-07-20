@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import PageShell from "@/components/page/PageShell";
 import {
@@ -17,6 +18,11 @@ import {
  * story, then compact previews of skills, education, and interests that each
  * link to their full page. This page is deliberately a digest: the deep
  * pages stay the immersive versions.
+ *
+ * PORTRAIT moved here 2026-07-20 from the home hero (Matthew: "get rid of the
+ * photo... we can put picture on the about me section"). A photo belongs on
+ * a personal bio, not announcing itself on arrival, so it rides small and
+ * quiet beside the at-a-glance facts.
  */
 export const metadata: Metadata = {
   title: "About",
@@ -70,17 +76,28 @@ export default function AboutPage() {
       heading={ABOUT.heading}
       intro={ABOUT.blurb}
     >
-      {/* At a glance: the five-second version for skimmers. */}
-      <ul className="mt-8 flex flex-wrap gap-2.5">
-        {ABOUT.facts.map((fact) => (
-          <li
-            key={fact}
-            className="cursor-default rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1.5 text-[13px] font-medium tracking-tight text-ink-body backdrop-blur-sm"
-          >
-            {fact}
-          </li>
-        ))}
-      </ul>
+      {/* Portrait + at-a-glance facts: the five-second version for skimmers. */}
+      <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start">
+        <div className="shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/15">
+          <Image
+            src="/matthew.jpg"
+            alt="Matthew Oshin"
+            width={933}
+            height={1400}
+            className="h-40 w-auto sm:h-48"
+          />
+        </div>
+        <ul className="flex flex-wrap gap-2.5">
+          {ABOUT.facts.map((fact) => (
+            <li
+              key={fact}
+              className="cursor-default rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1.5 text-[13px] font-medium tracking-tight text-ink-body backdrop-blur-sm"
+            >
+              {fact}
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {/* The story: the arc in Matthew's voice. */}
       <section className="mt-12">
