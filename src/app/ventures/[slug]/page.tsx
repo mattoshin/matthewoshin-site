@@ -47,7 +47,7 @@ export default async function VenturePage({
 
       <main className="mx-auto w-full max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
         <Link
-          href="/#projects"
+          href="/entrepreneurship"
           className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-bio-cyan hover:underline"
         >
           <span aria-hidden="true">&lt;-</span> Back to ventures
@@ -312,7 +312,7 @@ function InterviewVideo({ video }: { video: VentureVideo }) {
             title={video.title}
             loading="lazy"
             referrerPolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
         </div>
