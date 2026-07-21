@@ -3,15 +3,15 @@
 /**
  * Sailboats - THE BLACK PEARL. A papercut galleon silhouette riding the surface:
  * a long near-black hull with a tall stern castle + stern lantern, three masts
- * of WHITE square sails, a skull-and-crossbones on the mainsail, rigging stays,
- * flags at each masthead, and a bowsprit + figurehead. Flat camera-facing shapes
- * (ShapeGeometry / Plane), the scene's papercut idiom - just bigger and menacing.
- * No name lettering on the hull (removed 2026-07-19 by Matthew's call).
+ * of WHITE square sails, rigging stays, flags at each masthead, and a bowsprit +
+ * figurehead. Flat camera-facing shapes (ShapeGeometry / Plane), the scene's
+ * papercut idiom.
+ * No name lettering on the hull (removed 2026-07-19); no mainsail emblem
+ * (removed 2026-07-21, "lowkey" pass) - just a plain sailboat now.
  *
  * SURFACE band: past ~progress 0.24 it hides + early-returns. While visible it
- * DRIFTS UP with the surface. It rides a FAR plane (z=-15) vs the Lamborghini
- * speedboat (z=-10), cruising slowly LEFT -> RIGHT (opposite the Lambo), wrapping
- * with an opacity edge-fade so the loop is a seamless carousel, not a teleport.
+ * DRIFTS UP with the surface, cruising slowly LEFT -> RIGHT, wrapping with an
+ * opacity edge-fade so the loop is a seamless carousel, not a teleport.
  *
  * Contract: default-exported SceneElement; reads `progress` imperatively each
  * frame; mutates ONLY refs it owns to satisfy the React-Compiler lint.
@@ -25,13 +25,12 @@ import type { SceneElementProps } from "../types";
 
 const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
 
-// Phone-only staggered intro: the Black Pearl arrives AFTER the Lamborghini
-// (WaterSkier), so the two hero pieces load at visibly different times rather
-// than popping in together. Desktop/tablet are unchanged.
+// Phone-only delayed intro: the sailboat eases in shortly after load rather
+// than popping in immediately. Desktop/tablet are unchanged.
 const INTRO_DELAY = 1.2; // seconds after load before the ship starts to appear
 const INTRO_DURATION = 1.0; // seconds to ease to full opacity
 
-/** Shared sine-sum swell (same sea the water-skier rides). */
+/** Sine-sum swell driving the sailboat's bob/pitch on the surface. */
 function swell(x: number, z: number, t: number): number {
   return (
     Math.sin(x * 0.6 + t * 0.9) * 0.16 +
@@ -49,7 +48,6 @@ const SAIL_LO = "#efe9db"; // WHITE canvas (lower sails)
 const SAIL_HI = "#f7f3ea"; // brighter white (upper sails)
 const FLAGC = "#0e0e14"; // torn flags
 const LANTERN = "#c69248"; // faint warm stern-lantern glow
-const EMBLEM = "#16120f"; // skull + crossbones, dark on the white sail
 
 // Camera at z=8; seat on the painted horizon: y = HORIZON_K * (CAM_Z - z).
 const CAM_Z = 8;
@@ -206,41 +204,6 @@ function makeLineGeometry(
   return new THREE.ShapeGeometry(s);
 }
 
-function makeDiscGeometry(r: number): THREE.BufferGeometry {
-  const s = new THREE.Shape();
-  s.absarc(0, 0, r, 0, Math.PI * 2, false);
-  return new THREE.ShapeGeometry(s, 24);
-}
-
-function makeBoneGeometry(len: number, w: number): THREE.BufferGeometry {
-  const hl = len / 2;
-  const r = w / 2;
-  const s = new THREE.Shape();
-  s.absarc(-hl, 0, r, Math.PI / 2, (Math.PI * 3) / 2, false);
-  s.absarc(hl, 0, r, -Math.PI / 2, Math.PI / 2, false);
-  s.closePath();
-  return new THREE.ShapeGeometry(s, 10);
-}
-
-function makeJawGeometry(): THREE.BufferGeometry {
-  const s = new THREE.Shape();
-  s.moveTo(-0.1, 0);
-  s.lineTo(0.1, 0);
-  s.lineTo(0.07, -0.12);
-  s.lineTo(-0.07, -0.12);
-  s.closePath();
-  return new THREE.ShapeGeometry(s);
-}
-
-function makeNoseGeometry(): THREE.BufferGeometry {
-  const s = new THREE.Shape();
-  s.moveTo(0, -0.005);
-  s.lineTo(0.032, -0.07);
-  s.lineTo(-0.032, -0.07);
-  s.closePath();
-  return new THREE.ShapeGeometry(s);
-}
-
 // Masts: mizzen (stern/left), main (center, tallest), fore (bow/right).
 const MASTS = [
   { x: -1.0, h: 2.7, sails: [
@@ -259,10 +222,6 @@ const MASTS = [
     ] },
 ] as const;
 
-// Skull + crossbones centered on the main course (lowest main sail).
-const EMBLEM_X = MASTS[1].x;
-const EMBLEM_Y = DECK_Y + MASTS[1].sails[0].y - MASTS[1].sails[0].h / 2;
-
 export default function Sailboats({ progress }: SceneElementProps) {
   const groupRef = useRef<THREE.Group>(null);
   const shipRef = useRef<THREE.Group>(null);
@@ -277,13 +236,6 @@ export default function Sailboats({ progress }: SceneElementProps) {
   const figureGeo = useMemo(() => makeFigureheadGeometry(), []);
   const lanternGeo = useMemo(() => makeLanternGeometry(), []);
   const flagGeo = useMemo(() => makeFlagGeometry(), []);
-
-  // Jolly Roger pieces.
-  const craniumGeo = useMemo(() => makeDiscGeometry(0.16), []);
-  const jawGeo = useMemo(() => makeJawGeometry(), []);
-  const boneGeo = useMemo(() => makeBoneGeometry(0.64, 0.07), []);
-  const eyeGeo = useMemo(() => makeDiscGeometry(0.044), []);
-  const noseGeo = useMemo(() => makeNoseGeometry(), []);
 
   const rig = useMemo(
     () =>
@@ -323,7 +275,6 @@ export default function Sailboats({ progress }: SceneElementProps) {
   const sailHiCol = useMemo(() => C(SAIL_HI), []);
   const flagCol = useMemo(() => C(FLAGC), []);
   const lanternCol = useMemo(() => C(LANTERN), []);
-  const emblemCol = useMemo(() => C(EMBLEM), []);
 
   const collect = (el: THREE.MeshBasicMaterial | null) => {
     if (el && !matRefs.current.includes(el)) matRefs.current.push(el);
@@ -397,17 +348,6 @@ export default function Sailboats({ progress }: SceneElementProps) {
             </mesh>
           )),
         )}
-
-        {/* ---- SKULL + CROSSBONES on the mainsail ---- */}
-        <group position={[EMBLEM_X, EMBLEM_Y, 0.013]}>
-          <mesh geometry={boneGeo} rotation={[0, 0, 0.82]}>{mat(emblemCol)}</mesh>
-          <mesh geometry={boneGeo} rotation={[0, 0, -0.82]}>{mat(emblemCol)}</mesh>
-          <mesh geometry={craniumGeo} position={[0, 0.04, 0.001]}>{mat(emblemCol)}</mesh>
-          <mesh geometry={jawGeo} position={[0, -0.05, 0.001]}>{mat(emblemCol)}</mesh>
-          <mesh geometry={eyeGeo} position={[-0.066, 0.055, 0.002]}>{mat(sailLoCol)}</mesh>
-          <mesh geometry={eyeGeo} position={[0.066, 0.055, 0.002]}>{mat(sailLoCol)}</mesh>
-          <mesh geometry={noseGeo} position={[0, 0.0, 0.002]}>{mat(sailLoCol)}</mesh>
-        </group>
 
         {/* ---- RIGGING STAYS ---- */}
         {stays.map((g, i) => (
