@@ -33,8 +33,8 @@ const BASE_SPEED   = 0.7;       // units/sec at the screen edges, slow so it rea
 const CENTER_BOOST = 2.4;       // extra speed multiplier behind the center cards
 const Z_DEPTH    = -12;
 const Y_OFFSET   = -0.8;
-const HW         = 4.4;         // hull half-length
-const HH         = 0.5;         // hull half-height (at max beam)
+const HW         = 3.96;        // hull half-length (was 4.4, trimmed ~10% 2026-07-21 "lowkey" pass)
+const HH         = 0.45;        // hull half-height (was 0.5, at max beam)
 
 const SX         = HW * 0.30;   // sail center, forward of midships
 const SW         = HW * 0.12;   // sail half-chord
