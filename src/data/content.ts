@@ -6,17 +6,17 @@
  *  - Voice: confident, warm, direct. First person where it reads as Matthew.
  *  - All figures here are public and approved to publish (sourced from LinkedIn).
  *
- * Structure mirrors the bucket nav:
+ * Structure mirrors the bucket nav (consolidated to four sections so a visitor
+ * makes one clear choice, not seven):
  *   surface  -> Home (HERO + ABOUT)
  *   about    -> Experience (EXPERIENCE)
- *   projects -> Entrepreneurship (VENTURES past + BUILDS current)
- *   ventures -> Skills (SKILL_GROUPS)
- *   writing  -> Education (EDUCATION)
- *   skills   -> Interests (INTERESTS)
+ *   projects -> Projects (VENTURES + BUILDS, one filterable grid)
+ *   writing  -> About (ABOUT + SKILL_GROUPS + EDUCATION + INTERESTS)
  *   contact  -> Contact (CONTACT)
  *
  * The zone IDs above are immutable (WebGL creatures gate on them). Only the
- * labels and the content mapped onto each zone change.
+ * labels and the content mapped onto each zone change. The "ventures" and
+ * "skills" zones no longer host a section; the dive still passes through them.
  */
 
 import type { ZoneId } from "@/lib/depth";
@@ -42,10 +42,9 @@ export const SITE = {
  *   `href`    the route this bucket lives at
  *   `teaser`  one-line preview shown on the home launchpad card
  *
- * Order is fixed by the brief: Experience -> Entrepreneurship -> Skills ->
- * Education -> Interests -> Contact, descending from the sunlit shallows to the
- * floor. "surface" (Home, "/") is intentionally NOT in this list: the wordmark
- * returns home.
+ * Order: Experience -> Projects -> About -> Contact, descending from the
+ * sunlit shallows to the floor. "surface" (Home, "/") is intentionally NOT in
+ * this list: the wordmark returns home.
  */
 export interface Bucket {
   /** Unique key + identity for this section (not necessarily the zone id). */
@@ -66,39 +65,18 @@ export const BUCKETS: readonly Bucket[] = [
     teaser: "Chief AI Officer at BrachyClip, ex-VP AI at ICR, hedge-fund equity research at Manatuck Hill.",
   },
   {
-    id: "entrepreneurship",
+    id: "projects",
     zone: "projects",
-    label: "Entrepreneurship",
-    href: "/entrepreneurship",
-    teaser: "Five ventures, from sneaker arbitrage to Mocean. Founded, scaled, two acquired.",
+    label: "Projects",
+    href: "/projects",
+    teaser: "Everything I've built in one place: the AI products I'm shipping now, client work, and five ventures, two of them acquired.",
   },
   {
-    id: "portfolio",
-    zone: "projects",
-    label: "Portfolio",
-    href: "/portfolio",
-    teaser: "The products I build now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, mTrain.",
-  },
-  {
-    id: "skills",
-    zone: "ventures",
-    label: "Skills",
-    href: "/skills",
-    teaser: "AI engineering, full-stack, markets and quant, data, product, and design.",
-  },
-  {
-    id: "education",
+    id: "about",
     zone: "writing",
-    label: "Education",
-    href: "/education",
-    teaser: "University of Michigan, B.A. Economics.",
-  },
-  {
-    id: "interests",
-    zone: "skills",
-    label: "Interests",
-    href: "/interests",
-    teaser: "Music from sax to house sets, film and photography, markets, sneakers, and emerging tech.",
+    label: "About",
+    href: "/about",
+    teaser: "The full story, the toolkit, Michigan econ, and what I'm into off the clock.",
   },
   {
     id: "contact",
@@ -129,13 +107,15 @@ export const HERO = {
 } as const;
 
 /**
- * The About paragraph, in Matthew's voice. The deeper page tells the arc:
+ * The About story, in Matthew's voice, rendered on /about. It tells the arc:
  * the builder throughline, markets as the foundation, and where it points now.
- * Tight enough to read in one clean column; the full long-form lives in the
- * deeper sections.
+ * The same page carries the toolkit (SKILL_GROUPS), EDUCATION, and INTERESTS,
+ * so "who is he" is one scroll instead of four nav stops.
  */
 export const ABOUT = {
   heading: "About me",
+  blurb:
+    "The story, the toolkit, where I studied, and what I'm into off the clock.",
   paragraphs: [
     "I'm a builder. That's the one word that survives every chapter. I started flipping sneakers in high school, scaled a research-and-signal company in college, did equity research on a hedge-fund desk, and now I ship AI products end to end. Different surfaces, same instinct: find an edge, pressure-test it, and build the thing that captures or distributes it.",
     "My foundation is in markets. At Manatuck Hill, a Connecticut hedge fund, I produced differentiated views across AI, nuclear, and precious metals, sat in on management interviews, and built an intelligence-aggregation system. Markets taught me the edge part. Code let me build it myself, which is why my work leads with volatility, expected moves, and expected value around catalysts.",
@@ -576,18 +556,10 @@ export const BUILDS: readonly Build[] = [
   },
 ] as const;
 
-export const ENTREPRENEURSHIP = {
+export const PROJECTS_META = {
   heading: "What I've built.",
   blurb:
-    "Five ventures so far, in roughly the order they happened, and the products I'm building now. The thread: find an edge, package it, and get it to the people who need it. Sometimes that's software. Sometimes it's a community. Sometimes it's a room full of people who wouldn't have found each other otherwise.",
-  venturesLabel: "Ventures and companies",
-  buildsLabel: "Building now",
-} as const;
-
-export const PORTFOLIO = {
-  heading: "Portfolio.",
-  blurb:
-    "Everything I've built, past and present: the AI products I'm shipping now, the web and client work I've delivered, and the ventures I founded and ran. Each one is a real bet on an edge, taken end to end from idea to shipped, never just a concept. Open any of them for the full case study.",
+    "Everything, past and present, in one place: the AI products I'm shipping now, the web and client work I've delivered, and the ventures I founded and ran, two of them acquired. The thread: find an edge, package it, and get it to the people who need it. Filter by type, or open any card for the full case study.",
 } as const;
 
 /* -------------------------------------------------------------------------- */

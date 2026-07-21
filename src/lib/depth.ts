@@ -88,7 +88,7 @@ export const ZONES: readonly DepthZone[] = [
     // Midwater: a clean, confident medium ocean teal-blue. The descent visibly
     // deepens here but the water stays colorful, never murky-grey or black.
     id: "projects",
-    label: "Entrepreneurship",
+    label: "Projects",
     depthLabel: "Twilight",
     start: 0.32,
     end: 0.5,
@@ -117,7 +117,7 @@ export const ZONES: readonly DepthZone[] = [
     // Deep zone: moody for contrast, but a RICH dark teal-navy, not a black
     // void, so the bioluminescence pops against a colored deep, not nothing.
     id: "writing",
-    label: "Education",
+    label: "About",
     depthLabel: "Abyss",
     start: 0.66,
     end: 0.8,

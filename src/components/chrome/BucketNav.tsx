@@ -10,13 +10,13 @@
  * client-side and the persistent ocean dives the camera to that page's depth.
  *
  * Responsive behavior:
- *   - lg and up: the full hugged pill row (wordmark left, six bucket links
- *     centered, motion + "read flat" controls right).
- *   - below lg: the six links + controls cannot fit one phone row without
+ *   - lg and up: the full hugged pill row (wordmark left, the bucket links
+ *     centered, socials right).
+ *   - below lg: the links + controls cannot fit one phone row without
  *     clipping, so they collapse to a clean MENU. The wordmark stays at left and
  *     a compact hamburger button sits at right. Tapping it opens an accessible
- *     sheet listing every bucket plus "Skip the dive, read flat" and the motion
- *     toggle. Tapping a link navigates and closes the sheet.
+ *     sheet listing every bucket plus the socials. Tapping a link navigates and
+ *     closes the sheet.
  *
  * Accessibility:
  *   - Bucket links are real <a> (Next Link); controls are real <button>, all
@@ -119,8 +119,8 @@ export default function BucketNav() {
 
         {/* DESKTOP pill row (lg+). HUGS its content, stays centered, never wraps.
             Hidden below lg, where the hamburger menu takes over: the wordmark +
-            six pills + motion control cannot fit one row on tablet without
-            clipping, so anything narrower collapses to the menu. */}
+            pills + socials cannot fit one row on tablet without clipping, so
+            anything narrower collapses to the menu. */}
         <nav
           aria-label="Sections"
           className="hidden min-w-0 flex-1 justify-center lg:flex"

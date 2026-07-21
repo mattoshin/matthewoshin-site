@@ -4,25 +4,26 @@ import PortfolioGrid, {
   type PortfolioCategory,
   type PortfolioItem,
 } from "@/components/portfolio/PortfolioGrid";
-import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
+import { BUILDS, VENTURES, PROJECTS_META } from "@/data/content";
 
 /**
- * /portfolio - the products Matthew builds, at the twilight depth (shares the
- * "projects" zone with /entrepreneurship). Every card carries the turquoise
- * treatment and a category, and the grid is filterable by type: AI Products,
- * Web & Client, and Ventures. Cards link to the full case studies; demo-backed
+ * /projects - the ONE index of everything Matthew has built, at the twilight
+ * depth (zone "projects"). Replaces the old /portfolio + /entrepreneurship
+ * split: current AI products, web and client work, and the founded ventures all
+ * live in this grid, filterable by type. Cards link to the full case studies
+ * (/projects/[slug] for builds, /ventures/[slug] for ventures); demo-backed
  * ones also show a bright "View Demo" button.
  */
 export const metadata: Metadata = {
-  title: "Portfolio",
+  title: "Projects",
   description:
-    "Products I build, filterable by type: AI products (Riptide, Galactic Signals, Financial Communications Platform, SEC Intelligence, Sonar Media, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Fitness OS), and ventures (Mocean, Element Underground).",
+    "Everything Matthew Oshin has built, filterable by type: AI products (Riptide, Galactic Signals, Financial Communications Platform, SEC Intelligence, Sonar Media, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Fitness OS), and ventures (Mocean, Element Underground, Profit Paradise, Ocean Supply, Resell Network).",
 };
 
 /** Pull a build into a portfolio item; case study lives at /projects/<slug>. */
 function fromBuild(slug: string, category: PortfolioCategory): PortfolioItem {
   const b = BUILDS.find((x) => x.slug === slug);
-  if (!b) throw new Error(`portfolio: missing build "${slug}"`);
+  if (!b) throw new Error(`projects: missing build "${slug}"`);
   return {
     name: b.name,
     hook: b.hook,
@@ -35,7 +36,7 @@ function fromBuild(slug: string, category: PortfolioCategory): PortfolioItem {
 
 function fromVenture(slug: string, status: string, siteHref?: string): PortfolioItem {
   const v = VENTURES.find((x) => x.slug === slug);
-  if (!v) throw new Error(`portfolio: missing venture "${slug}"`);
+  if (!v) throw new Error(`projects: missing venture "${slug}"`);
   return {
     name: v.name,
     hook: v.oneLiner,
@@ -89,15 +90,18 @@ const ITEMS: PortfolioItem[] = [
   fromVenture("element-underground", "Co-founded", "https://elementunderground.com"),
   fromBuild("observly", "ai-products"),
   fromBuild("briefbridge", "ai-products"),
+  fromVenture("profit-paradise", "Founded & acquired"),
+  fromVenture("resell-network", "Founded & acquired"),
+  fromVenture("ocean-supply", "First venture"),
 ];
 
-export default function PortfolioPage() {
+export default function ProjectsPage() {
   return (
     <PageShell
       zone="projects"
-      navLabel="Portfolio"
-      heading={PORTFOLIO.heading}
-      intro={PORTFOLIO.blurb}
+      navLabel="Projects"
+      heading={PROJECTS_META.heading}
+      intro={PROJECTS_META.blurb}
     >
       <PortfolioGrid items={ITEMS} />
     </PageShell>

@@ -36,10 +36,10 @@ export default async function SchoolPage({ params }: { params: Params }) {
 
       <main className="mx-auto w-full max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
         <Link
-          href="/education"
+          href="/about#education"
           className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-bio-cyan hover:underline"
         >
-          <span aria-hidden="true">&lt;-</span> Back to education
+          <span aria-hidden="true">&lt;-</span> Back to about
         </Link>
 
         <header className="mt-8">
