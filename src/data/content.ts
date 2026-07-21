@@ -175,13 +175,13 @@ export const HERO = {
   // Matthew: "get rid of the headline... I need to see humble").
   tagline: "Hi, I'm Matthew Oshin.",
   // Short punchy positioning line (eyebrow).
-  positioning: "VP of AI & Innovation, ICR. Markets, AI, and emerging tech.",
+  positioning: "AI leadership, markets, and emerging tech.",
   // One-sentence hook. This is the single strong instance of the "builder is the
   // throughline" line; the About block no longer repeats it.
   hook: "I'm a builder. It's the throughline of everything I've done, from my first small businesses in high school to the AI products I ship today.",
   // Held for reuse (OFF the hero since 2026-07-03: "too much going on"). The
   // full story lives in the deeper sections; the chips carry the hero proof.
-  bio: "Most recently I led the AI & Intelligence Lab at ICR, and today I'm also Chief AI Officer at BrachyClip, a cancer medical device company. My foundation is in markets, equity research at a hedge fund, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
+  bio: "Most recently I led AI at a financial communications firm, and today I lead AI at a medical device company. My foundation is in markets, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
   scrollHint: "Scroll to explore",
 } as const;
 
@@ -197,15 +197,15 @@ export const ABOUT = {
     "The whole picture in one read: the story, the toolkit, the schooling, and what I'm about off the clock.",
   /** At-a-glance facts for skimmers; every one is backed by a deeper page. */
   facts: [
-    "Previously VP of AI & Innovation, ICR",
-    "Chief AI Officer & Director of Marketing, BrachyClip",
+    "AI leadership at ICR",
+    "Chief AI Officer at BrachyClip",
     "University of Michigan, B.A. Economics",
     "2 companies acquired",
     "20+ products shipped",
   ],
   paragraphs: [
-    "I'm a builder. That's the one word that survives every chapter. I started flipping sneakers in high school, scaled a research-and-signal company in college, did equity research on a hedge-fund desk, and now I ship AI products end to end. Different surfaces, same instinct: find an edge, pressure-test it, and build the thing that captures or distributes it.",
-    "My foundation is in markets. At Manatuck Hill, a Connecticut hedge fund, I produced differentiated views across AI, nuclear, and precious metals, sat in on management interviews, and built an intelligence-aggregation system. Markets taught me the edge part. Code let me build it myself, which is why my work leads with volatility, expected moves, and expected value around catalysts.",
+    "I'm a builder. That's the one word that survives every chapter. I started flipping sneakers in high school, scaled a research-and-signal company in college, did equity research in markets, and now I ship AI products end to end. Different surfaces, same instinct: find an edge, pressure-test it, and build the thing that captures or distributes it.",
+    "My foundation is in markets. At Manatuck Hill, an equity research firm in Connecticut, I produced differentiated views across AI, nuclear, and precious metals, sat in on management interviews, and built an intelligence-aggregation system. Markets taught me the edge part. Code let me build it myself, which is why my work leads with volatility, expected moves, and expected value around catalysts.",
     "At 19 I founded Mocean Technologies, a research platform I describe as Bloomberg for Discord: a team of 40-plus analysts producing alpha that my software reformatted, branded, and redistributed to other subscription businesses. It scaled to $400K+ in revenue, 100,000+ users, and 1,000+ investor communities, and it was acquired. The lesson it taught me runs through everything since: distribution beats production.",
     "On the side I co-founded Element Underground, a dance-music events and media group that has drawn 17,000+ attendees across NYC, Miami, Boston, and Ann Arbor, and now keeps the content it shoots as its own owned asset. Earlier ventures, Ocean Supply, Profit Paradise, and Resell Network, are where the resale floor first taught me that the edge is the signal, not the shoe.",
     "Most recently I was VP of AI & Innovation at ICR, a leading investor-relations and strategic-communications firm, where I stood up the AI function from scratch and led the AI & Intelligence Lab across R&D, Education, and Discovery. I owned the data pipeline and shipped the firm's internal AI platform, prototyping most of it solo on Claude Code.",

@@ -50,7 +50,7 @@ Matthew Oshin is a builder. He was VP of AI & Innovation at ICR, a financial com
 
 He is also Chief AI Officer at BrachyClip, a cancer medical device company, where he built the brand, the Series A investor narrative, and a gated investor portal supporting an active eight-figure raise, and drives agentic AI automations under FDA constraints.
 
-His foundation is in markets. He did equity research at Manatuck Hill, a hedge fund, covering AI infrastructure, nuclear energy, and precious metals.
+His foundation is in markets. He did equity research at Manatuck Hill, an equity research firm in Connecticut, covering AI infrastructure, nuclear energy, and precious metals.
 
 He co-founded Element Underground, a hospitality group running large-scale events across NYC, Miami, Boston, and Ann Arbor: 17,000+ attendees and over $117,000 in cumulative revenue. He founded Mocean Technologies, a research platform he scaled to $400K+ in revenue, more than 100,000 users, and over 1,000 investor communities before its acquisition (a six-figure exit; the acquisition terms and buyer are private, do not speculate). Earlier ventures: Profit Paradise, a paid community grown to roughly 3,500 members; Ocean Supply, his sneaker reselling business; and Resell Network, an 11,000-member community sold along with Mocean. Two of his companies were acquired. He has been building small businesses since childhood, from flipping baseball cards to washing dishes to the sneaker business. The ocean theme of this site comes from his last name, Oshin, not from any of these ventures.
 

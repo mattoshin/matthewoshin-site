@@ -190,7 +190,7 @@ const ROLE_CONTEXT: Record<string, RoleContext> = {
   },
   "manatuck-hill": {
     overview:
-      "Manatuck Hill Partners is a Connecticut-based hedge fund. I spent 2024 in an equity research role running the classic buy-side loop: generate an edge, pressure-test it, size it with conviction. The firm gave me real coverage responsibility and exposure to how investment professionals think through thematic bets under uncertainty.",
+      "Manatuck Hill Partners is a Connecticut-based equity research firm. I spent 2024 in an equity research role running the classic buy-side loop: generate an edge, pressure-test it, size it with conviction. The firm gave me real coverage responsibility and exposure to how investment professionals think through thematic bets under uncertainty.",
     highlights: [
       { label: "Coverage themes", value: "AI, nuclear, precious metals" },
       { label: "Role type", value: "Equity research" },
