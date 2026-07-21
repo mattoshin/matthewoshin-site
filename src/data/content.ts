@@ -84,7 +84,7 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Experience",
     href: "/experience",
     teaser:
-      "VP of AI & Innovation at ICR, a financial communications firm in New York, where I stood up and led the AI function firm-wide. Today I'm Chief AI Officer at BrachyClip, a cancer medical device company, and I learned markets doing equity research at Manatuck Hill, a hedge fund.",
+      "VP of AI & Innovation at ICR, a financial communications firm in New York, where I led the AI function firm-wide. Today I'm Chief AI Officer at BrachyClip, a cancer medical device company.",
     nav: true,
     proof: "61% firm-wide AI adoption at ICR. 11 internal apps shipped.",
   },
