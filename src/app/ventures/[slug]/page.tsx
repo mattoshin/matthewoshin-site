@@ -241,13 +241,13 @@ function KeyNumbers({ slug }: { slug: string }) {
 function WhatILearned({ slug }: { slug: string }) {
   const lessons: Record<string, string[]> = {
     mocean: [
-      "Distribution beats production. I had 40-plus analysts producing alpha, but the real moat was the software that let me mirror it across 1,000 communities simultaneously.",
-      "The edge in research is packaging and delivery, not just the insight. Anyone can write a good thesis. Not everyone can get it to 100,000 people at once.",
+      "Distribution beats production. I had 40-plus analysts producing research, but the software that let me mirror it across 1,000 communities simultaneously is what made it scale.",
+      "The edge in research is packaging and delivery, not just the insight. Writing a good thesis is the easy part. Getting it to 100,000 people at once is the harder, less obvious part.",
       "Founding a company during personal hardship (ACL recovery, mom's ALS) showed me that necessity is a sharper motivator than opportunity.",
     ],
     "element-underground": [
-      "Do the service, keep the asset. We retained rights to every photo and video, so each event built our owned media library instead of someone else's.",
-      "Brand exclusivity compounds. Positioning around curated, underground, and female-forward DJ sets in a sea of generic events created real differentiation.",
+      "We retained rights to every photo and video, so each event built our owned media library instead of someone else's.",
+      "Brand exclusivity compounds. Positioning around curated, underground, female-forward DJ sets set us apart on a crowded circuit.",
       "Ops is the actual product at events. Venue negotiation, logistics, and legal infrastructure determine whether you profit or just break even.",
     ],
     "profit-paradise": [
@@ -257,11 +257,11 @@ function WhatILearned({ slug }: { slug: string }) {
     ],
     "ocean-supply": [
       "The edge was the signal, not the shoe. I learned early that information asymmetry, knowing which discount codes and drops mattered, was the actual business.",
-      "Arbitrage is the purest form of edge. Buy mispriced, sell into demand. That logic still runs through everything I build.",
+      "Arbitrage is a simple form of edge. Buy mispriced, sell into demand. That logic still runs through everything I build.",
       "Starting at 16 taught me that you don't need permission or credentials to build a real operation.",
     ],
     "resell-network": [
-      "A dense network is the kind of asset that looks quiet from the outside but compounds for years. 11,000 Discord members built organically is more valuable than a bought list of 100,000.",
+      "A dense network is the kind of asset that looks quiet from the outside but compounds for years. A network built organically holds together in ways a purchased list doesn't.",
       "Infrastructure that connects people in an industry is sticky. The relationships formed in that server outlasted the community itself.",
       "Selling as part of a larger deal showed me how assets can have different values to different buyers.",
     ],
@@ -470,7 +470,7 @@ function MoceanEngine() {
         ))}
       </div>
       <p className="mt-4 font-mono text-xs text-ink-faint">
-        33 monitors. One engine. Over 100,000 readers a day.
+        The fleet grew to 33 monitors feeding over 100,000 readers a day.
       </p>
     </section>
   );
@@ -711,7 +711,7 @@ function ResellMarketplace() {
         The marketplace
       </h2>
       <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
-        Resell Network was not a feed, it was a floor: 11,000 people and every service the
+        Resell Network was not a feed, it was a floor: 11,000 people and most of the services the
         reselling industry runs on, in one room. Channel by channel, this is how the marketplace
         was laid out.
       </p>

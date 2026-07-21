@@ -178,7 +178,7 @@ export const HERO = {
   positioning: "AI leadership, markets, and emerging tech.",
   // One-sentence hook. This is the single strong instance of the "builder is the
   // throughline" line; the About block no longer repeats it.
-  hook: "I'm a builder. It's the throughline of everything I've done, from my first small businesses in high school to the AI products I ship today.",
+  hook: "I'm a builder, from my first small businesses in high school to the AI products I ship today.",
   // Held for reuse (OFF the hero since 2026-07-03: "too much going on"). The
   // full story lives in the deeper sections; the chips carry the hero proof.
   bio: "Most recently I led AI at a financial communications firm, and today I lead AI at a medical device company. My foundation is in markets, and that lens still shapes how I build. Michigan econ grad, always up to connect with other builders, especially around AI, investing, and emerging tech.",
@@ -204,13 +204,13 @@ export const ABOUT = {
     "20+ products shipped",
   ],
   paragraphs: [
-    "I'm a builder. That's the one word that survives every chapter. I started flipping sneakers in high school, scaled a research-and-signal company in college, did equity research in markets, and now I ship AI products end to end. Different surfaces, same instinct: find an edge, pressure-test it, and build the thing that captures or distributes it.",
+    "I'm a builder. That's been true in every chapter: I started flipping sneakers in high school, scaled a research-and-signal company in college, did equity research in markets, and now I ship AI products end to end. Different surfaces, same instinct: find an edge, pressure-test it, and build the thing that captures or distributes it.",
     "My foundation is in markets. At Manatuck Hill, an equity research firm in Connecticut, I produced differentiated views across AI, nuclear, and precious metals, sat in on management interviews, and built an intelligence-aggregation system. Markets taught me the edge part. Code let me build it myself, which is why my work leads with volatility, expected moves, and expected value around catalysts.",
-    "At 19 I founded Mocean Technologies, a research platform I describe as Bloomberg for Discord: a team of 40-plus analysts producing alpha that my software reformatted, branded, and redistributed to other subscription businesses. It scaled to $400K+ in revenue, 100,000+ users, and 1,000+ investor communities, and it was acquired. The lesson it taught me runs through everything since: distribution beats production.",
+    "At 19 I founded Mocean Technologies, a research-distribution platform for Discord: a team of 40-plus analysts producing research that my software reformatted, branded, and redistributed to other subscription businesses. It scaled to $400K+ in revenue, 100,000+ users, and 1,000+ investor communities, and it was acquired. The lesson it taught me runs through everything since: distribution beats production.",
     "On the side I co-founded Element Underground, a dance-music events and media group that has drawn 17,000+ attendees across NYC, Miami, Boston, and Ann Arbor, and now keeps the content it shoots as its own owned asset. Earlier ventures, Ocean Supply, Profit Paradise, and Resell Network, are where the resale floor first taught me that the edge is the signal, not the shoe.",
-    "Most recently I was VP of AI & Innovation at ICR, a leading investor-relations and strategic-communications firm, where I stood up the AI function from scratch and led the AI & Intelligence Lab across R&D, Education, and Discovery. I owned the data pipeline and shipped the firm's internal AI platform, prototyping most of it solo on Claude Code.",
+    "Most recently I was VP of AI & Innovation at ICR, an investor-relations and strategic-communications firm, where I stood up the AI function from scratch and led the AI & Intelligence Lab across R&D, Education, and Discovery. I owned the data pipeline and shipped the firm's internal AI platform, prototyping most of it solo on Claude Code.",
     "Today I'm Chief AI Officer and Director of Marketing at BrachyClip, a cancer medical-device company, plus a portfolio of my own builds. The main one is Riptide Research, an equity-research terminal that quantifies how my view disagrees with what the options market is pricing: markets reasoning shipped as a product.",
-    "University of Michigan econ grad. I think in probabilities and expected value, but I can also stand up the database, write the agent, and put a real UI in front of it. Always up to connect with other builders, especially around AI, investing, and emerging tech.",
+    "University of Michigan econ grad. I think in probabilities and expected value, and I build the database, the agent, and the UI myself. Always up to connect with other builders, especially around AI, investing, and emerging tech.",
   ],
 } as const;
 
@@ -235,7 +235,7 @@ export const EXPERIENCE: readonly Job[] = [
     points: [
       "BrachyClip is a cancer medical device company (Brown University / Rhode Island Hospital affiliation) building a clip-based intraoperative permanent seed brachytherapy applicator for minimally invasive cancer surgery. $6.8B TAM across nine solid-tumor categories, 510(k) predicate pathway.",
       "Built the brand, positioning, and investor narrative from scratch for a pre-clearance device: Series A pitch deck, the brachyclip.com marketing site, and a gated investor portal on Next.js 16 with an approval-based access flow, supporting an active eight-figure raise.",
-      "Set digital-marketing strategy designed around FDA-compliant content as a hard constraint, not an afterthought.",
+      "Set digital-marketing strategy around FDA-compliant content requirements from the start.",
       "Driving agentic AI automations across clinical and operational workflows under FDA constraints (saving ~5 hours a week), and supporting investor relations directly.",
     ],
   },
@@ -324,15 +324,15 @@ export const VENTURES: readonly Venture[] = [
     slug: "mocean",
     name: "Mocean Technologies",
     oneLiner:
-      "Bloomberg for Discord. Founded at 19 on a gap year, scaled to acquisition.",
+      "A research-distribution platform for Discord. Founded at 19 on a gap year, scaled to acquisition.",
     era: "Founded and acquired, 2021 to 2023",
     demoHref: "/app/mocean-demo",
-    note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. The insight was simple: 1,000+ Discord servers were selling their own research to subscribers, but all the alpha was scattered. I built software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. The distribution edge was the moat. $400K+ in all-time revenue, peaking at almost $60K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
+    note: "I started this at 19 during a gap year, splitting time between ACL recovery and caring for my mom, who was fighting ALS. More than 1,000 Discord servers were selling their own research to subscribers, but it was scattered. I built software that let my 40-plus analysts produce branded research and mirror it across client servers simultaneously. Distribution was the real advantage. $400K+ in all-time revenue, peaking at almost $60K/month, 100,000+ users across 1,000+ investor communities. Sold May 1, 2023. It taught me the lesson that runs through everything since: distribution beats production.",
     storyParagraphs: [
-      "Mocean was Bloomberg for Discord, and I started it at 19 on a gap year, splitting my time between recovering from ACL surgery and helping care for my mom as she fought ALS. The opening was structural: more than a thousand Discord communities were each selling their own market research, but every server was an island. The alpha was real and it was everywhere, and none of it could travel. The bottleneck was never the research. It was distribution, so that is what I went and built.",
-      "I built the rails. I designed a branded distribution engine that took one piece of research and mirrored it across hundreds of client communities at once, with per-server templating and category- and channel-level syncing, so every client received exactly the streams they paid for. On top of it I built a fleet of custom market monitors across NFTs, crypto, and equities, and a self-serve dashboard that turned the whole operation into a product: pick your feeds, point them at your server, and start receiving branded, real-time alpha in minutes. Forty-plus analysts produced the signal. The software was the moat.",
+      "Mocean was a research-distribution platform for Discord, and I started it at 19 on a gap year, splitting my time between recovering from ACL surgery and helping care for my mom as she fought ALS. The opening was structural: more than a thousand Discord communities were each selling their own market research, but every server was an island. The research was real and it was everywhere, and none of it could travel. The bottleneck was never the research. It was distribution, so I built software to fix that.",
+      "I built a branded distribution engine that took one piece of research and mirrored it across hundreds of client communities at once, with per-server templating and category- and channel-level syncing, so every client received exactly the streams they paid for. On top of it I built a fleet of custom market monitors across NFTs, crypto, and equities, and a self-serve dashboard that turned the whole operation into a product: pick your feeds, point them at your server, and start receiving branded, real-time research in minutes. Forty-plus analysts produced the signal; the software is what let it scale.",
       "At its peak more than 100,000 people read our research every single day, across 1,000-plus investor communities, on a pricing engine that set every contract to the client's willingness to pay. Our best months were clearing almost $60K, on $400K+ in all-time revenue. I sold the company on May 1, 2023.",
-      "Underneath the research business I was working toward a bigger idea: an e-commerce platform for information, a Shopify for people selling intelligence. Mocean taught me the lesson that still runs through everything I build: distribution beats production. A good thesis matters less than being able to put it in front of a hundred thousand people at once.",
+      "Underneath the research business I was working toward a bigger idea: a self-serve platform for people selling their own research and information. Mocean taught me the lesson that still runs through everything I build: distribution beats production. A good thesis matters less than being able to put it in front of a hundred thousand people at once.",
     ],
     video: {
       youtubeId: "jMkukkvVUVw",
@@ -341,7 +341,7 @@ export const VENTURES: readonly Venture[] = [
       date: "March 2023",
       href: "https://www.youtube.com/watch?v=jMkukkvVUVw",
       blurb:
-        "Recorded weeks before the acquisition: the full story, from washing dishes to building the first e-commerce platform for information.",
+        "Recorded weeks before the acquisition: the full story, from washing dishes to building Mocean.",
     },
     quotes: [
       "Don't go for the gold yourself. Always ask: is there a way I can sell a shovel for other people to look for the gold? Because then you'll always have customers.",
@@ -355,10 +355,10 @@ export const VENTURES: readonly Venture[] = [
     name: "Resell Network",
     oneLiner: "An 11,000-member networking community. Founded and acquired.",
     era: "Founded and acquired, 2019 to 2023",
-    note: "Built this alongside Mocean as the connective tissue of the reselling industry. The goal was to connect the researchers and subcontractors I worked with to the server owners and employers who needed them, and to give the broader reselling community access to the exclusive resources and people I had relationships with. Grew to 11,000+ Discord members organically. Sold as part of the Mocean deal. Years of compound brand recognition and a dense industry network are the kind of asset that looks quiet from the outside.",
+    note: "Built this alongside Mocean to connect the researchers and subcontractors I worked with to the server owners and employers who needed them, and to give the broader reselling community access to the resources and people I had relationships with. Grew to 11,000+ Discord members organically. Sold as part of the Mocean deal.",
     storyParagraphs: [
-      "Resell Network was the town square of the reselling industry, and I spent close to four years building it into one. It was not a paid alpha group like Profit Paradise. It was the open marketplace where everyone in the ecosystem actually gathered: hundreds of group owners, thousands of resellers, graphic designers, bot makers, cook groups, and freelancers, all in one Discord. If you did anything in reselling, you were in Resell Network.",
-      "It grew past 11,000 members, entirely organic, and it ran hot. People paid every month to plug: dedicated channels where groups and freelancers marketed themselves to the whole industry, plus a live floor where members bought, sold, hired, and traded all day long. It was less a product than an economy, and I monetized it through advertising and marketing partnerships rather than a subscription. At its peak it was busy enough to get spammed and even knocked offline by attacks.",
+      "Resell Network was a gathering place for the reselling industry, and I spent close to four years building it. It was not a paid alpha group like Profit Paradise. It was an open marketplace: hundreds of group owners, thousands of resellers, graphic designers, bot makers, cook groups, and freelancers, all in one Discord.",
+      "It grew past 11,000 members, entirely organic, and it ran hot. People paid every month to plug: dedicated channels where groups and freelancers marketed themselves to the whole industry, plus a live floor where members bought, sold, hired, and traded all day long. It functioned more like a marketplace than a single product, and I monetized it through advertising and marketing partnerships rather than a subscription. At its peak it was busy enough to get spammed and even knocked offline by attacks.",
       "The real asset was years of brand recognition and a dense network. I sold it in 2023 as part of the Mocean deal, and it still runs today under its new owner. The lesson has shaped everything since: a marketplace where an industry meets is durable, because the network itself is the product.",
     ],
     logo: { src: "/ventures/resell-network.png", alt: "Resell Network logo" },
@@ -369,13 +369,13 @@ export const VENTURES: readonly Venture[] = [
     oneLiner:
       "Underground music events that became a dance-music media agency. Co-founded in 2023.",
     era: "Co-founder, 2023 to 2026",
-    note: "Co-founded with two partners at U of M. My role was the back-end: ops, taxes, legal, and venue negotiations. The brand was built around exclusive underground events and female-forward DJ curation, modeled after Cercle. 17,000+ attendees, $117,000+ in all-time revenue, 1,540,000 social media views in 2025 alone. Events in NYC, Miami, Boston, and Ann Arbor. The NYC debut at The Crown cleared $5,000+ profit. Music for a While pulled 1,200+ RSVPs. We retained rights to every photo and video we shot, so every event built our owned media library. Do the service, keep the asset.",
+    note: "Co-founded with two partners at U of M. My role was the back-end: ops, taxes, legal, and venue negotiations. The brand was built around exclusive underground events and female-forward DJ curation, modeled after Cercle. 17,000+ attendees, $117,000+ in all-time revenue, 1,540,000 social media views in 2025 alone. Events in NYC, Miami, Boston, and Ann Arbor. The NYC debut at The Crown cleared $5,000+ profit. Music for a While pulled 1,200+ RSVPs. We retained rights to every photo and video we shot, so every event built our owned media library.",
     storyParagraphs: [
       "Element Underground is a live-music brand I co-founded in 2023 at the University of Michigan. The idea was the kind of nightlife you have to know someone to get into: curated, female-forward DJ sets, tech house and techno, rooms that feel like a community instead of a club. The reference point was Cercle, the way they turned events into a content engine.",
-      "It started as free rooftop parties in Ann Arbor and grew into a real circuit across NYC, Miami, Boston, and Ann Arbor. We have produced more than 50 shows, with multiple nights clearing over $20,000, run by a team that grew past 40 people. The NYC debut at The Crown validated the biggest market, a later show pulled more than 1,200 RSVPs, and across 2025 the brand did 17,000-plus attendees, $117,000-plus in revenue, and over 1.5 million social views. Every event earned on tickets and venue bar partnerships, and we kept the rights to every photo and video we shot.",
-      "That last part turned out to be the whole business. We got so good at capturing our own events that the content became the product, and Element evolved into a media agency for dance music: we capture what you create. We shoot cinematic, multi-camera films of nightlife, and clubs, artists, and venues pay us to do it, from Club Space in Miami to the Brooklyn Storehouse to a shoot at a museum in LA. Five or six cameras stitched into one story. It is hard and expensive to pull off.",
+      "It started as free rooftop parties in Ann Arbor and grew into a real circuit across NYC, Miami, Boston, and Ann Arbor. We have produced more than 50 shows, with multiple nights clearing over $20,000, run by a team that grew past 40 people. The NYC debut at The Crown was our first show in the biggest market we've played, a later show pulled more than 1,200 RSVPs, and across 2025 the brand did 17,000-plus attendees, $117,000-plus in revenue, and over 1.5 million social views. Every event earned on tickets and venue bar partnerships, and we kept the rights to every photo and video we shot.",
+      "That last part turned out to be the whole business. We kept capturing our own events until the footage became the product, and Element evolved into a media agency for dance music: we capture what you create. We shoot cinematic, multi-camera films of nightlife, and clubs, artists, and venues pay us to do it, from Club Space in Miami to the Brooklyn Storehouse to a shoot at a museum in LA. Five or six cameras stitched into one story.",
       "We scale the live side through an agent model: local partners run their market under the Element brand, legal, and marketing umbrella while the core team supplies the strategy and the playbook. It lets the brand travel without diluting what it stands for.",
-      "Element is the venture I am proudest of, and not because it made the most money. It is the one where the craft is visible, where the brand became art, and where I learned that if you do the service well enough, the asset you keep can quietly become a bigger business than the service ever was.",
+      "Element is the venture that means the most to me, and not because it made the most money. It is the one where the craft is visible, and where I learned that if you do the service well enough, the asset you keep can quietly become a bigger business than the service ever was.",
     ],
     logo: { src: "/ventures/element-underground.png", alt: "Element Underground logo" },
     website: "https://elementunderground.com",
@@ -394,9 +394,9 @@ export const VENTURES: readonly Venture[] = [
     storyParagraphs: [
       "Profit Paradise was my first company, and I started it in high school. It grew straight out of a hustle: I had been a dishwasher making $10 an hour, and my co-founder Peter had taught himself to flip sneakers at fourteen, walking out of Sneaker Con with more shoes and more cash than he came in with. He started texting me the drops, the raffles, and the discount codes, I made more in a weekend than a week of dishes, and we realized the real product was never the shoes. It was the information.",
       "So we packaged it. Profit Paradise was a paid, invite-only Discord where resellers got a daily feed of profitable opportunities: discount-code 'brick' buys that let you purchase a model in bulk below market, hype-release and raffle alerts on the limited drops where demand outruns supply, and the research to know which was actually worth your capital. We charged a flat monthly membership and wrapped it in a real product, an organized server of essential and important channels, a twenty-page onboarding Starter Pack, release guides, and 24/7 one-on-one support.",
-      "The piece I am proudest of building is the automation layer. We ran a managed checkout operation: members handed us their slots, and on a limited release our bots would secure the item within milliseconds of it going live. We only took a small percentage of the profit on a successful checkout, so we earned only when our members did. It was the first time I productized a service and tied the price directly to the outcome.",
+      "The piece worth pointing to is the automation layer. We ran a managed checkout operation: members handed us their slots, and on a limited release our bots would secure the item within milliseconds of it going live. We only took a small percentage of the profit on a successful checkout, so we earned only when our members did. It was the first time I productized a service and tied the price directly to the outcome.",
       "At its peak Profit Paradise had 200 members paying $35 a month, roughly $7,000 in monthly recurring revenue, and by 2023 the server had grown past 3,500 people. We made it free in 2023, and it was acquired.",
-      "The number I am proudest of is not ours. Our members collectively made over $2.1 million in profit from what we taught and sourced for them. That is the whole thesis, and it has shaped every company since, from Mocean to today: when you genuinely have the edge, you package it, distribute it, and take a small cut of the upside everyone else makes. Profit Paradise is where I learned that teaching and distribution beat hoarding the secret.",
+      "The number that matters most isn't ours. Our members collectively made over $2.1 million in profit from what we taught and sourced for them. That is the whole thesis, and it has shaped every company since, from Mocean to today: when you genuinely have the edge, you package it, distribute it, and take a small cut of the upside everyone else makes. Profit Paradise is where I learned that teaching and distribution beat hoarding the secret.",
     ],
     logo: { src: "/ventures/profit-paradise.png", alt: "Profit Paradise logo" },
   },
@@ -439,13 +439,13 @@ export const BUILDS: readonly Build[] = [
     hook: "An agentic equity-research terminal that researches in distributions, not price targets.",
     demoHref: "https://riptide.matthewoshin.com",
     summary:
-      "Every research tool ships a single number where the honest answer is a distribution. Riptide takes the live options chain, derives the market's full risk-neutral distribution, and puts my own Bull/Base/Bear view on the same axis, shading the gap between them as expected value and a half-Kelly size. On top of that sits an agentic layer: a Model Lab to author and save my own models, an Edge Radar that scans the whole universe for names where a model's distribution most disagrees with what options are pricing, and a Model Arena that overlays the market, my view, the Street, and an AI analyst on one axis and then grades which of them has actually been right. The quant engine is verified, dependency-free TypeScript with unit tests; the AI analyst is anchored to the implied base rate so it can't free-run overconfident.",
+      "Every research tool ships a single number where the real answer is a distribution. Riptide takes the live options chain, derives the market's full risk-neutral distribution, and puts my own Bull/Base/Bear view on the same axis, shading the gap between them as expected value and a half-Kelly size. On top of that sits an agentic layer: a Model Lab to author and save my own models, an Edge Radar that scans the whole universe for names where a model's distribution most disagrees with what options are pricing, and a Model Arena that overlays the market, my view, the Street, and an AI analyst on one axis and then grades which of them has actually been right. The quant engine is dependency-free TypeScript with unit tests; the AI analyst is anchored to the implied base rate so it can't free-run overconfident.",
     highlights: [
-      "Verified quant engine in pure, dependency-free TypeScript: Black-Scholes, the Breeden-Litzenberger risk-neutral density, expected move, EV, and Kelly, all unit-tested.",
+      "Quant engine in pure, dependency-free TypeScript: Black-Scholes, the Breeden-Litzenberger risk-neutral density, expected move, EV, and Kelly, all unit-tested.",
       "Model Lab: author, save, and reload my own probabilistic models, with the expected value and half-Kelly size recomputing live.",
       "Edge Radar: an agentic scan that ranks the universe by where a model's distribution diverges most from the options market, the gaps a single price target hides.",
       "Model Arena: the market, my view, the Street, and an AI analyst overlaid on one axis, with a Brier-score scoreboard that grades which model has actually been calibrated.",
-      "Honest math: the implied density is labeled risk-neutral (Q), not real-world (P), with the volatility risk premium surfaced instead of mislabeled.",
+      "Clearly labeled math: the implied density is labeled risk-neutral (Q), not real-world (P), with the volatility risk premium surfaced instead of mislabeled.",
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "d3", "Claude (anchored AI analyst)", "Options math"],
     status: "Live",
@@ -462,7 +462,7 @@ export const BUILDS: readonly Build[] = [
       "A delivery engine that renders branded embeds and fans them out behind a token-bucket rate limiter tuned to Discord's limits.",
       "Next.js 16 web app with Stripe billing, a category store, NextAuth, and an admin surface.",
       "Self-hosted via Docker Compose behind nginx, with GitHub Actions auto-deploying on push to main.",
-      "$35-40B TAM across five underserved verticals.",
+      "Covers five verticals underserved by existing monitoring tools: stocks, crypto, sports betting, trading cards, and real estate.",
       "AI agent data layer roadmap: MCP integration turns every feed into a structured stream any agent on Claude, ChatGPT, or a custom system can natively consume.",
     ],
     stack: ["TypeScript", "React 19", "Next.js 16", "Tailwind v4", "Node.js", "Prisma", "Python workers", "PostgreSQL", "PgBouncer", "NextAuth", "Stripe", "Resend", "Sentry", "Docker"],
@@ -534,7 +534,7 @@ export const BUILDS: readonly Build[] = [
       "An Automations studio: describe a workflow in plain English, watch AI propose the steps and dry-run it against real history, then see the hours it saves.",
       "A self-service IT Hub that deflects and auto-resolves common issues, plus Legal with an AI first-pass contract review that flags risky clauses.",
       "An assistant that acts across every module: it files tickets, requests access, drafts documents, and deep-links you to where the work landed.",
-      "The 'Aurora' design system: a light, glassmorphic theme hand-rolled with zero UI dependencies, fully scoped so it never touches the rest of the site.",
+      "The 'Aurora' design system: a light, glassmorphic theme built from scratch, fully scoped so it never touches the rest of the site.",
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Plus Jakarta Sans", "Hand-rolled SVG UI", "Anthropic Claude (concept)"],
     status: "Concept",
@@ -596,7 +596,7 @@ export const BUILDS: readonly Build[] = [
     highlights: [
       "Brand, positioning, and investor narrative built from scratch for a pre-clearance device, including the Series A story.",
       "A marketing site on the public web and a separate gated investor portal with an approval-based access flow, both on Next.js 16.",
-      "FDA-compliant content treated as a hard design constraint, not an afterthought: what the site can and cannot claim shaped the IA.",
+      "FDA-compliant content treated as a hard design constraint from the start: what the site can and cannot claim shaped the IA.",
       "Driving AI integration into clinical and operational workflows alongside the marketing build.",
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Supabase (gated access)", "Vercel"],
@@ -623,7 +623,7 @@ export const BUILDS: readonly Build[] = [
     name: "Dog House",
     hook: "A photo-led site and self-serve CMS for a NYC rock band, designed, built, and shipped end to end.",
     summary:
-      "Dog House is a New York City rock band that gigs constantly but had no website and no link in bio, so I designed and built them one. The public site is a dark, photo-led single page that turns the band's own concert photography into the hub for shows, music, and booking, with an email capture so they keep their fans. Behind it sits a self-serve CMS: the band logs into an admin dashboard and edits shows, photos, bio, and links themselves, and the public page reflects every change instantly. I hand over the keys instead of becoming the bottleneck.",
+      "Dog House is a New York City rock band that gigs constantly but had no website and no link in bio, so I designed and built them one. The public site is a dark, photo-led single page that turns the band's own concert photography into the hub for shows, music, and booking, with an email capture so they keep their fans. Behind it sits a self-serve CMS: the band logs into an admin dashboard and edits shows, photos, bio, and links themselves, and the public page reflects every change instantly.",
     highlights: [
       "A 'Backstage' visual direction grounded in design research: near-black, photo-led, with one electric accent pulled from the band's actual stage lighting.",
       "Full-viewport hero, a live shows list, a keyboard-accessible gallery lightbox, and a join-the-list email capture.",
@@ -797,7 +797,7 @@ export const EDUCATION: readonly School[] = [
     detail: "B.A. Economics",
     storyParagraphs: [
       "I graduated from the University of Michigan in August 2025 with a B.A. in Economics. The degree gave me the lens I still build with: markets, incentives, and how value actually moves through a system.",
-      "The bigger education ran in parallel. I was operating companies the entire time I was enrolled, usually remotely. Mocean scaled to an acquisition, Element Underground grew across multiple cities, and earlier ventures had already taught me how to find an edge and sell it. Michigan was the backdrop; building was the real major.",
+      "The bigger education ran in parallel. I was operating companies the entire time I was enrolled, usually remotely. Mocean scaled to an acquisition, Element Underground grew across multiple cities, and earlier ventures had already taught me how to find an edge and sell it. I was running companies the whole time too, and juggling both taught me almost as much as the degree did.",
       "Economics is also what pulled me toward markets directly, from an equity-research seat at Manatuck Hill to building Riptide Research, my equity-research terminal. The classroom gave me the vocabulary and the ventures gave me the reps.",
     ],
   },
@@ -807,7 +807,7 @@ export const EDUCATION: readonly School[] = [
     detail: "Entrepreneurship · freshman year",
     storyParagraphs: [
       "I started college at Washington University in St. Louis, and I gravitated straight to the entrepreneurship department. I was already running Profit Paradise, my first company, and two professors there took me under their wing: they helped me think about how to scale it and plugged me into the founder community in St. Louis.",
-      "That year they selected me as the first freshman to speak at the department's alumni events, talking about building a real business while still in school. It was the first time I saw that the company I was running at night could stand next to anything in the classroom.",
+      "That year I was invited to speak at the department's alumni events about building a real business while still in school. It was the first time school and the business felt connected instead of separate.",
       "I left after freshman year to take a gap year, both to spend time with my mom and because building had started to outrun school. That gap year is when Mocean was born, and I went on to finish my degree at the University of Michigan.",
     ],
   },
@@ -851,7 +851,7 @@ export const INTERESTS: readonly Interest[] = [
   {
     title: "Networking with other builders",
     detail:
-      "I keep a real system for it: a running list of people I believe in and who think differently, with reminders to reconnect a few times a year. The Michigan network and the founders I have met along the way are some of my most valuable assets.",
+      "I keep a real system for it: a running list of people I believe in and who think differently, with reminders to reconnect a few times a year. The Michigan network and the founders I've met along the way still matter to me most.",
   },
   {
     title: "Emerging tech on the frontier",

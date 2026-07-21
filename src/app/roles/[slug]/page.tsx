@@ -160,7 +160,7 @@ const ROLE_CONTEXT: Record<string, RoleContext> = {
     storyParagraphs: [
       "BrachyClip is a cancer medical device company affiliated with Brown University and Rhode Island Hospital, built by radiation-oncology faculty who invented the underlying technology. It is developing a clip-based applicator for intraoperative permanent seed brachytherapy: a handheld device that places radioactive seeds, encased in titanium clips, directly against residual tumor tissue during minimally invasive cancer surgery.",
       "The clinical problem is specific. When a surgeon leaves a positive or close margin, the risk of local recurrence climbs, and that happens in roughly 170,000 cases a year in the U.S. across chest, abdominal, pelvic, and extremity sites. Permanent seed brachytherapy is an effective, decades-old answer, but older delivery methods risk seed migration and uneven dose in laparoscopic and robotic workflows. The clip applicator is designed to fit standard trocars, carry a magazine of seeds, and place them securely with tactile feedback.",
-      "I came in as Chief AI Officer and Director of Marketing to build the brand, the go-to-market, and the investor narrative from zero, for a device that has not yet cleared the FDA. That means selling the team, the science, and the process rather than a product you can ship today, with FDA-compliant content as a hard constraint rather than an afterthought.",
+      "I came in as Chief AI Officer and Director of Marketing to build the brand, the go-to-market, and the investor narrative from zero, for a device that has not yet cleared the FDA. That means selling the team, the science, and the process rather than a product you can ship today, with FDA-compliant content built into the plan from the start.",
       "I also drive AI integration into the clinical and operational workflows behind the company and support investor relations directly. It runs on a different clock than a software startup: the work rewards precision and credibility over speed, and at this stage the narrative is the product.",
     ],
     highlights: [
@@ -169,14 +169,14 @@ const ROLE_CONTEXT: Record<string, RoleContext> = {
       { label: "Tumor categories", value: "9" },
     ],
     lessons: [
-      "FDA-compliant content strategy is a real constraint that forces cleaner, more honest marketing. You can't claim outcomes you haven't proven.",
+      "FDA-compliant content is a real constraint: you can't claim outcomes you haven't proven, so the marketing has to stay accurate.",
       "Building a brand for a pre-clearance device means selling the team, the science, and the process, not the product. The investor narrative is the product at this stage.",
       "Medical device companies move on clinical timelines, not startup timelines. The work is about precision and credibility, not speed.",
     ],
   },
   icr: {
     overview:
-      "ICR is a leading investor-relations and strategic-communications firm. I joined to stand up the firm's AI function from scratch, build the internal AI platform, and drive adoption across a firm of 200-plus people who had never used these tools in a professional workflow before. I built most of it solo on Claude Code and reported into the AI Council and firm leadership.",
+      "ICR is an investor-relations and strategic-communications firm. I joined to stand up the firm's AI function from scratch, build the internal AI platform, and drive adoption across a firm of 200-plus people who had never used these tools in a professional workflow before. I built most of it solo on Claude Code and reported into the AI Council and firm leadership.",
     highlights: [
       { label: "Firm headcount", value: "200+" },
       { label: "Platform surfaces built", value: "6+" },
@@ -185,7 +185,7 @@ const ROLE_CONTEXT: Record<string, RoleContext> = {
     lessons: [
       "Adoption is harder than the build. Shipping the platform was 20% of the job. Getting senior advisors to use AI in their daily workflow took real investment in training, embedding, and making the tools feel safe to try.",
       "Distribution beats production here too. An AI tool that sits in a sidebar and gets ignored is worth nothing. The value unlocked is the value that actually flows through people's hands.",
-      "Owning the data pipeline from day one is non-negotiable. The labeling loop and the RAG layer over firm work product were the foundation the whole platform sat on.",
+      "Owning the data pipeline from day one mattered more than anything else in the build. The labeling loop and the RAG layer over firm work product were the foundation the whole platform sat on.",
     ],
   },
   "manatuck-hill": {
@@ -215,7 +215,7 @@ const ROLE_CONTEXT: Record<string, RoleContext> = {
       "Top Floor was my first real product-management role. I built community and marketing infrastructure for AI companies, with automated marketing products sold to clients, from 2022 to 2023.",
     lessons: [
       "Early PM experience sharpened my ability to translate a business problem into a product spec and hold a team accountable to shipping.",
-      "Automated marketing products taught me that the most valuable thing you can build for a small client is something that runs without them touching it.",
+      "Automated marketing products taught me that one of the most valuable things you can build for a small client is something that runs without them touching it.",
     ],
   },
 };
