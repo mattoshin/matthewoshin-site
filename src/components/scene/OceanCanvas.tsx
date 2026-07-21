@@ -34,7 +34,7 @@ export default function OceanCanvas() {
   // safe to detect WebGL2 in a lazy state initializer rather than an effect.
   const [supported] = useState<boolean>(() => isWebGL2Available());
   // Phones render at their native device pixel ratio (capped at 2) so the surface
-  // hero (Lamborghini + Black Pearl) reads crisp on retina panels. The trimmed
+  // hero (the sailboat) reads crisp on retina panels. The trimmed
   // phone registry plus the PerformanceMonitor below keep that within budget,
   // shedding resolution only if FPS actually dips. dpr ceiling can be lowered by
   // the PerformanceMonitor at runtime.
@@ -44,12 +44,12 @@ export default function OceanCanvas() {
   // a lost context). FPS dips DO NOT raise this anymore - see onFallback below.
   const [degraded, setDegraded] = useState(false);
   // Phone graceful-degradation step: drop to the hero-only registry rather than
-  // blanking the whole scene to static when FPS can't hold. The Lamborghini +
-  // Black Pearl survive every degradation path.
+  // blanking the whole scene to static when FPS can't hold. The sailboat
+  // survives every degradation path.
   const [lite, setLite] = useState(false);
   const [frameloop, setFrameloop] = useState<"always" | "never">("always");
 
-  // During a live window-corner drag, hide the moving actors (boats, dolphin,
+  // During a live window-corner drag, hide the moving actors (the sailboat,
   // creatures) while the WATER keeps rendering; the actors pop back in once the
   // drag has settled for a second. Desktop/tablet only: phones fire `resize` on
   // every URL-bar collapse while scrolling, and the scene must not lose its
@@ -132,7 +132,7 @@ export default function OceanCanvas() {
             if (isPhone) {
               // Fail SOFT on phones: shed resolution and step down to the
               // hero-only profile. NEVER blank to static here - that is what was
-              // dropping the Lamborghini + Black Pearl on every FPS dip.
+              // dropping the sailboat on every FPS dip.
               setDpr(dprMin);
               setLite(true);
             } else {

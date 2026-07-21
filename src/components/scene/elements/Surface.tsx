@@ -224,7 +224,7 @@ export default function Surface({ progress }: SceneElementProps) {
     // original fixed 150-wide plane left a flat StaticOcean band on the sides).
     // CRITICAL: scale X only. The painted horizon sits off-center (uv 0.74), so
     // any Y-scale moves the horizon in world space and desyncs every element that
-    // pegs to the waterline via HORIZON_K (dolphin, boats). Keep Y at 1 so the
+    // pegs to the waterline via HORIZON_K (the sailboat). Keep Y at 1 so the
     // 92-tall plane (which already over-covers vertically) holds the horizon
     // exactly where those elements expect it.
     const mesh = meshRef.current;

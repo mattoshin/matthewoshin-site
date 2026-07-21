@@ -33,7 +33,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Design rules
 - Keep the **cartoon ocean** aesthetic. User rejected the dark "Deep" cinematic redesign.
-- 16 creatures in the descent zone. Do not regress creature count or spacing.
+- 14 creatures in the descent zone (was 16; the speedboat+skier and dolphin were removed 2026-07-21 for a "lowkey" pass — see docs/superpowers/specs/2026-07-21-lowkey-ocean-scene-design.md). Do not regress below 14 or spacing.
 - Georgia for display headings on content pages; ocean chrome uses the existing token system.
 
 ## Gotchas
