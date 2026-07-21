@@ -19,7 +19,8 @@
  *     own slow per-tentacle sine (bones-free vertex sway), curling more toward
  *     the tips and drifting like they rest in a gentle current.
  *
- * Colour: warm orange body (#E0653C) with a darker orange (#C24E2E) hint of
+ * Colour: muted rust body (#BB7761, toned down 2026-07-21 from a brighter
+ * #E0653C for the "lowkey" pass) with a darker rust (#A1614F) hint of
  * suckers speckled along the underside of each arm, a soft top-down key light
  * (the shot's god rays), and a faint cool fresnel rim so it separates from the
  * dark water. Brightness lifts with depth/presence so it reads "lit from above".
@@ -58,10 +59,10 @@ const FADE_IN_FULL = 0.96; // full presence at the very bottom
 const ARMS = 8;
 
 // Palette (linear-ish 0..1).
-const BODY = hexToRgb01("#E0653C"); // warm orange body
-const BODY_DEEP = hexToRgb01("#B24A2A"); // shaded underside / core
-const SUCKER = hexToRgb01("#C24E2E"); // darker orange sucker hint
-const BELLY = hexToRgb01("#F08A5E"); // warm lit highlight up top
+const BODY = hexToRgb01("#BB7761"); // muted rust body (was bright orange #E0653C)
+const BODY_DEEP = hexToRgb01("#935A49"); // shaded underside / core (was #B24A2A)
+const SUCKER = hexToRgb01("#A1614F"); // darker rust sucker hint (was #C24E2E)
+const BELLY = hexToRgb01("#CF977F"); // warm lit highlight up top (was #F08A5E)
 const RIM = hexToRgb01("#7FD6E0"); // cool water rim so it pops off the dark
 
 // ---------------------------------------------------------------------------
@@ -462,8 +463,9 @@ const bodyFragment = /* glsl */ `
     }
 
     // Cool fresnel rim so the warm body separates from the dark seabed water.
+    // Intensity halved 2026-07-21 (was 0.4) so it reads as ambient glow, not a highlight.
     float fres = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 3.0);
-    col += uRim * fres * 0.4;
+    col += uRim * fres * 0.2;
 
     // Presence lifts overall brightness a touch as it emerges from the dark.
     col *= mix(0.7, 1.08, uPresence);
