@@ -12,8 +12,8 @@
  * frame (kinetic, NOT a fade): it follows the camera in x/z but rises above it by
  * `p * SURFACE_DRIFT`, sliding the sky + sun + sea up to reveal the deep water
  * column beneath. Past VISIBLE_UNTIL it hides + early-returns so it costs nothing
- * in the deep. The surface boats + water-skier use the same drift so the whole
- * surface reads as one coherent plane lifting away.
+ * in the deep. The sailboat uses the same drift so the whole surface reads as
+ * one coherent plane lifting away.
  *
  * Original art. Tunable horizon (uHorizon) + sun position (uSunX).
  *
