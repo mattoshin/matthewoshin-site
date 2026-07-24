@@ -797,7 +797,7 @@ export const EDUCATION: readonly School[] = [
     storyParagraphs: [
       "I graduated from the University of Michigan in August 2025 with a B.A. in Economics. The degree gave me the lens I still build with: markets, incentives, and how value actually moves through a system.",
       "The bigger education ran in parallel. I was operating companies the entire time I was enrolled, usually remotely. Mocean scaled to an acquisition, Element Underground grew across multiple cities, and earlier ventures had already taught me how to find an edge and sell it. Juggling both taught me almost as much as the degree did.",
-      "Economics is also what pulled me toward markets directly, from an equity-research seat at Manatuck Hill to building Riptide Research, my equity-research terminal. The classroom gave me the vocabulary and the ventures gave me the reps.",
+      "Economics is also what pulled me toward markets directly, from an equity-research seat to building Riptide Research, my equity-research terminal. The classroom gave me the vocabulary and the ventures gave me the reps.",
     ],
   },
   {
@@ -830,7 +830,7 @@ export const INTERESTS: readonly Interest[] = [
   {
     title: "Markets and investing",
     detail:
-      "I still write long-form theses for fun, the same buy-side loop I ran at Manatuck Hill: build a view, pressure-test it, size it. They range from a Meta bull case to a Constellation Brands valuation, and lately I track how AI infrastructure gets priced.",
+      "I still write long-form theses for fun, the same buy-side loop from my equity-research days: build a view, pressure-test it, size it. They range from a Meta bull case to a Constellation Brands valuation, and lately I track how AI infrastructure gets priced.",
   },
   {
     title: "A musician, first",
