@@ -84,9 +84,9 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Experience",
     href: "/experience",
     teaser:
-      "VP of AI & Innovation at ICR, a financial communications firm in New York, where I led the AI function firm-wide. Today I'm Chief AI Officer at BrachyClip, a cancer medical device company.",
+      "I've led AI strategy inside a communications firm and now inside a medical device company, building the team and the systems from zero each time.",
     nav: true,
-    proof: "61% firm-wide AI adoption at ICR. 11 internal apps shipped.",
+    proof: "61% firm-wide AI adoption. 11 internal apps shipped.",
   },
   {
     id: "entrepreneurship",
@@ -197,19 +197,19 @@ export const ABOUT = {
     "The whole picture in one read: the story, the toolkit, the schooling, and what I'm about off the clock.",
   /** At-a-glance facts for skimmers; every one is backed by a deeper page. */
   facts: [
-    "AI leadership at ICR",
-    "Chief AI Officer at BrachyClip",
+    "AI leadership across two companies",
+    "Markets background in equity research",
     "University of Michigan, B.A. Economics",
     "2 companies acquired",
     "20+ products shipped",
   ],
   paragraphs: [
     "I'm a builder. That's been true in every chapter: I started flipping sneakers in high school, scaled a research-and-signal company in college, did equity research in markets, and now I ship AI products end to end. Different surfaces, same instinct: find an edge, pressure-test it, and build the thing that captures or distributes it.",
-    "My foundation is in markets. At Manatuck Hill, an equity research firm in Connecticut, I produced differentiated views across AI, nuclear, and precious metals, sat in on management interviews, and built an intelligence-aggregation system. Markets taught me the edge part. Code let me build it myself, which is why my work leads with volatility, expected moves, and expected value around catalysts.",
+    "My foundation is in markets. At an equity research firm, I produced differentiated views across AI, nuclear, and precious metals, sat in on management interviews, and built an intelligence-aggregation system. Markets taught me the edge part. Code let me build it myself, which is why my work leads with volatility, expected moves, and expected value around catalysts.",
     "At 19 I founded Mocean Technologies, a research-distribution platform for Discord: a team of 40-plus analysts producing research that my software reformatted, branded, and redistributed to other subscription businesses. It scaled to $400K+ in revenue, 100,000+ users, and 1,000+ investor communities, and it was acquired. The lesson it taught me runs through everything since: distribution beats production.",
     "On the side I co-founded Element Underground, a dance-music events and media group that has drawn 17,000+ attendees across NYC, Miami, Boston, and Ann Arbor, and now keeps the content it shoots as its own owned asset. Earlier ventures, Ocean Supply, Profit Paradise, and Resell Network, are where the resale floor first taught me that the edge is the signal, not the shoe.",
-    "Most recently I was VP of AI & Innovation at ICR, an investor-relations and strategic-communications firm, where I stood up the AI function from scratch and led the AI & Intelligence Lab across R&D, Education, and Discovery. I owned the data pipeline and shipped the firm's internal AI platform, prototyping most of it solo on Claude Code.",
-    "Today I'm Chief AI Officer and Director of Marketing at BrachyClip, a cancer medical-device company, plus a portfolio of my own builds. The main one is Riptide Research, an equity-research terminal that quantifies how my view disagrees with what the options market is pricing: markets reasoning shipped as a product.",
+    "Most recently I led AI strategy at a communications firm, standing up the AI function from scratch and shipping it firm-wide. I owned the data pipeline and built the internal AI platform myself, prototyping most of it solo on Claude Code.",
+    "Today I lead AI and marketing at a medical device company, plus a portfolio of my own builds. The main one is Riptide Research, an equity-research terminal that quantifies how my view disagrees with what the options market is pricing: markets reasoning shipped as a product.",
     "University of Michigan econ grad. I think in probabilities and expected value, and I build the database, the agent, and the UI myself. Always up to connect with other builders, especially around AI, investing, and emerging tech.",
   ],
 } as const;
@@ -228,33 +228,32 @@ export interface Job {
 
 export const EXPERIENCE: readonly Job[] = [
   {
-    slug: "brachyclip",
-    role: "Chief AI Officer & Director of Marketing",
-    org: "BrachyClip",
+    slug: "medical-device-ai-marketing",
+    role: "AI strategy and marketing lead",
+    org: "a cancer medical device company",
     period: "2025 to present",
     points: [
-      "BrachyClip is a cancer medical device company (Brown University / Rhode Island Hospital affiliation) building a clip-based intraoperative permanent seed brachytherapy applicator for minimally invasive cancer surgery. $6.8B TAM across nine solid-tumor categories, 510(k) predicate pathway.",
-      "Built the brand, positioning, and investor narrative from scratch for a pre-clearance device: Series A pitch deck, the brachyclip.com marketing site, and a gated investor portal on Next.js 16 with an approval-based access flow, supporting an active eight-figure raise.",
+      "Building the brand, positioning, and investor narrative from scratch for a pre-clearance surgical device: a Series A pitch deck, a public marketing site, and a gated investor portal with an approval-based access flow, supporting an active eight-figure raise.",
       "Set digital-marketing strategy around FDA-compliant content requirements from the start.",
-      "Driving agentic AI automations across clinical and operational workflows under FDA constraints (saving ~5 hours a week), and supporting investor relations directly.",
+      "Driving agentic AI automations across clinical and operational workflows under FDA constraints (saving roughly 5 hours a week), and supporting investor relations directly.",
     ],
   },
   {
-    slug: "icr",
-    role: "VP, AI & Innovation",
-    org: "ICR",
+    slug: "communications-firm-ai-lead",
+    role: "AI strategy lead",
+    org: "a communications firm",
     period: "2026",
     points: [
-      "Stood up the firm's AI function from scratch and led its AI & Intelligence Lab across three pillars: R&D, Education, and Discovery.",
-      "Built and shipped the firm's internal AI platform, a Next.js app on Supabase and Vercel with Claude streaming, then embedded with practice teams to ship 11 custom production apps, including real-time media monitoring, an SEC intelligence platform, and an agentic security and IT-ops dashboard, with working prototypes inside four weeks.",
-      "Engineered the data pipeline: a RAG layer over the firm's 27 TB corpus, plus an advisor-edit labeling loop that captured training signal.",
-      "Drove the platform to 61% adoption across the 400-person firm with role-based training tied to real workflows, and hired and managed the technical team.",
+      "Stood up the firm's AI function from scratch, covering R&D, education, and internal discovery.",
+      "Built and shipped the firm's internal AI platform, then embedded with practice teams to ship 11 custom production apps, including real-time media monitoring, an intelligence platform, and an agentic ops dashboard, with working prototypes inside four weeks.",
+      "Engineered the data pipeline: a RAG layer over the firm's 27 TB corpus, plus a labeling loop that captured training signal.",
+      "Drove the platform to 61% adoption across a 400-person firm with role-based training tied to real workflows, and hired and managed the technical team.",
     ],
   },
   {
-    slug: "manatuck-hill",
-    role: "Equity Research Analyst",
-    org: "Manatuck Hill Partners",
+    slug: "equity-research",
+    role: "Equity research",
+    org: "an equity research firm",
     period: "2024",
     points: [
       "Produced differentiated views on names and ran the classic buy-side loop: generate an edge, pressure-test it, size it with conviction.",
@@ -263,9 +262,9 @@ export const EXPERIENCE: readonly Job[] = [
     ],
   },
   {
-    slug: "qult",
-    role: "AI Product Manager",
-    org: "Qult.ai",
+    slug: "healthcare-ai-pm",
+    role: "AI product manager",
+    org: "an early-stage healthcare AI startup",
     period: "2023",
     points: [
       "Led a team of four developers building an AI platform in the healthcare-career space.",
@@ -274,9 +273,9 @@ export const EXPERIENCE: readonly Job[] = [
     ],
   },
   {
-    slug: "top-floor",
-    role: "Software Product Manager",
-    org: "Top Floor",
+    slug: "software-pm",
+    role: "Software product manager",
+    org: "an early-stage software company",
     period: "2022 to 2023",
     points: [
       "Early product-management experience on the software side, sharpening the build-and-ship muscle.",
@@ -592,7 +591,7 @@ export const BUILDS: readonly Build[] = [
     hook: "The brand, investor narrative, and web presence for a pre-clearance medical-device company: a marketing site plus a gated, approval-based investor portal.",
     demoHref: undefined,
     summary:
-      "BrachyClip is a cancer medical-device company affiliated with Brown University and Rhode Island Hospital. I lead its marketing and AI as Chief AI Officer, and I built its entire digital presence from scratch under a hard FDA-compliance constraint. The public surface is a brand and marketing site for a device that cannot yet make clinical claims; behind it sits a gated investor portal on Next.js 16 with an approval-based access flow, so the Series A materials reach vetted investors and no one else. The work is as much positioning as it is engineering: building trust and a credible narrative for a pre-clearance device where every word is a regulatory decision.",
+      "BrachyClip is a cancer medical-device company. I lead its marketing and AI, and I built its entire digital presence from scratch under a hard FDA-compliance constraint. The public surface is a brand and marketing site for a device that cannot yet make clinical claims; behind it sits a gated investor portal with an approval-based access flow, so the Series A materials reach vetted investors and no one else. The work is as much positioning as it is engineering: building trust and a credible narrative for a pre-clearance device where every word is a regulatory decision.",
     highlights: [
       "Brand, positioning, and investor narrative built from scratch for a pre-clearance device, including the Series A story.",
       "A marketing site on the public web and a separate gated investor portal with an approval-based access flow, both on Next.js 16.",

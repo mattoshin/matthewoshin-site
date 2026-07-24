@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s, Matthew Oshin",
   },
   description:
-    "Matthew Oshin builds AI products, trading research tools, and companies. Previously VP of AI and Innovation at ICR; now Chief AI Officer at BrachyClip.",
+    "Matthew Oshin builds AI products, trading research tools, and companies. He has led AI strategy at a communications firm and now at a medical device company.",
   authors: [{ name: SITE.name }],
   openGraph: {
     title: "Matthew Oshin",

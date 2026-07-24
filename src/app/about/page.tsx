@@ -27,7 +27,7 @@ import {
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Who Matthew Oshin is in one read: the builder story from sneaker resale to Chief AI Officer, the toolkit, Michigan econ, and everything off the clock.",
+    "Who Matthew Oshin is in one read: the builder story from sneaker resale to AI leadership, the toolkit, Michigan econ, and everything off the clock.",
 };
 
 // One neon accent per section, from the site's bioluminescent palette (same
