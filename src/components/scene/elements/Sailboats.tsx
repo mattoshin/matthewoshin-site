@@ -40,10 +40,10 @@ function swell(x: number, z: number, t: number): number {
 }
 
 // Palette.
-const HULL = "#140f0d"; // near-black weathered hull
-const TRIM = "#2a201a"; // faint warm gunwale line
-const MASTC = "#0d0b0a"; // dark masts / yards
-const RIGC = "#171210"; // rigging stays
+const HULL = "#4a2f1c"; // weathered dark-oak hull
+const TRIM = "#8a5f3b"; // lighter oak gunwale/figurehead highlight
+const MASTC = "#6b4a2f"; // natural pine masts / yards / bowsprit
+const RIGC = "#2b1d12"; // tarred-rope brown rigging stays
 const SAIL_LO = "#efe9db"; // WHITE canvas (lower sails)
 const SAIL_HI = "#f7f3ea"; // brighter white (upper sails)
 const FLAGC = "#0e0e14"; // torn flags

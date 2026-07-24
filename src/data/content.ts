@@ -797,7 +797,7 @@ export const EDUCATION: readonly School[] = [
     detail: "B.A. Economics",
     storyParagraphs: [
       "I graduated from the University of Michigan in August 2025 with a B.A. in Economics. The degree gave me the lens I still build with: markets, incentives, and how value actually moves through a system.",
-      "The bigger education ran in parallel. I was operating companies the entire time I was enrolled, usually remotely. Mocean scaled to an acquisition, Element Underground grew across multiple cities, and earlier ventures had already taught me how to find an edge and sell it. I was running companies the whole time too, and juggling both taught me almost as much as the degree did.",
+      "The bigger education ran in parallel. I was operating companies the entire time I was enrolled, usually remotely. Mocean scaled to an acquisition, Element Underground grew across multiple cities, and earlier ventures had already taught me how to find an edge and sell it. Juggling both taught me almost as much as the degree did.",
       "Economics is also what pulled me toward markets directly, from an equity-research seat at Manatuck Hill to building Riptide Research, my equity-research terminal. The classroom gave me the vocabulary and the ventures gave me the reps.",
     ],
   },
