@@ -38,6 +38,11 @@ html {
   left: 0;
   width: 100%;
   height: 100vh;
+  /* Dims + desaturates the whole persistent ocean layer (WebGL canvas AND
+     its StaticOcean fallback) so page content reads first, ocean second.
+     Single tunable lever, added 2026-07-21 for the "lowkey" pass - see
+     docs/superpowers/specs/2026-07-21-lowkey-ocean-scene-design.md. */
+  filter: saturate(0.85) brightness(0.95);
 }
 /* The R3F canvas: r3f sets position/size inline, so these need !important to
    win (same reason the old code used Tailwind's `!fixed !inset-0`). */
@@ -291,8 +296,8 @@ html.lenis body {
   box-shadow:
     0 1px 0 color-mix(in srgb, var(--bio-lumen) 9%, transparent) inset,
     0 30px 80px -42px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(12px) saturate(120%);
-  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  backdrop-filter: blur(12px) saturate(95%);
+  -webkit-backdrop-filter: blur(12px) saturate(95%);
 }
 
 /* Light variant for the bright surface zone (dark text on light): a luminous

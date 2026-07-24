@@ -47,7 +47,7 @@ const LANE_RL = -7.5; // the right -> left school rides the lower lane
 const X_LEFT = -16;
 const X_RIGHT = 16;
 const X_SPAN = X_RIGHT - X_LEFT;
-const SPEED = 1.05; // world units / second - an unhurried, tasteful drift
+const SPEED = 0.68; // world units / second - slowed 2026-07-21 for the "lowkey" pass (was 1.05, the fastest ambient creature)
 
 // Asymmetric carousel fade relative to direction of travel: quick fade-IN at the
 // entering edge, slow fade-OUT at the exit edge. EDGE_NEAR is the |x| where a
@@ -74,8 +74,8 @@ const TAIL_WIGGLE = [0.5, 0.7, 0.6];
 const Y_AXIS = new THREE.Vector3(0, 1, 0);
 
 // Palette.
-const ORANGE = hexToRgb01("#FF7A3C");
-const ORANGE_DEEP = hexToRgb01("#E85F23");
+const ORANGE = hexToRgb01("#D38A68"); // muted coral, was #FF7A3C
+const ORANGE_DEEP = hexToRgb01("#BC704F"); // muted coral-deep, was #E85F23
 const WHITE = hexToRgb01("#FBF4EC");
 const EDGE = hexToRgb01("#241008");
 

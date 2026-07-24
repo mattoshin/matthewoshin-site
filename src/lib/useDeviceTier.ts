@@ -4,9 +4,9 @@
  * useDeviceTier - the single source of truth for "is this a phone-class viewport".
  *
  * The ocean is far heavier than a phone GPU/memory budget can hold at full
- * fidelity (16 elements, DPR up to 1.5, shader surfaces, 4k plankton). Left
+ * fidelity (14 elements, DPR up to 1.5, shader surfaces, 4k plankton). Left
  * unchecked, FPS collapses and the canvas hard-falls-back to the flat static
- * gradient, taking the Lamborghini + Black Pearl with it. So phones run a
+ * gradient, taking the sailboat with it. So phones run a
  * trimmed, lower-DPR profile (see OceanCanvas + the phone registries).
  *
  * "phone" is a WIDTH class, not a user-agent sniff: <= 767px matches the site's

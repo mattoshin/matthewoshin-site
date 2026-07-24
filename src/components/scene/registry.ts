@@ -12,7 +12,7 @@
  * Elements draw in array order (later entries render after earlier ones).
  *
  * ONE SIGNATURE ANIMATION PER SECTION (by depth band):
- *   surface  -> the surface scene (Black Pearl + Lamborghini skier + dolphin)
+ *   surface  -> the surface scene (sailboat, quiet)
  *   about    -> Clownfish (Nemo)            [0.16-0.32]
  *   projects -> Submarine                   [0.33-0.49]
  *   ventures -> Sharks                      [0.50-0.66]
@@ -21,10 +21,14 @@
  *   contact  -> Octopus, on the floor       [0.90-1.0]
  * Coral + kelp are seabed SCENERY (not a moving creature). The big fish school
  * was retired - one group per section, no hundred-fish crowds.
+ *
+ * 2026-07-21: the speedboat+skier and dolphin were removed as showy
+ * set-pieces (14 elements, was 16) - see docs/superpowers/specs/2026-07-21-
+ * lowkey-ocean-scene-design.md. This supersedes AGENTS.md's old "16
+ * creatures, do not regress" rule, which was updated alongside this change.
  */
 
 import WaterColumn from "./elements/WaterColumn";
-import Dolphin from "./elements/Dolphin";
 import BioParticles from "./elements/BioParticles";
 import CoralReef from "./elements/CoralReef";
 import Kelp from "./elements/Kelp";
@@ -37,7 +41,6 @@ import Clownfish from "./elements/Clownfish";
 import CausticsLight from "./elements/CausticsLight";
 import WaterSurface from "./elements/WaterSurface";
 import Sailboats from "./elements/Sailboats";
-import WaterSkier from "./elements/WaterSkier";
 import Surface from "./elements/Surface";
 import type { SceneElementEntry } from "./types";
 import type { DeviceTier } from "@/lib/useDeviceTier";
@@ -59,16 +62,14 @@ export const SCENE_ELEMENTS: readonly SceneElementEntry[] = [
   { id: "caustics-light", Component: CausticsLight },
   { id: "water-surface", Component: WaterSurface },
   { id: "sailboats", Component: Sailboats, actor: true },
-  { id: "water-skier", Component: WaterSkier, actor: true },
-  { id: "dolphin", Component: Dolphin, actor: true },
 ];
 
 /**
  * PHONE PROFILE (<= 767px). The full scene is too heavy for a phone, so we keep
- * the surface hero (sky/water + Black Pearl + Lamborghini + light plankton) plus
+ * the surface hero (sky/water + sailboat + light plankton) plus
  * the one signature creature per section, and DROP the pure scenery + the
- * heaviest shaders + the redundant dolphin:
- *   dropped: coral-reef, kelp, caustics-light, water-surface, dolphin
+ * heaviest shaders:
+ *   dropped: coral-reef, kelp, caustics-light, water-surface
  * Order is preserved by filtering the full list, so draw order never drifts.
  */
 const PHONE_IDS = new Set<string>([
@@ -81,20 +82,18 @@ const PHONE_IDS = new Set<string>([
   "sharks", // ventures
   "sea-turtle", // skills
   "clownfish", // about
-  "sailboats", // Black Pearl
-  "water-skier", // Lamborghini
+  "sailboats",
 ]);
 
 /**
  * PHONE-LITE: the graceful-degradation floor. If even the phone profile can't
  * hold FPS, the PerformanceMonitor drops to this hero-only set instead of
- * blanking to the static gradient, so the Lamborghini + Black Pearl never vanish.
+ * blanking to the static gradient, so the sailboat never vanishes.
  */
 const PHONE_LITE_IDS = new Set<string>([
   "surface",
   "water-column",
   "sailboats",
-  "water-skier",
 ]);
 
 export const SCENE_ELEMENTS_PHONE: readonly SceneElementEntry[] =
