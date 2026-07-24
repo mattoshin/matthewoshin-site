@@ -11,7 +11,7 @@ import { EXPERIENCE, SITE } from "@/data/content";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Chief AI Officer at BrachyClip, VP of AI and Innovation at ICR, equity research at Manatuck Hill, and more.",
+    "AI strategy and marketing leadership, equity research, and product management, across a medical device company, a communications firm, and more.",
 };
 
 export default function ExperiencePage() {
@@ -47,7 +47,7 @@ export default function ExperiencePage() {
           >
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
               <h2 className="font-display text-xl font-semibold text-ink-heading sm:text-2xl">
-                {job.role}, <span className="text-bio-cyan">{job.org}</span>
+                {job.role} <span className="text-bio-cyan">at {job.org}</span>
               </h2>
               <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
                 {job.period}
