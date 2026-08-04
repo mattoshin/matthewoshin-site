@@ -33,7 +33,7 @@ describe("/portfolio page", () => {
     expect(screen.getByRole("heading", { name: "Dog House" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "BrachyClip" })).toBeTruthy();
     expect(
-      screen.queryByRole("heading", { name: "Riptide Research" }),
+      screen.queryByRole("heading", { name: "Options-Implied Distribution Terminal" }),
     ).toBeNull();
   });
 

@@ -105,7 +105,7 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Portfolio",
     href: "/portfolio",
     teaser:
-      "The products I build and run now: Riptide Research, Galactic Signals, Sonar Media, Observly, BriefBridge, mTrain, and the Dog House band site. Each card says what it is and what it does, and opens a live demo you can click through yourself.",
+      "The products I build and run now: the Options-Implied Distribution Terminal, Galactic Signals, Observly, BriefBridge, mTrain, and the Dog House band site. Each card says what it is and what it does, and opens a live demo you can click through yourself.",
     nav: true,
     proof: "20+ products shipped. Every one opens as a live, clickable demo.",
   },
@@ -209,7 +209,7 @@ export const ABOUT = {
     "At 19 I founded Mocean Technologies, a research-distribution platform for Discord: a team of 40-plus analysts producing research that my software reformatted, branded, and redistributed to other subscription businesses. It scaled to $400K+ in revenue, 100,000+ users, and 1,000+ investor communities, and it was acquired. The lesson it taught me runs through everything since: distribution beats production.",
     "On the side I co-founded Element Underground, a dance-music events and media group that has drawn 17,000+ attendees across NYC, Miami, Boston, and Ann Arbor, and now keeps the content it shoots as its own owned asset. Earlier ventures, Ocean Supply, Profit Paradise, and Resell Network, are where the resale floor first taught me that the edge is the signal, not the shoe.",
     "Most recently I led AI strategy at a communications firm, standing up the AI function from scratch and shipping it firm-wide. I owned the data pipeline and built the internal AI platform myself, prototyping most of it solo on Claude Code.",
-    "Today I lead AI and marketing at a medical device company, plus a portfolio of my own builds. The main one is Riptide Research, an equity-research terminal that quantifies how my view disagrees with what the options market is pricing: markets reasoning shipped as a product.",
+    "Today I lead AI and marketing at a medical device company, plus a portfolio of my own builds. The main one is my Options-Implied Distribution Terminal, which quantifies how my view disagrees with what the options market is pricing: markets reasoning shipped as a product.",
     "University of Michigan econ grad. I think in probabilities and expected value, and I build the database, the agent, and the UI myself. Always up to connect with other builders, especially around AI, investing, and emerging tech.",
   ],
 } as const;
@@ -434,11 +434,11 @@ export interface Build {
 export const BUILDS: readonly Build[] = [
   {
     slug: "riptide",
-    name: "Riptide Research",
+    name: "Options-Implied Distribution Terminal",
     hook: "An agentic equity-research terminal that researches in distributions, not price targets.",
     demoHref: "https://riptide.matthewoshin.com",
     summary:
-      "Every research tool ships a single number where the real answer is a distribution. Riptide takes the live options chain, derives the market's full risk-neutral distribution, and puts my own Bull/Base/Bear view on the same axis, shading the gap between them as expected value and a half-Kelly size. On top of that sits an agentic layer: a Model Lab to author and save my own models, an Edge Radar that scans the whole universe for names where a model's distribution most disagrees with what options are pricing, and a Model Arena that overlays the market, my view, the Street, and an AI analyst on one axis and then grades which of them has actually been right. The quant engine is dependency-free TypeScript with unit tests; the AI analyst is anchored to the implied base rate so it can't free-run overconfident.",
+      "Every research tool ships a single number where the real answer is a distribution. This terminal takes the live options chain, derives the market's full risk-neutral distribution, and puts my own Bull/Base/Bear view on the same axis, shading the gap between them as expected value and a half-Kelly size. On top of that sits an agentic layer: a Model Lab to author and save my own models, an Edge Radar that scans the whole universe for names where a model's distribution most disagrees with what options are pricing, and a Model Arena that overlays the market, my view, the Street, and an AI analyst on one axis and then grades which of them has actually been right. The quant engine is dependency-free TypeScript with unit tests; the AI analyst is anchored to the implied base rate so it can't free-run overconfident.",
     highlights: [
       "Quant engine in pure, dependency-free TypeScript: Black-Scholes, the Breeden-Litzenberger risk-neutral density, expected move, EV, and Kelly, all unit-tested.",
       "Model Lab: author, save, and reload my own probabilistic models, with the expected value and half-Kelly size recomputing live.",
@@ -484,23 +484,6 @@ export const BUILDS: readonly Build[] = [
     ],
     stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Anthropic Claude", "Supabase", "Prisma", "PostgreSQL", "SEC EDGAR", "Vercel"],
     status: "Production build",
-  },
-  {
-    slug: "sonar",
-    name: "Sonar Media",
-    hook: "Real-time media monitoring you build in plain English. Describe what to watch and AI assembles the agentic workflow that watches it for you.",
-    demoHref: "/app/sonar",
-    summary:
-      "Investor-relations and communications teams drown in signal: a story that moves the stock can break on SEC EDGAR, a newswire, a regulator's feed, or social, and legacy monitoring makes you hand-write boolean queries to catch it. Sonar Media flips that. You describe what you care about in a sentence, an LLM resolves it into a validated monitor spec, and you dry-run it against the last 48 hours before it ever fires. Matches arrive tagged with the source, a sentiment read, the terms that hit, and a one-line summary of why it matters, gated by severity and capped so they never flood you. I built this as the media-intelligence layer of an enterprise platform: thousands of sources, an AI relevance gate to kill noise, and per-workspace AI-spend caps so a monitoring run never becomes a surprise bill.",
-    highlights: [
-      "A plain-English monitor builder: an LLM turns a sentence into a validated, schema-checked spec (entities, keywords, sources, cadence, delivery), with no boolean syntax.",
-      "A 48-hour dry run that replays real history, so a monitor earns trust before a single alert goes out.",
-      "A cheap AI relevance gate on every candidate match, so delivered alerts are the real story and not every keyword hit.",
-      "Severity gating and per-monitor flood caps: instant for the urgent, digest for the rest, with AI spend tracked per model and capped per workspace.",
-      "Source-grade coverage across SEC EDGAR, the wires, regulators, social, and cyber feeds, parsed in near real time.",
-    ],
-    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Claude (Opus, Sonnet, Haiku)", "Zod", "Async workers", "PostgreSQL"],
-    status: "Recent build",
   },
   {
     slug: "sec-intelligence",
@@ -797,7 +780,7 @@ export const EDUCATION: readonly School[] = [
     storyParagraphs: [
       "I graduated from the University of Michigan in August 2025 with a B.A. in Economics. The degree gave me the lens I still build with: markets, incentives, and how value actually moves through a system.",
       "The bigger education ran in parallel. I was operating companies the entire time I was enrolled, usually remotely. Mocean scaled to an acquisition, Element Underground grew across multiple cities, and earlier ventures had already taught me how to find an edge and sell it. Juggling both taught me almost as much as the degree did.",
-      "Economics is also what pulled me toward markets directly, from an equity-research seat to building Riptide Research, my equity-research terminal. The classroom gave me the vocabulary and the ventures gave me the reps.",
+      "Economics is also what pulled me toward markets directly, from an equity-research seat to building my Options-Implied Distribution Terminal. The classroom gave me the vocabulary and the ventures gave me the reps.",
     ],
   },
   {

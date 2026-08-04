@@ -20,7 +20,7 @@ import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Products I build, filterable by type: AI products (Riptide, Galactic Signals, Financial Communications Platform, SEC Intelligence, Sonar Media, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Fitness OS, Dog House), and ventures (Mocean, Element Underground).",
+    "Products I build, filterable by type: AI products (Options-Implied Distribution Terminal, Galactic Signals, Financial Communications Platform, SEC Intelligence, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Dog House), and ventures (Mocean, Element Underground).",
 };
 
 /** Pull a build into a portfolio item; case study lives at /projects/<slug>. */
@@ -56,15 +56,12 @@ const doghouse = BUILDS.find((b) => b.slug === "dog-house");
 
 // Curated order for the "All" view: demo-backed flagships first, then the
 // web/client work, then the remaining case studies. BrachyClip and mTrain are
-// active engagements, so they link to the live site ("View Site"); the studio
-// back-office software is its own product card, "Fitness OS", which opens the
-// clickable demo.
+// active engagements, so they link to the live site ("View Site").
 const ITEMS: PortfolioItem[] = [
   fromVenture("mocean", "Founded & acquired"),
   fromBuild("galactic-signals", "ai-products"),
   fromBuild("financial-comms", "ai-products"),
   fromBuild("sec-intelligence", "ai-products"),
-  fromBuild("sonar", "ai-products"),
   fromBuild("atrium", "ai-products"),
   fromBuild("vantage", "ai-products"),
   fromBuild("riptide", "ai-products"),
@@ -89,13 +86,6 @@ const ITEMS: PortfolioItem[] = [
     // instead of shipping a blank-hook card with a 404 case study.
     ...fromBuild("dog-house", "web-client"),
     siteHref: doghouse?.href,
-  },
-  {
-    name: "Fitness OS",
-    hook: "Gym and studio operation software: the class schedule, the lead pipeline, and the member roster in one back office over a Mindbody-style data layer. A concept product, drawn from a real studio engagement.",
-    status: "Product concept",
-    category: "web-client",
-    demoHref: "/app/fitness-os",
   },
   fromVenture("element-underground", "Co-founded", "https://elementunderground.com"),
   fromBuild("observly", "ai-products"),

@@ -18,15 +18,15 @@ export type DemoCard = {
 
 export const DEMOS: DemoCard[] = [
   {
-    slug: "mocean",
-    name: "Mocean",
+    slug: "riptide",
+    name: "Options-Implied Distribution Terminal",
     tagline:
-      "Discord-native B2B research SaaS. Subscribe to data feeds, wire each to a Discord channel, deliver alpha automatically.",
-    era: "2021 to 2023 · Founded and acquired",
+      "Agentic equity-research terminal. Research in distributions: the options market's implied distribution versus your own models, scanned for gaps and graded over time.",
+    era: "Current build, live",
     status: "live",
-    href: "/app/mocean-demo",
-    caseStudy: "/ventures/mocean",
-    accent: "#5ecdd1",
+    href: "https://riptide.matthewoshin.com",
+    caseStudy: "/projects/riptide",
+    accent: "#2fe3bf",
   },
   {
     slug: "galactic",
@@ -49,17 +49,6 @@ export const DEMOS: DemoCard[] = [
     href: "/app/financial-comms",
     caseStudy: "/projects/financial-comms",
     accent: "#0027b3",
-  },
-  {
-    slug: "sonar",
-    name: "Sonar Media",
-    tagline:
-      "Real-time media monitoring your team builds in plain English. Describe a monitor, AI wires up the agentic workflow, dry-run it over the last 48 hours, and it watches the internet for you.",
-    era: "Recent build",
-    status: "live",
-    href: "/app/sonar",
-    caseStudy: "/projects/sonar",
-    accent: "#FFB224",
   },
   {
     slug: "sec-intelligence",
@@ -95,25 +84,15 @@ export const DEMOS: DemoCard[] = [
     accent: "#b6abff",
   },
   {
-    slug: "riptide",
-    name: "Riptide Research",
+    slug: "mocean",
+    name: "Mocean",
     tagline:
-      "Agentic equity-research terminal. Research in distributions: the options market's implied distribution versus your own models, scanned for gaps and graded over time.",
-    era: "Current build, live",
+      "Discord-native B2B research SaaS. Subscribe to data feeds, wire each to a Discord channel, deliver alpha automatically.",
+    era: "2021 to 2023 · Founded and acquired",
     status: "live",
-    href: "https://riptide.matthewoshin.com",
-    caseStudy: "/projects/riptide",
-    accent: "#2fe3bf",
-  },
-  {
-    slug: "fitness-os",
-    name: "Fitness OS",
-    tagline:
-      "Gym and studio operation software: the class schedule, the lead pipeline, and every member over a Mindbody-style data layer, in one calm back office. A concept drawn from a real studio engagement.",
-    era: "Product concept · Studio operations",
-    status: "live",
-    href: "/app/fitness-os",
-    accent: "#1f3d34",
+    href: "/app/mocean-demo",
+    caseStudy: "/ventures/mocean",
+    accent: "#5ecdd1",
   },
 ];
 
