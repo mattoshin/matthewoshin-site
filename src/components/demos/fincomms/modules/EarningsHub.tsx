@@ -25,12 +25,39 @@ import {
   ProseSections,
   cx,
 } from "../FcKit";
+import GuidanceAnalyzer from "./GuidanceAnalyzer";
+import EngineScreen from "./EngineScreen";
 
 /**
- * EarningsHub - the flagship earnings workspace. Five tabs (Prep Brief, Predicted
- * Q&A, Live Simulator, Post-Call, Consensus). Reference screen for the AI-panel,
- * chat, and tabbed-analysis patterns the other modules reuse.
+ * EarningsHub - the Coverage workspace for earnings. Three top-level tabs:
+ * Overview (the flagship earnings workspace, unchanged), Guidance Analyzer
+ * (the bespoke GuidanceAnalyzer module), and Earnings Prep (the EngineScreen
+ * fallback). Overview itself keeps its own five inner tabs (Prep Brief,
+ * Predicted Q&A, Live Simulator, Post-Call, Consensus) exactly as before.
  */
+type Workspace = "overview" | "guidance" | "earnings-prep";
+
+const WORKSPACE_TABS = [
+  { id: "overview" as const, label: "Overview" },
+  { id: "guidance" as const, label: "Guidance Analyzer" },
+  { id: "earnings-prep" as const, label: "Earnings Prep" },
+];
+
+export default function EarningsHub() {
+  const [workspace, setWorkspace] = useState<Workspace>("overview");
+
+  return (
+    <div className="space-y-5">
+      <UnderlineTabs tabs={WORKSPACE_TABS} value={workspace} onChange={setWorkspace} />
+      {workspace === "overview" && <Overview />}
+      {workspace === "guidance" && <GuidanceAnalyzer />}
+      {workspace === "earnings-prep" && <EngineScreen engine="earnings-prep" />}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- overview --- */
+
 type Tab = "prep" | "qa" | "sim" | "post" | "consensus";
 
 const TABS = [
@@ -41,7 +68,7 @@ const TABS = [
   { id: "consensus" as const, label: "Consensus" },
 ];
 
-export default function EarningsHub() {
+function Overview() {
   const [tab, setTab] = useState<Tab>("prep");
   const [toast, setToast] = useState(false);
 

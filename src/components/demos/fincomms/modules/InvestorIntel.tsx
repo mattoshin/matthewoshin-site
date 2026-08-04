@@ -19,11 +19,44 @@ import {
   Delta,
   DataTable,
 } from "../FcKit";
+import EngineScreen from "./EngineScreen";
 
 /**
- * InvestorIntel - holder profiling, AI-matched investor targets, and 13F filing
- * activity for the focal company. Three underline tabs over CompanyHeader.
+ * InvestorIntel - the Coverage workspace for investor intelligence. Five
+ * top-level tabs: Overview (holder profiling, AI-matched targets, and 13F
+ * filings, unchanged), plus four EngineScreen fallbacks for the engines that
+ * folded in here (Shareholder Matching, Stock Surveillance, Retail Voice,
+ * Loyalty Trends). Overview's own "Match" inner tab is a distinct, bespoke
+ * view and is intentionally left in place alongside the Shareholder Matching
+ * engine tab.
  */
+type Workspace = "overview" | "shareholder-match" | "surveillance" | "retail-voice" | "rils-trends";
+
+const WORKSPACE_TABS = [
+  { id: "overview" as const, label: "Overview" },
+  { id: "shareholder-match" as const, label: "Shareholder Matching" },
+  { id: "surveillance" as const, label: "Stock Surveillance" },
+  { id: "retail-voice" as const, label: "Retail Voice" },
+  { id: "rils-trends" as const, label: "Loyalty Trends" },
+];
+
+export default function InvestorIntel() {
+  const [workspace, setWorkspace] = useState<Workspace>("overview");
+
+  return (
+    <div className="space-y-5">
+      <UnderlineTabs tabs={WORKSPACE_TABS} value={workspace} onChange={setWorkspace} />
+      {workspace === "overview" && <Overview />}
+      {workspace === "shareholder-match" && <EngineScreen engine="shareholder-match" />}
+      {workspace === "surveillance" && <EngineScreen engine="surveillance" />}
+      {workspace === "retail-voice" && <EngineScreen engine="retail-voice" />}
+      {workspace === "rils-trends" && <EngineScreen engine="rils-trends" />}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- overview --- */
+
 type Tab = "shareholders" | "match" | "filings";
 
 const TABS = [
@@ -32,7 +65,7 @@ const TABS = [
   { id: "filings" as const, label: "13F Filings", count: OWNERSHIP_13F.length },
 ];
 
-export default function InvestorIntel() {
+function Overview() {
   const [tab, setTab] = useState<Tab>("shareholders");
 
   return (
