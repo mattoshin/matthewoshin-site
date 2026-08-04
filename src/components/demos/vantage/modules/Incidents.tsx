@@ -43,20 +43,28 @@ const STATUS_TONE: Record<IncidentStatus, string> = {
 export default function Incidents() {
   const [filter, setFilter] = useState<StatusFilter>("all");
   const [selectedId, setSelectedId] = useState<string>(INCIDENT_DETAIL.id);
+  const [filtersToast, setFiltersToast] = useState(false);
+  // Local status overrides so "Open investigation" / "Resolve" in the compact
+  // detail panel visibly move an incident, without mutating the sample data.
+  const [statusOverride, setStatusOverride] = useState<Record<string, IncidentStatus>>({});
 
-  const rows = filter === "all" ? INCIDENTS : INCIDENTS.filter((i) => i.status === filter);
-  const selected = INCIDENTS.find((i) => i.id === selectedId) ?? INCIDENTS[0];
+  const effectiveIncidents = INCIDENTS.map((i) =>
+    statusOverride[i.id] ? { ...i, status: statusOverride[i.id] } : i,
+  );
 
-  const openCount = INCIDENTS.filter((i) => i.status !== "resolved").length;
-  const critCount = INCIDENTS.filter((i) => i.severity === "critical" && i.status !== "resolved").length;
-  const agentOwned = Math.round((INCIDENTS.filter((i) => i.ownerIsAgent).length / INCIDENTS.length) * 100);
+  const rows = filter === "all" ? effectiveIncidents : effectiveIncidents.filter((i) => i.status === filter);
+  const selected = effectiveIncidents.find((i) => i.id === selectedId) ?? effectiveIncidents[0];
+
+  const openCount = effectiveIncidents.filter((i) => i.status !== "resolved").length;
+  const critCount = effectiveIncidents.filter((i) => i.severity === "critical" && i.status !== "resolved").length;
+  const agentOwned = Math.round((effectiveIncidents.filter((i) => i.ownerIsAgent).length / effectiveIncidents.length) * 100);
 
   const statusTabs: ReadonlyArray<{ id: StatusFilter; label: string; count?: number }> = [
-    { id: "all", label: "All", count: INCIDENTS.length },
-    { id: "open", label: "Open", count: INCIDENTS.filter((i) => i.status === "open").length },
-    { id: "investigating", label: "Investigating", count: INCIDENTS.filter((i) => i.status === "investigating").length },
-    { id: "contained", label: "Contained", count: INCIDENTS.filter((i) => i.status === "contained").length },
-    { id: "resolved", label: "Resolved", count: INCIDENTS.filter((i) => i.status === "resolved").length },
+    { id: "all", label: "All", count: effectiveIncidents.length },
+    { id: "open", label: "Open", count: effectiveIncidents.filter((i) => i.status === "open").length },
+    { id: "investigating", label: "Investigating", count: effectiveIncidents.filter((i) => i.status === "investigating").length },
+    { id: "contained", label: "Contained", count: effectiveIncidents.filter((i) => i.status === "contained").length },
+    { id: "resolved", label: "Resolved", count: effectiveIncidents.filter((i) => i.status === "resolved").length },
   ];
 
   const columns: ReadonlyArray<Column<Incident>> = [
@@ -125,7 +133,24 @@ export default function Incidents() {
         <section className="min-w-0">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <SegmentedTabs tabs={statusTabs} value={filter} onChange={setFilter} size="sm" />
-            <Button variant="outline" size="sm" icon="filter">Filters</Button>
+            <span className="relative inline-flex">
+              <Button
+                variant="outline"
+                size="sm"
+                icon="filter"
+                onClick={() => {
+                  setFiltersToast(true);
+                  window.setTimeout(() => setFiltersToast(false), 1800);
+                }}
+              >
+                Filters
+              </Button>
+              {filtersToast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                  Advanced filters — sample data only
+                </span>
+              )}
+            </span>
           </div>
           <DataTable
             columns={columns}
@@ -138,7 +163,14 @@ export default function Incidents() {
 
         {/* detail */}
         <section className="min-w-0">
-          {selected.id === INCIDENT_DETAIL.id ? <RichDetail /> : <CompactDetail incident={selected} />}
+          {selected.id === INCIDENT_DETAIL.id ? (
+            <RichDetail />
+          ) : (
+            <CompactDetail
+              incident={selected}
+              onStatusChange={(status) => setStatusOverride((s) => ({ ...s, [selected.id]: status }))}
+            />
+          )}
         </section>
       </div>
     </div>
@@ -149,6 +181,8 @@ export default function Incidents() {
 
 function RichDetail() {
   const d = INCIDENT_DETAIL;
+  const [approved, setApproved] = useState(false);
+  const [reassignToast, setReassignToast] = useState(false);
   return (
     <Card className="space-y-4">
       <div>
@@ -235,8 +269,31 @@ function RichDetail() {
       </div>
 
       <div className="flex items-center gap-2 border-t border-[var(--vnt-border)] pt-3">
-        <Button variant="primary" size="sm" icon="check">Approve response</Button>
-        <Button variant="outline" size="sm" icon="user">Reassign</Button>
+        {approved ? (
+          <Badge tone="up" dot>Response approved</Badge>
+        ) : (
+          <Button variant="primary" size="sm" icon="check" onClick={() => setApproved(true)}>
+            Approve response
+          </Button>
+        )}
+        <span className="relative inline-flex">
+          <Button
+            variant="outline"
+            size="sm"
+            icon="user"
+            onClick={() => {
+              setReassignToast(true);
+              window.setTimeout(() => setReassignToast(false), 1800);
+            }}
+          >
+            Reassign
+          </Button>
+          {reassignToast && (
+            <span className="absolute left-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+              Reassign — sample data only
+            </span>
+          )}
+        </span>
       </div>
     </Card>
   );
@@ -244,7 +301,13 @@ function RichDetail() {
 
 /* -------------------------------------------------------- compact detail --- */
 
-function CompactDetail({ incident }: { incident: Incident }) {
+function CompactDetail({
+  incident,
+  onStatusChange,
+}: {
+  incident: Incident;
+  onStatusChange: (status: IncidentStatus) => void;
+}) {
   const kv: Array<[string, React.ReactNode]> = [
     ["Status", <span key="s" className="capitalize" style={{ color: STATUS_TONE[incident.status] }}>{incident.status}</span>],
     ["Owner", <span key="o" className="inline-flex items-center gap-1"><Icon name={incident.ownerIsAgent ? "robot" : "user"} size={12} /> {incident.owner}</span>],
@@ -280,8 +343,24 @@ function CompactDetail({ incident }: { incident: Incident }) {
       </div>
 
       <div className="flex items-center gap-2 border-t border-[var(--vnt-border)] pt-3">
-        <Button variant="primary" size="sm" icon="play">Open investigation</Button>
-        <Button variant="ghost" size="sm" icon="check">Resolve</Button>
+        {incident.status === "resolved" ? (
+          <Badge tone="up" dot>Resolved</Badge>
+        ) : (
+          <>
+            <Button
+              variant="primary"
+              size="sm"
+              icon="play"
+              disabled={incident.status === "investigating" || incident.status === "contained"}
+              onClick={() => onStatusChange("investigating")}
+            >
+              Open investigation
+            </Button>
+            <Button variant="ghost" size="sm" icon="check" onClick={() => onStatusChange("resolved")}>
+              Resolve
+            </Button>
+          </>
+        )}
       </div>
     </Card>
   );

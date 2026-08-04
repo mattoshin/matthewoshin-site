@@ -29,6 +29,11 @@ export default function CrisisCommand() {
   const [view, setView] = useState<View>("simulate");
   const [selectedId, setSelectedId] = useState(CRISIS_SCENARIOS[0].id);
   const [docType, setDocType] = useState(CRISIS_DOC_TYPES[0]);
+  const [toast, setToast] = useState<string | null>(null);
+  const flash = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1800);
+  };
 
   return (
     <div className="space-y-5">
@@ -91,7 +96,16 @@ export default function CrisisCommand() {
                 );
               })}
             </div>
-            <Button variant="accent" icon="play" className="w-full">Run simulation</Button>
+            <span className="relative block">
+              <Button variant="accent" icon="play" className="w-full" onClick={() => flash("Simulation refreshed — sample data only")}>
+                Run simulation
+              </Button>
+              {toast && (
+                <span className="absolute left-1/2 top-full z-10 mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                  {toast}
+                </span>
+              )}
+            </span>
           </div>
 
           {/* response panel */}
@@ -117,14 +131,21 @@ export default function CrisisCommand() {
 
       {view === "draft" && (
         <div className="space-y-4">
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="relative flex flex-wrap items-center gap-3">
             <SegmentedTabs
               size="sm"
               tabs={CRISIS_DOC_TYPES.map((d) => ({ id: d, label: d }))}
               value={docType}
               onChange={setDocType}
             />
-            <Button variant="ink" icon="sparkles" className="ml-auto">Generate draft</Button>
+            <Button variant="ink" icon="sparkles" className="ml-auto" onClick={() => flash(`Drafted ${docType} — sample data only`)}>
+              Generate draft
+            </Button>
+            {toast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                {toast}
+              </span>
+            )}
           </div>
           <AIBlock
             title={docType}
@@ -132,8 +153,8 @@ export default function CrisisCommand() {
               <div className="flex items-center justify-between">
                 <span>Drafted on-voice and grounded in the {CRISIS_RESPONSE.scenario.toLowerCase()} playbook.</span>
                 <span className="flex items-center gap-2">
-                  <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="copy" size={14} /></button>
-                  <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="download" size={14} /></button>
+                  <button onClick={() => flash("Copied")} className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="copy" size={14} /></button>
+                  <button onClick={() => flash("Download — sample data only")} className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="download" size={14} /></button>
                 </span>
               </div>
             }

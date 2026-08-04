@@ -52,6 +52,7 @@ const THREAT_TONE: Record<typeof POSTURE.threatLevel, string> = {
 export default function VantageConsole() {
   const [active, setActive] = useState<ModuleId>("overview");
   const [drawer, setDrawer] = useState(false);
+  const [bellToast, setBellToast] = useState(false);
 
   // One-time deep-link resolve after mount (reading window during render would
   // diverge from the server default and cause a hydration mismatch).
@@ -122,11 +123,29 @@ export default function VantageConsole() {
           </div>
 
           <div className="ml-auto flex items-center gap-1 md:ml-0">
-            <button className="relative flex h-8 w-8 items-center justify-center rounded-full text-[var(--vnt-muted)] transition-colors hover:bg-[var(--vnt-surface-2)] hover:text-[var(--vnt-ink)]">
-              <Icon name="bell" size={16} />
-              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[var(--vnt-crit)]" />
-            </button>
-            <button className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--vnt-muted)] transition-colors hover:bg-[var(--vnt-surface-2)] hover:text-[var(--vnt-ink)]">
+            <span className="relative">
+              <button
+                onClick={() => {
+                  setBellToast(true);
+                  window.setTimeout(() => setBellToast(false), 1800);
+                }}
+                aria-label="Alerts"
+                className="relative flex h-8 w-8 items-center justify-center rounded-full text-[var(--vnt-muted)] transition-colors hover:bg-[var(--vnt-surface-2)] hover:text-[var(--vnt-ink)]"
+              >
+                <Icon name="bell" size={16} />
+                <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[var(--vnt-crit)]" />
+              </button>
+              {bellToast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                  2 active incidents need review
+                </span>
+              )}
+            </span>
+            <button
+              onClick={() => select("admin")}
+              aria-label="Settings"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--vnt-muted)] transition-colors hover:bg-[var(--vnt-surface-2)] hover:text-[var(--vnt-ink)]"
+            >
               <Icon name="settings" size={16} />
             </button>
           </div>

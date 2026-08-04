@@ -36,6 +36,7 @@ const VALID = new Set<string>(Object.keys(MODULES));
 export default function AtriumConsole() {
   const [active, setActive] = useState<ModuleId>("home");
   const [drawer, setDrawer] = useState(false);
+  const [bellToast, setBellToast] = useState(false);
 
   // One-time deep-link resolve after mount (reading window during render would
   // diverge from the server default and cause a hydration mismatch).
@@ -106,10 +107,24 @@ export default function AtriumConsole() {
                 <Icon name="sparkles" size={13} /> Ask Workplace AI
               </button>
             )}
-            <button className="relative flex h-8 w-8 items-center justify-center rounded-full text-[var(--atr-muted)] transition-colors hover:bg-[var(--atr-surface-2)] hover:text-[var(--atr-ink)]">
-              <Icon name="bell" size={16} />
-              <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-[var(--atr-accent)]" />
-            </button>
+            <span className="relative">
+              <button
+                onClick={() => {
+                  setBellToast(true);
+                  window.setTimeout(() => setBellToast(false), 1800);
+                }}
+                aria-label="Notifications"
+                className="relative flex h-8 w-8 items-center justify-center rounded-full text-[var(--atr-muted)] transition-colors hover:bg-[var(--atr-surface-2)] hover:text-[var(--atr-ink)]"
+              >
+                <Icon name="bell" size={16} />
+                <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-[var(--atr-accent)]" />
+              </button>
+              {bellToast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--atr-border)] bg-[var(--atr-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--atr-ink)] shadow-lg">
+                  3 unread — see your Home feed
+                </span>
+              )}
+            </span>
             <Avatar initials={ATRIUM_USER.initials} size={28} />
           </div>
         </header>

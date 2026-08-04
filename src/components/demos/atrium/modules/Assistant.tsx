@@ -62,8 +62,11 @@ export default function Assistant() {
         {started ? <Conversation go={go} onReset={reset} /> : <Welcome onSeed={seed} />}
       </div>
 
-      {/* composer - pinned at the bottom of the module area, not the viewport */}
-      <div className="sticky bottom-0 mt-4 pt-3">
+      {/* composer - sits below the conversation. (Not position:sticky: the module
+          area here has no bounded-height scroll container of its own, so a sticky
+          bottom-0 would stick to the page viewport instead and overlap short
+          content, e.g. the welcome screen's prompt chips.) */}
+      <div className="relative mt-4 pt-3">
         <GlassCard padded={false} className="flex items-center gap-2 p-2 pl-4">
           <Icon name="sparkles" size={16} className="shrink-0 text-[var(--atr-accent)]" />
           <input

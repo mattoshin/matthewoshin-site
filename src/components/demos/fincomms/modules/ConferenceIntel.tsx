@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ACTIVE_COMPANY } from "@/data/fincomms-demo";
 import { CONFERENCES, CONFERENCE_PREP, SOCIAL_SENTIMENT } from "@/data/fincomms-modules-demo";
 import {
@@ -17,6 +18,7 @@ import {
  * live social-sentiment on the focal company. Static, sample-data showcase.
  */
 export default function ConferenceIntel() {
+  const [toast, setToast] = useState(false);
   const s = SOCIAL_SENTIMENT;
   const total = s.bullish + s.neutral + s.bearish || 1;
   const segs = [
@@ -31,7 +33,26 @@ export default function ConferenceIntel() {
     <div className="space-y-5">
       <CompanyHeader
         company={ACTIVE_COMPANY}
-        right={<Button variant="outline" size="sm" icon="sparkles">Generate prep</Button>}
+        right={
+          <span className="relative inline-flex">
+            <Button
+              variant="outline"
+              size="sm"
+              icon="sparkles"
+              onClick={() => {
+                setToast(true);
+                window.setTimeout(() => setToast(false), 1800);
+              }}
+            >
+              Generate prep
+            </Button>
+            {toast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                Regenerated conference prep — sample data only
+              </span>
+            )}
+          </span>
+        }
       />
 
       {/* conferences + prep */}

@@ -25,7 +25,10 @@ export default function FcSidebar({
 
       {/* ask financial comms */}
       <div className="px-3 pb-2">
-        <button className="flex w-full items-center gap-2 rounded-lg border border-[var(--fc-border)] bg-[var(--fc-card)] px-3 py-2 text-[13px] font-medium text-[var(--fc-muted)] transition-colors hover:border-[var(--fc-border-strong)] hover:text-[var(--fc-ink)]">
+        <button
+          onClick={() => onSelect("ask-firm")}
+          className="flex w-full items-center gap-2 rounded-lg border border-[var(--fc-border)] bg-[var(--fc-card)] px-3 py-2 text-[13px] font-medium text-[var(--fc-muted)] transition-colors hover:border-[var(--fc-border-strong)] hover:text-[var(--fc-ink)]"
+        >
           <Icon name="sparkles" size={15} className="text-[var(--fc-accent)]" />
           Ask Financial Comms
           <span className="ml-auto font-mono text-[10px] text-[var(--fc-faint)]">⌘K</span>

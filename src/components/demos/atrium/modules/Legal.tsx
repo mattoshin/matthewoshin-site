@@ -367,6 +367,8 @@ function PoliciesTab() {
 }
 
 function PolicyCard({ policy }: { policy: LegalPolicy }) {
+  const go = useAtriumNav();
+  const [toast, setToast] = useState(false);
   return (
     <Card hover className="flex h-full flex-col">
       <div className="flex items-start justify-between gap-3">
@@ -380,13 +382,27 @@ function PolicyCard({ policy }: { policy: LegalPolicy }) {
       </div>
       <div className="mt-3 text-[14px] font-semibold text-[var(--atr-ink)]">{policy.title}</div>
       <p className="mt-1 flex-1 text-[12.5px] leading-relaxed text-[var(--atr-muted)]">{policy.summary}</p>
-      <div className="mt-3 flex items-center justify-between border-t border-[var(--atr-border)] pt-2.5">
-        <button className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--atr-accent)] hover:underline">
+      <div className="relative mt-3 flex items-center justify-between border-t border-[var(--atr-border)] pt-2.5">
+        <button
+          onClick={() => {
+            setToast(true);
+            window.setTimeout(() => setToast(false), 1800);
+          }}
+          className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--atr-accent)] hover:underline"
+        >
           Read policy <Icon name="chevron" size={13} />
         </button>
-        <button className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--atr-muted)] hover:text-[var(--atr-ink)]">
+        <button
+          onClick={() => go("assistant")}
+          className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--atr-muted)] hover:text-[var(--atr-ink)]"
+        >
           <Icon name="sparkles" size={12} /> Ask about this
         </button>
+        {toast && (
+          <span className="absolute left-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--atr-border)] bg-[var(--atr-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--atr-ink)] shadow-lg">
+            Full policy — sample data only
+          </span>
+        )}
       </div>
     </Card>
   );

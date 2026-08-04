@@ -55,6 +55,7 @@ const VULN_STATUS_TONE: Record<Vuln["status"], string> = {
 export default function Vulnerabilities() {
   const go = useVantageNav();
   const [filter, setFilter] = useState<SevFilter>("all");
+  const [filtersToast, setFiltersToast] = useState(false);
 
   const openTotal = SEVERITY_ORDER.reduce((sum, s) => sum + (VULN_SEVERITY_COUNTS[s] ?? 0), 0);
   const critHigh = (VULN_SEVERITY_COUNTS.critical ?? 0) + (VULN_SEVERITY_COUNTS.high ?? 0);
@@ -218,7 +219,24 @@ export default function Vulnerabilities() {
       <section className="min-w-0">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <SegmentedTabs tabs={sevTabs} value={filter} onChange={setFilter} size="sm" />
-          <Button variant="outline" size="sm" icon="filter">Filters</Button>
+          <span className="relative inline-flex">
+            <Button
+              variant="outline"
+              size="sm"
+              icon="filter"
+              onClick={() => {
+                setFiltersToast(true);
+                window.setTimeout(() => setFiltersToast(false), 1800);
+              }}
+            >
+              Filters
+            </Button>
+            {filtersToast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                Advanced filters — sample data only
+              </span>
+            )}
+          </span>
         </div>
         <DataTable
           columns={columns}

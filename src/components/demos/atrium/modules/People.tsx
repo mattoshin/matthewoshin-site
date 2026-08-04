@@ -95,6 +95,7 @@ export default function People() {
 /* ----------------------------------------------------------------- time off --- */
 
 function TimeOff() {
+  const [toast, setToast] = useState(false);
   return (
     <div className="space-y-7">
       {/* balances */}
@@ -102,7 +103,25 @@ function TimeOff() {
         <SectionHeading
           title="Time off balance"
           hint="Your accrued days for this year"
-          right={<Button size="sm" icon="plus">Request time off</Button>}
+          right={
+            <span className="relative inline-flex">
+              <Button
+                size="sm"
+                icon="plus"
+                onClick={() => {
+                  setToast(true);
+                  window.setTimeout(() => setToast(false), 1800);
+                }}
+              >
+                Request time off
+              </Button>
+              {toast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--atr-border)] bg-[var(--atr-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--atr-ink)] shadow-lg">
+                  Request form — sample data only
+                </span>
+              )}
+            </span>
+          }
         />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {PTO_BALANCE.map((b) => (

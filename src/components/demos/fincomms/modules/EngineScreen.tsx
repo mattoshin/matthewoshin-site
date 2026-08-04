@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ENGINES, type Engine, type EngineStat } from "@/data/fincomms-engines-demo";
 import type { ModuleId } from "@/data/fincomms-demo";
 import {
@@ -28,6 +29,7 @@ function toneClass(tone?: EngineStat["tone"]) {
 
 export default function EngineScreen({ engine }: { engine: ModuleId }) {
   const e: Engine | undefined = ENGINES[engine];
+  const [toast, setToast] = useState(false);
   if (!e) {
     return (
       <EmptyState
@@ -48,9 +50,24 @@ export default function EngineScreen({ engine }: { engine: ModuleId }) {
               {e.summary}
             </p>
           </div>
-          <Button variant="ink" size="sm" icon="sparkles">
-            {e.cta}
-          </Button>
+          <span className="relative shrink-0">
+            <Button
+              variant="ink"
+              size="sm"
+              icon="sparkles"
+              onClick={() => {
+                setToast(true);
+                window.setTimeout(() => setToast(false), 1800);
+              }}
+            >
+              {e.cta}
+            </Button>
+            {toast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                Regenerated — sample data only
+              </span>
+            )}
+          </span>
         </div>
       </Card>
 

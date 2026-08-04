@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { VANTAGE_NAV, VANTAGE_ACCOUNT, type ModuleId } from "@/data/vantage-demo";
 import { Wordmark, Icon, cx } from "./VantageKit";
 
@@ -16,6 +17,7 @@ export default function VantageSidebar({
   active: ModuleId;
   onSelect: (id: ModuleId) => void;
 }) {
+  const [askToast, setAskToast] = useState(false);
   return (
     <div className="flex h-full flex-col">
       {/* brand */}
@@ -24,12 +26,23 @@ export default function VantageSidebar({
       </div>
 
       {/* command palette */}
-      <div className="px-3 pb-2">
-        <button className="flex w-full items-center gap-2 rounded-full border border-[var(--vnt-border)] bg-[var(--vnt-card)] px-3 py-2 text-[13px] font-medium text-[var(--vnt-muted)] transition-colors hover:border-[var(--vnt-border-strong)] hover:text-[var(--vnt-ink)]">
+      <div className="relative px-3 pb-2">
+        <button
+          onClick={() => {
+            setAskToast(true);
+            window.setTimeout(() => setAskToast(false), 1800);
+          }}
+          className="flex w-full items-center gap-2 rounded-full border border-[var(--vnt-border)] bg-[var(--vnt-card)] px-3 py-2 text-[13px] font-medium text-[var(--vnt-muted)] transition-colors hover:border-[var(--vnt-border-strong)] hover:text-[var(--vnt-ink)]"
+        >
           <Icon name="sparkles" size={15} className="text-[var(--vnt-highlight)]" />
           Ask SecOps Command
           <span className="ml-auto font-mono text-[10px] text-[var(--vnt-faint)]">⌘K</span>
         </button>
+        {askToast && (
+          <span className="absolute left-3 top-full z-10 mt-1 rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+            Command palette — sample data only
+          </span>
+        )}
       </div>
 
       {/* nav */}

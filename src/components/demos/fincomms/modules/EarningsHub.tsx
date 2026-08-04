@@ -43,12 +43,32 @@ const TABS = [
 
 export default function EarningsHub() {
   const [tab, setTab] = useState<Tab>("prep");
+  const [toast, setToast] = useState(false);
 
   return (
     <div className="space-y-5">
       <CompanyHeader
         company={ACTIVE_COMPANY}
-        right={<Button variant="outline" size="sm" icon="refresh">Regenerate</Button>}
+        right={
+          <span className="relative inline-flex">
+            <Button
+              variant="outline"
+              size="sm"
+              icon="refresh"
+              onClick={() => {
+                setToast(true);
+                window.setTimeout(() => setToast(false), 1800);
+              }}
+            >
+              Regenerate
+            </Button>
+            {toast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                Regenerated — sample data only
+              </span>
+            )}
+          </span>
+        }
       />
 
       <UnderlineTabs tabs={TABS} value={tab} onChange={setTab} />
@@ -65,15 +85,25 @@ export default function EarningsHub() {
 /* ---------------------------------------------------------------- prep --- */
 
 function PrepBrief() {
+  const [toast, setToast] = useState<string | null>(null);
+  const flash = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1400);
+  };
   return (
     <AIBlock
       title="Earnings call prep document"
       footer={
         <div className="flex items-center justify-between">
           <span>Grounded in the FY25 10-K, consensus estimates, and 4 peer transcripts.</span>
-          <span className="flex items-center gap-2">
-            <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="copy" size={14} /></button>
-            <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="download" size={14} /></button>
+          <span className="relative flex items-center gap-2">
+            <button onClick={() => flash("Copied")} className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="copy" size={14} /></button>
+            <button onClick={() => flash("Download — sample data only")} className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="download" size={14} /></button>
+            {toast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                {toast}
+              </span>
+            )}
           </span>
         </div>
       }
@@ -115,6 +145,7 @@ function PredictedQA() {
 
 function Simulator() {
   const [mode, setMode] = useState<"standard" | "tough">("tough");
+  const [ended, setEnded] = useState(false);
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-[260px_1fr]">
       {/* config */}
@@ -155,9 +186,13 @@ function Simulator() {
       <Card padded={false} className="flex min-h-[420px] flex-col">
         <div className="flex items-center justify-between border-b border-[var(--fc-border)] px-4 py-2.5">
           <span className="flex items-center gap-2 text-[12px] font-semibold text-[var(--fc-ink)]">
-            <Badge tone="down" dot>Live call</Badge> Q2 FY26 simulation
+            {ended ? <Badge tone="neutral" dot>Call ended</Badge> : <Badge tone="down" dot>Live call</Badge>} Q2 FY26 simulation
           </span>
-          <Button variant="outline" size="sm" icon="close">End call</Button>
+          {!ended && (
+            <Button variant="outline" size="sm" icon="close" onClick={() => setEnded(true)}>
+              End call
+            </Button>
+          )}
         </div>
         <div className="flex-1 space-y-3 overflow-y-auto p-4">
           {SIMULATOR_TRANSCRIPT.map((t, i) => (
@@ -168,10 +203,13 @@ function Simulator() {
               </div>
             </div>
           ))}
+          {ended && (
+            <p className="text-center text-[12px] text-[var(--fc-faint)]">Simulation ended. Start a new one from the top to run it again.</p>
+          )}
         </div>
         <div className="flex items-center gap-2 border-t border-[var(--fc-border)] p-3">
           <input disabled placeholder="Type your response as CFO..." className="flex-1 rounded-lg border border-[var(--fc-border)] bg-[var(--fc-bg)] px-3 py-2 text-[13px] text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none" />
-          <Button variant="accent" size="sm" icon="send">Send</Button>
+          <Button variant="accent" size="sm" icon="send" disabled>Send</Button>
         </div>
       </Card>
     </div>

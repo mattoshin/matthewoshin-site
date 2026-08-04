@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   OPERATORS,
   API_KEYS,
@@ -61,6 +62,7 @@ function spendPct(spent: string, cap: string): number {
 }
 
 export default function Admin() {
+  const [exportToast, setExportToast] = useState(false);
   const onlineConnectors = CONNECTORS.filter((c) => c.status === "online").length;
   const keysToRotate = API_KEYS.filter((k) => k.status !== "active").length;
   const mfaCovered = OPERATORS.filter((o) => o.mfa).length;
@@ -286,7 +288,26 @@ export default function Admin() {
         <SectionHeading
           title="Audit log"
           hint="Append-only · every operator and agent action."
-          right={<Button variant="outline" size="sm" icon="download">Export</Button>}
+          right={
+            <span className="relative inline-flex">
+              <Button
+                variant="outline"
+                size="sm"
+                icon="download"
+                onClick={() => {
+                  setExportToast(true);
+                  window.setTimeout(() => setExportToast(false), 1800);
+                }}
+              >
+                Export
+              </Button>
+              {exportToast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                  Export — sample data only
+                </span>
+              )}
+            </span>
+          }
         />
         <Card padded={false}>
           <ul>

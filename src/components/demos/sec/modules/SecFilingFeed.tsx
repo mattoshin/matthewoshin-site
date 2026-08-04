@@ -19,6 +19,7 @@ import {
   type FormType,
   type Severity,
 } from "../SecKit";
+import { useSecNav } from "../console-context";
 
 /**
  * SecFilingFeed - the signature filing feed. A live, AI-graded stream of every
@@ -157,6 +158,8 @@ function FilingRow({
 
 function FilingReader({ filing }: { filing: SecFiling }) {
   const citation = filing.item ? `${filing.form} · ${filing.item}` : filing.form;
+  const go = useSecNav();
+  const [edgarToast, setEdgarToast] = useState(false);
   return (
     <div className="space-y-4 border-t border-[var(--sec-border)] bg-[var(--sec-recessed)] px-4 py-4">
       {/* AI read */}
@@ -206,12 +209,27 @@ function FilingReader({ filing }: { filing: SecFiling }) {
           <span className="font-mono text-[11px] tabular-nums text-[var(--sec-faint)]">{filing.pages}p</span>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" icon="bell">
+          <Button variant="outline" size="sm" icon="bell" onClick={() => go("alerts")}>
             Route an alert
           </Button>
-          <Button variant="accent" size="sm" icon="external">
-            Open on EDGAR
-          </Button>
+          <span className="relative inline-flex">
+            <Button
+              variant="accent"
+              size="sm"
+              icon="external"
+              onClick={() => {
+                setEdgarToast(true);
+                window.setTimeout(() => setEdgarToast(false), 1800);
+              }}
+            >
+              Open on EDGAR
+            </Button>
+            {edgarToast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--sec-border-strong)] bg-[var(--sec-elevated)] px-2.5 py-1 text-[11px] font-medium text-[var(--sec-ink)] shadow-sm">
+                Sample filing — not on EDGAR
+              </span>
+            )}
+          </span>
         </div>
       </div>
     </div>

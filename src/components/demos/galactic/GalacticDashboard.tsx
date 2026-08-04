@@ -522,6 +522,8 @@ function BrandingScreen() {
 }
 
 function BillingScreen() {
+  const [plan, setPlan] = useState<string>(GALACTIC_ACCOUNT.plan);
+  const [toast, setToast] = useState<string | null>(null);
   const usage = [
     { label: "Alerts this month", used: 142_300, cap: 250_000 },
     { label: "Channels", used: 9, cap: 999 },
@@ -543,7 +545,7 @@ function BillingScreen() {
 
       <div className="grid gap-5 lg:grid-cols-3">
         {GALACTIC_PLANS.map((p) => {
-          const current = p.name === GALACTIC_ACCOUNT.plan;
+          const current = p.name === plan;
           return (
             <div key={p.name} className="relative flex flex-col rounded-2xl border p-6" style={{ borderColor: current ? TEAL : BORDER, background: PANEL }}>
               {current && <span className="absolute -top-3 left-6 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#04140f]" style={{ background: TEAL }}>Current plan</span>}
@@ -559,13 +561,28 @@ function BillingScreen() {
                   </li>
                 ))}
               </ul>
-              <button className="mt-5 rounded-lg px-4 py-2 text-sm font-semibold transition-colors" style={current ? { border: `1px solid ${BORDER}`, color: "var(--g-muted)" } : { background: TEAL, color: "#04140f" }}>
+              <button
+                onClick={() => {
+                  if (current) {
+                    setToast("Opening billing portal — sample data only");
+                  } else {
+                    setPlan(p.name);
+                    setToast(`Switched to ${p.name}`);
+                  }
+                  window.setTimeout(() => setToast(null), 2000);
+                }}
+                className="mt-5 rounded-lg px-4 py-2 text-sm font-semibold transition-colors"
+                style={current ? { border: `1px solid ${BORDER}`, color: "var(--g-muted)" } : { background: TEAL, color: "#04140f" }}
+              >
                 {current ? "Manage plan" : `Switch to ${p.name}`}
               </button>
             </div>
           );
         })}
       </div>
+      {toast && (
+        <p className="text-center text-sm" style={{ color: TEAL }}>{toast}</p>
+      )}
     </div>
   );
 }

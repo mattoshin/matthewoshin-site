@@ -94,7 +94,7 @@ export default function ItHub() {
             Self-service help that resolves most issues instantly. Tickets, devices, access, and status in one place.
           </p>
         </div>
-        <Button variant="outline" size="sm" icon="refresh">
+        <Button variant="outline" size="sm" icon="refresh" onClick={() => setTab("tickets")}>
           New ticket
         </Button>
       </div>
@@ -138,6 +138,7 @@ export default function ItHub() {
 function GetHelpTab({ onTicket }: { onTicket: () => void }) {
   const [query, setQuery] = useState(IT_DEFLECTION_QUERY);
   const [searched, setSearched] = useState(true);
+  const [feedback, setFeedback] = useState<"fixed" | "not-fixed" | null>(null);
 
   const top = IT_DEFLECTION_ANSWERS.find((a) => a.resolves) ?? IT_DEFLECTION_ANSWERS[0];
   const rest = IT_DEFLECTION_ANSWERS.filter((a) => a !== top);
@@ -181,15 +182,21 @@ function GetHelpTab({ onTicket }: { onTicket: () => void }) {
           >
             <p className="font-semibold text-[var(--atr-ink)]">{top.title}</p>
             <p className="mt-1">{top.body}</p>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <Button size="sm" icon="check">
-                This fixed it
-              </Button>
-              <Button size="sm" variant="outline">
-                Didn&apos;t work
-              </Button>
-              <span className="ml-1 text-[12px] text-[var(--atr-faint)]">{top.helpful} found this helpful</span>
-            </div>
+            {feedback ? (
+              <p className="mt-3 text-[12.5px] font-medium text-[var(--atr-accent)]">
+                {feedback === "fixed" ? "Marked as resolved. Glad that fixed it." : "Thanks — try one of the other fixes below."}
+              </p>
+            ) : (
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <Button size="sm" icon="check" onClick={() => setFeedback("fixed")}>
+                  This fixed it
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => setFeedback("not-fixed")}>
+                  Didn&apos;t work
+                </Button>
+                <span className="ml-1 text-[12px] text-[var(--atr-faint)]">{top.helpful} found this helpful</span>
+              </div>
+            )}
           </AIBlock>
 
           {/* other answers */}
@@ -260,21 +267,35 @@ function AnswerCard({ answer }: { answer: DeflectionAnswer }) {
 }
 
 function KBCard({ article }: { article: KBArticle }) {
+  const [toast, setToast] = useState(false);
   return (
-    <button className="text-left">
-      <GlassCard hover className="flex h-full flex-col gap-2 p-4">
-        <div className="flex items-start justify-between gap-2">
-          <Badge tone="neutral">{article.category}</Badge>
-          <span className="font-mono text-[11px] text-[var(--atr-faint)]">{article.readMins} min</span>
-        </div>
-        <p className="text-[13px] font-semibold leading-snug text-[var(--atr-ink)]">{article.title}</p>
-        <div className="mt-auto flex items-center gap-1.5 pt-1 text-[11px] text-[var(--atr-faint)]">
-          <Icon name="heart" size={12} className="text-[var(--atr-accent)]" />
-          {article.helpful} helpful
-          <Icon name="arrowRight" size={13} className="ml-auto text-[var(--atr-faint)]" />
-        </div>
-      </GlassCard>
-    </button>
+    <span className="relative block">
+      <button
+        onClick={() => {
+          setToast(true);
+          window.setTimeout(() => setToast(false), 1800);
+        }}
+        className="w-full text-left"
+      >
+        <GlassCard hover className="flex h-full flex-col gap-2 p-4">
+          <div className="flex items-start justify-between gap-2">
+            <Badge tone="neutral">{article.category}</Badge>
+            <span className="font-mono text-[11px] text-[var(--atr-faint)]">{article.readMins} min</span>
+          </div>
+          <p className="text-[13px] font-semibold leading-snug text-[var(--atr-ink)]">{article.title}</p>
+          <div className="mt-auto flex items-center gap-1.5 pt-1 text-[11px] text-[var(--atr-faint)]">
+            <Icon name="heart" size={12} className="text-[var(--atr-accent)]" />
+            {article.helpful} helpful
+            <Icon name="arrowRight" size={13} className="ml-auto text-[var(--atr-faint)]" />
+          </div>
+        </GlassCard>
+      </button>
+      {toast && (
+        <span className="absolute left-1/2 top-full z-10 mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md border border-[var(--atr-border)] bg-[var(--atr-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--atr-ink)] shadow-lg">
+          Article — sample data only
+        </span>
+      )}
+    </span>
   );
 }
 
