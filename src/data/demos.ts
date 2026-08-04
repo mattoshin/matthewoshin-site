@@ -96,7 +96,7 @@ export const DEMOS: DemoCard[] = [
   },
   {
     slug: "riptide",
-    name: "Riptide Research",
+    name: "Options-Implied Distribution Terminal",
     tagline:
       "Agentic equity-research terminal. Research in distributions: the options market's implied distribution versus your own models, scanned for gaps and graded over time.",
     era: "Current build, live",
