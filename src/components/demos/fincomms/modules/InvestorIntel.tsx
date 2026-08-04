@@ -117,33 +117,45 @@ function Shareholders() {
 /* --------------------------------------------------------------- match --- */
 
 function Match() {
+  const [added, setAdded] = useState<Set<string>>(new Set());
   return (
     <div className="space-y-3">
       <AIBlock tag="Targeting">
         AI-matched investor targets for {ACTIVE_COMPANY.ticker}, ranked by fit.
       </AIBlock>
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-        {INVESTOR_MATCH.map((m) => (
-          <Card key={m.name}>
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <div className="text-[13.5px] font-semibold text-[var(--fc-ink)]">{m.name}</div>
-                <div className="mt-1"><Badge tone="neutral">{m.style}</Badge></div>
+        {INVESTOR_MATCH.map((m) => {
+          const isAdded = added.has(m.name);
+          return (
+            <Card key={m.name}>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-[13.5px] font-semibold text-[var(--fc-ink)]">{m.name}</div>
+                  <div className="mt-1"><Badge tone="neutral">{m.style}</Badge></div>
+                </div>
+                <span className="font-mono text-[15px] font-semibold tabular-nums text-[var(--fc-accent)]">{m.fit}</span>
               </div>
-              <span className="font-mono text-[15px] font-semibold tabular-nums text-[var(--fc-accent)]">{m.fit}</span>
-            </div>
-            <div className="mt-2.5 flex items-center gap-2">
-              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--fc-surface-2)]">
-                <span className="block h-full rounded-full bg-[var(--fc-accent)]" style={{ width: `${m.fit}%` }} />
+              <div className="mt-2.5 flex items-center gap-2">
+                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--fc-surface-2)]">
+                  <span className="block h-full rounded-full bg-[var(--fc-accent)]" style={{ width: `${m.fit}%` }} />
+                </div>
+                <span className="text-[11px] text-[var(--fc-muted)]">fit</span>
               </div>
-              <span className="text-[11px] text-[var(--fc-muted)]">fit</span>
-            </div>
-            <p className="mt-3 text-[13px] leading-relaxed text-[var(--fc-ink-2)]">{m.thesis}</p>
-            <div className="mt-3">
-              <Button variant="outline" size="sm">Add to roadshow</Button>
-            </div>
-          </Card>
-        ))}
+              <p className="mt-3 text-[13px] leading-relaxed text-[var(--fc-ink-2)]">{m.thesis}</p>
+              <div className="mt-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  icon={isAdded ? "check" : undefined}
+                  disabled={isAdded}
+                  onClick={() => setAdded((s) => new Set(s).add(m.name))}
+                >
+                  {isAdded ? "Added to roadshow" : "Add to roadshow"}
+                </Button>
+              </div>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );

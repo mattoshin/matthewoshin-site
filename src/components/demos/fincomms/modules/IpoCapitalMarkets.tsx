@@ -34,6 +34,11 @@ const STATUS_META: Record<ReadinessStatus, { icon: IconName; color: string }> = 
 
 export default function IpoCapitalMarkets() {
   const [view, setView] = useState<View>("readiness");
+  const [toast, setToast] = useState<string | null>(null);
+  const flash = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1800);
+  };
 
   return (
     <div className="space-y-6">
@@ -104,7 +109,7 @@ export default function IpoCapitalMarkets() {
               rows={5}
               className="mt-2 w-full resize-none rounded-lg border border-[var(--fc-border)] bg-[var(--fc-bg)] px-3 py-2 text-[13px] leading-relaxed text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none"
             />
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+            <div className="relative mt-3 flex flex-wrap items-center gap-2">
               <div className="flex flex-1 items-center gap-1.5 rounded-lg border border-[var(--fc-border)] bg-[var(--fc-bg)] px-3 py-2">
                 <Icon name="search" size={14} className="shrink-0 text-[var(--fc-faint)]" />
                 <input
@@ -113,8 +118,17 @@ export default function IpoCapitalMarkets() {
                   className="w-full bg-transparent text-[13px] text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none"
                 />
               </div>
-              <Button variant="outline" size="sm" icon="download">Load filing</Button>
-              <Button variant="ink" size="sm" icon="sparkles">Analyze</Button>
+              <Button variant="outline" size="sm" icon="download" onClick={() => flash("Load filing — sample data only")}>
+                Load filing
+              </Button>
+              <Button variant="ink" size="sm" icon="sparkles" onClick={() => flash("Re-analyzed — sample data only")}>
+                Analyze
+              </Button>
+              {toast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                  {toast}
+                </span>
+              )}
             </div>
           </Card>
 

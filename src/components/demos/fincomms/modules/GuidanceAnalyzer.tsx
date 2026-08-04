@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { ACTIVE_COMPANY } from "@/data/fincomms-demo";
 import {
   GUIDANCE_SCENARIOS,
@@ -38,11 +41,31 @@ const QUARTILE_TONE: Record<GuidancePeer["quartile"], Tone> = {
 };
 
 export default function GuidanceAnalyzer() {
+  const [toast, setToast] = useState(false);
   return (
     <div className="space-y-7">
       <CompanyHeader
         company={ACTIVE_COMPANY}
-        right={<Button variant="outline" size="sm" icon="refresh">Regenerate</Button>}
+        right={
+          <span className="relative inline-flex">
+            <Button
+              variant="outline"
+              size="sm"
+              icon="refresh"
+              onClick={() => {
+                setToast(true);
+                window.setTimeout(() => setToast(false), 1800);
+              }}
+            >
+              Regenerate
+            </Button>
+            {toast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                Regenerated — sample data only
+              </span>
+            )}
+          </span>
+        }
       />
 
       {/* scenarios */}

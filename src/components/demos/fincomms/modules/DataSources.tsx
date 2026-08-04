@@ -32,6 +32,11 @@ const CATEGORIES = Array.from(new Set(DATA_SOURCES.map((s) => s.category)));
 
 export default function DataSources() {
   const [filter, setFilter] = useState<string>("All");
+  const [toast, setToast] = useState<string | null>(null);
+  const flash = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1800);
+  };
   const sources =
     filter === "All" ? DATA_SOURCES : DATA_SOURCES.filter((s) => s.category === filter);
 
@@ -57,8 +62,17 @@ export default function DataSources() {
             <Icon name="sparkles" size={14} />
           </span>
         </div>
-        <Button variant="outline" icon="plus">Request a source</Button>
-        <Button variant="ink">Add integration</Button>
+        <span className="relative inline-flex">
+          <Button variant="outline" icon="plus" onClick={() => flash("Request submitted — sample data only")}>
+            Request a source
+          </Button>
+          {toast && (
+            <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+              {toast}
+            </span>
+          )}
+        </span>
+        <Button variant="ink" onClick={() => flash("Add integration — sample data only")}>Add integration</Button>
       </div>
 
       {/* category filter */}

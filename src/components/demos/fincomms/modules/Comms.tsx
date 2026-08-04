@@ -45,6 +45,11 @@ export default function Comms() {
 
 function PressRelease() {
   const [selectedId, setSelectedId] = useState<string>("earnings");
+  const [toast, setToast] = useState<string | null>(null);
+  const flash = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1800);
+  };
 
   return (
     <div className="space-y-5">
@@ -94,8 +99,15 @@ function PressRelease() {
           rows={3}
           className="mt-2 w-full resize-none rounded-lg border border-[var(--fc-border)] bg-[var(--fc-bg)] px-3 py-2 text-[13px] text-[var(--fc-muted)] placeholder:text-[var(--fc-faint)] focus:outline-none"
         />
-        <div className="mt-3 flex justify-end">
-          <Button variant="accent" icon="sparkles">Generate press release</Button>
+        <div className="relative mt-3 flex justify-end">
+          <Button variant="accent" icon="sparkles" onClick={() => flash("Regenerated from the selected template — sample data only")}>
+            Generate press release
+          </Button>
+          {toast && (
+            <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+              {toast}
+            </span>
+          )}
         </div>
       </Card>
 
@@ -104,10 +116,7 @@ function PressRelease() {
         footer={
           <div className="flex items-center justify-between">
             <span>Drafted on-voice from the earnings-release template and FY26 guidance.</span>
-            <span className="flex items-center gap-2">
-              <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="copy" size={14} /></button>
-              <button className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="download" size={14} /></button>
-            </span>
+            <DraftActions />
           </div>
         }
       >
@@ -117,9 +126,36 @@ function PressRelease() {
   );
 }
 
+function DraftActions() {
+  const [toast, setToast] = useState<string | null>(null);
+  const flash = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1400);
+  };
+  return (
+    <span className="relative flex items-center gap-2">
+      <button onClick={() => flash("Copied")} className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="copy" size={14} /></button>
+      <button onClick={() => flash("Download — sample data only")} className="rounded p-1 hover:bg-[var(--fc-surface-2)]"><Icon name="download" size={14} /></button>
+      {toast && (
+        <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+          {toast}
+        </span>
+      )}
+    </span>
+  );
+}
+
 /* --------------------------------------------------------- narrative check --- */
 
 function NarrativeChecker() {
+  const [removed, setRemoved] = useState<Set<string>>(new Set());
+  const [toast, setToast] = useState<string | null>(null);
+  const flash = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1800);
+  };
+  const docs = NARRATIVE_DOCS.filter((d) => !removed.has(d.name));
+
   return (
     <div className="space-y-5">
       <section>
@@ -128,23 +164,36 @@ function NarrativeChecker() {
           hint="Financial Comms checks these for a consistent message, numbers, and tone."
         />
         <div className="space-y-3">
-          {NARRATIVE_DOCS.map((d) => (
+          {docs.map((d) => (
             <Card key={d.name}>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="text-[13px] font-semibold text-[var(--fc-ink)]">{d.name}</div>
                   <p className="mt-1 truncate text-[12px] text-[var(--fc-muted)]">{d.excerpt}</p>
                 </div>
-                <button className="shrink-0 rounded p-1 text-[var(--fc-faint)] hover:bg-[var(--fc-surface-2)] hover:text-[var(--fc-ink)]">
+                <button
+                  onClick={() => setRemoved((r) => new Set(r).add(d.name))}
+                  aria-label={`Remove ${d.name}`}
+                  className="shrink-0 rounded p-1 text-[var(--fc-faint)] hover:bg-[var(--fc-surface-2)] hover:text-[var(--fc-ink)]"
+                >
                   <Icon name="close" size={15} />
                 </button>
               </div>
             </Card>
           ))}
         </div>
-        <div className="mt-3 flex items-center gap-2">
-          <Button variant="outline" icon="plus">Add document</Button>
-          <Button variant="ink">Check narrative consistency</Button>
+        <div className="relative mt-3 flex items-center gap-2">
+          <Button variant="outline" icon="plus" onClick={() => flash("Add document — sample data only")}>
+            Add document
+          </Button>
+          <Button variant="ink" onClick={() => flash("Consistency check queued — sample data only")}>
+            Check narrative consistency
+          </Button>
+          {toast && (
+            <span className="absolute left-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+              {toast}
+            </span>
+          )}
         </div>
       </section>
 
