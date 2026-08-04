@@ -55,6 +55,7 @@ const COLUMNS: ReadonlyArray<Column<Resource>> = [
 
 export default function Resources() {
   const [category, setCategory] = useState<Resource["category"] | "All">("All");
+  const [uploadToast, setUploadToast] = useState(false);
 
   const rows = category === "All" ? RESOURCES : RESOURCES.filter((r) => r.category === category);
 
@@ -64,7 +65,24 @@ export default function Resources() {
         title="Resources"
         hint="Decks, models, filings, and templates for your clients."
         right={
-          <Button variant="ink" size="sm" icon="plus">Upload</Button>
+          <span className="relative inline-flex">
+            <Button
+              variant="ink"
+              size="sm"
+              icon="plus"
+              onClick={() => {
+                setUploadToast(true);
+                window.setTimeout(() => setUploadToast(false), 1800);
+              }}
+            >
+              Upload
+            </Button>
+            {uploadToast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                Upload — sample data only
+              </span>
+            )}
+          </span>
         }
       />
 
