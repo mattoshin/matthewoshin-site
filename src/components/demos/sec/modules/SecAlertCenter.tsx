@@ -165,6 +165,7 @@ function Router({ matrix, onToggle }: { matrix: Record<string, Channel[]>; onTog
 /* ---------------------------------------------------------------- rules --- */
 
 function Rules({ ruleOn, onToggle }: { ruleOn: Record<string, boolean>; onToggle: (id: string) => void }) {
+  const [newRuleToast, setNewRuleToast] = useState(false);
   return (
     <div className="space-y-3">
       <SectionHeading title="Alert rules" hint="Each rule maps a filing pattern to a set of channels. Set them once; the terminal runs them." />
@@ -204,9 +205,22 @@ function Rules({ ruleOn, onToggle }: { ruleOn: Record<string, boolean>; onToggle
           </Card>
         );
       })}
-      <button className="flex w-full items-center justify-center gap-1.5 rounded-[12px] border border-dashed border-[var(--sec-border-strong)] py-3 text-[13px] font-medium text-[var(--sec-muted)] transition-colors hover:border-[var(--sec-accent)] hover:text-[var(--sec-accent)]">
-        <Icon name="plus" size={15} /> New rule
-      </button>
+      <span className="relative block">
+        <button
+          onClick={() => {
+            setNewRuleToast(true);
+            window.setTimeout(() => setNewRuleToast(false), 1800);
+          }}
+          className="flex w-full items-center justify-center gap-1.5 rounded-[12px] border border-dashed border-[var(--sec-border-strong)] py-3 text-[13px] font-medium text-[var(--sec-muted)] transition-colors hover:border-[var(--sec-accent)] hover:text-[var(--sec-accent)]"
+        >
+          <Icon name="plus" size={15} /> New rule
+        </button>
+        {newRuleToast && (
+          <span className="absolute left-1/2 top-full z-10 mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md border border-[var(--sec-border-strong)] bg-[var(--sec-elevated)] px-2.5 py-1 text-[11px] font-medium text-[var(--sec-ink)] shadow-sm">
+            Rule builder — sample data only
+          </span>
+        )}
+      </span>
     </div>
   );
 }
