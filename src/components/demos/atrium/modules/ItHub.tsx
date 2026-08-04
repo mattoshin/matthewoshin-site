@@ -94,7 +94,7 @@ export default function ItHub() {
             Self-service help that resolves most issues instantly. Tickets, devices, access, and status in one place.
           </p>
         </div>
-        <Button variant="outline" size="sm" icon="refresh">
+        <Button variant="outline" size="sm" icon="refresh" onClick={() => setTab("tickets")}>
           New ticket
         </Button>
       </div>
