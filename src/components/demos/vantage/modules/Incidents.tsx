@@ -44,20 +44,27 @@ export default function Incidents() {
   const [filter, setFilter] = useState<StatusFilter>("all");
   const [selectedId, setSelectedId] = useState<string>(INCIDENT_DETAIL.id);
   const [filtersToast, setFiltersToast] = useState(false);
+  // Local status overrides so "Open investigation" / "Resolve" in the compact
+  // detail panel visibly move an incident, without mutating the sample data.
+  const [statusOverride, setStatusOverride] = useState<Record<string, IncidentStatus>>({});
 
-  const rows = filter === "all" ? INCIDENTS : INCIDENTS.filter((i) => i.status === filter);
-  const selected = INCIDENTS.find((i) => i.id === selectedId) ?? INCIDENTS[0];
+  const effectiveIncidents = INCIDENTS.map((i) =>
+    statusOverride[i.id] ? { ...i, status: statusOverride[i.id] } : i,
+  );
 
-  const openCount = INCIDENTS.filter((i) => i.status !== "resolved").length;
-  const critCount = INCIDENTS.filter((i) => i.severity === "critical" && i.status !== "resolved").length;
-  const agentOwned = Math.round((INCIDENTS.filter((i) => i.ownerIsAgent).length / INCIDENTS.length) * 100);
+  const rows = filter === "all" ? effectiveIncidents : effectiveIncidents.filter((i) => i.status === filter);
+  const selected = effectiveIncidents.find((i) => i.id === selectedId) ?? effectiveIncidents[0];
+
+  const openCount = effectiveIncidents.filter((i) => i.status !== "resolved").length;
+  const critCount = effectiveIncidents.filter((i) => i.severity === "critical" && i.status !== "resolved").length;
+  const agentOwned = Math.round((effectiveIncidents.filter((i) => i.ownerIsAgent).length / effectiveIncidents.length) * 100);
 
   const statusTabs: ReadonlyArray<{ id: StatusFilter; label: string; count?: number }> = [
-    { id: "all", label: "All", count: INCIDENTS.length },
-    { id: "open", label: "Open", count: INCIDENTS.filter((i) => i.status === "open").length },
-    { id: "investigating", label: "Investigating", count: INCIDENTS.filter((i) => i.status === "investigating").length },
-    { id: "contained", label: "Contained", count: INCIDENTS.filter((i) => i.status === "contained").length },
-    { id: "resolved", label: "Resolved", count: INCIDENTS.filter((i) => i.status === "resolved").length },
+    { id: "all", label: "All", count: effectiveIncidents.length },
+    { id: "open", label: "Open", count: effectiveIncidents.filter((i) => i.status === "open").length },
+    { id: "investigating", label: "Investigating", count: effectiveIncidents.filter((i) => i.status === "investigating").length },
+    { id: "contained", label: "Contained", count: effectiveIncidents.filter((i) => i.status === "contained").length },
+    { id: "resolved", label: "Resolved", count: effectiveIncidents.filter((i) => i.status === "resolved").length },
   ];
 
   const columns: ReadonlyArray<Column<Incident>> = [
@@ -156,7 +163,14 @@ export default function Incidents() {
 
         {/* detail */}
         <section className="min-w-0">
-          {selected.id === INCIDENT_DETAIL.id ? <RichDetail /> : <CompactDetail incident={selected} />}
+          {selected.id === INCIDENT_DETAIL.id ? (
+            <RichDetail />
+          ) : (
+            <CompactDetail
+              incident={selected}
+              onStatusChange={(status) => setStatusOverride((s) => ({ ...s, [selected.id]: status }))}
+            />
+          )}
         </section>
       </div>
     </div>
@@ -287,7 +301,13 @@ function RichDetail() {
 
 /* -------------------------------------------------------- compact detail --- */
 
-function CompactDetail({ incident }: { incident: Incident }) {
+function CompactDetail({
+  incident,
+  onStatusChange,
+}: {
+  incident: Incident;
+  onStatusChange: (status: IncidentStatus) => void;
+}) {
   const kv: Array<[string, React.ReactNode]> = [
     ["Status", <span key="s" className="capitalize" style={{ color: STATUS_TONE[incident.status] }}>{incident.status}</span>],
     ["Owner", <span key="o" className="inline-flex items-center gap-1"><Icon name={incident.ownerIsAgent ? "robot" : "user"} size={12} /> {incident.owner}</span>],
@@ -323,8 +343,24 @@ function CompactDetail({ incident }: { incident: Incident }) {
       </div>
 
       <div className="flex items-center gap-2 border-t border-[var(--vnt-border)] pt-3">
-        <Button variant="primary" size="sm" icon="play">Open investigation</Button>
-        <Button variant="ghost" size="sm" icon="check">Resolve</Button>
+        {incident.status === "resolved" ? (
+          <Badge tone="up" dot>Resolved</Badge>
+        ) : (
+          <>
+            <Button
+              variant="primary"
+              size="sm"
+              icon="play"
+              disabled={incident.status === "investigating" || incident.status === "contained"}
+              onClick={() => onStatusChange("investigating")}
+            >
+              Open investigation
+            </Button>
+            <Button variant="ghost" size="sm" icon="check" onClick={() => onStatusChange("resolved")}>
+              Resolve
+            </Button>
+          </>
+        )}
       </div>
     </Card>
   );
