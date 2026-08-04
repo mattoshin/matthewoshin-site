@@ -51,6 +51,7 @@ const VALID = new Set<string>(Object.keys(MODULE_LABELS));
 export default function FcConsole() {
   const [active, setActive] = useState<ModuleId>("dashboard");
   const [drawer, setDrawer] = useState(false);
+  const [bellToast, setBellToast] = useState(false);
 
   // One-time deep-link resolve after mount (reading window during render would
   // diverge from the server default and cause a hydration mismatch).
@@ -118,8 +119,22 @@ export default function FcConsole() {
           </div>
 
           <div className="ml-auto flex items-center gap-1 md:ml-0">
-            <IconButton name="bell" />
-            <IconButton name="settings" />
+            <span className="relative">
+              <IconButton
+                name="bell"
+                label="Notifications"
+                onClick={() => {
+                  setBellToast(true);
+                  window.setTimeout(() => setBellToast(false), 1800);
+                }}
+              />
+              {bellToast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                  No new notifications
+                </span>
+              )}
+            </span>
+            <IconButton name="settings" label="Settings" onClick={() => select("admin")} />
           </div>
         </header>
 
@@ -136,9 +151,21 @@ export default function FcConsole() {
   );
 }
 
-function IconButton({ name }: { name: Parameters<typeof Icon>[0]["name"] }) {
+function IconButton({
+  name,
+  label,
+  onClick,
+}: {
+  name: Parameters<typeof Icon>[0]["name"];
+  label: string;
+  onClick?: () => void;
+}) {
   return (
-    <button className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--fc-muted)] transition-colors hover:bg-[var(--fc-surface-2)] hover:text-[var(--fc-ink)]">
+    <button
+      onClick={onClick}
+      aria-label={label}
+      className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--fc-muted)] transition-colors hover:bg-[var(--fc-surface-2)] hover:text-[var(--fc-ink)]"
+    >
       <Icon name={name} size={16} />
     </button>
   );
