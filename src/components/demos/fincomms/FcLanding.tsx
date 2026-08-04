@@ -7,8 +7,22 @@ import {
   FINCOMMS_STEPS,
   FINCOMMS_FACTS,
   FINCOMMS_STACK,
+  type ModuleId,
 } from "@/data/fincomms-demo";
 import { Wordmark, Icon, cx } from "./FcKit";
+
+/** FINCOMMS_MODULES shows granular capabilities (e.g. Media Monitoring),
+ *  several of which now live as a tab inside a Coverage workspace rather
+ *  than as their own top-level nav item. Route each card's `?module=` deep
+ *  link at its top-level parent so every card still opens the console
+ *  correctly; landing on the parent's default Overview tab is expected. */
+const MODULE_LINK_TARGET: Partial<Record<ModuleId, ModuleId>> = {
+  "media-monitoring": "comms",
+  newsjacking: "comms",
+  "earnings-prep": "earnings",
+  "shareholder-match": "investor",
+  "roadshow-twin": "ipo",
+};
 
 /**
  * FcLanding - a faithful recreation of the Financial Communications Platform's
@@ -124,12 +138,12 @@ export default function FcLanding() {
       {/* modules */}
       <section id="modules" className="mx-auto max-w-6xl px-5 py-4 sm:px-8">
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fc-accent)]">The platform</p>
-        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--fc-ink)] sm:text-3xl">Twenty-six modules, one workspace.</h2>
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--fc-ink)] sm:text-3xl">Eight core workspaces, one console.</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {FINCOMMS_MODULES.map((m) => (
             <Link
               key={m.id}
-              href={`${DASH}?module=${m.id}`}
+              href={`${DASH}?module=${MODULE_LINK_TARGET[m.id] ?? m.id}`}
               className="group rounded-[10px] border border-[var(--fc-border)] bg-[var(--fc-card)] p-5 transition-colors hover:border-[var(--fc-border-strong)]"
             >
               <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--fc-accent-wash)] text-[var(--fc-accent)]">
