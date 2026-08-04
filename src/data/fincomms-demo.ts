@@ -73,7 +73,7 @@ export const ACTIVE_COMPANY: CompanyCtx = {
 export const FINCOMMS_PLATFORM = {
   clients: 14,
   briefsGenerated: 2840,
-  modules: 26,
+  modules: 8,
   dataSources: 14,
   hoursSavedWeekly: 32,
   scenariosRun: 410,
@@ -116,77 +116,44 @@ export const FINCOMMS_NAV: readonly NavSection[] = [
   {
     label: "Overview",
     color: "var(--fc-sec-overview)",
-    items: [
-      { id: "dashboard", label: "Dashboard", icon: "dashboard" },
-      { id: "data-sources", label: "Data Sources", icon: "database" },
-    ],
+    items: [{ id: "dashboard", label: "Dashboard", icon: "dashboard" }],
   },
   {
-    label: "Earnings & IR",
-    color: "var(--fc-sec-earnings)",
-    items: [
-      { id: "earnings", label: "Earnings Hub", icon: "barchart" },
-      { id: "earnings-prep", label: "Earnings Prep", icon: "bolt" },
-      { id: "guidance", label: "Guidance Analyzer", icon: "compass" },
-    ],
-  },
-  {
-    label: "Investor Intelligence",
-    color: "var(--fc-sec-intel)",
-    items: [
-      { id: "investor", label: "Investor Intel", icon: "target" },
-      { id: "shareholder-match", label: "Shareholder Matching", icon: "users" },
-      { id: "surveillance", label: "Stock Surveillance", icon: "search" },
-      { id: "peers", label: "Peer Intel", icon: "users" },
-      { id: "conference", label: "Conference Intel", icon: "calendar" },
-    ],
-  },
-  {
-    label: "Comms & Media",
-    color: "var(--fc-sec-comms)",
-    items: [
-      { id: "comms", label: "Corporate Comms & PR", icon: "megaphone" },
-      { id: "media-monitoring", label: "Media Monitoring", icon: "globe" },
-      { id: "newsjacking", label: "Newsjacking", icon: "sparkles" },
-      { id: "ir-chatbot", label: "IR Site Chatbot", icon: "send" },
-    ],
-  },
-  {
-    label: "Strategy & Situations",
+    // Flat, mirrors the real product's 8 top-level sections exactly.
+    label: "Coverage",
     color: "var(--fc-sec-strategy)",
     items: [
+      { id: "earnings", label: "Earnings Hub", icon: "barchart" },
+      { id: "investor", label: "Investor Intel", icon: "target" },
+      { id: "peers", label: "Peer Intel", icon: "users" },
+      { id: "conference", label: "Conference Intel", icon: "calendar" },
       { id: "crisis", label: "Crisis Command", icon: "shield" },
       { id: "ipo", label: "IPO & Capital Markets", icon: "rocket" },
       { id: "governance", label: "Governance & Activism", icon: "scale" },
-      { id: "roadshow-twin", label: "Roadshow Twin", icon: "play" },
-    ],
-  },
-  {
-    label: "Capital Markets Engines",
-    color: "var(--fc-sec-capmkts)",
-    items: [
-      { id: "model-standardizer", label: "Model Standardizer", icon: "fileText" },
-      { id: "buyside-report", label: "Sector Buy-Side Report", icon: "barchart" },
-      { id: "retail-voice", label: "Retail Investor Voice", icon: "heart" },
-      { id: "rils-trends", label: "Retail Loyalty Trends", icon: "trendingUp" },
-      { id: "ir-hosting", label: "IR Page Hosting", icon: "building" },
-      { id: "ask-firm", label: "Ask the Firm", icon: "info" },
+      { id: "comms", label: "Corporate Comms", icon: "megaphone" },
     ],
   },
   {
     label: "Workspace",
     color: "var(--fc-sec-rnd)",
     items: [
+      { id: "data-sources", label: "Data Sources", icon: "database" },
       { id: "resources", label: "Resources", icon: "fileText" },
       { id: "admin", label: "Admin & Lab", icon: "settings" },
     ],
   },
 ] as const;
 
-/** Flat lookup of module id -> label, for the topbar/title. */
-export const MODULE_LABELS: Record<ModuleId, string> = Object.fromEntries(
-  FINCOMMS_NAV.flatMap((s) => s.items.map((i) => [i.id, i.label])),
-) as Record<ModuleId, string>;
+/** Flat lookup of module id -> label, for the topbar/title. Derived from
+ *  FINCOMMS_NAV, plus "ask-firm" added back by hand: it's reachable only via
+ *  the sidebar's persistent "Ask Financial Comms" button, not the nav tree,
+ *  but still needs a topbar title and a valid `?module=` deep-link target. */
+export const MODULE_LABELS: Record<ModuleId, string> = {
+  ...(Object.fromEntries(
+    FINCOMMS_NAV.flatMap((s) => s.items.map((i) => [i.id, i.label])),
+  ) as Record<ModuleId, string>),
+  "ask-firm": "Ask the Firm",
+};
 
 /* ------------------------------------------------------------ dashboard --- */
 
@@ -196,13 +163,17 @@ export const MORNING_BRIEF = {
   body: "Three of your fourteen clients report this week, led by Quanta Labs on Thursday. A peer of Meridian Apparel drew an activist letter overnight, a newsjacking opening worth a same-day pitch. Coverage on Apex Gaming turned negative after a downgrade, and Crisis Command already has a holding statement drafted for your review.",
 } as const;
 
+// Each id must be a top-level FINCOMMS_NAV entry so the sidebar highlights
+// correctly on click. Where a quick action's original target folded into a
+// parent Coverage tab (see fincomms-engines-demo.ts), it now points at that
+// parent; it lands on the parent's default Overview tab, which is expected.
 export const QUICK_ACTIONS: readonly { id: ModuleId; title: string; sub: string; color: string }[] = [
   { id: "comms", title: "Draft a press release", sub: "On-voice, 10 templates", color: "var(--fc-sec-comms)" },
-  { id: "media-monitoring", title: "Scan today's coverage", sub: "Sentiment + breaking alerts", color: "var(--fc-sec-comms)" },
-  { id: "newsjacking", title: "Find a newsjack", sub: "Stories you can pitch today", color: "var(--fc-sec-comms)" },
-  { id: "earnings-prep", title: "Anticipate analyst Q&A", sub: "Ranked tough questions", color: "var(--fc-sec-earnings)" },
+  { id: "comms", title: "Scan today's coverage", sub: "Sentiment + breaking alerts", color: "var(--fc-sec-comms)" },
+  { id: "comms", title: "Find a newsjack", sub: "Stories you can pitch today", color: "var(--fc-sec-comms)" },
+  { id: "earnings", title: "Anticipate analyst Q&A", sub: "Ranked tough questions", color: "var(--fc-sec-earnings)" },
   { id: "crisis", title: "Run a crisis scenario", sub: "Simulate + draft response", color: "var(--fc-down)" },
-  { id: "shareholder-match", title: "Find gap investors", sub: "Accounts likely to buy", color: "var(--fc-sec-intel)" },
+  { id: "investor", title: "Find gap investors", sub: "Accounts likely to buy", color: "var(--fc-sec-intel)" },
 ];
 
 export type MacroIndicator = { label: string; value: string; trend: number; asOf: string };
@@ -301,7 +272,7 @@ export const FINCOMMS_STEPS: readonly { n: number; title: string; body: string }
 ];
 
 export const FINCOMMS_FACTS: readonly { value: string; label: string }[] = [
-  { value: "26", label: "modules" },
+  { value: "8", label: "core workspaces" },
   { value: "14", label: "data sources" },
   { value: "32h", label: "saved / week" },
   { value: "2.8k", label: "briefs generated" },

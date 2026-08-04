@@ -9,7 +9,6 @@ import { FcNav } from "./nav-context";
 import Dashboard from "./modules/FcDashboard";
 import DataSources from "./modules/DataSources";
 import EarningsHub from "./modules/EarningsHub";
-import GuidanceAnalyzer from "./modules/GuidanceAnalyzer";
 import InvestorIntel from "./modules/InvestorIntel";
 import PeerIntel from "./modules/PeerIntel";
 import ConferenceIntel from "./modules/ConferenceIntel";
@@ -33,7 +32,6 @@ const MODULES: Partial<Record<ModuleId, React.ComponentType>> = {
   dashboard: Dashboard,
   "data-sources": DataSources,
   earnings: EarningsHub,
-  guidance: GuidanceAnalyzer,
   investor: InvestorIntel,
   peers: PeerIntel,
   conference: ConferenceIntel,

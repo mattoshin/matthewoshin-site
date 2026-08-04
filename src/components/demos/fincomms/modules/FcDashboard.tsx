@@ -108,7 +108,9 @@ export default function FcDashboard() {
         <SectionHeading title="Quick actions" hint="Jump straight into a module for your focused company." />
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {QUICK_ACTIONS.map((a) => (
-            <button key={a.id} onClick={() => go(a.id)} className="text-left">
+            // Keyed by title, not id: several quick actions now share a
+            // parent module id (they land on that module's Overview tab).
+            <button key={a.title} onClick={() => go(a.id)} className="text-left">
               <Card hover className="flex items-center gap-3 transition-colors hover:border-[var(--fc-border-strong)]">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg" style={{ background: "var(--fc-surface-2)", color: a.color }}>
                   <QuickIcon id={a.id} />
@@ -208,6 +210,7 @@ function QuickIcon({ id }: { id: string }) {
     governance: "scale",
     peers: "users",
     ipo: "rocket",
+    investor: "target",
   };
   return <Icon name={map[id] ?? "sparkles"} size={17} />;
 }
