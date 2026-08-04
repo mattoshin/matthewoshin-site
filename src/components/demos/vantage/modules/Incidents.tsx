@@ -43,6 +43,7 @@ const STATUS_TONE: Record<IncidentStatus, string> = {
 export default function Incidents() {
   const [filter, setFilter] = useState<StatusFilter>("all");
   const [selectedId, setSelectedId] = useState<string>(INCIDENT_DETAIL.id);
+  const [filtersToast, setFiltersToast] = useState(false);
 
   const rows = filter === "all" ? INCIDENTS : INCIDENTS.filter((i) => i.status === filter);
   const selected = INCIDENTS.find((i) => i.id === selectedId) ?? INCIDENTS[0];
@@ -125,7 +126,24 @@ export default function Incidents() {
         <section className="min-w-0">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <SegmentedTabs tabs={statusTabs} value={filter} onChange={setFilter} size="sm" />
-            <Button variant="outline" size="sm" icon="filter">Filters</Button>
+            <span className="relative inline-flex">
+              <Button
+                variant="outline"
+                size="sm"
+                icon="filter"
+                onClick={() => {
+                  setFiltersToast(true);
+                  window.setTimeout(() => setFiltersToast(false), 1800);
+                }}
+              >
+                Filters
+              </Button>
+              {filtersToast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                  Advanced filters — sample data only
+                </span>
+              )}
+            </span>
           </div>
           <DataTable
             columns={columns}
@@ -149,6 +167,8 @@ export default function Incidents() {
 
 function RichDetail() {
   const d = INCIDENT_DETAIL;
+  const [approved, setApproved] = useState(false);
+  const [reassignToast, setReassignToast] = useState(false);
   return (
     <Card className="space-y-4">
       <div>
@@ -235,8 +255,31 @@ function RichDetail() {
       </div>
 
       <div className="flex items-center gap-2 border-t border-[var(--vnt-border)] pt-3">
-        <Button variant="primary" size="sm" icon="check">Approve response</Button>
-        <Button variant="outline" size="sm" icon="user">Reassign</Button>
+        {approved ? (
+          <Badge tone="up" dot>Response approved</Badge>
+        ) : (
+          <Button variant="primary" size="sm" icon="check" onClick={() => setApproved(true)}>
+            Approve response
+          </Button>
+        )}
+        <span className="relative inline-flex">
+          <Button
+            variant="outline"
+            size="sm"
+            icon="user"
+            onClick={() => {
+              setReassignToast(true);
+              window.setTimeout(() => setReassignToast(false), 1800);
+            }}
+          >
+            Reassign
+          </Button>
+          {reassignToast && (
+            <span className="absolute left-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+              Reassign — sample data only
+            </span>
+          )}
+        </span>
       </div>
     </Card>
   );
