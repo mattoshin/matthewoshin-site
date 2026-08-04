@@ -138,6 +138,7 @@ export default function ItHub() {
 function GetHelpTab({ onTicket }: { onTicket: () => void }) {
   const [query, setQuery] = useState(IT_DEFLECTION_QUERY);
   const [searched, setSearched] = useState(true);
+  const [feedback, setFeedback] = useState<"fixed" | "not-fixed" | null>(null);
 
   const top = IT_DEFLECTION_ANSWERS.find((a) => a.resolves) ?? IT_DEFLECTION_ANSWERS[0];
   const rest = IT_DEFLECTION_ANSWERS.filter((a) => a !== top);
@@ -181,15 +182,21 @@ function GetHelpTab({ onTicket }: { onTicket: () => void }) {
           >
             <p className="font-semibold text-[var(--atr-ink)]">{top.title}</p>
             <p className="mt-1">{top.body}</p>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <Button size="sm" icon="check">
-                This fixed it
-              </Button>
-              <Button size="sm" variant="outline">
-                Didn&apos;t work
-              </Button>
-              <span className="ml-1 text-[12px] text-[var(--atr-faint)]">{top.helpful} found this helpful</span>
-            </div>
+            {feedback ? (
+              <p className="mt-3 text-[12.5px] font-medium text-[var(--atr-accent)]">
+                {feedback === "fixed" ? "Marked as resolved. Glad that fixed it." : "Thanks — try one of the other fixes below."}
+              </p>
+            ) : (
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <Button size="sm" icon="check" onClick={() => setFeedback("fixed")}>
+                  This fixed it
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => setFeedback("not-fixed")}>
+                  Didn&apos;t work
+                </Button>
+                <span className="ml-1 text-[12px] text-[var(--atr-faint)]">{top.helpful} found this helpful</span>
+              </div>
+            )}
           </AIBlock>
 
           {/* other answers */}
