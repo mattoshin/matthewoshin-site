@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   DETECTION_RULES,
   ALERT_VOLUME,
@@ -39,6 +40,12 @@ const RULE_STATUS_TONE: Record<DetectionRule["status"], string> = {
 };
 
 export default function Detections() {
+  // Tuning suggestions the analyst has actioned this session (applied or
+  // dismissed), so the queue visibly clears as you work it.
+  const [resolvedSuggestions, setResolvedSuggestions] = useState<Set<string>>(new Set());
+  const [newRuleToast, setNewRuleToast] = useState(false);
+  const pendingSuggestions = TUNING_SUGGESTIONS.filter((t) => !resolvedSuggestions.has(t.rule));
+
   const enabledCount = DETECTION_RULES.filter((r) => r.status === "enabled").length;
   const alerts24h = ALERT_VOLUME.reduce((sum, b) => sum + b.value, 0);
 
@@ -194,7 +201,24 @@ export default function Detections() {
       <section>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <SectionHeading title="Detection rules" hint="The active rule library, with fire counts and precision." />
-          <Button variant="outline" size="sm" icon="plus">New rule</Button>
+          <span className="relative inline-flex">
+            <Button
+              variant="outline"
+              size="sm"
+              icon="plus"
+              onClick={() => {
+                setNewRuleToast(true);
+                window.setTimeout(() => setNewRuleToast(false), 1800);
+              }}
+            >
+              New rule
+            </Button>
+            {newRuleToast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                Rule builder — sample data only
+              </span>
+            )}
+          </span>
         </div>
         <DataTable columns={columns} rows={DETECTION_RULES} getKey={(r) => r.id} />
       </section>
@@ -204,30 +228,50 @@ export default function Detections() {
         <SectionHeading
           title="Agent tuning suggestions"
           hint="The Triage Agent proposes precision fixes to cut noise automatically."
-          right={<Badge tone="lime" dot>{TUNING_SUGGESTIONS.length} pending</Badge>}
+          right={<Badge tone="lime" dot>{pendingSuggestions.length} pending</Badge>}
         />
-        <div className="space-y-3">
-          {TUNING_SUGGESTIONS.map((t) => (
-            <AIBlock
-              key={t.rule}
-              tag="Tuning"
-              agent="Triage Agent"
-              footer="Proposed automatically · apply to take effect on the next evaluation cycle"
-            >
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-mono text-[12px] font-semibold text-[var(--vnt-ink)]">{t.rule}</span>
-                <Badge tone="lime">
-                  <Icon name="trendingDown" size={11} /> {t.impact}
-                </Badge>
-              </div>
-              <p className="mt-1.5">{t.suggestion}</p>
-              <div className="mt-3 flex items-center gap-2">
-                <Button variant="lime" size="sm" icon="check">Apply tuning</Button>
-                <Button variant="ghost" size="sm" icon="close">Dismiss</Button>
-              </div>
-            </AIBlock>
-          ))}
-        </div>
+        {pendingSuggestions.length === 0 ? (
+          <Card>
+            <p className="text-[13px] text-[var(--vnt-muted)]">All tuning suggestions have been actioned. The Triage Agent will propose more as it learns.</p>
+          </Card>
+        ) : (
+          <div className="space-y-3">
+            {pendingSuggestions.map((t) => (
+              <AIBlock
+                key={t.rule}
+                tag="Tuning"
+                agent="Triage Agent"
+                footer="Proposed automatically · apply to take effect on the next evaluation cycle"
+              >
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-[12px] font-semibold text-[var(--vnt-ink)]">{t.rule}</span>
+                  <Badge tone="lime">
+                    <Icon name="trendingDown" size={11} /> {t.impact}
+                  </Badge>
+                </div>
+                <p className="mt-1.5">{t.suggestion}</p>
+                <div className="mt-3 flex items-center gap-2">
+                  <Button
+                    variant="lime"
+                    size="sm"
+                    icon="check"
+                    onClick={() => setResolvedSuggestions((s) => new Set(s).add(t.rule))}
+                  >
+                    Apply tuning
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    icon="close"
+                    onClick={() => setResolvedSuggestions((s) => new Set(s).add(t.rule))}
+                  >
+                    Dismiss
+                  </Button>
+                </div>
+              </AIBlock>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

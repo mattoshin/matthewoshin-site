@@ -53,6 +53,7 @@ function riskColor(risk: IdentityUser["risk"]): string {
 
 export default function Identity() {
   const [filter, setFilter] = useState<DirectoryFilter>("all");
+  const [reviewToast, setReviewToast] = useState(false);
 
   const riskyCount = RISKY_SIGNINS.length;
 
@@ -256,7 +257,26 @@ export default function Identity() {
           <SectionHeading
             title="Privileged accounts"
             hint="Standing high-privilege access and review cadence."
-            right={<Button variant="outline" size="sm" icon="shieldCheck">Run review</Button>}
+            right={
+              <span className="relative inline-flex">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  icon="shieldCheck"
+                  onClick={() => {
+                    setReviewToast(true);
+                    window.setTimeout(() => setReviewToast(false), 1800);
+                  }}
+                >
+                  Run review
+                </Button>
+                {reviewToast && (
+                  <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                    Access review queued — sample data only
+                  </span>
+                )}
+              </span>
+            }
           />
           <Card padded={false}>
             <ul>

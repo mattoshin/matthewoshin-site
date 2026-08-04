@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   THREAT_ACTORS,
   IOCS,
@@ -61,6 +62,9 @@ const SOURCE_KIND_ICON: Record<IntelSource["kind"], "layers" | "robot" | "eye"> 
 };
 
 export default function ThreatIntel() {
+  const [connectedOverride, setConnectedOverride] = useState<Set<string>>(new Set());
+  const [exportToast, setExportToast] = useState(false);
+
   const activeActors = THREAT_ACTORS.filter((a) => a.activity === "active").length;
   const exploitedCves = CVE_WATCH.filter((c) => c.exploited).length;
 
@@ -207,7 +211,26 @@ export default function ThreatIntel() {
           <SectionHeading
             title="Indicators of compromise"
             hint="Live IOC feed, matched against your telemetry."
-            right={<Button variant="outline" size="sm" icon="download">Export</Button>}
+            right={
+              <span className="relative inline-flex">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  icon="download"
+                  onClick={() => {
+                    setExportToast(true);
+                    window.setTimeout(() => setExportToast(false), 1800);
+                  }}
+                >
+                  Export
+                </Button>
+                {exportToast && (
+                  <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                    Export — sample data only
+                  </span>
+                )}
+              </span>
+            }
           />
           <DataTable columns={iocColumns} rows={IOCS} getKey={(r) => r.indicator} dense />
         </section>
@@ -234,7 +257,12 @@ export default function ThreatIntel() {
         />
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {INTEL_SOURCES.map((src) => (
-            <IntelSourceCard key={src.name} src={src} />
+            <IntelSourceCard
+              key={src.name}
+              src={src}
+              forceConnected={connectedOverride.has(src.name)}
+              onConnect={() => setConnectedOverride((s) => new Set(s).add(src.name))}
+            />
           ))}
         </div>
       </section>
@@ -335,8 +363,17 @@ function SEVERITY_TONE(level: CveWatchItem["severity"]): string {
 
 /* ------------------------------------------------------- intel source card --- */
 
-function IntelSourceCard({ src }: { src: IntelSource }) {
-  const connected = src.status === "connected";
+function IntelSourceCard({
+  src,
+  forceConnected,
+  onConnect,
+}: {
+  src: IntelSource;
+  forceConnected: boolean;
+  onConnect: () => void;
+}) {
+  const [manageToast, setManageToast] = useState(false);
+  const connected = src.status === "connected" || forceConnected;
   return (
     <Card hover className="flex flex-col">
       <div className="flex items-start justify-between gap-3">
@@ -359,11 +396,29 @@ function IntelSourceCard({ src }: { src: IntelSource }) {
         )}
       </div>
       <p className="mt-3 flex-1 text-[12px] leading-relaxed text-[var(--vnt-muted)]">{src.blurb}</p>
-      <div className="mt-3 border-t border-[var(--vnt-border)] pt-3">
+      <div className="relative mt-3 border-t border-[var(--vnt-border)] pt-3">
         {connected ? (
-          <Button variant="ghost" size="sm" icon="settings" className="w-full">Manage</Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            icon="settings"
+            className="w-full"
+            onClick={() => {
+              setManageToast(true);
+              window.setTimeout(() => setManageToast(false), 1800);
+            }}
+          >
+            Manage
+          </Button>
         ) : (
-          <Button variant="outline" size="sm" icon="plus" className="w-full">Connect</Button>
+          <Button variant="outline" size="sm" icon="plus" className="w-full" onClick={onConnect}>
+            Connect
+          </Button>
+        )}
+        {manageToast && (
+          <span className="absolute left-1/2 top-full z-10 mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+            Source settings — sample data only
+          </span>
         )}
       </div>
     </Card>
