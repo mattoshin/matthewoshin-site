@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   AGENTS,
   AGENT_RUNS,
@@ -69,8 +70,22 @@ const RESULT_LABEL: Record<AgentRun["result"], string> = {
 };
 
 export default function Agents() {
-  const activeCount = AGENTS.filter((a) => a.status === "active").length;
-  const reviewCount = AGENTS.filter((a) => a.status === "needs-review").length;
+  // Local pause overrides: agent name -> paused. The roster itself is sample
+  // data, but Pause/Resume should still visibly toggle the agent's status.
+  const [paused, setPaused] = useState<Record<string, boolean>>({});
+  const [newAgentToast, setNewAgentToast] = useState(false);
+
+  const flashNewAgent = () => {
+    setNewAgentToast(true);
+    window.setTimeout(() => setNewAgentToast(false), 1800);
+  };
+
+  const effectiveAgents = AGENTS.map((a) =>
+    paused[a.name] ? { ...a, status: "paused" as const } : a,
+  );
+
+  const activeCount = effectiveAgents.filter((a) => a.status === "active").length;
+  const reviewCount = effectiveAgents.filter((a) => a.status === "needs-review").length;
   const totalActions = AGENTS.reduce((sum, a) => sum + a.actions7d, 0);
   const avgSuccess = Math.round(
     (AGENTS.reduce((sum, a) => sum + a.successRate, 0) / AGENTS.length) * 100,
@@ -105,11 +120,26 @@ export default function Agents() {
         <SectionHeading
           title="Agent roster"
           hint="Each agent's mandate, autonomy level, and 7-day track record."
-          right={<Button variant="outline" size="sm" icon="plus">New agent</Button>}
+          right={
+            <span className="relative inline-flex">
+              <Button variant="outline" size="sm" icon="plus" onClick={flashNewAgent}>
+                New agent
+              </Button>
+              {newAgentToast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                  Agent builder — sample data only
+                </span>
+              )}
+            </span>
+          }
         />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {AGENTS.map((agent) => (
-            <AgentCard key={agent.name} agent={agent} />
+          {effectiveAgents.map((agent) => (
+            <AgentCard
+              key={agent.name}
+              agent={agent}
+              onPauseToggle={() => setPaused((p) => ({ ...p, [agent.name]: !p[agent.name] }))}
+            />
           ))}
         </div>
       </section>
@@ -147,8 +177,11 @@ export default function Agents() {
 
 /* ----------------------------------------------------------- agent card --- */
 
-function AgentCard({ agent }: { agent: AutonomousAgent }) {
+function AgentCard({ agent, onPauseToggle }: { agent: AutonomousAgent; onPauseToggle: () => void }) {
   const needsReview = agent.status === "needs-review";
+  const isPaused = agent.status === "paused";
+  const [inspectToast, setInspectToast] = useState(false);
+  const [tuneToast, setTuneToast] = useState(false);
   const metrics: ReadonlyArray<{ label: string; value: string }> = [
     { label: "Runs 7d", value: agent.runs7d.toLocaleString() },
     { label: "Actions 7d", value: agent.actions7d.toLocaleString() },
@@ -216,10 +249,48 @@ function AgentCard({ agent }: { agent: AutonomousAgent }) {
           Last action {agent.lastAction}
         </span>
         <div className="flex items-center gap-1.5">
-          <Button variant="ghost" size="sm" icon="eye">Inspect</Button>
-          <Button variant="ghost" size="sm" icon={needsReview ? "settings" : "pause"}>
-            {needsReview ? "Tune" : "Pause"}
-          </Button>
+          <span className="relative">
+            <Button
+              variant="ghost"
+              size="sm"
+              icon="eye"
+              onClick={() => {
+                setInspectToast(true);
+                window.setTimeout(() => setInspectToast(false), 1800);
+              }}
+            >
+              Inspect
+            </Button>
+            {inspectToast && (
+              <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                Agent detail — sample data only
+              </span>
+            )}
+          </span>
+          {needsReview ? (
+            <span className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                icon="settings"
+                onClick={() => {
+                  setTuneToast(true);
+                  window.setTimeout(() => setTuneToast(false), 1800);
+                }}
+              >
+                Tune
+              </Button>
+              {tuneToast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--vnt-border-strong)] bg-[var(--vnt-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--vnt-ink)] shadow-lg">
+                  Autonomy settings — sample data only
+                </span>
+              )}
+            </span>
+          ) : (
+            <Button variant="ghost" size="sm" icon={isPaused ? "play" : "pause"} onClick={onPauseToggle}>
+              {isPaused ? "Resume" : "Pause"}
+            </Button>
+          )}
         </div>
       </div>
     </Card>
