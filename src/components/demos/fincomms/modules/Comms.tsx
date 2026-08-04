@@ -10,6 +10,7 @@ import {
 import {
   Card,
   SegmentedTabs,
+  UnderlineTabs,
   SectionHeading,
   AIBlock,
   ProseSections,
@@ -17,12 +18,41 @@ import {
   Icon,
   cx,
 } from "../FcKit";
+import EngineScreen from "./EngineScreen";
 
 /**
- * Comms - Corporate Comms workspace. Two views: a press-release generator (pick a
- * template, add context, generate an on-voice draft) and a narrative consistency
- * checker that scores cross-document alignment and surfaces conflicts.
+ * Comms - the Coverage workspace for corporate comms. Five top-level tabs:
+ * Overview (press-release generator + narrative consistency checker,
+ * unchanged), plus four EngineScreen fallbacks for the engines that folded
+ * in here (Media Monitoring, Newsjacking, IR Chatbot, IR Page Hosting).
  */
+type Workspace = "overview" | "media-monitoring" | "newsjacking" | "ir-chatbot" | "ir-hosting";
+
+const WORKSPACE_TABS = [
+  { id: "overview" as const, label: "Overview" },
+  { id: "media-monitoring" as const, label: "Media Monitoring" },
+  { id: "newsjacking" as const, label: "Newsjacking" },
+  { id: "ir-chatbot" as const, label: "IR Chatbot" },
+  { id: "ir-hosting" as const, label: "IR Page Hosting" },
+];
+
+export default function Comms() {
+  const [workspace, setWorkspace] = useState<Workspace>("overview");
+
+  return (
+    <div className="space-y-5">
+      <UnderlineTabs tabs={WORKSPACE_TABS} value={workspace} onChange={setWorkspace} />
+      {workspace === "overview" && <Overview />}
+      {workspace === "media-monitoring" && <EngineScreen engine="media-monitoring" />}
+      {workspace === "newsjacking" && <EngineScreen engine="newsjacking" />}
+      {workspace === "ir-chatbot" && <EngineScreen engine="ir-chatbot" />}
+      {workspace === "ir-hosting" && <EngineScreen engine="ir-hosting" />}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- overview --- */
+
 type View = "press" | "narrative";
 
 const VIEW_TABS = [
@@ -30,7 +60,7 @@ const VIEW_TABS = [
   { id: "narrative" as const, label: "Narrative Checker" },
 ];
 
-export default function Comms() {
+function Overview() {
   const [view, setView] = useState<View>("press");
 
   return (

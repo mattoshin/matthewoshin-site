@@ -6,15 +6,39 @@ import { PEER_ROWS, PEER_TRANSCRIPTS, type PeerRow } from "@/data/fincomms-modul
 import {
   CompanyHeader,
   SegmentedTabs,
+  UnderlineTabs,
   AIBlock,
   DataTable,
   cx,
 } from "../FcKit";
+import EngineScreen from "./EngineScreen";
 
 /**
- * PeerIntel - benchmark the focal company against its peer set, and mine peer
- * earnings-call transcripts for positioning. Two segmented views over the header.
+ * PeerIntel - the Coverage workspace for peer intelligence. Two top-level
+ * tabs: Overview (peer benchmarking + transcript mining, unchanged) and
+ * Sector Buy-Side Report (the EngineScreen fallback for the folded-in engine).
  */
+type Workspace = "overview" | "buyside-report";
+
+const WORKSPACE_TABS = [
+  { id: "overview" as const, label: "Overview" },
+  { id: "buyside-report" as const, label: "Sector Buy-Side Report" },
+];
+
+export default function PeerIntel() {
+  const [workspace, setWorkspace] = useState<Workspace>("overview");
+
+  return (
+    <div className="space-y-5">
+      <UnderlineTabs tabs={WORKSPACE_TABS} value={workspace} onChange={setWorkspace} />
+      {workspace === "overview" && <Overview />}
+      {workspace === "buyside-report" && <EngineScreen engine="buyside-report" />}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- overview --- */
+
 type Tab = "comparison" | "transcripts";
 
 const TABS = [
@@ -22,7 +46,7 @@ const TABS = [
   { id: "transcripts" as const, label: "Transcripts", count: PEER_TRANSCRIPTS.length },
 ];
 
-export default function PeerIntel() {
+function Overview() {
   const [tab, setTab] = useState<Tab>("comparison");
 
   return (

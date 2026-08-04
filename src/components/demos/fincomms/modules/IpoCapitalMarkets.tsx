@@ -13,14 +13,38 @@ import {
   Button,
   Icon,
   SegmentedTabs,
+  UnderlineTabs,
   type IconName,
 } from "../FcKit";
+import EngineScreen from "./EngineScreen";
 
 /**
- * IpoCapitalMarkets - IPO readiness scoring and an S-1 analyzer. Score the four
- * readiness areas with item-level checklists, or paste an S-1 to pressure-test it
- * for disclosure gaps and narrative consistency.
+ * IpoCapitalMarkets - the Coverage workspace for IPO & capital markets. Three
+ * top-level tabs: Overview (IPO readiness scoring + S-1 analyzer, unchanged),
+ * Roadshow Twin, and Model Standardizer (both EngineScreen fallbacks).
  */
+type Workspace = "overview" | "roadshow-twin" | "model-standardizer";
+
+const WORKSPACE_TABS = [
+  { id: "overview" as const, label: "Overview" },
+  { id: "roadshow-twin" as const, label: "Roadshow Twin" },
+  { id: "model-standardizer" as const, label: "Model Standardizer" },
+];
+
+export default function IpoCapitalMarkets() {
+  const [workspace, setWorkspace] = useState<Workspace>("overview");
+
+  return (
+    <div className="space-y-5">
+      <UnderlineTabs tabs={WORKSPACE_TABS} value={workspace} onChange={setWorkspace} />
+      {workspace === "overview" && <Overview />}
+      {workspace === "roadshow-twin" && <EngineScreen engine="roadshow-twin" />}
+      {workspace === "model-standardizer" && <EngineScreen engine="model-standardizer" />}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- overview --- */
 
 type View = "readiness" | "s1";
 
@@ -32,7 +56,7 @@ const STATUS_META: Record<ReadinessStatus, { icon: IconName; color: string }> = 
   gap: { icon: "alert", color: "var(--fc-down)" },
 };
 
-export default function IpoCapitalMarkets() {
+function Overview() {
   const [view, setView] = useState<View>("readiness");
   const [toast, setToast] = useState<string | null>(null);
   const flash = (msg: string) => {
