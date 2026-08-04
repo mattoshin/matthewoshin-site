@@ -260,21 +260,35 @@ function AnswerCard({ answer }: { answer: DeflectionAnswer }) {
 }
 
 function KBCard({ article }: { article: KBArticle }) {
+  const [toast, setToast] = useState(false);
   return (
-    <button className="text-left">
-      <GlassCard hover className="flex h-full flex-col gap-2 p-4">
-        <div className="flex items-start justify-between gap-2">
-          <Badge tone="neutral">{article.category}</Badge>
-          <span className="font-mono text-[11px] text-[var(--atr-faint)]">{article.readMins} min</span>
-        </div>
-        <p className="text-[13px] font-semibold leading-snug text-[var(--atr-ink)]">{article.title}</p>
-        <div className="mt-auto flex items-center gap-1.5 pt-1 text-[11px] text-[var(--atr-faint)]">
-          <Icon name="heart" size={12} className="text-[var(--atr-accent)]" />
-          {article.helpful} helpful
-          <Icon name="arrowRight" size={13} className="ml-auto text-[var(--atr-faint)]" />
-        </div>
-      </GlassCard>
-    </button>
+    <span className="relative block">
+      <button
+        onClick={() => {
+          setToast(true);
+          window.setTimeout(() => setToast(false), 1800);
+        }}
+        className="w-full text-left"
+      >
+        <GlassCard hover className="flex h-full flex-col gap-2 p-4">
+          <div className="flex items-start justify-between gap-2">
+            <Badge tone="neutral">{article.category}</Badge>
+            <span className="font-mono text-[11px] text-[var(--atr-faint)]">{article.readMins} min</span>
+          </div>
+          <p className="text-[13px] font-semibold leading-snug text-[var(--atr-ink)]">{article.title}</p>
+          <div className="mt-auto flex items-center gap-1.5 pt-1 text-[11px] text-[var(--atr-faint)]">
+            <Icon name="heart" size={12} className="text-[var(--atr-accent)]" />
+            {article.helpful} helpful
+            <Icon name="arrowRight" size={13} className="ml-auto text-[var(--atr-faint)]" />
+          </div>
+        </GlassCard>
+      </button>
+      {toast && (
+        <span className="absolute left-1/2 top-full z-10 mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md border border-[var(--atr-border)] bg-[var(--atr-card)] px-2.5 py-1 text-[11px] font-medium text-[var(--atr-ink)] shadow-lg">
+          Article — sample data only
+        </span>
+      )}
+    </span>
   );
 }
 

@@ -121,6 +121,7 @@ const USER_COLUMNS: ReadonlyArray<Column<AdminUser>> = [
 ];
 
 function Team() {
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
   return (
     <section className="space-y-7">
       <div>
@@ -146,9 +147,17 @@ function Team() {
                 <span className="text-[var(--sec-faint)]">·</span>
                 <span>Used {k.lastUsed}</span>
               </div>
-              <div className="mt-auto pt-1">
-                <Button variant="ghost" size="sm" icon="copy">
-                  Copy
+              <div className="relative mt-auto pt-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  icon={copiedKey === k.label ? "check" : "copy"}
+                  onClick={() => {
+                    setCopiedKey(k.label);
+                    window.setTimeout(() => setCopiedKey(null), 1400);
+                  }}
+                >
+                  {copiedKey === k.label ? "Copied" : "Copy"}
                 </Button>
               </div>
             </Card>

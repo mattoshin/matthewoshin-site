@@ -500,6 +500,11 @@ function InvoicesScreen() {
 }
 
 function AccountScreen() {
+  const [toast, setToast] = useState<string | null>(null);
+  const flash = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1800);
+  };
   const b = MOCEAN_BUSINESS;
   const rows = [
     { label: "Business", value: b.name },
@@ -538,7 +543,19 @@ function AccountScreen() {
                 <p className="text-xs text-[#6c8696]">Expires 09/26</p>
               </div>
             </div>
-            <button className="text-sm text-[#5ecdd1] hover:underline">Update</button>
+            <span className="relative">
+              <button
+                onClick={() => flash("Payment method — sample data only")}
+                className="text-sm text-[#5ecdd1] hover:underline"
+              >
+                Update
+              </button>
+              {toast === "Payment method — sample data only" && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border px-2.5 py-1 text-[11px] font-medium text-white shadow-sm" style={{ borderColor: BORDER, background: "#0d1420" }}>
+                  {toast}
+                </span>
+              )}
+            </span>
           </div>
         </Card>
         <Card>
@@ -547,12 +564,20 @@ function AccountScreen() {
             Your plan renews monthly. The next charge of{" "}
             <span className="text-white">$525</span> is scheduled for Jul 1, 2023.
           </p>
-          <button
-            className="mt-4 rounded-lg border px-4 py-2 text-sm text-[#5ecdd1] transition-colors hover:bg-[#0c222f]"
-            style={{ borderColor: BORDER }}
-          >
-            Manage plan
-          </button>
+          <span className="relative inline-block">
+            <button
+              onClick={() => flash("Billing portal — sample data only")}
+              className="mt-4 rounded-lg border px-4 py-2 text-sm text-[#5ecdd1] transition-colors hover:bg-[#0c222f]"
+              style={{ borderColor: BORDER }}
+            >
+              Manage plan
+            </button>
+            {toast === "Billing portal — sample data only" && (
+              <span className="absolute left-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border px-2.5 py-1 text-[11px] font-medium text-white shadow-sm" style={{ borderColor: BORDER, background: "#0d1420" }}>
+                {toast}
+              </span>
+            )}
+          </span>
         </Card>
       </div>
     </div>
