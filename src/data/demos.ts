@@ -18,15 +18,15 @@ export type DemoCard = {
 
 export const DEMOS: DemoCard[] = [
   {
-    slug: "mocean",
-    name: "Mocean",
+    slug: "riptide",
+    name: "Options-Implied Distribution Terminal",
     tagline:
-      "Discord-native B2B research SaaS. Subscribe to data feeds, wire each to a Discord channel, deliver alpha automatically.",
-    era: "2021 to 2023 · Founded and acquired",
+      "Agentic equity-research terminal. Research in distributions: the options market's implied distribution versus your own models, scanned for gaps and graded over time.",
+    era: "Current build, live",
     status: "live",
-    href: "/app/mocean-demo",
-    caseStudy: "/ventures/mocean",
-    accent: "#5ecdd1",
+    href: "https://riptide.matthewoshin.com",
+    caseStudy: "/projects/riptide",
+    accent: "#2fe3bf",
   },
   {
     slug: "galactic",
@@ -84,15 +84,15 @@ export const DEMOS: DemoCard[] = [
     accent: "#b6abff",
   },
   {
-    slug: "riptide",
-    name: "Options-Implied Distribution Terminal",
+    slug: "mocean",
+    name: "Mocean",
     tagline:
-      "Agentic equity-research terminal. Research in distributions: the options market's implied distribution versus your own models, scanned for gaps and graded over time.",
-    era: "Current build, live",
+      "Discord-native B2B research SaaS. Subscribe to data feeds, wire each to a Discord channel, deliver alpha automatically.",
+    era: "2021 to 2023 · Founded and acquired",
     status: "live",
-    href: "https://riptide.matthewoshin.com",
-    caseStudy: "/projects/riptide",
-    accent: "#2fe3bf",
+    href: "/app/mocean-demo",
+    caseStudy: "/ventures/mocean",
+    accent: "#5ecdd1",
   },
 ];
 
