@@ -486,23 +486,6 @@ export const BUILDS: readonly Build[] = [
     status: "Production build",
   },
   {
-    slug: "sonar",
-    name: "Sonar Media",
-    hook: "Real-time media monitoring you build in plain English. Describe what to watch and AI assembles the agentic workflow that watches it for you.",
-    demoHref: "/app/sonar",
-    summary:
-      "Investor-relations and communications teams drown in signal: a story that moves the stock can break on SEC EDGAR, a newswire, a regulator's feed, or social, and legacy monitoring makes you hand-write boolean queries to catch it. Sonar Media flips that. You describe what you care about in a sentence, an LLM resolves it into a validated monitor spec, and you dry-run it against the last 48 hours before it ever fires. Matches arrive tagged with the source, a sentiment read, the terms that hit, and a one-line summary of why it matters, gated by severity and capped so they never flood you. I built this as the media-intelligence layer of an enterprise platform: thousands of sources, an AI relevance gate to kill noise, and per-workspace AI-spend caps so a monitoring run never becomes a surprise bill.",
-    highlights: [
-      "A plain-English monitor builder: an LLM turns a sentence into a validated, schema-checked spec (entities, keywords, sources, cadence, delivery), with no boolean syntax.",
-      "A 48-hour dry run that replays real history, so a monitor earns trust before a single alert goes out.",
-      "A cheap AI relevance gate on every candidate match, so delivered alerts are the real story and not every keyword hit.",
-      "Severity gating and per-monitor flood caps: instant for the urgent, digest for the rest, with AI spend tracked per model and capped per workspace.",
-      "Source-grade coverage across SEC EDGAR, the wires, regulators, social, and cyber feeds, parsed in near real time.",
-    ],
-    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Claude (Opus, Sonnet, Haiku)", "Zod", "Async workers", "PostgreSQL"],
-    status: "Recent build",
-  },
-  {
     slug: "sec-intelligence",
     name: "SEC Intelligence",
     hook: "A real-time SEC-filing intelligence terminal for financial professionals. Every material filing the moment it lands, an AI analyst that reads it, and alerts routed to email, phone, or your own agents.",

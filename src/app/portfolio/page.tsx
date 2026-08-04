@@ -64,7 +64,6 @@ const ITEMS: PortfolioItem[] = [
   fromBuild("galactic-signals", "ai-products"),
   fromBuild("financial-comms", "ai-products"),
   fromBuild("sec-intelligence", "ai-products"),
-  fromBuild("sonar", "ai-products"),
   fromBuild("atrium", "ai-products"),
   fromBuild("vantage", "ai-products"),
   fromBuild("riptide", "ai-products"),

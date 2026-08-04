@@ -51,17 +51,6 @@ export const DEMOS: DemoCard[] = [
     accent: "#0027b3",
   },
   {
-    slug: "sonar",
-    name: "Sonar Media",
-    tagline:
-      "Real-time media monitoring your team builds in plain English. Describe a monitor, AI wires up the agentic workflow, dry-run it over the last 48 hours, and it watches the internet for you.",
-    era: "Recent build",
-    status: "live",
-    href: "/app/sonar",
-    caseStudy: "/projects/sonar",
-    accent: "#FFB224",
-  },
-  {
     slug: "sec-intelligence",
     name: "SEC Intelligence",
     tagline:
