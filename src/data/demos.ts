@@ -94,16 +94,6 @@ export const DEMOS: DemoCard[] = [
     caseStudy: "/projects/riptide",
     accent: "#2fe3bf",
   },
-  {
-    slug: "fitness-os",
-    name: "Fitness OS",
-    tagline:
-      "Gym and studio operation software: the class schedule, the lead pipeline, and every member over a Mindbody-style data layer, in one calm back office. A concept drawn from a real studio engagement.",
-    era: "Product concept · Studio operations",
-    status: "live",
-    href: "/app/fitness-os",
-    accent: "#1f3d34",
-  },
 ];
 
 /** A demo matched to the current path, with the crumbs the DemoBar should show. */
