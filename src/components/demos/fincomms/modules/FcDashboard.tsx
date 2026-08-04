@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   MORNING_BRIEF,
   FINCOMMS_PLATFORM,
@@ -31,6 +32,7 @@ import { useFcNav } from "../nav-context";
  */
 export default function FcDashboard() {
   const go = useFcNav();
+  const [tickerToast, setTickerToast] = useState(false);
 
   return (
     <div className="space-y-7">
@@ -57,9 +59,22 @@ export default function FcDashboard() {
           title="Pinned clients"
           hint="Live quotes and 30-day trend. Click a card to open its earnings workspace."
           right={
-            <button className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--fc-accent)] hover:underline">
-              <Icon name="plus" size={13} /> Add ticker
-            </button>
+            <span className="relative inline-flex items-center">
+              <button
+                onClick={() => {
+                  setTickerToast(true);
+                  window.setTimeout(() => setTickerToast(false), 1800);
+                }}
+                className="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--fc-accent)] hover:underline"
+              >
+                <Icon name="plus" size={13} /> Add ticker
+              </button>
+              {tickerToast && (
+                <span className="absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap rounded-md border border-[var(--fc-border)] bg-[var(--fc-ink)] px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+                  Ticker search — sample data only
+                </span>
+              )}
+            </span>
           }
         />
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
