@@ -346,6 +346,7 @@ function ProductsScreen() {
 }
 
 function ProductCard({ product: p }: { product: MoceanProduct }) {
+  const [subscribed, setSubscribed] = useState(false);
   return (
     <div className="flex flex-col rounded-2xl border p-5" style={{ borderColor: BORDER, background: PANEL }}>
       <div className="flex items-center justify-between">
@@ -368,10 +369,16 @@ function ProductCard({ product: p }: { product: MoceanProduct }) {
         <span className="text-xs text-[#6c8696]">{p.feeds} feeds</span>
       </div>
       <button
-        className="mt-4 w-full rounded-lg border px-4 py-2 text-sm font-medium text-[#5ecdd1] transition-colors hover:bg-[#0c222f]"
-        style={{ borderColor: BORDER }}
+        onClick={() => setSubscribed(true)}
+        disabled={subscribed}
+        className={`mt-4 w-full rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${subscribed ? "" : "hover:bg-[#0c222f]"}`}
+        style={
+          subscribed
+            ? { borderColor: TEAL, color: TEAL, background: "rgba(94,205,209,0.1)" }
+            : { borderColor: BORDER, color: TEAL }
+        }
       >
-        Subscribe
+        {subscribed ? "Subscribed ✓" : "Subscribe"}
       </button>
     </div>
   );
