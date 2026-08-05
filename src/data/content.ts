@@ -105,7 +105,7 @@ export const BUCKETS: readonly Bucket[] = [
     label: "Portfolio",
     href: "/portfolio",
     teaser:
-      "The products I build and run now: the Options-Implied Distribution Terminal, Galactic Signals, Observly, BriefBridge, mTrain, and the Dog House band site. Each card says what it is and what it does, and opens a live demo you can click through yourself.",
+      "The products I build and run now: GTM Engineering, the Options-Implied Distribution Terminal, Galactic Signals, Observly, BriefBridge, mTrain, and the Dog House band site. Each card says what it is and what it does, and opens a live demo you can click through yourself.",
     nav: true,
     proof: "20+ products shipped. Every one opens as a live, clickable demo.",
   },
@@ -432,6 +432,24 @@ export interface Build {
 }
 
 export const BUILDS: readonly Build[] = [
+  {
+    slug: "gtm-engineering",
+    name: "GTM Engineering",
+    hook: "A go-to-market engineering platform for SDR and AE teams: sequences, an AE pipeline, and an Agent Studio, deployable to your own infrastructure instead of a vendor's cloud.",
+    demoHref: "https://gotomarket.matthewoshin.com",
+    summary:
+      "Most sales-engagement tools rent you a black box. This is the platform underneath one: a Control Plane with real adoption and ROI metrics, Sequences for multi-channel SDR cadences with per-step funnel tracking, an AE Pipeline board with recoverable-revenue math on every deal, and an Enrichment waterfall that resolves contacts the way Clay does. On top sits an Agent Studio: seven SDR/AE agent templates (account research, enrichment, reply triage, scheduling, CRM updates, list building, signal monitoring) that you configure, test, and deploy to a runtime you choose, Managed, your own VPS, or the edge. The flagship example vertical is real estate: the platform watches public social signals for property managers dropping leads, prices the monthly revenue leak, and drafts the outreach; the same mechanic could point at any vertical with a public complaint signal. Every company, dollar figure, and pipeline record in the demo is sample data; the signal monitor's live search hits real public posts.",
+    highlights: [
+      "Agent Studio: seven SDR/AE agent templates (account researcher, enrichment, reply triage, scheduler, CRM updater, list builder, signal monitor), each with a config form, a test panel, and one-click deploy to a chosen runtime.",
+      "Deploy-anywhere runtimes: every agent and monitor picks where it runs, Managed, your own VPS, or the edge, the same 'choose your infrastructure' pattern the platform demos on itself.",
+      "Sequences: multi-channel SDR cadences with per-step funnel metrics (sent, opened, replied, bounced) and a visual builder.",
+      "AE Pipeline: a real opportunity board (lead through closed-won) with recoverable-ARR math and deal-risk scoring on every record, not a flat queue.",
+      "Live signal monitoring: real-time public search surfaces buying signals, prices the monthly revenue impact, and drafts the opener.",
+      "An in-app assistant that can navigate the product for you: ask it a question and it can jump you to the right screen or run an example.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Claude (in-app assistant)", "n8n (deploy-to-VPS runtime)"],
+    status: "Live",
+  },
   {
     slug: "riptide",
     name: "Options-Implied Distribution Terminal",
