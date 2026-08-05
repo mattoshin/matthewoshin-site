@@ -18,6 +18,17 @@ export type DemoCard = {
 
 export const DEMOS: DemoCard[] = [
   {
+    slug: "gtm-engineering",
+    name: "GTM Engineering",
+    tagline:
+      "A go-to-market platform for SDR and AE teams: multi-channel sequences, an AE pipeline with recoverable-revenue math, and an Agent Studio where you build and deploy your own agents, to your own infrastructure instead of a vendor's cloud.",
+    era: "Current build, live",
+    status: "live",
+    href: "https://gotomarket.matthewoshin.com",
+    caseStudy: "/projects/gtm-engineering",
+    accent: "#e2572c",
+  },
+  {
     slug: "riptide",
     name: "Options-Implied Distribution Terminal",
     tagline:

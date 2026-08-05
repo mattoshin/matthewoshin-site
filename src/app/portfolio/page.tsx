@@ -20,7 +20,7 @@ import { BUILDS, VENTURES, PORTFOLIO } from "@/data/content";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Products I build, filterable by type: AI products (Options-Implied Distribution Terminal, Galactic Signals, Financial Communications Platform, SEC Intelligence, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Dog House), and ventures (Mocean, Element Underground).",
+    "Products I build, filterable by type: AI products (GTM Engineering, Options-Implied Distribution Terminal, Galactic Signals, Financial Communications Platform, SEC Intelligence, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Dog House), and ventures (Mocean, Element Underground).",
 };
 
 /** Pull a build into a portfolio item; case study lives at /projects/<slug>. */
@@ -59,6 +59,7 @@ const doghouse = BUILDS.find((b) => b.slug === "dog-house");
 // active engagements, so they link to the live site ("View Site").
 const ITEMS: PortfolioItem[] = [
   fromVenture("mocean", "Founded & acquired"),
+  fromBuild("gtm-engineering", "ai-products"),
   fromBuild("galactic-signals", "ai-products"),
   fromBuild("financial-comms", "ai-products"),
   fromBuild("sec-intelligence", "ai-products"),
