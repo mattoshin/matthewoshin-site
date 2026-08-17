@@ -316,12 +316,20 @@ export interface Venture {
   website?: string;
   /** The venture's own social links, shown on its case-study page. */
   socials?: readonly { label: string; href: string }[];
+  /**
+   * True only for ventures that were actually sold. This is the single source of
+   * truth for the "Founded and acquired" badge and the "N companies acquired"
+   * stat, so the two can never disagree. Profit Paradise and Ocean Supply were
+   * never sold: do not set this on them.
+   */
+  acquired?: true;
 }
 
 export const VENTURES: readonly Venture[] = [
   {
     slug: "mocean",
     name: "Mocean Technologies",
+    acquired: true,
     oneLiner:
       "A research-distribution platform for Discord. Founded at 19 on a gap year, scaled to acquisition.",
     era: "Founded and acquired, 2021 to 2023",
@@ -352,6 +360,7 @@ export const VENTURES: readonly Venture[] = [
   {
     slug: "resell-network",
     name: "Resell Network",
+    acquired: true,
     oneLiner: "An 11,000-member networking community. Founded and acquired.",
     era: "Founded and acquired, 2019 to 2023",
     note: "Built this alongside Mocean to connect the researchers and subcontractors I worked with to the server owners and employers who needed them, and to give the broader reselling community access to the resources and people I had relationships with. Grew to 11,000+ Discord members organically. Sold as part of the Mocean deal.",
@@ -387,14 +396,14 @@ export const VENTURES: readonly Venture[] = [
   {
     slug: "profit-paradise",
     name: "Profit Paradise",
-    oneLiner: "A paid alpha community for resellers, $7K/month at peak. Founded and acquired.",
-    era: "Co-founder, founded and acquired, 2019 to 2023",
-    note: "Co-founded with my friend Peter. $35/month subscription Discord: guides, discount codes, release calendars, and the playbook to make money across sneakers, sports cards, Pokemon, toys, and collectibles. Grew to 200 paying members at peak, which is $7,000/month in recurring revenue. By 2023 there were 3,500+ members on the server. Made it free in 2023. Acquired. The lesson: when you know the edge, teach it. Members collectively generated over $2.1 million in profits from what we gave them.",
+    oneLiner: "A paid alpha community for resellers, $7K/month at peak. Made free in 2023, then wound down.",
+    era: "Co-founder, 2019 to 2023",
+    note: "Co-founded with my friend Peter. $35/month subscription Discord: guides, discount codes, release calendars, and the playbook to make money across sneakers, sports cards, Pokemon, toys, and collectibles. Grew to 200 paying members at peak, which is $7,000/month in recurring revenue. By 2023 there were 3,500+ members on the server. I made it free in 2023 and wound it down. I never sold it. The lesson: when you know the edge, teach it. Members collectively generated over $2.1 million in profits from what we gave them.",
     storyParagraphs: [
       "Profit Paradise was my first company, and I started it in high school. It grew straight out of a hustle: I had been a dishwasher making $10 an hour, and my co-founder Peter had taught himself to flip sneakers at fourteen, walking out of Sneaker Con with more shoes and more cash than he came in with. He started texting me the drops, the raffles, and the discount codes, I made more in a weekend than a week of dishes, and we realized the real product was never the shoes. It was the information.",
       "So we packaged it. Profit Paradise was a paid, invite-only Discord where resellers got a daily feed of profitable opportunities: discount-code 'brick' buys that let you purchase a model in bulk below market, hype-release and raffle alerts on the limited drops where demand outruns supply, and the research to know which was actually worth your capital. We charged a flat monthly membership and wrapped it in a real product, an organized server of essential and important channels, a twenty-page onboarding Starter Pack, release guides, and 24/7 one-on-one support.",
       "The piece worth pointing to is the automation layer. We ran a managed checkout operation: members handed us their slots, and on a limited release our bots would secure the item within milliseconds of it going live. We only took a small percentage of the profit on a successful checkout, so we earned only when our members did. It was the first time I productized a service and tied the price directly to the outcome.",
-      "At its peak Profit Paradise had 200 members paying $35 a month, roughly $7,000 in monthly recurring revenue, and by 2023 the server had grown past 3,500 people. We made it free in 2023, and it was acquired.",
+      "At its peak Profit Paradise had 200 members paying $35 a month, roughly $7,000 in monthly recurring revenue, and by 2023 the server had grown past 3,500 people. There was no exit here. The model was easy to copy, a thousand other people were running it, and that ceiling is what pushed me up a layer in the stack. So in 2023 we made it free, gave the community everything we had, and wound it down. I never sold Profit Paradise.",
       "The number that matters most isn't ours. Our members collectively made over $2.1 million in profit from what we taught and sourced for them. That is the whole thesis, and it has shaped every company since, from Mocean to today: when you genuinely have the edge, you package it, distribute it, and take a small cut of the upside everyone else makes. Profit Paradise is where I learned that teaching and distribution beat hoarding the secret.",
     ],
     logo: { src: "/ventures/profit-paradise.png", alt: "Profit Paradise logo" },

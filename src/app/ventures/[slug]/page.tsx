@@ -23,8 +23,6 @@ export async function generateMetadata({
   };
 }
 
-const ACQUIRED_SLUGS = ["mocean", "profit-paradise", "resell-network"];
-
 export default async function VenturePage({
   params,
 }: { params: Params }) {
@@ -32,7 +30,9 @@ export default async function VenturePage({
   const venture = VENTURES.find((v) => v.slug === slug);
   if (!venture) notFound();
 
-  const wasAcquired = ACQUIRED_SLUGS.includes(slug);
+  /** Read straight off the venture record so the badge can never claim an exit
+   *  the copy doesn't (this list used to be hardcoded here and drifted). */
+  const wasAcquired = venture.acquired === true;
 
   return (
     <div className="relative min-h-screen">
@@ -195,7 +195,7 @@ function KeyNumbers({ slug }: { slug: string }) {
       { label: "Total server members by 2023", value: "3,500+" },
       { label: "Member profits generated", value: "$2.1M+" },
       { label: "Subscription price", value: "$35/month" },
-      { label: "Outcome", value: "Acquired" },
+      { label: "Outcome", value: "Made free in 2023, wound down. Never sold." },
     ],
     "ocean-supply": [
       { label: "Weekly volume", value: "20 to 50 pairs" },
