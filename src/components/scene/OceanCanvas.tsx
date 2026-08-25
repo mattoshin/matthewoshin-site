@@ -22,11 +22,20 @@ import { isWebGL2Available } from "@/lib/webgl";
 import { useDeviceTier } from "@/lib/useDeviceTier";
 import { useWindowResizing } from "@/lib/useWindowResizing";
 import OceanScene from "./OceanScene";
+import SceneErrorBoundary from "./SceneErrorBoundary";
 import StaticOcean from "../chrome/StaticOcean";
+
+// If the live canvas mounts but never reports a painted frame within this budget
+// (a hung or silently-broken context that neither throws nor fires
+// `webglcontextlost`), give up on it and fall back to the static ocean. Comfortably
+// longer than a healthy scene's first-paint (a few frames) and than the loader's
+// own safety timeout, so slow-but-working hardware is never wrongly demoted.
+const PAINT_WATCHDOG_MS = 5000;
 
 export default function OceanCanvas() {
   const setWebglAvailable = useDescentStore((s) => s.setWebglAvailable);
   const setSceneReady = useDescentStore((s) => s.setSceneReady);
+  const sceneReady = useDescentStore((s) => s.sceneReady);
   const tier = useDeviceTier();
   const isPhone = tier === "phone";
 
@@ -78,6 +87,23 @@ export default function OceanCanvas() {
     if (!supported || degraded) setSceneReady(true);
   }, [supported, degraded, setSceneReady]);
 
+  // Paint watchdog: the live canvas is mounted, but if it never reports a
+  // painted frame (SceneReadySignal flips `sceneReady` after a few frames) within
+  // the budget, the context is hung or silently broken - it isn't throwing and
+  // isn't firing `webglcontextlost`, so nothing else would catch it. Fall back to
+  // the static ocean rather than leave a stuck/blank layer on screen. Cleared the
+  // moment the scene paints, so healthy hardware never trips it.
+  useEffect(() => {
+    if (!supported || degraded || sceneReady) return;
+    const t = window.setTimeout(() => {
+      if (!useDescentStore.getState().sceneReady) {
+        setDegraded(true);
+        setWebglAvailable(false);
+      }
+    }, PAINT_WATCHDOG_MS);
+    return () => window.clearTimeout(t);
+  }, [supported, degraded, sceneReady, setWebglAvailable]);
+
   // Pause rendering when the tab is hidden (saves battery / GPU).
   useEffect(() => {
     const onVisibility = () => {
@@ -92,11 +118,20 @@ export default function OceanCanvas() {
     return <StaticOcean />;
   }
 
+  // Shared fallback: mark the scene ready + webgl unavailable so the loader fades,
+  // then render the static ocean in place of the broken canvas subtree.
+  const handleSceneError = () => {
+    setDegraded(true);
+    setWebglAvailable(false);
+    setSceneReady(true);
+  };
+
   return (
     <div aria-hidden="true" className="ocean-fixed-layer pointer-events-none -z-10">
       {/* Static gradient sits underneath the canvas so any transparent area or
           a WebGL context loss still reads as ocean, not white. */}
       <StaticOcean />
+      <SceneErrorBoundary fallback={null} onError={handleSceneError}>
       <Canvas
         className="ocean-canvas-layer"
         frameloop={frameloop}
@@ -111,14 +146,37 @@ export default function OceanCanvas() {
         gl={{
           antialias: !isPhone, // MSAA off on phones: meaningful fill-rate saving
           alpha: true,
-          powerPreference: "high-performance",
+          // "default", not "high-performance": forcing the discrete GPU is a known
+          // way to FAIL context creation (or select a blocklisted/buggy adapter)
+          // on managed Windows/Edge machines, which is what rendered the hero as a
+          // dark broken layer instead of the ocean. Let the browser pick the
+          // adapter it can actually drive; the PerformanceMonitor above still sheds
+          // resolution if that adapter can't hold frame rate.
+          powerPreference: "default",
+          // Accept a software/perf-caveat context rather than getting null: paired
+          // with the paint watchdog + PerformanceMonitor, a slow context degrades
+          // gracefully instead of leaving no background at all.
+          failIfMajorPerformanceCaveat: false,
         }}
         camera={{ position: [0, 0, 8], fov: 55, near: 0.1, far: 200 }}
         onCreated={({ gl }) => {
+          // Context LOST after creation (GPU reset / process crash): degrade.
           gl.domElement.addEventListener(
             "webglcontextlost",
             (e) => {
               e.preventDefault();
+              setDegraded(true);
+              setWebglAvailable(false);
+            },
+            { once: true },
+          );
+          // Context CREATION error surfaced late on the element: same fallback.
+          // (The up-front isWebGL2Available probe catches most of these before we
+          // ever mount, but the live canvas uses different attributes, so guard
+          // here too.)
+          gl.domElement.addEventListener(
+            "webglcontextcreationerror",
+            () => {
               setDegraded(true);
               setWebglAvailable(false);
             },
@@ -143,6 +201,7 @@ export default function OceanCanvas() {
           <OceanScene tier={tier} lite={lite} hideActors={resizing} />
         </PerformanceMonitor>
       </Canvas>
+      </SceneErrorBoundary>
     </div>
   );
 }
