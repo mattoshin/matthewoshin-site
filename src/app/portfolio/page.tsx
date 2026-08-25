@@ -89,7 +89,10 @@ const ITEMS: PortfolioItem[] = [
     siteHref: doghouse?.href,
   },
   fromVenture("element-underground", "Co-founded", "https://elementunderground.com"),
-  fromBuild("observly", "ai-products"),
+  {
+    ...fromBuild("observly", "ai-products"),
+    siteHref: "https://observlymd.com",
+  },
   fromBuild("briefbridge", "ai-products"),
 ];
 
