@@ -27,6 +27,19 @@ describe("/portfolio page", () => {
     );
   });
 
+  it("Observly links out to the live site", () => {
+    render(<PortfolioPage />);
+    const observlyCard = screen
+      .getByRole("heading", { name: "Observly" })
+      .closest("div");
+    const hrefs = observlyCard
+      ? Array.from(observlyCard.querySelectorAll("a")).map((a) =>
+          a.getAttribute("href"),
+        )
+      : [];
+    expect(hrefs).toContain("https://observlymd.com");
+  });
+
   it("the Web & Client filter shows Dog House and hides the AI products", () => {
     render(<PortfolioPage />);
     fireEvent.click(screen.getByRole("tab", { name: /web & client/i }));

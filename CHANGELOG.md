@@ -2,6 +2,13 @@
 
 Release notes for matthewoshin.com. Versions use MAJOR.MINOR.PATCH.MICRO.
 
+## [1.2.0.1] - 2026-08-25
+
+### Added
+- Observly's portfolio card now links out to its live site
+  (observlymd.com) with a "View Site" button, matching the pattern
+  already used for BrachyClip, mTrain, and Dog House.
+
 ## [1.2.0.0] - 2026-07-07
 
 ### Added
