@@ -50,6 +50,9 @@ export default function PageShell({
 }) {
   const z = zoneById(zone);
   const maxWidth = width === "reading" ? "max-w-3xl" : "max-w-5xl";
+  // A narrower column gets the smaller display size so long titles wrap in
+  // two lines, not three (the blog kept sm:text-5xl before it used the shell).
+  const headingSize = width === "reading" ? "sm:text-5xl" : "sm:text-6xl";
 
   return (
     <>
@@ -66,12 +69,17 @@ export default function PageShell({
               href={backLink.href}
               className="hit mb-7 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-bio-cyan transition-colors hover:text-bio-aqua"
             >
-              <span aria-hidden="true">&lt;-</span> {backLink.label}
+              <span aria-hidden="true">&lt;-</span>
+              <span className="sr-only">Back to</span> {backLink.label}
             </Link>
           ) : null}
 
-          {/* Page header: coral eyebrow (depth + label) + display heading. */}
-          <p className="mb-7 flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
+          {/* Page header: coral eyebrow (depth + label) + display heading. With
+              a kicker the eyebrow, kicker and heading sit 12px apart; without
+              one the eyebrow keeps its usual 28px above the heading. */}
+          <p
+            className={`${kicker ? "mb-3" : "mb-7"} flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted`}
+          >
             <span
               aria-hidden="true"
               className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-reef-coral shadow-[0_0_8px_color-mix(in_srgb,var(--reef-coral)_55%,transparent)]"
@@ -84,12 +92,14 @@ export default function PageShell({
           </p>
 
           {kicker ? (
-            <p className="-mt-4 mb-2 font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+            <p className="mb-3 font-mono text-[11px] uppercase tracking-wider text-ink-muted">
               {kicker}
             </p>
           ) : null}
 
-          <h1 className="font-display text-4xl font-semibold leading-tight text-balance text-ink-heading sm:text-6xl">
+          <h1
+            className={`font-display text-4xl font-semibold leading-tight text-balance text-ink-heading ${headingSize}`}
+          >
             {heading}
           </h1>
           {intro ? (

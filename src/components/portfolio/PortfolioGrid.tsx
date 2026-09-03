@@ -155,7 +155,7 @@ export default function PortfolioGrid({ items }: { items: PortfolioItem[] }) {
     <div className="mt-8">
       {/* Filter pills. Wraps rather than scrolls so it never forces horizontal
           overflow on small phones. */}
-      <div role="group" aria-label="Filter projects" className="flex flex-wrap gap-2.5">
+      <div role="group" aria-label="Filter projects" className="flex flex-wrap gap-3">
         {FILTERS.map((f) => {
           const on = active === f.id;
           return (

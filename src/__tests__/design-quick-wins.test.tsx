@@ -11,6 +11,7 @@ import PageShell from "@/components/page/PageShell";
 import BucketNav from "@/components/chrome/BucketNav";
 import SiteFooter from "@/components/chrome/SiteFooter";
 import HomeSection from "@/components/home/HomeSection";
+import DemoBar from "@/components/demos/DemoBar";
 import { getPostSlugs } from "@/lib/posts";
 
 vi.mock("next/navigation", () => ({
@@ -36,6 +37,12 @@ describe("F-004 contact eyebrow", () => {
     const eyebrow = screen.getByText("Contact", { selector: "p > span" });
     expect(eyebrow).toBeTruthy();
     expect(screen.queryByText("Interests", { selector: "p > span" })).toBeNull();
+    // A page that passes no width or slots gets the wide column and no extras.
+    const main = screen.getByRole("main");
+    expect(classesOf(main)).toContain("max-w-5xl");
+    expect(classesOf(main)).not.toContain("max-w-3xl");
+    expect(screen.queryByRole("link", { name: /back to/i })).toBeNull();
+    expect(classesOf(screen.getByRole("heading", { level: 1 }))).toContain("sm:text-6xl");
   });
 });
 
@@ -48,7 +55,7 @@ describe("F-002 44px hit areas", () => {
 
   it("gives the nav pills, the Contact pill and the hamburger a full-size target", () => {
     render(<BucketNav />);
-    for (const name of ["Home", "Experience", "Ventures", "Portfolio", "About Me", "Contact"]) {
+    for (const name of ["Home", "Experience", "Ventures", "Portfolio", "About Me", "Contact", /return home/]) {
       const links = screen.getAllByRole("link", { name });
       expect(classesOf(links[0])).toContain("hit");
     }
@@ -71,6 +78,9 @@ describe("F-002 44px hit areas", () => {
     for (const name of ["About", "Writing", "LinkedIn", "GitHub"]) {
       expect(classesOf(screen.getByRole("link", { name }))).toContain("hit");
     }
+    // Wrapped rows need more than 26px between them or the 44px boxes overlap.
+    const row = screen.getByRole("link", { name: "About" }).parentElement!;
+    expect(classesOf(row)).toContain("gap-y-7");
     unmount();
 
     render(
@@ -79,6 +89,13 @@ describe("F-002 44px hit areas", () => {
       </HomeSection>,
     );
     expect(classesOf(screen.getByRole("link", { name: /open experience/i }))).toContain("hit");
+  });
+
+  it("extends every link in the demo bar", () => {
+    render(<DemoBar />);
+    const links = screen.getAllByRole("link");
+    expect(links.length).toBeGreaterThan(0);
+    for (const link of links) expect(classesOf(link)).toContain("hit");
   });
 
   it("extends the small Case study links on the portfolio grid and the demos hub", () => {
@@ -104,7 +121,11 @@ describe("F-003 chat widget focus ring", () => {
     expect(optOuts).toHaveLength(1);
     const at = src.indexOf("focus-visible:outline-none");
     expect(src.lastIndexOf("<textarea", at)).toBeGreaterThan(src.lastIndexOf("<button", at));
-    expect(read("src/app/globals.css")).toMatch(/:where\(a, button, \[tabindex\]\):focus-visible/);
+    const css = read("src/app/globals.css");
+    const rule = css.match(/:where\(a, button, \[tabindex\]\):focus-visible \{[^}]*\}/)?.[0] ?? "";
+    expect(rule).toContain("outline: 2px solid");
+    // An unlayered border-radius here would square off every rounded-full pill on focus.
+    expect(rule).not.toContain("border-radius");
   });
 });
 
@@ -149,6 +170,18 @@ describe("F-009 portfolio filter semantics", () => {
 });
 
 describe("F-011 blog pages share the page shell", () => {
+  it("shows the empty-state line when there are no posts", async () => {
+    vi.resetModules();
+    vi.doMock("@/lib/posts", () => ({ getAllPosts: () => [], getPostSlugs: () => [], getPost: () => null }));
+    const { default: EmptyBlogIndex } = await import("@/app/blog/page");
+    render(<EmptyBlogIndex />);
+    expect(screen.getByText("First posts coming soon.")).toBeTruthy();
+    expect(screen.queryByRole("list")).toBeNull();
+    vi.doUnmock("@/lib/posts");
+    vi.resetModules();
+  });
+
+
   it("renders the index through PageShell at reading width with the Writing label", () => {
     render(<BlogIndex />);
     const main = screen.getByRole("main");
@@ -165,10 +198,12 @@ describe("F-011 blog pages share the page shell", () => {
     render(await PostPage(props));
     const main = screen.getByRole("main");
     expect(main.getAttribute("data-shell")).toBe("page");
-    const back = screen.getByRole("link", { name: /writing/i });
+    const back = screen.getByRole("link", { name: /back to writing/i });
     expect(back.getAttribute("href")).toBe("/blog");
     const h1 = screen.getByRole("heading", { level: 1 });
     expect(classesOf(h1)).toContain("text-balance");
+    // The reading column keeps the smaller display size the blog had before.
+    expect(classesOf(h1)).toContain("sm:text-5xl");
     // Date sits between the eyebrow and the title, inside the shell header.
     const header = within(main);
     expect(header.getByText(/^\d{4}-\d{2}-\d{2}$/)).toBeTruthy();
