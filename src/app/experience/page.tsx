@@ -4,7 +4,9 @@ import { EXPERIENCE, SITE } from "@/data/content";
 
 /**
  * /experience - the jobs, at the sunlit-shallows depth (zone id "about").
- * Most recent first: a clean timeline of role + org + period with bullets.
+ * Most recent first, as a timeline: a vertical rule with a dot per role, the
+ * period above the role. No cards (design audit F-008, 2026-09-03): a glass
+ * card on this site means "open this", and a role is not a link.
  * The one-page resume PDF anchors the top (Fingerprint case-study pattern):
  * institutional readers get the takeaway artifact before the scroll.
  */
@@ -39,20 +41,22 @@ export default function ExperiencePage() {
         </a>
       </div>
 
-      <ol className="mt-10 space-y-4">
+      {/* Timeline: the rule is the list's left border; each role hangs a dot
+          on it. Dot offset = padding-left + half the dot, so it sits centred. */}
+      <ol aria-label="Roles" className="relative mt-12 border-l border-white/15 pl-6 sm:pl-8">
         {EXPERIENCE.map((job) => (
-          <li
-            key={`${job.org}-${job.role}`}
-            className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
-          >
-            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-              <h2 className="font-display text-xl font-semibold text-ink-heading sm:text-2xl">
-                {job.role} <span className="text-bio-cyan">at {job.org}</span>
-              </h2>
-              <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
-                {job.period}
-              </span>
-            </div>
+          <li key={`${job.org}-${job.role}`} className="relative pb-10 last:pb-0">
+            <span
+              aria-hidden="true"
+              data-timeline-dot=""
+              className="absolute top-2 -left-[calc(1.5rem+4.5px)] h-2 w-2 rounded-full bg-bio-cyan shadow-[0_0_8px_var(--bio-cyan)] sm:-left-[calc(2rem+4.5px)]"
+            />
+            <p className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+              {job.period}
+            </p>
+            <h2 className="mt-1 font-display text-xl font-semibold text-ink-heading sm:text-2xl">
+              {job.role} <span className="text-bio-cyan">at {job.org}</span>
+            </h2>
             <ul className="mt-3 space-y-2">
               {job.points.map((point) => (
                 <li
