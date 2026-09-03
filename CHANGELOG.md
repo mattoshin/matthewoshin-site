@@ -2,6 +2,16 @@
 
 Release notes for matthewoshin.com. Versions use MAJOR.MINOR.PATCH.MICRO.
 
+## [1.2.3.0] - 2026-09-03
+
+### Added
+- Every portfolio card now opens with a screenshot of the actual product, so
+  the work is seen before it is read. Thirteen captures from the live demos
+  and sites, one uniform grid, nothing singled out. The first row loads with
+  the page and the rest load as you scroll, so the page stays light.
+- `scripts/capture-portfolio-thumbs.sh` regenerates the thumbnails from
+  production whenever a demo or site changes.
+
 ## [1.2.2.0] - 2026-09-03
 
 Six quick fixes from the 2026-09-03 design audit. Nothing changes how the

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -14,22 +15,10 @@ import { useMemo, useState } from "react";
  * each with a live count. Filtering is instant and client-side (no route change).
  */
 
-export type PortfolioCategory = "ai-products" | "web-client" | "ventures";
+import type { PortfolioCategory, PortfolioItem } from "@/data/portfolio-items";
 
-export interface PortfolioItem {
-  name: string;
-  hook: string;
-  status: string;
-  category: PortfolioCategory;
-  /** Case-study detail route (/projects/* or /ventures/*). Optional: demo/site-only
-   *  cards (e.g. a standalone product concept) can omit it. */
-  caseHref?: string;
-  /** When set, the card shows a bright "View Demo" button to a clickable demo. */
-  demoHref?: string;
-  /** When set, the card shows a bright "View Site" button to the live external
-   *  site (active engagements). Takes precedence over demoHref as the primary CTA. */
-  siteHref?: string;
-}
+// Re-exported so existing importers keep working; the data module owns them.
+export type { PortfolioCategory, PortfolioItem };
 
 type FilterId = "all" | PortfolioCategory;
 
@@ -44,7 +33,7 @@ function Arrow() {
   return <span aria-hidden="true">-&gt;</span>;
 }
 
-function PortfolioCard({ item }: { item: PortfolioItem }) {
+function PortfolioCard({ item, eager }: { item: PortfolioItem; eager: boolean }) {
   // Status tags dropped from the card header (Matthew, 2026-07-03): the CTA
   // already says live vs demo, so the top-right chip was noise.
   const header = (
@@ -52,6 +41,26 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
       {item.name}
     </h2>
   );
+
+  // The picture does the talking: a real screenshot above the name, cropped
+  // from the top so the product's own header shows. The first row is the
+  // page's largest paint on desktop, so it loads eagerly (plain eager, not
+  // `priority`: a preload would compete with the ocean bundle on phones where
+  // the grid starts below the fold); the rest lazy-load as the grid scrolls.
+  // `sizes` states the real rendered width: the shell caps at 64rem, minus
+  // main and scrim padding, the column gap and the card's own padding, the
+  // image is 380px wide on desktop (measured), narrower below that.
+  const media = item.thumb ? (
+    <Image
+      src={item.thumb}
+      alt={`${item.name} screenshot`}
+      width={1200}
+      height={750}
+      loading={eager ? "eager" : "lazy"}
+      sizes="(min-width: 1024px) 380px, (min-width: 640px) calc(50vw - 130px), calc(100vw - 128px)"
+      className="mb-5 aspect-[16/10] w-full rounded-xl border border-white/15 object-cover object-top"
+    />
+  ) : null;
 
   // Cards with a primary action (a live site or a clickable demo) keep two distinct
   // links (no nested anchors); case-study-only cards make the whole card a single link.
@@ -67,6 +76,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   if (item.siteHref) {
     return (
       <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-colors hover:border-bio-cyan/50">
+        {media}
         {header}
         <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
         <div className="mt-auto flex flex-wrap items-center gap-3 pt-5">
@@ -87,6 +97,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   if (item.demoHref) {
     return (
       <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-colors hover:border-bio-cyan/50">
+        {media}
         {header}
         <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
         <div className="mt-auto flex flex-wrap items-center gap-3 pt-5">
@@ -103,11 +114,15 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   }
 
   if (item.caseHref) {
+    // A card with a screenshot fills the row like its neighbours; a text-only
+    // card (no live surface to capture) sizes to its copy instead of
+    // stretching to a picture-height neighbour and leaving an empty band.
     return (
       <Link
         href={item.caseHref}
-        className="group flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/55 hover:bg-bio-cyan/[0.09]"
+        className={`group flex ${item.thumb ? "h-full" : "h-auto"} flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/55 hover:bg-bio-cyan/[0.09]`}
       >
+        {media}
         <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
           {item.name}
         </h2>
@@ -126,6 +141,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   // with only a demo handled above). Unreachable in practice.
   return (
     <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm">
+      {media}
       {header}
       <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
     </div>
@@ -188,9 +204,9 @@ export default function PortfolioGrid({ items }: { items: PortfolioItem[] }) {
         key={active}
         className="mt-7 grid grid-cols-1 gap-5 motion-safe:animate-[rise_0.3s_cubic-bezier(0.16,1,0.3,1)_both] sm:grid-cols-2"
       >
-        {shown.map((item) => (
+        {shown.map((item, index) => (
           <li key={item.name} className="min-w-0">
-            <PortfolioCard item={item} />
+            <PortfolioCard item={item} eager={index < 2} />
           </li>
         ))}
       </ul>
