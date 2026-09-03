@@ -7,11 +7,15 @@ Tests let you move fast and ship with confidence. Without them, changes to
 
 - **vitest 4** + **@testing-library/react 16**, jsdom environment.
 - Config: `vitest.config.ts` (maps the `@/` alias, picks up `src/**/*.test.{ts,tsx}`).
+- One file opts out of jsdom per-file with `// @vitest-environment node`:
+  `share-preview-render.test.ts` rasterizes the og-image card through next/og
+  (satori + resvg wasm), and the wasm's typed-array boundary breaks when it
+  crosses jsdom's realm. The rest of the suite stays on jsdom.
 
 ## Run
 
 ```bash
-pnpm test          # full suite, ~1s
+pnpm test          # full suite, ~2s
 pnpm exec vitest   # watch mode
 ```
 
@@ -25,6 +29,11 @@ CI runs `pnpm typecheck` + `pnpm test` on every push and PR (`.github/workflows/
 - **Component composition** (`about-page`, `hero-section`, `bucket-nav`,
   `portfolio-page`, `projects-page` tests): render the real components, assert
   the links and sections a visitor relies on.
+- **Share preview card** (`share-preview.test.tsx`, `share-preview-render.test.ts`):
+  keeps every share-facing string (og-image, twitter-image, page metadata)
+  employer-free, and proves the route actually rasterizes a real 1200x630 PNG
+  whose id changes when its rendered inputs do. The render assertions run in
+  the node environment described above.
 - **Visual / e2e**: not automated yet; verified per-change with Playwright
   screenshots during development.
 

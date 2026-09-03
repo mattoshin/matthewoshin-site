@@ -18,7 +18,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Project docs
 
-- [TESTING.md](TESTING.md) - how to run and write tests (`pnpm test`, ~1s).
+- [TESTING.md](TESTING.md) - how to run and write tests (`pnpm test`, ~2s).
 - [CHANGELOG.md](CHANGELOG.md) - release notes per version (see `VERSION`).
 - [TODOS.md](TODOS.md) - deferred work and follow-ups.
 - [AGENTS.md](AGENTS.md) - rules for coding agents (imported by CLAUDE.md).

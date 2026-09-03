@@ -39,7 +39,14 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Gotchas
 - `main` has no branch protection yet (TODOS.md P2), but always go through a PR anyway.
 - Heavy WebGL: test perf impact before adding postprocessing passes.
-- Content lives in `src/data/`. Blog posts in `content/blog/`.
+- Content lives in `src/data/`. Blog posts in `content/blog/`. The share-card
+  tagline is `SITE.ogTagline` (built from the `FOCUS` const) in
+  `src/data/content.ts` — edit it there, not in `opengraph-image.tsx`.
+- `assets/og/` (bundled fonts + pre-cropped portrait) is read at render time
+  by `src/app/opengraph-image.tsx`. It's build-time input for the share card,
+  not a public static asset — don't move it under `public/`.
+- Don't `rm -rf .next` (or delete `.next/dev`) while a dev server is running
+  against this checkout — it serves straight out of that build directory.
 
 ## Do not
 - Add auth to this repo (private tools belong in oshin-os / oshin-jobsearch).
@@ -48,7 +55,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Testing
 
-- `pnpm test` runs the vitest suite (`src/__tests__/`), ~1s. See TESTING.md.
-- CI (`.github/workflows/test.yml`) gates every PR and push to main on `pnpm typecheck`, `pnpm test`, and `pnpm build`.
+- `pnpm test` runs the vitest suite (`src/__tests__/`), ~2s. See TESTING.md.
+- CI (`.github/workflows/test.yml`) gates every PR and push to main on `pnpm typecheck`, `pnpm test`, and `pnpm build`, on Node 24 (matches Vercel production).
+- A test that rasterizes the og-image card (next/og's wasm) must opt into
+  `// @vitest-environment node` — jsdom breaks the wasm's typed-array
+  boundary. See TESTING.md.
 - When adding a feature or fixing a bug, add or update a test in the same change.
 - Never commit code that fails `pnpm test` or `pnpm typecheck`.

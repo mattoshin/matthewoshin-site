@@ -50,7 +50,7 @@ It exports typed constants, no fetching, no side effects. The file header bakes 
 
 | Export | Type | Feeds |
 |--------|------|-------|
-| `SITE` | object | name, role, tagline, email, linkedin, github, `calendlyUrl` (placeholder) |
+| `SITE` | object | name, role, `focus` (the one employer-free phrase every self-description is built from), `ogTagline` (the share-card line, rendered by `opengraph-image.tsx`), email, linkedin, github, `calendlyUrl` (placeholder) |
 | `BUCKETS` | `readonly Bucket[]` | the six-item nav + home launchpad cards |
 | `BUCKET_BY_HREF` | record | nav active-state + page-header lookups |
 | `HERO` | object | front-page hero (positioning, hook, bio, scroll hint) |
