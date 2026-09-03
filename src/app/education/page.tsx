@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/page/PageShell";
-import { EDUCATION, EDUCATION_META } from "@/data/content";
+import ReadMore from "@/components/page/ReadMore";
+import { EDUCATION, EDUCATION_META, hasEducationPage } from "@/data/content";
 
 /**
  * /education - schools, at the abyss depth (zone id "writing").
@@ -25,11 +26,12 @@ export default function EducationPage() {
     <PageShell zone="writing" heading={EDUCATION_META.heading}>
       <ul role="list" aria-label="Schools" className="mt-10 divide-y divide-white/15 border-y border-white/15">
         {EDUCATION.map((e) => {
+          const page = hasEducationPage(e) ? e : null;
           const body = (
             <div className="min-w-0">
               <h2
                 className={`font-display text-xl font-semibold text-ink-heading sm:text-2xl ${
-                  e.slug ? "transition-colors group-hover:text-bio-cyan" : ""
+                  page ? "transition-colors group-hover:text-bio-cyan" : ""
                 }`}
               >
                 {e.school}
@@ -41,15 +43,10 @@ export default function EducationPage() {
           );
           return (
             <li key={e.school}>
-              {e.slug ? (
-                <Link href={`/education/${e.slug}`} className={`group ${ROW}`}>
+              {page ? (
+                <Link href={`/education/${page.slug}`} className={`group ${ROW}`}>
                   {body}
-                  <span className="inline-flex shrink-0 items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-bio-cyan transition-colors group-hover:text-bio-aqua">
-                    Read more
-                    <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
-                      -&gt;
-                    </span>
-                  </span>
+                  <ReadMore />
                 </Link>
               ) : (
                 <div className={ROW}>{body}</div>

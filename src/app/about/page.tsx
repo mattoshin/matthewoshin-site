@@ -3,12 +3,8 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import PageShell from "@/components/page/PageShell";
-import {
-  ABOUT,
-  EDUCATION,
-  INTERESTS,
-  SKILL_GROUPS,
-} from "@/data/content";
+import ReadMore from "@/components/page/ReadMore";
+import { ABOUT, EDUCATION, hasEducationPage, INTERESTS, SKILL_GROUPS } from "@/data/content";
 
 /**
  * /about - the whole person in one read, at the "contact" depth: the floor,
@@ -137,34 +133,37 @@ export default function AboutPage() {
         <MoreLink href="/skills" label="The full toolkit" />
       </section>
 
-      {/* Education: the schools, linking into the story pages. */}
+      {/* Education: the schools as hairline rows, the same pattern as
+          /education (a card here would mean "open this"; only the rows with a
+          story page are links, marked by the arrow). */}
       <section className="mt-12">
         <SectionHeader accent={ACCENT.education} title="Education" />
-        <ul className="mt-4 space-y-3">
+        <ul role="list" aria-label="Schools" className="mt-4 divide-y divide-white/15 border-y border-white/15">
           {EDUCATION.map((school) => {
+            const page = hasEducationPage(school) ? school : null;
+            const row =
+              "flex flex-col items-start gap-y-1.5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-x-6";
             const inner = (
-              <>
-                <span className="font-display text-base font-semibold text-ink-heading sm:text-lg">
+              <div className="min-w-0">
+                <h3
+                  className={`font-display text-base font-semibold text-ink-heading sm:text-lg ${
+                    page ? "transition-colors group-hover:text-bio-cyan" : ""
+                  }`}
+                >
                   {school.school}
-                </span>
-                <span className="mt-0.5 block text-sm text-ink-muted">
-                  {school.detail}
-                </span>
-              </>
+                </h3>
+                <p className="mt-0.5 text-sm text-ink-muted">{school.detail}</p>
+              </div>
             );
             return (
               <li key={school.school}>
-                {"slug" in school && school.slug ? (
-                  <Link
-                    href={`/education/${school.slug}`}
-                    className="block rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm transition-colors hover:border-bio-cyan/50 hover:bg-white/[0.06]"
-                  >
+                {page ? (
+                  <Link href={`/education/${page.slug}`} className={`group ${row}`}>
                     {inner}
+                    <ReadMore />
                   </Link>
                 ) : (
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm">
-                    {inner}
-                  </div>
+                  <div className={row}>{inner}</div>
                 )}
               </li>
             );
@@ -173,15 +172,13 @@ export default function AboutPage() {
         <MoreLink href="/education" label="Where I studied" />
       </section>
 
-      {/* Interests: the first few, off the clock. */}
+      {/* Interests: the first few, off the clock, as editorial columns with a
+          thin rule above each entry (same pattern as /interests). */}
       <section className="mt-12">
         <SectionHeader accent={ACCENT.interests} title="Off the clock" />
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+        <ul role="list" aria-label="Interests" className="mt-4 grid gap-x-8 gap-y-6 md:grid-cols-2">
           {INTERESTS.slice(0, 4).map((interest) => (
-            <li
-              key={interest.title}
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm"
-            >
+            <li key={interest.title} className="border-t border-white/15 pt-4">
               <h3 className="font-display text-base font-semibold text-ink-heading">
                 {interest.title}
               </h3>
