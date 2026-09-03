@@ -35,6 +35,12 @@ every push and PR, on Node 24 (`.github/workflows/test.yml`).
   employer-free, and proves the route actually rasterizes a real 1200x630 PNG
   whose id changes when its rendered inputs do. The render assertions run in
   the node environment described above.
+- **Hit areas** (`design-quick-wins.test.tsx`): jsdom cannot lay out or measure
+  `::after` pseudo-elements, so these tests only bind the `hit` class on each
+  element and check the CSS rule text in `globals.css` separately. Actual
+  44px tap-target coverage is verified by hand in a real browser with
+  `document.elementFromPoint` at the edges of the rendered box, confirming
+  the expected link (not a neighbor) receives the click.
 - **Visual / e2e**: not automated yet; verified per-change with Playwright
   screenshots during development.
 

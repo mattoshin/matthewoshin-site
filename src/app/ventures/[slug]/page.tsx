@@ -76,7 +76,7 @@ export default async function VenturePage({
               </span>
             )}
           </div>
-          <h1 className="mt-4 font-display text-4xl font-semibold leading-tight text-ink-heading sm:text-6xl">
+          <h1 className="mt-4 font-display text-4xl font-semibold leading-tight text-balance text-ink-heading sm:text-6xl">
             {venture.name}
           </h1>
           <p className="mt-4 text-lg text-ink-body sm:text-xl">{venture.oneLiner}</p>

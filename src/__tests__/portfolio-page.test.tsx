@@ -42,7 +42,7 @@ describe("/portfolio page", () => {
 
   it("the Web & Client filter shows Dog House and hides the AI products", () => {
     render(<PortfolioPage />);
-    fireEvent.click(screen.getByRole("tab", { name: /web & client/i }));
+    fireEvent.click(screen.getByRole("button", { name: /web & client/i }));
     expect(screen.getByRole("heading", { name: "Dog House" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "BrachyClip" })).toBeTruthy();
     expect(

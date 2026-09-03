@@ -76,7 +76,7 @@ export default function HomeSection({
         {href && cta ? (
           <Link
             href={href}
-            className="group mt-9 inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-bio-cyan transition-colors hover:text-bio-aqua"
+            className="hit group mt-9 inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-bio-cyan transition-colors hover:text-bio-aqua"
           >
             {cta}
             <span

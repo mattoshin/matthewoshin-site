@@ -2,6 +2,37 @@
 
 Release notes for matthewoshin.com. Versions use MAJOR.MINOR.PATCH.MICRO.
 
+## [1.2.2.0] - 2026-09-03
+
+Six quick fixes from the 2026-09-03 design audit. Nothing changes how the
+site looks at a glance; everything changes how it feels to use on a phone
+or with a keyboard.
+
+### Fixed
+- Every small link is now easy to tap. Nav pills, the wordmark, footer links,
+  the "Open ..." arrows on the home page, the case-study links and the
+  demo-bar links all respond to a 44px touch area (a new `hit` utility
+  extends the target without changing the visible size). Social icons sit in
+  40px boxes (44 would crowd the nav on a small laptop) and the mobile menu
+  button is 44px. Wrapped footer rows on phones are spaced so the enlarged
+  targets never overlap.
+- Keyboard focus no longer squares off round buttons and pills: the focus
+  ring follows each control's own shape.
+- Keyboard users can see where they are inside the chat widget: the
+  launcher, close, suggestion chips and send button show the site's focus
+  ring again.
+- The Contact page eyebrow reads "Contact" instead of "Interests" (it shares
+  that depth of the ocean but is its own page).
+- The portfolio filter tells screen readers the truth: pressed buttons with
+  a spoken "Showing N of M projects" instead of tabs that had no panels.
+- Page titles wrap in balanced lines on narrow screens instead of leaving a
+  single word on the last line.
+
+### Changed
+- The writing index and post pages use the same page shell as every other
+  section: reading-width column, the 650m Writing eyebrow, a back link above
+  the eyebrow on posts and the date under it.
+
 ## [1.2.1.0] - 2026-09-03
 
 ### Changed

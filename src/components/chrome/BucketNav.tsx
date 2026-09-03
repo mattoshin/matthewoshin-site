@@ -50,6 +50,16 @@ import { usePathname } from "next/navigation";
 import { MORE_BUCKETS, NAV_BUCKETS, SITE } from "@/data/content";
 import { Socials } from "./Socials";
 
+/** One definition for the desktop nav pills (Home, the buckets, About Me):
+    a 44px hit area around a 32px pill, cyan fill when current. */
+function navPillClass(active: boolean) {
+  return `hit block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+    active
+      ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
+      : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
+  }`;
+}
+
 export default function BucketNav() {
   const pathname = usePathname();
 
@@ -124,7 +134,7 @@ export default function BucketNav() {
             wordmark reads over BOTH the bright surface and the dark deep. */}
         <Link
           href="/"
-          className="min-w-0 shrink rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-left backdrop-blur-md transition-colors hover:border-bio-cyan/50"
+          className="hit min-w-0 shrink rounded-full border border-white/15 bg-deep-body/70 px-3 py-1.5 text-left backdrop-blur-md transition-colors hover:border-bio-cyan/50"
           aria-label="Matthew Oshin, return home"
         >
           <span className="block truncate font-display text-base font-semibold tracking-tight text-ink-heading sm:text-lg">
@@ -145,11 +155,7 @@ export default function BucketNav() {
               <Link
                 href="/"
                 aria-current={pathname === "/" ? "page" : undefined}
-                className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
-                  pathname === "/"
-                    ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
-                    : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
-                }`}
+                className={navPillClass(pathname === "/")}
               >
                 Home
               </Link>
@@ -161,11 +167,7 @@ export default function BucketNav() {
                   <Link
                     href={bucket.href}
                     aria-current={active ? "page" : undefined}
-                    className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
-                      active
-                        ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
-                        : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
-                    }`}
+                    className={navPillClass(active)}
                   >
                     {bucket.navLabel ?? bucket.label}
                   </Link>
@@ -179,11 +181,7 @@ export default function BucketNav() {
               <Link
                 href="/about"
                 aria-current={pathname === "/about" ? "page" : undefined}
-                className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
-                  pathname === "/about"
-                    ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
-                    : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
-                }`}
+                className={navPillClass(pathname === "/about")}
               >
                 About Me
               </Link>
@@ -198,7 +196,7 @@ export default function BucketNav() {
           <Link
             href="/contact"
             aria-current={pathname === "/contact" ? "page" : undefined}
-            className="rounded-full border border-white/15 bg-deep-body/40 px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-ink-heading backdrop-blur-md transition-all hover:border-bio-cyan hover:bg-bio-cyan hover:text-abyss-void hover:shadow-[0_0_18px_-3px_var(--bio-cyan)] active:border-bio-cyan active:bg-bio-cyan active:text-abyss-void"
+            className="hit rounded-full border border-white/15 bg-deep-body/40 px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-ink-heading backdrop-blur-md transition-all hover:border-bio-cyan hover:bg-bio-cyan hover:text-abyss-void hover:shadow-[0_0_18px_-3px_var(--bio-cyan)] active:border-bio-cyan active:bg-bio-cyan active:text-abyss-void"
           >
             Contact
           </Link>
@@ -212,7 +210,7 @@ export default function BucketNav() {
           aria-expanded={menuOpen}
           aria-controls={menuId}
           aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-          className="flex shrink-0 items-center justify-center rounded-full border border-white/15 bg-deep-body/70 p-2.5 text-ink-heading backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan lg:hidden"
+          className="flex shrink-0 items-center justify-center rounded-full border border-white/15 bg-deep-body/70 p-3 text-ink-heading backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan lg:hidden"
         >
           {menuOpen ? <CloseGlyph /> : <MenuGlyph />}
         </button>

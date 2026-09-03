@@ -347,11 +347,30 @@ html.lenis body {
     0 0 22px color-mix(in srgb, var(--surface-foam) 50%, transparent);
 }
 
-/* Visible focus ring for keyboard users on dark backgrounds. */
+/* Visible focus ring for keyboard users on dark backgrounds. No border-radius
+   here: this rule is unlayered, so it would beat Tailwind's rounded-full and
+   square off every pill and round button the moment it took focus. Modern
+   browsers draw the outline along the element's own radius. */
 :where(a, button, [tabindex]):focus-visible {
   outline: 2px solid var(--bio-cyan);
   outline-offset: 3px;
-  border-radius: 4px;
+}
+
+/* Minimum 44x44 hit area without changing how the element looks. Small text
+   links and icon buttons keep their visual size; an invisible pseudo-element
+   centered on the element extends the clickable box. Pseudo-elements belong to
+   their element for hit testing, so clicks and hover land on the link. */
+.hit {
+  position: relative;
+}
+.hit::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
 }
 
 /* Screen-reader-only utility (skip link sits here until focused). */
