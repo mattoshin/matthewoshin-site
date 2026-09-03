@@ -21,11 +21,19 @@
 
 import type { ZoneId } from "@/lib/depth";
 
+/** The one phrase every self-description on the site is built from: the share
+    card, the <meta> descriptions, and anything else that says what Matthew
+    does. Deliberately employer-free, so no job title follows every link he
+    pastes. Change it here and the variants below move together. */
+const FOCUS = "AI products, trading research tools, and companies";
+
 export const SITE = {
   name: "Matthew Oshin",
   role: "Builder",
-  tagline:
-    "I build AI products, trading research tools, and companies.",
+  focus: FOCUS,
+  /** The line under the name on the share card (iMessage, LinkedIn, X).
+      Rendered by src/app/opengraph-image.tsx; pinned by share-preview.test.tsx. */
+  ogTagline: `Builder. ${FOCUS}.`,
   email: "matthewoshin@gmail.com",
   linkedin: "https://www.linkedin.com/in/mattoshin",
   github: "https://github.com/mattoshin",
