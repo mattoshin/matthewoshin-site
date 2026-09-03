@@ -26,7 +26,7 @@ export default function ContactPage() {
     calendlyUrl !== "CALENDLY_URL" && calendlyUrl.startsWith("http");
 
   return (
-    <PageShell zone="skills" heading={CONTACT.heading} intro={CONTACT.blurb}>
+    <PageShell zone="skills" navLabel="Contact" heading={CONTACT.heading} intro={CONTACT.blurb}>
       <div className="mt-10 flex flex-col items-start justify-start gap-4 sm:flex-row sm:items-center">
         {/* The single hot CTA. */}
         {calendlyReady ? (
