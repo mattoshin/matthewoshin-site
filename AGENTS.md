@@ -35,6 +35,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Keep the **cartoon ocean** aesthetic. User rejected the dark "Deep" cinematic redesign.
 - 14 creatures in the descent zone (was 16; the speedboat+skier and dolphin were removed 2026-07-21 for a "lowkey" pass — see docs/superpowers/specs/2026-07-21-lowkey-ocean-scene-design.md). Do not regress below 14 or spacing.
 - Georgia for display headings on content pages; ocean chrome uses the existing token system.
+- Small text links and icon buttons get the `hit` class (`src/app/globals.css`) for a centered 44px minimum tap target without changing how they look. Rows of `hit` elements need at least 44px vertical pitch so the invisible boxes don't overlap; the footer uses `gap-y-7` (28px) for its 18px-tall links.
+- Subpages render through `PageShell` (`src/components/page/PageShell.tsx`), which takes `width` (`"wide"` default or `"reading"`), `backLink`, and `kicker` props. The blog index/post pages are the reading-width example (`width="reading"`, post pages add `backLink` and a date `kicker`).
 
 ## Gotchas
 - `main` has no branch protection yet (TODOS.md P2), but always go through a PR anyway.
@@ -51,6 +53,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
   route for old cached links). All three render through the same file.
 - Don't `rm -rf .next` (or delete `.next/dev`) while a dev server is running
   against this checkout, since it serves straight out of that build directory.
+- The global `:focus-visible` rule in `src/app/globals.css` is unlayered CSS, so it beats Tailwind utility classes like `rounded-full`. It must stay outline-only (no `border-radius`) or it squares off every round pill/button the moment it takes focus. Don't add `focus-visible:outline-none` on individual buttons to "fix" the corners, that's how the OceanAI chat widget lost its focus ring.
 
 ## Do not
 - Add auth to this repo (private tools belong in oshin-os / oshin-jobsearch).
