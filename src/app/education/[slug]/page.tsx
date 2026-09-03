@@ -48,7 +48,7 @@ export default async function SchoolPage({ params }: { params: Params }) {
           <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
             {school.detail}
           </span>
-          <h1 className="mt-2 font-display text-4xl font-semibold leading-tight text-balance text-ink-heading sm:text-6xl">
+          <h1 className="mt-2 font-serif text-4xl font-semibold leading-tight text-balance text-ink-heading sm:text-6xl">
             {school.school}
           </h1>
         </header>

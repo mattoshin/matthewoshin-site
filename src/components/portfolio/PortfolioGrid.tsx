@@ -37,7 +37,7 @@ function PortfolioCard({ item, eager }: { item: PortfolioItem; eager: boolean })
   // Status tags dropped from the card header (Matthew, 2026-07-03): the CTA
   // already says live vs demo, so the top-right chip was noise.
   const header = (
-    <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading">
+    <h2 className="min-w-0 font-serif text-2xl font-semibold text-ink-heading">
       {item.name}
     </h2>
   );
@@ -123,7 +123,7 @@ function PortfolioCard({ item, eager }: { item: PortfolioItem; eager: boolean })
         className={`group flex ${item.thumb ? "h-full" : "h-auto"} flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/55 hover:bg-bio-cyan/[0.09]`}
       >
         {media}
-        <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
+        <h2 className="min-w-0 font-serif text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
           {item.name}
         </h2>
         <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>

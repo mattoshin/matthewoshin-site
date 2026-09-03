@@ -76,7 +76,7 @@ export default async function VenturePage({
               </span>
             )}
           </div>
-          <h1 className="mt-4 font-display text-4xl font-semibold leading-tight text-balance text-ink-heading sm:text-6xl">
+          <h1 className="mt-4 font-serif text-4xl font-semibold leading-tight text-balance text-ink-heading sm:text-6xl">
             {venture.name}
           </h1>
           <p className="mt-4 text-lg text-ink-body sm:text-xl">{venture.oneLiner}</p>
@@ -345,7 +345,7 @@ function InWords({ quotes }: { quotes: readonly string[] }) {
       <div className="mt-5 space-y-6">
         {quotes.map((q) => (
           <blockquote key={q} className="border-l-2 border-bio-cyan/50 pl-5">
-            <p className="font-display text-xl italic leading-snug text-ink-heading sm:text-2xl">
+            <p className="font-serif text-xl italic leading-snug text-ink-heading sm:text-2xl">
               &ldquo;{q}&rdquo;
             </p>
           </blockquote>

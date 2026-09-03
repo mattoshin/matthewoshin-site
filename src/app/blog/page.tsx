@@ -34,7 +34,7 @@ export default function BlogIndex() {
                 className="group block rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-bio-cyan/30"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                  <h2 className="font-display text-xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan sm:text-2xl">
+                  <h2 className="font-serif text-xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan sm:text-2xl">
                     {post.title}
                   </h2>
                   <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">

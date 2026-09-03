@@ -1,16 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import { Fraunces, Poppins } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/data/content";
 import DescentChrome from "@/components/chrome/DescentChrome";
 import SiteFooter from "@/components/chrome/SiteFooter";
 
-// One font for the whole site: Poppins (rounded, friendly, coherent). It drives
-// display, body, and label type via the --font-* vars in globals.css.
+// Poppins (rounded, friendly, coherent) drives the ocean chrome, body and label
+// type via the --font-* vars in globals.css. Fraunces, the share card's face,
+// is the display serif for content-page headings only (`font-serif`), so the
+// ocean scene keeps its playful sans and the card and the pages match.
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+// Variable font: weight axis plus optical size, roman and italic (pull quotes).
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
   display: "swap",
 });
 
@@ -51,7 +62,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${poppins.variable} h-full antialiased`}
+      className={`${poppins.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full">
         {/* No-JS safety: the SharkLoader veil is dismissed by JS. If JS never

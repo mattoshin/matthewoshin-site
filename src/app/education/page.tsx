@@ -30,7 +30,7 @@ export default function EducationPage() {
           const body = (
             <div className="min-w-0">
               <h2
-                className={`font-display text-xl font-semibold text-ink-heading sm:text-2xl ${
+                className={`font-serif text-xl font-semibold text-ink-heading sm:text-2xl ${
                   page ? "transition-colors group-hover:text-bio-cyan" : ""
                 }`}
               >

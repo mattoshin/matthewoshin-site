@@ -98,7 +98,7 @@ export default function PageShell({
           ) : null}
 
           <h1
-            className={`font-display text-4xl font-semibold leading-tight text-balance text-ink-heading ${headingSize}`}
+            className={`font-serif text-4xl font-semibold leading-tight text-balance text-ink-heading ${headingSize}`}
           >
             {heading}
           </h1>
