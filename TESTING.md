@@ -30,6 +30,14 @@ every push and PR, on Node 24 (`.github/workflows/test.yml`).
 - **Component composition** (`about-page`, `hero-section`, `bucket-nav`,
   `portfolio-page`, `projects-page` tests): render the real components, assert
   the links and sections a visitor relies on.
+- **Portfolio thumbnails** (`portfolio-thumbnails.test.tsx`): binds
+  `src/data/portfolio-items.ts` to the committed files, not just the render.
+  It checks every `thumb` path exists under `public/portfolio/` and is bigger
+  than a blank capture, that the rendered grid points each card's `<Image>`
+  at that file with the right `loading`/`sizes` values, and that
+  `scripts/capture-portfolio-thumbs.sh`'s `slug|url` list matches the data
+  one-for-one. A renamed slug, a missing capture, or a source left behind in
+  the script fails here instead of shipping a broken image.
 - **Share preview card** (`share-preview.test.tsx`, `share-preview-render.test.ts`):
   keeps every share-facing string (og-image, twitter-image, page metadata)
   employer-free, and proves the route actually rasterizes a real 1200x630 PNG

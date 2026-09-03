@@ -54,6 +54,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Don't `rm -rf .next` (or delete `.next/dev`) while a dev server is running
   against this checkout, since it serves straight out of that build directory.
 - The global `:focus-visible` rule in `src/app/globals.css` is unlayered CSS, so it beats Tailwind utility classes like `rounded-full`. It must stay outline-only (no `border-radius`) or it squares off every round pill/button the moment it takes focus. Don't add `focus-visible:outline-none` on individual buttons to "fix" the corners, that's how the OceanAI chat widget lost its focus ring.
+- The portfolio card list lives in `src/data/portfolio-items.ts`, not the page file. It owns the `PortfolioItem`/`PortfolioCategory` types (`PortfolioGrid` re-exports them for existing importers) and sets a `thumb` per item. To add a card with a screenshot: add the item, add a matching `slug|url` line to `scripts/capture-portfolio-thumbs.sh`, run the script, and commit the resulting `public/portfolio/<slug>.webp`. `src/__tests__/portfolio-thumbnails.test.tsx` fails if any of the three is missing. Thumbnails are captured from production URLs, not localhost, so they never carry the dev indicator; a card with nothing live to screenshot (e.g. BriefBridge) omits `thumb` and renders text-only.
 
 ## Do not
 - Add auth to this repo (private tools belong in oshin-os / oshin-jobsearch).
