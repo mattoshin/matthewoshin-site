@@ -5,6 +5,10 @@ import { INTERESTS, INTERESTS_META } from "@/data/content";
 /**
  * /interests - off the clock, at the seabed depth (zone id "skills").
  * Music, film and photography, markets, sneakers, networking, emerging tech.
+ * Editorial columns with a thin rule above each entry, no cards (design
+ * audit F-008, 2026-09-03): nothing here is clickable, so nothing is boxed.
+ * Two columns from md (768px): at sm a column would be ~260px, too narrow
+ * for a paragraph.
  */
 export const metadata: Metadata = {
   title: "Interests",
@@ -19,12 +23,9 @@ export default function InterestsPage() {
       heading={INTERESTS_META.heading}
       intro={INTERESTS_META.blurb}
     >
-      <ul className="mt-10 space-y-4">
+      <ul role="list" aria-label="Interests" className="mt-12 grid gap-x-8 gap-y-9 md:grid-cols-2">
         {INTERESTS.map((interest) => (
-          <li
-            key={interest.title}
-            className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
-          >
+          <li key={interest.title} className="border-t border-white/15 pt-5">
             <h2 className="font-display text-lg font-semibold text-ink-heading sm:text-xl">
               {interest.title}
             </h2>
