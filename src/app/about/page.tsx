@@ -146,7 +146,7 @@ export default function AboutPage() {
             const inner = (
               <div className="min-w-0">
                 <h3
-                  className={`font-serif text-base font-semibold text-ink-heading sm:text-lg ${
+                  className={`font-serif text-base font-semibold leading-snug text-ink-heading sm:text-lg ${
                     page ? "transition-colors group-hover:text-bio-cyan" : ""
                   }`}
                 >
@@ -179,7 +179,7 @@ export default function AboutPage() {
         <ul role="list" aria-label="Interests" className="mt-4 grid gap-x-8 gap-y-6 md:grid-cols-2">
           {INTERESTS.slice(0, 4).map((interest) => (
             <li key={interest.title} className="border-t border-white/15 pt-4">
-              <h3 className="font-serif text-base font-semibold text-ink-heading">
+              <h3 className="font-serif text-base font-semibold leading-snug text-ink-heading sm:text-lg">
                 {interest.title}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-ink-body">

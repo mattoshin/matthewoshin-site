@@ -5,10 +5,11 @@ import { SITE } from "@/data/content";
 import DescentChrome from "@/components/chrome/DescentChrome";
 import SiteFooter from "@/components/chrome/SiteFooter";
 
-// Poppins (rounded, friendly, coherent) drives the ocean chrome, body and label
-// type via the --font-* vars in globals.css. Fraunces, the share card's face,
-// is the display serif for content-page headings only (`font-serif`), so the
-// ocean scene keeps its playful sans and the card and the pages match.
+// Poppins (rounded, friendly, coherent) drives the type that sits on the water
+// (hero, nav, bucket labels, OceanAI), the body and the labels via the --font-*
+// vars in globals.css. Fraunces, the share card's face, is the serif for every
+// heading inside a glass panel (`font-serif`), so the ocean keeps its playful
+// sans and the card and the pages share one face.
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -16,13 +17,26 @@ const poppins = Poppins({
   display: "swap",
 });
 
-// Variable font: weight axis plus optical size, roman and italic (pull quotes).
+// Variable font, roman: weight axis plus optical size. Preloaded, since every
+// glass-panel heading uses it.
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  style: ["normal", "italic"],
+  style: "normal",
   axes: ["opsz"],
   display: "swap",
+});
+
+// The italic is a second family on purpose: only pull quotes and the home beat
+// set an italic serif, so it is fetched on use (`.font-serif.italic` in
+// globals.css) instead of adding ~80 KB of preload to every route.
+const frauncesItalic = Fraunces({
+  variable: "--font-fraunces-italic",
+  subsets: ["latin"],
+  style: "italic",
+  axes: ["opsz"],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -62,7 +76,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${poppins.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${poppins.variable} ${fraunces.variable} ${frauncesItalic.variable} h-full antialiased`}
     >
       <body className="min-h-full">
         {/* No-JS safety: the SharkLoader veil is dismissed by JS. If JS never

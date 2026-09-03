@@ -345,7 +345,7 @@ function InWords({ quotes }: { quotes: readonly string[] }) {
       <div className="mt-5 space-y-6">
         {quotes.map((q) => (
           <blockquote key={q} className="border-l-2 border-bio-cyan/50 pl-5">
-            <p className="font-serif text-xl italic leading-snug text-ink-heading sm:text-2xl">
+            <p className="font-serif text-xl font-medium italic leading-snug text-ink-heading sm:text-2xl">
               &ldquo;{q}&rdquo;
             </p>
           </blockquote>
@@ -789,7 +789,7 @@ function ElementCircuit() {
               <div className="font-mono text-[10px] uppercase tracking-wider text-bio-cyan/70">
                 {p.tag}
               </div>
-              <div className="mt-1 font-display text-lg font-semibold text-ink-heading">
+              <div className="mt-1 font-serif text-lg font-semibold leading-snug text-ink-heading">
                 {p.title}
               </div>
               <p className="mt-1 text-sm text-ink-muted">{p.body}</p>
@@ -853,7 +853,7 @@ function OceanSupplyLoop() {
         {OCEAN_LOOP.map(({ n, title, body }) => (
           <div key={n} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
             <div className="font-mono text-sm font-semibold text-bio-cyan/70">{n}</div>
-            <div className="mt-2 font-display text-base font-semibold text-ink-heading">
+            <div className="mt-2 font-serif text-base font-semibold leading-snug text-ink-heading">
               {title}
             </div>
             <p className="mt-1 text-sm text-ink-muted">{body}</p>

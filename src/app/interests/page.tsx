@@ -26,7 +26,7 @@ export default function InterestsPage() {
       <ul role="list" aria-label="Interests" className="mt-12 grid gap-x-8 gap-y-9 md:grid-cols-2">
         {INTERESTS.map((interest) => (
           <li key={interest.title} className="border-t border-white/15 pt-5">
-            <h2 className="font-serif text-lg font-semibold text-ink-heading sm:text-xl">
+            <h2 className="font-serif text-lg font-semibold leading-snug text-ink-heading sm:text-xl">
               {interest.title}
             </h2>
             <p className="mt-2 text-base leading-relaxed text-ink-body">

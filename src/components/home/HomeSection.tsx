@@ -53,7 +53,7 @@ export default function HomeSection({
           <span>{navLabel ?? z.label}</span>
         </p>
 
-        <h2 className="font-display text-3xl font-semibold leading-tight text-ink-heading sm:text-5xl">
+        <h2 className="font-serif text-3xl font-semibold leading-tight text-ink-heading sm:text-5xl">
           {heading}
         </h2>
 
@@ -64,7 +64,7 @@ export default function HomeSection({
         ) : null}
 
         {beat ? (
-          <p className="mt-4 max-w-prose border-l-2 border-bio-cyan/50 pl-4 font-display text-lg italic leading-snug text-ink-heading/85 sm:text-xl">
+          <p className="mt-4 max-w-prose border-l-2 border-bio-cyan/50 pl-4 font-serif text-lg italic leading-snug text-ink-heading/85 sm:text-xl">
             {beat}
           </p>
         ) : null}

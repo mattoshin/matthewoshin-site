@@ -67,7 +67,7 @@ export default function ExperiencePage() {
             <p className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
               {job.period}
             </p>
-            <h2 className="mt-1 font-serif text-xl font-semibold break-words text-ink-heading sm:text-2xl">
+            <h2 className="mt-1 font-serif text-xl font-semibold leading-snug break-words text-ink-heading sm:text-2xl">
               {job.role} <span className="text-bio-cyan">at {job.org}</span>
             </h2>
             <ul role="list" className="mt-3 space-y-2">

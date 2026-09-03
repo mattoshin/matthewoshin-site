@@ -59,7 +59,7 @@ export default function DemosHubPage() {
                   className="h-2.5 w-2.5 rounded-full"
                   style={{ background: d.accent }}
                 />
-                <h2 className="font-serif text-xl font-semibold text-ink-heading">
+                <h2 className="font-serif text-xl font-semibold leading-snug text-ink-heading">
                   {d.name}
                 </h2>
                 {d.status === "live" ? (
