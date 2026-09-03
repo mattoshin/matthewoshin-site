@@ -20,25 +20,20 @@ export const metadata: Metadata = {
     default: "Matthew Oshin",
     template: "%s, Matthew Oshin",
   },
-  description:
-    "Matthew Oshin builds AI products, trading research tools, and companies. He has led AI strategy at a communications firm and now at a medical device company.",
+  description: `${SITE.name} builds ${SITE.focus}.`,
   authors: [{ name: SITE.name }],
   openGraph: {
     title: "Matthew Oshin",
-    description:
-      "AI products, trading research tools, and companies.",
+    description: `${SITE.focus}.`,
     type: "website",
     url: "https://matthewoshin.com",
-    images: [
-      { url: "/og.png", width: 1200, height: 630, alt: "Matthew Oshin" },
-    ],
+    // The card image comes from src/app/opengraph-image.tsx (file convention),
+    // so the tagline is code, not pixels. Do not point this back at a PNG.
   },
   twitter: {
     card: "summary_large_image",
     title: "Matthew Oshin",
-    description:
-      "AI products, trading research tools, and companies.",
-    images: ["/og.png"],
+    description: `${SITE.focus}.`,
   },
 };
 

@@ -2,6 +2,31 @@
 
 Release notes for matthewoshin.com. Versions use MAJOR.MINOR.PATCH.MICRO.
 
+## [1.2.1.0] - 2026-09-03
+
+### Changed
+- The link preview card (what iMessage, LinkedIn, and X show when you paste
+  matthewoshin.com) no longer names a job title or employer. The line under
+  the name now reads "Builder. AI products, trading research tools, and
+  companies." The circle portrait, water gradient, and domain footer are
+  unchanged.
+- The page description tag drops the "communications firm / medical device
+  company" sentence and now says the same thing as the card.
+- The card is rendered at build time from code instead of a static PNG, so a
+  future wording change is a one-string edit in `src/data/content.ts`. X gets
+  the same card through its own twitter-image route. The image URL includes a
+  version derived from the name, tagline, fonts, and portrait, so link
+  crawlers that cache by URL refetch after any change instead of showing the
+  old card for days.
+- The old `/og.png` address still works and serves the current card, so
+  cached pages and old links do not break.
+
+### Removed
+- `public/og.png`, the static card with the old title painted into it.
+
+### For contributors
+- CI now builds and tests on Node 24, the line Vercel uses for production.
+
 ## [1.2.0.1] - 2026-08-25
 
 ### Added
