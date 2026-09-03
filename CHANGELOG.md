@@ -2,6 +2,16 @@
 
 Release notes for matthewoshin.com. Versions use MAJOR.MINOR.PATCH.MICRO.
 
+## [1.2.4.0] - 2026-09-03
+
+### Changed
+- A box now means "you can open this". Experience, Education and Interests
+  no longer wrap their entries in cards: Experience reads as a timeline on a
+  rule with a dot per role and the dates above it, Education as plain rows
+  where the two schools with their own page keep an arrow, and Interests as
+  two editorial columns with a thin rule above each entry. Portfolio and
+  Writing keep their cards because there the card is the link.
+
 ## [1.2.3.0] - 2026-09-03
 
 ### Added
