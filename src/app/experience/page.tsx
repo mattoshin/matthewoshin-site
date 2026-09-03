@@ -41,23 +41,36 @@ export default function ExperiencePage() {
         </a>
       </div>
 
-      {/* Timeline: the rule is the list's left border; each role hangs a dot
-          on it. Dot offset = padding-left + half the dot, so it sits centred. */}
-      <ol aria-label="Roles" className="relative mt-12 border-l border-white/15 pl-6 sm:pl-8">
+      {/* Timeline. One --gutter variable sets the list padding, the dot's
+          offset (gutter + half the dot) and the rule's position, so the three
+          cannot drift apart. Each role draws its own segment of the rule from
+          its dot down to the next role's dot (bottom-[-9px] reaches the next
+          dot's centre), and the last role draws none, so the rule ends at the
+          final dot instead of running on beside its bullets. top 5px centres
+          the 8px dot on the period's 18px line. role="list" keeps WebKit
+          announcing these as lists once the markers are styled away. */}
+      <ol
+        role="list"
+        aria-label="Roles"
+        className="relative mt-12 pl-(--gutter) [--gutter:1.5rem] sm:[--gutter:2rem]"
+      >
         {EXPERIENCE.map((job) => (
-          <li key={`${job.org}-${job.role}`} className="relative pb-10 last:pb-0">
+          <li
+            key={`${job.org}-${job.role}`}
+            className="relative pb-10 last:pb-0 before:absolute before:top-[9px] before:bottom-[-9px] before:-left-[calc(var(--gutter)+0.5px)] before:w-px before:bg-white/15 before:content-[''] last:before:hidden"
+          >
             <span
               aria-hidden="true"
               data-timeline-dot=""
-              className="absolute top-2 -left-[calc(1.5rem+4.5px)] h-2 w-2 rounded-full bg-bio-cyan shadow-[0_0_8px_var(--bio-cyan)] sm:-left-[calc(2rem+4.5px)]"
+              className="absolute top-[5px] -left-[calc(var(--gutter)+4.5px)] h-2 w-2 rounded-full bg-bio-cyan shadow-[0_0_8px_var(--bio-cyan)]"
             />
             <p className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
               {job.period}
             </p>
-            <h2 className="mt-1 font-display text-xl font-semibold text-ink-heading sm:text-2xl">
+            <h2 className="mt-1 font-display text-xl font-semibold break-words text-ink-heading sm:text-2xl">
               {job.role} <span className="text-bio-cyan">at {job.org}</span>
             </h2>
-            <ul className="mt-3 space-y-2">
+            <ul role="list" className="mt-3 space-y-2">
               {job.points.map((point) => (
                 <li
                   key={point}
