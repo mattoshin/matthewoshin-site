@@ -44,10 +44,17 @@ every push and PR, on Node 24 (`.github/workflows/test.yml`).
   whose id changes when its rendered inputs do. The render assertions run in
   the node environment described above.
 - **Cards only where clickable** (`cards-only-where-clickable.test.tsx`): asserts
-  Experience, Education and Interests render zero cards (matched by the
-  rounded-xl/2xl + border + translucent-fill recipe, not one class) and instead
-  use their timeline, hairline-row, and editorial-column patterns, while
-  Portfolio keeps its cards since there the card is the link.
+  Experience, Education, Interests and the About page's Education and "Off the
+  clock" digests render zero cards (matched by the rounded-xl/2xl + border +
+  translucent-fill recipe, not one class) and instead use their timeline,
+  hairline-row, and editorial-column patterns, while Portfolio keeps its cards
+  since there the card is the link. The About lists are found by accessible
+  name (Schools, Interests).
+- **Education page guard** (`education-page-guard.test.ts`): pins
+  `hasEducationPage`, the one rule for whether a school links to
+  `/education/[slug]`. A slug without a story must be rejected (the detail
+  route 404s without one), and every real school with a slug must carry its
+  story, so the data cannot ship a link to a 404.
 - **Hit areas** (`design-quick-wins.test.tsx`): jsdom cannot lay out or measure
   `::after` pseudo-elements, so these tests only bind the `hit` class on each
   element and check the CSS rule text in `globals.css` separately. Actual
