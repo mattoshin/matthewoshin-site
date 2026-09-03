@@ -58,7 +58,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   const caseLink = item.caseHref ? (
     <Link
       href={item.caseHref}
-      className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity hover:opacity-100"
+      className="hit inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-bio-cyan opacity-80 transition-opacity hover:opacity-100"
     >
       Case study <Arrow />
     </Link>
@@ -155,17 +155,16 @@ export default function PortfolioGrid({ items }: { items: PortfolioItem[] }) {
     <div className="mt-8">
       {/* Filter pills. Wraps rather than scrolls so it never forces horizontal
           overflow on small phones. */}
-      <div role="tablist" aria-label="Filter projects" className="flex flex-wrap gap-2.5">
+      <div role="group" aria-label="Filter projects" className="flex flex-wrap gap-2.5">
         {FILTERS.map((f) => {
           const on = active === f.id;
           return (
             <button
               key={f.id}
               type="button"
-              role="tab"
-              aria-selected={on}
+              aria-pressed={on}
               onClick={() => setActive(f.id)}
-              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-mono text-xs uppercase tracking-wider transition-colors ${
+              className={`hit inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-mono text-xs uppercase tracking-wider transition-colors ${
                 on
                   ? "btn-demo"
                   : "border border-white/15 text-ink-muted hover:border-bio-cyan/40 hover:text-ink-body"
@@ -177,6 +176,12 @@ export default function PortfolioGrid({ items }: { items: PortfolioItem[] }) {
           );
         })}
       </div>
+      {/* Screen readers hear the result of a filter press; sighted users see the
+          grid change. Plain buttons with aria-pressed match what this is (a
+          filter), where the old tabs ARIA promised panels that never existed. */}
+      <p role="status" aria-live="polite" className="sr-only">
+        Showing {shown.length} of {items.length} projects
+      </p>
 
       {/* Keyed on the active filter so the cards do a subtle fade-in on switch. */}
       <ul
