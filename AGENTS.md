@@ -45,6 +45,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - `assets/og/` (bundled fonts + pre-cropped portrait) is read at render time
   by `src/app/opengraph-image.tsx`. It's build-time input for the share card,
   not a public static asset, so don't move it under `public/`.
+- The share card is served three ways: `/opengraph-image` (the versioned card
+  Next generates from `opengraph-image.tsx`), `/twitter-image` (same card,
+  re-exported for X), and `/og.png` (`src/app/og.png/route.ts`, a compat
+  route for old cached links). All three render through the same file.
 - Don't `rm -rf .next` (or delete `.next/dev`) while a dev server is running
   against this checkout, since it serves straight out of that build directory.
 

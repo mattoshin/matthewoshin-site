@@ -19,7 +19,8 @@ pnpm test          # full suite, ~2s
 pnpm exec vitest   # watch mode
 ```
 
-CI runs `pnpm typecheck` + `pnpm test` on every push and PR (`.github/workflows/test.yml`).
+CI runs `pnpm typecheck`, `pnpm test`, and a separate `pnpm build` job on
+every push and PR, on Node 24 (`.github/workflows/test.yml`).
 
 ## Layers
 
