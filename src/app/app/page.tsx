@@ -23,7 +23,7 @@ export default function DemosHubPage() {
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-bio-cyan/80">
           Interactive demos
         </p>
-        <h1 className="mt-4 font-display text-4xl font-semibold leading-tight text-ink-heading sm:text-5xl">
+        <h1 className="mt-4 font-serif text-4xl font-semibold leading-tight text-ink-heading sm:text-5xl">
           Click through the things I&apos;ve built.
         </h1>
         <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
@@ -59,7 +59,7 @@ export default function DemosHubPage() {
                   className="h-2.5 w-2.5 rounded-full"
                   style={{ background: d.accent }}
                 />
-                <h2 className="font-display text-xl font-semibold text-ink-heading">
+                <h2 className="font-serif text-xl font-semibold leading-snug text-ink-heading">
                   {d.name}
                 </h2>
                 {d.status === "live" ? (

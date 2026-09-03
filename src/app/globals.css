@@ -178,11 +178,15 @@ html {
   --color-ink-light-primary: var(--ink-light-primary);
   --color-ink-light-secondary: var(--ink-light-secondary);
 
-  /* One font for the whole site: Poppins (rounded, friendly, coherent).
-     Display, body, and label type all resolve to it. */
+  /* Poppins (rounded, friendly, coherent) for type on the water (hero, nav,
+     bucket labels, OceanAI), body and labels. Fraunces, the share card's
+     serif, for every heading inside a glass panel (the `font-serif`
+     utility; the italic face is its own family, see .font-serif.italic). */
   --font-display: var(--font-poppins), system-ui, sans-serif;
   --font-sans: var(--font-poppins), system-ui, sans-serif;
   --font-mono: var(--font-poppins), ui-monospace, monospace;
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-serif-italic: var(--font-fraunces-italic), Georgia, serif;
 }
 
 html {
@@ -239,10 +243,13 @@ html.lenis body {
   max-width: 68ch;
 }
 
-/* Display headings use Fraunces with optical sizing on. */
-.font-display {
-  font-family: var(--font-display), Georgia, serif;
-  font-optical-sizing: auto;
+/* font-display and font-serif are plain Tailwind utilities from the tokens
+   above (no unlayered copies here: those would block sm:font-serif and the
+   like). An italic serif switches to the italic family, which next/font
+   loads on use rather than preloading on every route. Unlayered on purpose:
+   it has to beat the generated font-serif utility. */
+.font-serif.italic {
+  font-family: var(--font-serif-italic);
 }
 .font-mono {
   font-family: var(--font-mono), ui-monospace, monospace;
@@ -594,21 +601,21 @@ html.lenis body {
 }
 
 /* Blog post body (rendered markdown from trusted repo files). Light type on the
-   dark scrim, Georgia headings, cyan links, comfortable reading rhythm. */
+   dark scrim, Fraunces headings, cyan links, comfortable reading rhythm. */
 .prose-ocean {
   color: var(--ink-body);
   font-size: 1.05rem;
   line-height: 1.78;
 }
 .prose-ocean h2 {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-serif), Georgia, serif;
   color: var(--ink-heading);
   font-size: 1.65rem;
   font-weight: 600;
   margin: 2rem 0 0.75rem;
 }
 .prose-ocean h3 {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-serif), Georgia, serif;
   color: var(--ink-heading);
   font-size: 1.3rem;
   font-weight: 600;

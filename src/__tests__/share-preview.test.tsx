@@ -3,10 +3,11 @@ import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { SITE } from "@/data/content";
 
-// layout.tsx loads Poppins through next/font/google, which wants the network.
+// layout.tsx loads Poppins and Fraunces through next/font/google, which wants the network.
 // The metadata object is all we need, so stub the font loader.
 vi.mock("next/font/google", () => ({
   Poppins: () => ({ variable: "--font-poppins", className: "poppins" }),
+  Fraunces: () => ({ variable: "--font-fraunces", className: "fraunces" }),
 }));
 
 /**

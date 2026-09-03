@@ -74,14 +74,14 @@ export default function EntrepreneurshipPage() {
                 <CardLogo venture={venture} />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <h3 className="font-display text-xl font-semibold text-ink-heading sm:text-2xl">
+                    <h3 className="font-serif text-xl font-semibold leading-snug text-ink-heading sm:text-2xl">
                       {venture.name}
                     </h3>
                     <span className="font-mono text-[11px] uppercase tracking-wider text-bio-cyan/80">
                       {venture.era}
                     </span>
                   </div>
-                  <p className="mt-1 text-base font-medium text-ink-body">{venture.oneLiner}</p>
+                  <p className="mt-1 text-base text-ink-muted">{venture.oneLiner}</p>
                 </div>
               </div>
               <p className="measure mt-3 text-sm leading-relaxed text-ink-muted sm:text-base">
