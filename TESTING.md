@@ -43,6 +43,11 @@ every push and PR, on Node 24 (`.github/workflows/test.yml`).
   employer-free, and proves the route actually rasterizes a real 1200x630 PNG
   whose id changes when its rendered inputs do. The render assertions run in
   the node environment described above.
+- **Cards only where clickable** (`cards-only-where-clickable.test.tsx`): asserts
+  Experience, Education and Interests render zero cards (matched by the
+  rounded-xl/2xl + border + translucent-fill recipe, not one class) and instead
+  use their timeline, hairline-row, and editorial-column patterns, while
+  Portfolio keeps its cards since there the card is the link.
 - **Hit areas** (`design-quick-wins.test.tsx`): jsdom cannot lay out or measure
   `::after` pseudo-elements, so these tests only bind the `hit` class on each
   element and check the CSS rule text in `globals.css` separately. Actual
