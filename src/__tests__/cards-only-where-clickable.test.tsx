@@ -5,7 +5,7 @@ import EducationPage from "@/app/education/page";
 import InterestsPage from "@/app/interests/page";
 import PortfolioPage from "@/app/portfolio/page";
 import AboutPage from "@/app/about/page";
-import { EDUCATION, EXPERIENCE, INTERESTS } from "@/data/content";
+import { EDUCATION, EXPERIENCE, hasEducationPage, INTERESTS } from "@/data/content";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
@@ -64,7 +64,7 @@ describe("cards only where the card is the link", () => {
       const heading = screen.getByRole("heading", { level: 2, name: e.school });
       if (e.detail) expect(within(heading.closest("li")!).getByText(e.detail)).toBeTruthy();
       const link = heading.closest("a");
-      if (e.slug) {
+      if (hasEducationPage(e)) {
         expect(link?.getAttribute("href")).toBe(`/education/${e.slug}`);
         expect(within(link!).getByText(/read more/i)).toBeTruthy();
         // The whole row is one link (tall enough on its own, no hit area
@@ -100,26 +100,43 @@ describe("cards only where the card is the link", () => {
     const { container } = render(<AboutPage />);
     // The portrait frame uses a ring, not the card recipe, so the page has no cards at all.
     expect(cardsIn(container)).toBe(0);
-    const schools = screen.getByRole("heading", { name: "Education" }).parentElement!;
-    const list = within(schools).getByRole("list");
+    const list = screen.getByRole("list", { name: /schools/i });
+    const schools = list.parentElement!;
     expect(list.getAttribute("role")).toBe("list");
     expect((list.getAttribute("class") ?? "").split(/\s+/)).toContain("divide-y");
     for (const e of EDUCATION) {
       const name = within(list).getByText(e.school);
+      const row = name.closest("li")!;
+      if (e.detail) expect(within(row).getByText(e.detail)).toBeTruthy();
       const link = name.closest("a");
-      if (e.slug) {
+      if (hasEducationPage(e)) {
         expect(link?.getAttribute("href")).toBe(`/education/${e.slug}`);
         expect(within(link!).getByText(/read more/i)).toBeTruthy();
+        // Stacked on phones, one row from sm; the whole row takes focus.
+        expect((link!.getAttribute("class") ?? "").split(/\s+/)).toEqual(
+          expect.arrayContaining(["flex-col", "sm:flex-row"]),
+        );
+        link!.focus();
+        expect(document.activeElement).toBe(link);
       } else {
         expect(link).toBeNull();
       }
     }
-    const interests = screen.getByRole("heading", { name: "Off the clock" }).parentElement!;
-    const grid = within(interests).getByRole("list");
+    expect(within(schools).getByRole("link", { name: /where i studied/i }).getAttribute("href")).toBe("/education");
+
+    const grid = screen.getByRole("list", { name: /interests/i });
+    const interests = grid.parentElement!;
     expect((grid.getAttribute("class") ?? "").split(/\s+/)).toContain("md:grid-cols-2");
-    for (const item of within(grid).getAllByRole("listitem")) {
+    const items = within(grid).getAllByRole("listitem");
+    // The digest shows the first four interests only; the full list lives on /interests.
+    expect(items).toHaveLength(4);
+    expect(within(grid).queryByText(INTERESTS[4].title)).toBeNull();
+    for (const [index, item] of items.entries()) {
       expect((item.getAttribute("class") ?? "").split(/\s+/)).toContain("border-t");
+      expect(within(item).getByRole("heading", { level: 3 }).textContent).toBe(INTERESTS[index].title);
+      expect(within(item).getByText(INTERESTS[index].detail)).toBeTruthy();
     }
+    expect(within(interests).getByRole("link", { name: /more off the clock/i }).getAttribute("href")).toBe("/interests");
   });
 
   it("keeps the cards on the portfolio, where every card is a link", () => {

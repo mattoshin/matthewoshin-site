@@ -3,12 +3,8 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import PageShell from "@/components/page/PageShell";
-import {
-  ABOUT,
-  EDUCATION,
-  INTERESTS,
-  SKILL_GROUPS,
-} from "@/data/content";
+import ReadMore from "@/components/page/ReadMore";
+import { ABOUT, EDUCATION, hasEducationPage, INTERESTS, SKILL_GROUPS } from "@/data/content";
 
 /**
  * /about - the whole person in one read, at the "contact" depth: the floor,
@@ -142,36 +138,29 @@ export default function AboutPage() {
           story page are links, marked by the arrow). */}
       <section className="mt-12">
         <SectionHeader accent={ACCENT.education} title="Education" />
-        <ul role="list" className="mt-4 divide-y divide-white/15 border-y border-white/15">
+        <ul role="list" aria-label="Schools" className="mt-4 divide-y divide-white/15 border-y border-white/15">
           {EDUCATION.map((school) => {
-            const linked = "slug" in school && Boolean(school.slug);
+            const page = hasEducationPage(school) ? school : null;
             const row =
               "flex flex-col items-start gap-y-1.5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-x-6";
             const inner = (
-              <span className="min-w-0 block">
-                <span
-                  className={`block font-display text-base font-semibold text-ink-heading sm:text-lg ${
-                    linked ? "transition-colors group-hover:text-bio-cyan" : ""
+              <div className="min-w-0">
+                <h3
+                  className={`font-display text-base font-semibold text-ink-heading sm:text-lg ${
+                    page ? "transition-colors group-hover:text-bio-cyan" : ""
                   }`}
                 >
                   {school.school}
-                </span>
-                <span className="mt-0.5 block text-sm text-ink-muted">
-                  {school.detail}
-                </span>
-              </span>
+                </h3>
+                <p className="mt-0.5 text-sm text-ink-muted">{school.detail}</p>
+              </div>
             );
             return (
               <li key={school.school}>
-                {linked ? (
-                  <Link href={`/education/${school.slug}`} className={`group ${row}`}>
+                {page ? (
+                  <Link href={`/education/${page.slug}`} className={`group ${row}`}>
                     {inner}
-                    <span className="inline-flex shrink-0 items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-bio-cyan transition-colors group-hover:text-bio-aqua">
-                      Read more
-                      <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
-                        -&gt;
-                      </span>
-                    </span>
+                    <ReadMore />
                   </Link>
                 ) : (
                   <div className={row}>{inner}</div>
@@ -187,7 +176,7 @@ export default function AboutPage() {
           thin rule above each entry (same pattern as /interests). */}
       <section className="mt-12">
         <SectionHeader accent={ACCENT.interests} title="Off the clock" />
-        <ul role="list" className="mt-4 grid gap-x-8 gap-y-6 md:grid-cols-2">
+        <ul role="list" aria-label="Interests" className="mt-4 grid gap-x-8 gap-y-6 md:grid-cols-2">
           {INTERESTS.slice(0, 4).map((interest) => (
             <li key={interest.title} className="border-t border-white/15 pt-4">
               <h3 className="font-display text-base font-semibold text-ink-heading">

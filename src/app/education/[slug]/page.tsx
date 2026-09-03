@@ -1,27 +1,29 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { EDUCATION } from "@/data/content";
+import { EDUCATION, hasEducationPage } from "@/data/content";
 
 type Params = Promise<{ slug: string }>;
 
+const PAGES = EDUCATION.filter(hasEducationPage);
+
 export function generateStaticParams() {
-  return EDUCATION.filter((s) => s.slug).map((s) => ({ slug: s.slug as string }));
+  return PAGES.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
-  const school = EDUCATION.find((s) => s.slug === slug);
+  const school = PAGES.find((s) => s.slug === slug);
   if (!school) return { title: "Not found" };
   return { title: school.school, description: school.detail };
 }
 
 export default async function SchoolPage({ params }: { params: Params }) {
   const { slug } = await params;
-  const school = EDUCATION.find((s) => s.slug === slug);
-  if (!school || !school.storyParagraphs) notFound();
+  const school = PAGES.find((s) => s.slug === slug);
+  if (!school) notFound();
 
   return (
     <div className="relative min-h-screen">

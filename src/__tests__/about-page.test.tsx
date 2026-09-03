@@ -35,7 +35,7 @@ describe("/about page", () => {
     expect(screen.getByRole("img", { name: "Matthew Oshin" })).toBeTruthy();
   });
 
-  it("renders the story, toolkit groups, interest cards, and non-linked school", () => {
+  it("renders the story, toolkit groups, interest columns, and non-linked school", () => {
     render(<AboutPage />);
     // The long-form story renders in full, not just the facts.
     for (const paragraph of ABOUT.paragraphs) {
@@ -45,13 +45,13 @@ describe("/about page", () => {
     for (const group of SKILL_GROUPS) {
       expect(screen.getByRole("heading", { name: group.title })).toBeTruthy();
     }
-    // The first four interests preview as cards.
+    // The first four interests preview as editorial columns.
     for (const interest of INTERESTS.slice(0, 4)) {
       expect(
         screen.getByRole("heading", { name: interest.title }),
       ).toBeTruthy();
     }
-    // A school without a slug renders as a plain card, not a link.
+    // A school without a slug renders as a plain row, not a link.
     const weston = screen.getByText("Weston High School");
     expect(weston.closest("a")).toBeNull();
   });

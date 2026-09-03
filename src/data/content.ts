@@ -807,6 +807,22 @@ export interface School {
   storyParagraphs?: readonly string[];
 }
 
+/** A school that really has a page: /education/[slug] 404s without the story. */
+export type SchoolWithPage = School & {
+  slug: string;
+  storyParagraphs: readonly string[];
+};
+
+/**
+ * The one rule for "does this school link anywhere". Every surface that
+ * renders a school (About, Education, the detail route's static params)
+ * asks this instead of checking `slug` alone, so a slug without a story can
+ * never become a link to a 404.
+ */
+export function hasEducationPage(school: School): school is SchoolWithPage {
+  return Boolean(school.slug && school.storyParagraphs?.length);
+}
+
 export const EDUCATION: readonly School[] = [
   {
     slug: "michigan",
