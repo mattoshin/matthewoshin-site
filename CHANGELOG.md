@@ -2,6 +2,12 @@
 
 Release notes for matthewoshin.com. Versions use MAJOR.MINOR.PATCH.MICRO.
 
+## [1.2.6.0] - 2026-09-03
+
+### Changed
+- Content-page headings use Fraunces, the share card's serif, through a new `font-serif` token (`--font-fraunces` from next/font, variable weight, optical size, roman + italic). Page titles, section and entry headings, case-study titles, venture pull quotes and blog prose headings all follow it. The ocean chrome (hero, nav wordmark, descent sections, OceanAI, bucket labels) stays Poppins, so the playful sans on the scene is untouched; this is design audit F-013, and the split is what the Poppins-only pass (#53) was protecting.
+- `display-type.test.tsx` binds the font wiring to the rendered classes: Fraunces loaded on `<html>`, the serif token, PageShell and About headings in the serif, and the chrome components still on `font-display`.
+
 ## [1.2.5.0] - 2026-09-03
 
 ### Changed
