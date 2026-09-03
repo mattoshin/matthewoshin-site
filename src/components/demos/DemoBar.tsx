@@ -31,7 +31,7 @@ export default function DemoBar() {
           >
             <Link
               href="/portfolio"
-              className="flex shrink-0 items-center gap-2 text-white/80 transition-colors hover:text-white"
+              className="hit flex shrink-0 items-center gap-2 text-white/80 transition-colors hover:text-white"
             >
               <span aria-hidden="true">&lt;-</span> Portfolio
             </Link>
@@ -44,7 +44,7 @@ export default function DemoBar() {
                 {match.subPage ? (
                   <Link
                     href={match.landingHref}
-                    className="min-w-0 shrink truncate text-white/70 transition-colors hover:text-white"
+                    className="hit min-w-0 shrink truncate text-white/70 transition-colors hover:text-white"
                   >
                     {match.demo.name}
                   </Link>
@@ -86,7 +86,7 @@ export default function DemoBar() {
 
         <Link
           href="/"
-          className="shrink-0 text-white/60 transition-colors hover:text-white"
+          className="hit shrink-0 text-white/60 transition-colors hover:text-white"
         >
           <span className="hidden sm:inline">Exit to matthewoshin.com </span>
           <span className="sm:hidden">Exit </span>

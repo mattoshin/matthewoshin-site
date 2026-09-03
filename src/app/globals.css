@@ -354,6 +354,23 @@ html.lenis body {
   border-radius: 4px;
 }
 
+/* Minimum 44x44 hit area without changing how the element looks. Small text
+   links and icon buttons keep their visual size; an invisible pseudo-element
+   centered on the element extends the clickable box. Pseudo-elements belong to
+   their element for hit testing, so clicks and hover land on the link. */
+.hit {
+  position: relative;
+}
+.hit::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
+
 /* Screen-reader-only utility (skip link sits here until focused). */
 .sr-only {
   position: absolute;

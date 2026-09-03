@@ -145,7 +145,7 @@ export default function BucketNav() {
               <Link
                 href="/"
                 aria-current={pathname === "/" ? "page" : undefined}
-                className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`hit block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
                   pathname === "/"
                     ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
                     : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
@@ -161,7 +161,7 @@ export default function BucketNav() {
                   <Link
                     href={bucket.href}
                     aria-current={active ? "page" : undefined}
-                    className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+                    className={`hit block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
                       active
                         ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
                         : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
@@ -179,7 +179,7 @@ export default function BucketNav() {
               <Link
                 href="/about"
                 aria-current={pathname === "/about" ? "page" : undefined}
-                className={`block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`hit block rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
                   pathname === "/about"
                     ? "bg-bio-cyan text-abyss-void shadow-[0_0_18px_-3px_var(--bio-cyan)]"
                     : "text-ink-body hover:bg-white/10 hover:text-ink-heading"
@@ -198,7 +198,7 @@ export default function BucketNav() {
           <Link
             href="/contact"
             aria-current={pathname === "/contact" ? "page" : undefined}
-            className="rounded-full border border-white/15 bg-deep-body/40 px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-ink-heading backdrop-blur-md transition-all hover:border-bio-cyan hover:bg-bio-cyan hover:text-abyss-void hover:shadow-[0_0_18px_-3px_var(--bio-cyan)] active:border-bio-cyan active:bg-bio-cyan active:text-abyss-void"
+            className="hit rounded-full border border-white/15 bg-deep-body/40 px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-ink-heading backdrop-blur-md transition-all hover:border-bio-cyan hover:bg-bio-cyan hover:text-abyss-void hover:shadow-[0_0_18px_-3px_var(--bio-cyan)] active:border-bio-cyan active:bg-bio-cyan active:text-abyss-void"
           >
             Contact
           </Link>
@@ -212,7 +212,7 @@ export default function BucketNav() {
           aria-expanded={menuOpen}
           aria-controls={menuId}
           aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-          className="flex shrink-0 items-center justify-center rounded-full border border-white/15 bg-deep-body/70 p-2.5 text-ink-heading backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan lg:hidden"
+          className="flex shrink-0 items-center justify-center rounded-full border border-white/15 bg-deep-body/70 p-3 text-ink-heading backdrop-blur-md transition-colors hover:border-bio-cyan/60 hover:text-bio-cyan lg:hidden"
         >
           {menuOpen ? <CloseGlyph /> : <MenuGlyph />}
         </button>

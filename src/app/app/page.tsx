@@ -89,7 +89,7 @@ export default function DemosHubPage() {
                 {d.caseStudy && (
                   <Link
                     href={d.caseStudy}
-                    className="relative z-20 text-ink-muted transition-colors hover:text-bio-cyan"
+                    className="hit relative z-20 text-ink-muted transition-colors hover:text-bio-cyan"
                   >
                     Case study
                   </Link>
