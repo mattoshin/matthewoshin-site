@@ -2,6 +2,13 @@
 
 Release notes for matthewoshin.com. Versions use MAJOR.MINOR.PATCH.MICRO.
 
+## [1.2.5.0] - 2026-09-03
+
+### Changed
+- The About page follows the same rule as the rest of the site: its
+  Education and Off the clock sections drop their boxes for hairline rows
+  and two editorial columns, so a box only ever means "you can open this".
+
 ## [1.2.4.0] - 2026-09-03
 
 ### Changed
