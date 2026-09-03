@@ -137,34 +137,44 @@ export default function AboutPage() {
         <MoreLink href="/skills" label="The full toolkit" />
       </section>
 
-      {/* Education: the schools, linking into the story pages. */}
+      {/* Education: the schools as hairline rows, the same pattern as
+          /education (a card here would mean "open this"; only the rows with a
+          story page are links, marked by the arrow). */}
       <section className="mt-12">
         <SectionHeader accent={ACCENT.education} title="Education" />
-        <ul className="mt-4 space-y-3">
+        <ul role="list" className="mt-4 divide-y divide-white/15 border-y border-white/15">
           {EDUCATION.map((school) => {
+            const linked = "slug" in school && Boolean(school.slug);
+            const row =
+              "flex flex-col items-start gap-y-1.5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-x-6";
             const inner = (
-              <>
-                <span className="font-display text-base font-semibold text-ink-heading sm:text-lg">
+              <span className="min-w-0 block">
+                <span
+                  className={`block font-display text-base font-semibold text-ink-heading sm:text-lg ${
+                    linked ? "transition-colors group-hover:text-bio-cyan" : ""
+                  }`}
+                >
                   {school.school}
                 </span>
                 <span className="mt-0.5 block text-sm text-ink-muted">
                   {school.detail}
                 </span>
-              </>
+              </span>
             );
             return (
               <li key={school.school}>
-                {"slug" in school && school.slug ? (
-                  <Link
-                    href={`/education/${school.slug}`}
-                    className="block rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm transition-colors hover:border-bio-cyan/50 hover:bg-white/[0.06]"
-                  >
+                {linked ? (
+                  <Link href={`/education/${school.slug}`} className={`group ${row}`}>
                     {inner}
+                    <span className="inline-flex shrink-0 items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-bio-cyan transition-colors group-hover:text-bio-aqua">
+                      Read more
+                      <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
+                        -&gt;
+                      </span>
+                    </span>
                   </Link>
                 ) : (
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm">
-                    {inner}
-                  </div>
+                  <div className={row}>{inner}</div>
                 )}
               </li>
             );
@@ -173,15 +183,13 @@ export default function AboutPage() {
         <MoreLink href="/education" label="Where I studied" />
       </section>
 
-      {/* Interests: the first few, off the clock. */}
+      {/* Interests: the first few, off the clock, as editorial columns with a
+          thin rule above each entry (same pattern as /interests). */}
       <section className="mt-12">
         <SectionHeader accent={ACCENT.interests} title="Off the clock" />
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+        <ul role="list" className="mt-4 grid gap-x-8 gap-y-6 md:grid-cols-2">
           {INTERESTS.slice(0, 4).map((interest) => (
-            <li
-              key={interest.title}
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm"
-            >
+            <li key={interest.title} className="border-t border-white/15 pt-4">
               <h3 className="font-display text-base font-semibold text-ink-heading">
                 {interest.title}
               </h3>

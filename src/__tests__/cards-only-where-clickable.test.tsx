@@ -4,6 +4,7 @@ import ExperiencePage from "@/app/experience/page";
 import EducationPage from "@/app/education/page";
 import InterestsPage from "@/app/interests/page";
 import PortfolioPage from "@/app/portfolio/page";
+import AboutPage from "@/app/about/page";
 import { EDUCATION, EXPERIENCE, INTERESTS } from "@/data/content";
 
 vi.mock("next/navigation", () => ({
@@ -92,6 +93,32 @@ describe("cards only where the card is the link", () => {
       expect((item.getAttribute("class") ?? "").split(/\s+/)).toContain("border-t");
       expect(within(item).getByRole("heading", { level: 2 }).textContent).toBe(INTERESTS[index].title);
       expect(within(item).getByText(INTERESTS[index].detail)).toBeTruthy();
+    }
+  });
+
+  it("brings the About page's schools and interests in line: rows and columns, no cards", () => {
+    const { container } = render(<AboutPage />);
+    // The portrait frame uses a ring, not the card recipe, so the page has no cards at all.
+    expect(cardsIn(container)).toBe(0);
+    const schools = screen.getByRole("heading", { name: "Education" }).parentElement!;
+    const list = within(schools).getByRole("list");
+    expect(list.getAttribute("role")).toBe("list");
+    expect((list.getAttribute("class") ?? "").split(/\s+/)).toContain("divide-y");
+    for (const e of EDUCATION) {
+      const name = within(list).getByText(e.school);
+      const link = name.closest("a");
+      if (e.slug) {
+        expect(link?.getAttribute("href")).toBe(`/education/${e.slug}`);
+        expect(within(link!).getByText(/read more/i)).toBeTruthy();
+      } else {
+        expect(link).toBeNull();
+      }
+    }
+    const interests = screen.getByRole("heading", { name: "Off the clock" }).parentElement!;
+    const grid = within(interests).getByRole("list");
+    expect((grid.getAttribute("class") ?? "").split(/\s+/)).toContain("md:grid-cols-2");
+    for (const item of within(grid).getAllByRole("listitem")) {
+      expect((item.getAttribute("class") ?? "").split(/\s+/)).toContain("border-t");
     }
   });
 
