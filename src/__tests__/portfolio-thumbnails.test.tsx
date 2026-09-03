@@ -31,7 +31,17 @@ describe("portfolio thumbnails", () => {
       expect(existsSync(file), `${item.name}: ${item.thumb} missing`).toBe(true);
       // A blank or failed capture is a few hundred bytes; a real page is not.
       expect(statSync(file).size, `${item.name}: ${item.thumb} too small`).toBeGreaterThan(8_000);
+      // Lossy WebP (VP8): "RIFF....WEBPVP8 " then the frame header; width and
+      // height are 14-bit little-endian values at bytes 26 and 28.
+      const buf = readFileSync(file);
+      expect(buf.subarray(0, 4).toString("ascii"), item.name).toBe("RIFF");
+      expect(buf.subarray(8, 16).toString("ascii"), item.name).toBe("WEBPVP8 ");
+      const width = buf.readUInt16LE(26) & 0x3fff;
+      const height = buf.readUInt16LE(28) & 0x3fff;
+      expect([width, height], `${item.name} dimensions`).toEqual([1200, 750]);
     }
+    // No two cards may share a picture.
+    expect(new Set(withThumb.map((i) => i.thumb)).size).toBe(withThumb.length);
   });
 
   it("renders one image per thumbnail card, named after the product, and none for the rest", () => {
