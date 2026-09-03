@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -29,6 +30,9 @@ export interface PortfolioItem {
   /** When set, the card shows a bright "View Site" button to the live external
    *  site (active engagements). Takes precedence over demoHref as the primary CTA. */
   siteHref?: string;
+  /** Screenshot of the product, /portfolio/<slug>.webp (1200x750). Captured
+   *  from the live demo or site by scripts/capture-portfolio-thumbs.sh. */
+  thumb?: string;
 }
 
 type FilterId = "all" | PortfolioCategory;
@@ -44,7 +48,7 @@ function Arrow() {
   return <span aria-hidden="true">-&gt;</span>;
 }
 
-function PortfolioCard({ item }: { item: PortfolioItem }) {
+function PortfolioCard({ item, eager }: { item: PortfolioItem; eager: boolean }) {
   // Status tags dropped from the card header (Matthew, 2026-07-03): the CTA
   // already says live vs demo, so the top-right chip was noise.
   const header = (
@@ -52,6 +56,22 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
       {item.name}
     </h2>
   );
+
+  // The picture does the talking: a real screenshot above the name, cropped
+  // from the top so the product's own header shows. The first row is the
+  // page's largest paint, so it loads eagerly; the rest lazy-load as the grid
+  // scrolls. next/image serves each at the rendered size.
+  const media = item.thumb ? (
+    <Image
+      src={item.thumb}
+      alt={`${item.name} screenshot`}
+      width={1200}
+      height={750}
+      priority={eager}
+      sizes="(min-width: 640px) 50vw, 100vw"
+      className="mb-5 aspect-[16/10] w-full rounded-xl border border-white/10 object-cover object-top"
+    />
+  ) : null;
 
   // Cards with a primary action (a live site or a clickable demo) keep two distinct
   // links (no nested anchors); case-study-only cards make the whole card a single link.
@@ -67,6 +87,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   if (item.siteHref) {
     return (
       <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-colors hover:border-bio-cyan/50">
+        {media}
         {header}
         <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
         <div className="mt-auto flex flex-wrap items-center gap-3 pt-5">
@@ -87,6 +108,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   if (item.demoHref) {
     return (
       <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-colors hover:border-bio-cyan/50">
+        {media}
         {header}
         <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
         <div className="mt-auto flex flex-wrap items-center gap-3 pt-5">
@@ -108,6 +130,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
         href={item.caseHref}
         className="group flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/55 hover:bg-bio-cyan/[0.09]"
       >
+        {media}
         <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">
           {item.name}
         </h2>
@@ -126,6 +149,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   // with only a demo handled above). Unreachable in practice.
   return (
     <div className="flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm">
+      {media}
       {header}
       <p className="mt-3 text-sm text-ink-body sm:text-base">{item.hook}</p>
     </div>
@@ -188,9 +212,9 @@ export default function PortfolioGrid({ items }: { items: PortfolioItem[] }) {
         key={active}
         className="mt-7 grid grid-cols-1 gap-5 motion-safe:animate-[rise_0.3s_cubic-bezier(0.16,1,0.3,1)_both] sm:grid-cols-2"
       >
-        {shown.map((item) => (
+        {shown.map((item, index) => (
           <li key={item.name} className="min-w-0">
-            <PortfolioCard item={item} />
+            <PortfolioCard item={item} eager={index < 2} />
           </li>
         ))}
       </ul>
