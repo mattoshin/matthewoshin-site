@@ -181,7 +181,7 @@ export default function OceanAI() {
         aria-expanded={open}
         aria-label={open ? "Close OceanAI chat" : "Open OceanAI chat"}
         title="OceanAI"
-        className={`pointer-events-auto fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-bio-cyan/40 bg-black/55 text-bio-cyan backdrop-blur-md transition-[transform,box-shadow,border-color] duration-300 hover:border-bio-cyan/80 hover:text-bio-aqua focus-visible:outline-none motion-reduce:transition-none ${
+        className={`pointer-events-auto fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-bio-cyan/40 bg-black/55 text-bio-cyan backdrop-blur-md transition-[transform,box-shadow,border-color] duration-300 hover:border-bio-cyan/80 hover:text-bio-aqua motion-reduce:transition-none ${
           open
             ? "shadow-[0_0_0_1px_color-mix(in_srgb,var(--bio-cyan)_55%,transparent),0_0_28px_color-mix(in_srgb,var(--bio-cyan)_45%,transparent)]"
             : "shadow-[0_0_18px_color-mix(in_srgb,var(--bio-cyan)_35%,transparent)] hover:scale-105 hover:shadow-[0_0_30px_color-mix(in_srgb,var(--bio-cyan)_55%,transparent)] motion-reduce:hover:scale-100"
@@ -236,7 +236,7 @@ export default function OceanAI() {
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Dismiss chat panel"
-              className="shrink-0 rounded-md p-1 text-ink-muted transition-colors hover:text-bio-cyan focus-visible:outline-none"
+              className="shrink-0 rounded-md p-1 text-ink-muted transition-colors hover:text-bio-cyan"
             >
               <CloseGlyph small />
             </button>
@@ -280,7 +280,7 @@ export default function OceanAI() {
                   key={s}
                   type="button"
                   onClick={() => void send(s)}
-                  className="rounded-full border border-bio-cyan/30 bg-bio-cyan/5 px-3 py-1.5 text-[11px] font-medium text-bio-cyan transition-colors hover:border-bio-cyan/70 hover:bg-bio-cyan/15 focus-visible:outline-none"
+                  className="rounded-full border border-bio-cyan/30 bg-bio-cyan/5 px-3 py-1.5 text-[11px] font-medium text-bio-cyan transition-colors hover:border-bio-cyan/70 hover:bg-bio-cyan/15"
                 >
                   {s}
                 </button>
@@ -310,7 +310,7 @@ export default function OceanAI() {
                 onClick={() => void send(input)}
                 disabled={pending || input.trim().length === 0}
                 aria-label="Send message"
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-bio-cyan/40 bg-bio-cyan/15 text-bio-cyan transition-colors hover:border-bio-cyan/80 hover:bg-bio-cyan/25 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-bio-cyan/15"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-bio-cyan/40 bg-bio-cyan/15 text-bio-cyan transition-colors hover:border-bio-cyan/80 hover:bg-bio-cyan/25 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-bio-cyan/15"
               >
                 <SendGlyph />
               </button>
