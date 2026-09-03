@@ -1,6 +1,6 @@
-import { existsSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import PortfolioPage from "@/app/portfolio/page";
 import { ITEMS } from "@/data/portfolio-items";
@@ -39,14 +39,47 @@ describe("portfolio thumbnails", () => {
     withThumb.forEach((item, index) => {
       const img = screen.getByRole("img", { name: `${item.name} screenshot` });
       expect(decodeURIComponent(img.getAttribute("src") ?? "")).toContain(item.thumb!);
-      // The first row is the largest paint and loads eagerly; every card after
-      // it lazy-loads so thirteen screenshots do not compete with the page.
-      if (index < 2) {
-        expect(img.getAttribute("loading")).not.toBe("lazy");
-      } else {
-        expect(img.getAttribute("loading")).toBe("lazy");
-      }
+      // The first row is the largest paint and loads eagerly (no preload, so it
+      // cannot compete with the ocean bundle); every card after it lazy-loads.
+      expect(img.getAttribute("loading")).toBe(index < 2 ? "eager" : "lazy");
+      expect(img.getAttribute("fetchpriority")).not.toBe("high");
+      // The declared size is the real 430px desktop column, not half the viewport.
+      expect(img.getAttribute("sizes")).toContain("(min-width: 1024px) 380px");
     });
     expect(screen.queryByRole("img", { name: /briefbridge/i })).toBeNull();
+    // The text-only card sizes to its copy instead of stretching to the row.
+    const briefbridge = screen.getByRole("heading", { name: "BriefBridge" }).closest("a")!;
+    expect((briefbridge.getAttribute("class") ?? "").split(/\s+/)).toContain("h-auto");
+  });
+
+  it("makes the first two cards of a filtered view eager, not the first two overall", () => {
+    render(<PortfolioPage />);
+    fireEvent.click(screen.getByRole("button", { name: /web & client/i }));
+    const shown = ITEMS.filter((i) => i.category === "web-client" && i.thumb);
+    expect(shown.length).toBeGreaterThanOrEqual(3);
+    shown.forEach((item, index) => {
+      const img = screen.getByRole("img", { name: `${item.name} screenshot` });
+      expect(img.getAttribute("loading"), item.name).toBe(index < 2 ? "eager" : "lazy");
+    });
+  });
+
+  it("keeps the capture script's source list in step with the cards", () => {
+    // The script cannot read the TS data, so the slug list is duplicated there.
+    // This binds the two: a card added without a capture source, or a source
+    // left behind after a card is removed, fails here.
+    const script = readFileSync(path.resolve(process.cwd(), "scripts/capture-portfolio-thumbs.sh"), "utf8");
+    const scriptSources = Object.fromEntries(
+      [...script.matchAll(/^\s*"([a-z0-9-]+)\|(https?:\/\/[^"]+)"/gm)].map((m) => [m[1], m[2]]),
+    );
+    // What the script should capture for each card: the live site if there is
+    // one, else the demo (internal /app demos are captured from production).
+    const expected = Object.fromEntries(
+      withThumb.map((i) => {
+        const slug = i.thumb!.replace(/^\/portfolio\//, "").replace(/\.webp$/, "");
+        const url = i.siteHref ?? (i.demoHref?.startsWith("/") ? `https://matthewoshin.com${i.demoHref}` : i.demoHref);
+        return [slug, url];
+      }),
+    );
+    expect(scriptSources).toEqual(expected);
   });
 });

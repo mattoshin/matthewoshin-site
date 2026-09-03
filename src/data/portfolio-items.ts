@@ -1,8 +1,24 @@
-import type {
-  PortfolioCategory,
-  PortfolioItem,
-} from "@/components/portfolio/PortfolioGrid";
 import { BUILDS, VENTURES } from "@/data/content";
+
+export type PortfolioCategory = "ai-products" | "web-client" | "ventures";
+
+export interface PortfolioItem {
+  name: string;
+  hook: string;
+  status: string;
+  category: PortfolioCategory;
+  /** Case-study detail route (/projects/* or /ventures/*). Optional: demo/site-only
+   *  cards (e.g. a standalone product concept) can omit it. */
+  caseHref?: string;
+  /** When set, the card shows a bright "View Demo" button to a clickable demo. */
+  demoHref?: string;
+  /** When set, the card shows a bright "View Site" button to the live external
+   *  site (active engagements). Takes precedence over demoHref as the primary CTA. */
+  siteHref?: string;
+  /** Screenshot of the product, /portfolio/<slug>.webp (1200x750). Captured
+   *  from the live demo or site by scripts/capture-portfolio-thumbs.sh. */
+  thumb?: string;
+}
 
 /**
  * The curated card list for /portfolio. Lives outside the page file because
@@ -34,9 +50,12 @@ function fromBuild(
   };
 }
 
-function fromVenture(slug: string, status: string, siteHref?: string): PortfolioItem {
+/** Pull a venture in; `site: true` links the card to the venture's own website
+    (from content.ts, one source of truth) instead of only the case study. */
+function fromVenture(slug: string, status: string, opts: { site?: boolean } = {}): PortfolioItem {
   const v = VENTURES.find((x) => x.slug === slug);
   if (!v) throw new Error(`portfolio: missing venture "${slug}"`);
+  if (opts.site && !v.website) throw new Error(`portfolio: venture "${slug}" has no website`);
   return {
     name: v.name,
     hook: v.oneLiner,
@@ -44,7 +63,7 @@ function fromVenture(slug: string, status: string, siteHref?: string): Portfolio
     category: "ventures",
     caseHref: `/ventures/${v.slug}`,
     demoHref: v.demoHref,
-    siteHref,
+    siteHref: opts.site ? v.website : undefined,
     thumb: thumbFor(slug),
   };
 }
@@ -88,7 +107,7 @@ export const ITEMS: PortfolioItem[] = [
     ...fromBuild("dog-house", "web-client"),
     siteHref: doghouse?.href,
   },
-  fromVenture("element-underground", "Co-founded", "https://elementunderground.com"),
+  fromVenture("element-underground", "Co-founded", { site: true }),
   {
     ...fromBuild("observly", "ai-products"),
     siteHref: "https://observlymd.com",

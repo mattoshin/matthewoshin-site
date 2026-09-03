@@ -15,25 +15,10 @@ import { useMemo, useState } from "react";
  * each with a live count. Filtering is instant and client-side (no route change).
  */
 
-export type PortfolioCategory = "ai-products" | "web-client" | "ventures";
+import type { PortfolioCategory, PortfolioItem } from "@/data/portfolio-items";
 
-export interface PortfolioItem {
-  name: string;
-  hook: string;
-  status: string;
-  category: PortfolioCategory;
-  /** Case-study detail route (/projects/* or /ventures/*). Optional: demo/site-only
-   *  cards (e.g. a standalone product concept) can omit it. */
-  caseHref?: string;
-  /** When set, the card shows a bright "View Demo" button to a clickable demo. */
-  demoHref?: string;
-  /** When set, the card shows a bright "View Site" button to the live external
-   *  site (active engagements). Takes precedence over demoHref as the primary CTA. */
-  siteHref?: string;
-  /** Screenshot of the product, /portfolio/<slug>.webp (1200x750). Captured
-   *  from the live demo or site by scripts/capture-portfolio-thumbs.sh. */
-  thumb?: string;
-}
+// Re-exported so existing importers keep working; the data module owns them.
+export type { PortfolioCategory, PortfolioItem };
 
 type FilterId = "all" | PortfolioCategory;
 
@@ -59,17 +44,21 @@ function PortfolioCard({ item, eager }: { item: PortfolioItem; eager: boolean })
 
   // The picture does the talking: a real screenshot above the name, cropped
   // from the top so the product's own header shows. The first row is the
-  // page's largest paint, so it loads eagerly; the rest lazy-load as the grid
-  // scrolls. next/image serves each at the rendered size.
+  // page's largest paint on desktop, so it loads eagerly (plain eager, not
+  // `priority`: a preload would compete with the ocean bundle on phones where
+  // the grid starts below the fold); the rest lazy-load as the grid scrolls.
+  // `sizes` states the real rendered width: the shell caps at 64rem, minus
+  // main and scrim padding, the column gap and the card's own padding, the
+  // image is 380px wide on desktop (measured), narrower below that.
   const media = item.thumb ? (
     <Image
       src={item.thumb}
       alt={`${item.name} screenshot`}
       width={1200}
       height={750}
-      priority={eager}
-      sizes="(min-width: 640px) 50vw, 100vw"
-      className="mb-5 aspect-[16/10] w-full rounded-xl border border-white/10 object-cover object-top"
+      loading={eager ? "eager" : "lazy"}
+      sizes="(min-width: 1024px) 380px, (min-width: 640px) calc(50vw - 130px), calc(100vw - 128px)"
+      className="mb-5 aspect-[16/10] w-full rounded-xl border border-white/15 object-cover object-top"
     />
   ) : null;
 
@@ -125,10 +114,13 @@ function PortfolioCard({ item, eager }: { item: PortfolioItem; eager: boolean })
   }
 
   if (item.caseHref) {
+    // A card with a screenshot fills the row like its neighbours; a text-only
+    // card (no live surface to capture) sizes to its copy instead of
+    // stretching to a picture-height neighbour and leaving an empty band.
     return (
       <Link
         href={item.caseHref}
-        className="group flex h-full flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/55 hover:bg-bio-cyan/[0.09]"
+        className={`group flex ${item.thumb ? "h-full" : "h-auto"} flex-col rounded-2xl border border-bio-cyan/30 bg-bio-cyan/[0.06] p-6 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-bio-cyan/55 hover:bg-bio-cyan/[0.09]`}
       >
         {media}
         <h2 className="min-w-0 font-display text-2xl font-semibold text-ink-heading transition-colors group-hover:text-bio-cyan">

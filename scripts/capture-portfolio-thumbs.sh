@@ -34,7 +34,9 @@ SOURCES=(
 )
 
 wanted=("$@")
-"$B" viewport 1280x800 >/dev/null 2>&1 || true
+# Fail loudly: cwebp's -resize below does not preserve aspect ratio, so a
+# capture at the wrong viewport would be silently squashed into 16:10.
+"$B" viewport 1280x800 >/dev/null
 
 for entry in "${SOURCES[@]}"; do
   slug="${entry%%|*}"; url="${entry##*|}"
@@ -43,13 +45,24 @@ for entry in "${SOURCES[@]}"; do
   "$B" goto "$url" 2>&1 | tail -1
   # Let loaders, fonts and any entrance animation settle.
   sleep 4
-  # Hide the /app demo strip so the capture is the product, not the site chrome.
-  "$B" js "(() => { const bar = document.querySelector('div.sticky.top-0.z-50'); if (bar) bar.remove(); window.scrollTo(0, 0); return 'ok'; })()" >/dev/null 2>&1 || true
+  # On this site's own /app demos, hide the demo strip so the capture is the
+  # product, not the site chrome. Never run it on the external sites: a real
+  # sticky header there would be deleted from the thumbnail without a trace.
+  if [[ "$url" == https://matthewoshin.com/app/* ]]; then
+    "$B" js "(() => { const bar = document.querySelector('div.sticky.top-0.z-50'); if (bar) bar.remove(); return 'ok'; })()" >/dev/null
+  fi
+  "$B" js "window.scrollTo(0, 0); 'ok'" >/dev/null
   sleep 1
   "$B" screenshot --viewport "$TMP/$slug.png" 2>&1 | tail -1
+  # Guard the ratio before the non-preserving resize.
+  dims=$(sips -g pixelWidth -g pixelHeight "$TMP/$slug.png" | awk '/pixel/ {printf "%s ", $2}')
+  if [ "$dims" != "1280 800 " ]; then
+    echo "   !! $slug captured at ${dims}not 1280 800, refusing to resize" >&2
+    exit 1
+  fi
   cwebp -quiet -q 82 -resize 1200 750 "$TMP/$slug.png" -o "$OUT/$slug.webp"
   printf "   -> %s (%s bytes)\n" "$OUT/$slug.webp" "$(stat -f %z "$OUT/$slug.webp")"
 done
 
-"$B" viewport 1280x720 >/dev/null 2>&1 || true
+"$B" viewport 1280x720 >/dev/null 2>&1 || true  # best effort: restore the usual dev viewport
 echo "done: $(ls "$OUT" | wc -l | tr -d ' ') thumbnails in public/portfolio"
