@@ -38,6 +38,14 @@ every push and PR, on Node 24 (`.github/workflows/test.yml`).
   `scripts/capture-portfolio-thumbs.sh`'s `slug|url` list matches the data
   one-for-one. A renamed slug, a missing capture, or a source left behind in
   the script fails here instead of shipping a broken image.
+- **GTM cards** (`gtm-cards.test.tsx`): pins the two GTM engineering cards
+  (Fintech Banking first, AI Property Management second) as the lead of
+  `/portfolio` and the `/app` demos hub, each linking its live subdomain as
+  the demo and a real `/projects/<slug>` case study; keeps both builds' copy
+  free of client names and em dashes; checks the retired single "GTM
+  Engineering" name is gone from the `/portfolio` description, the home
+  Portfolio teaser, and OceanAI's grounding; and renders both case studies
+  under their slugs with the new names in the tab title.
 - **Share preview card** (`share-preview.test.tsx`, `share-preview-render.test.ts`):
   keeps every share-facing string (og-image, twitter-image, page metadata)
   employer-free, and proves the route actually rasterizes a real 1200x630 PNG

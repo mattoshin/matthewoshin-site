@@ -4,7 +4,7 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# Matthew Oshin — Personal Site
+# Matthew Oshin: Personal Site
 
 ## What this is
 - Public portfolio at **matthewoshin.com**: ocean WebGL descent, project demos, blog, about.
@@ -26,14 +26,14 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - When merging a PR whose branch is checked out in someone else's worktree, keep the remote branch (skip `--delete-branch`) so you don't yank it out from under them.
 
 ## Commands
-- `pnpm dev` — local dev
-- `pnpm test` — vitest (`src/__tests__/`)
-- `pnpm typecheck` — typegen + tsc
-- `pnpm build` — production build (also gated in CI)
+- `pnpm dev`: local dev
+- `pnpm test`: vitest (`src/__tests__/`)
+- `pnpm typecheck`: typegen + tsc
+- `pnpm build`: production build (also gated in CI)
 
 ## Design rules
 - Keep the **cartoon ocean** aesthetic. User rejected the dark "Deep" cinematic redesign.
-- 14 creatures in the descent zone (was 16; the speedboat+skier and dolphin were removed 2026-07-21 for a "lowkey" pass — see docs/superpowers/specs/2026-07-21-lowkey-ocean-scene-design.md). Do not regress below 14 or spacing.
+- 14 creatures in the descent zone (was 16; the speedboat+skier and dolphin were removed 2026-07-21 for a "lowkey" pass, see docs/superpowers/specs/2026-07-21-lowkey-ocean-scene-design.md). Do not regress below 14 or spacing.
 - Type: Poppins on everything that sits on the water (hero, nav wordmark, bucket labels, OceanAI) via `font-display`; Fraunces, the share card's serif, on every heading inside a glass panel (subpage titles and entries, case-study titles, pull quotes, blog prose headings, and the home descent panels' h2 and beat) via `font-serif` (`--font-fraunces` is loaded in `src/app/layout.tsx`, the token lives in `globals.css`, blog prose headings follow it). Don't put the serif on the scene: the Poppins-only pass (#53, 2026-06-24) was Matthew's own feedback that a serif clashed with the playful ocean. `src/__tests__/display-type.test.tsx` enforces the split.
 - Small text links and icon buttons get the `hit` class (`src/app/globals.css`) for a centered 44px minimum tap target without changing how they look. Rows of `hit` elements need at least 44px vertical pitch so the invisible boxes don't overlap; the footer uses `gap-y-7` (28px) for its 18px-tall links.
 - Subpages render through `PageShell` (`src/components/page/PageShell.tsx`), which takes `width` (`"wide"` default or `"reading"`), `backLink`, and `kicker` props. The blog index/post pages are the reading-width example (`width="reading"`, post pages add `backLink` and a date `kicker`).
@@ -56,11 +56,11 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Don't `rm -rf .next` (or delete `.next/dev`) while a dev server is running
   against this checkout, since it serves straight out of that build directory.
 - The global `:focus-visible` rule in `src/app/globals.css` is unlayered CSS, so it beats Tailwind utility classes like `rounded-full`. It must stay outline-only (no `border-radius`) or it squares off every round pill/button the moment it takes focus. Don't add `focus-visible:outline-none` on individual buttons to "fix" the corners, that's how the OceanAI chat widget lost its focus ring.
-- The portfolio card list lives in `src/data/portfolio-items.ts`, not the page file. It owns the `PortfolioItem`/`PortfolioCategory` types (`PortfolioGrid` re-exports them for existing importers) and sets a `thumb` per item. To add a card with a screenshot: add the item, add a matching `slug|url` line to `scripts/capture-portfolio-thumbs.sh`, run the script, and commit the resulting `public/portfolio/<slug>.webp`. `src/__tests__/portfolio-thumbnails.test.tsx` fails if any of the three is missing. Thumbnails are captured from production URLs, not localhost, so they never carry the dev indicator; a card with nothing live to screenshot (e.g. BriefBridge) omits `thumb` and renders text-only.
+- The portfolio card list lives in `src/data/portfolio-items.ts`, not the page file. It owns the `PortfolioItem`/`PortfolioCategory` types (`PortfolioGrid` re-exports them for existing importers) and sets a `thumb` per item. To add a card with a screenshot: add the item, add a matching `slug|url` line to `scripts/capture-portfolio-thumbs.sh`, run the script, and commit the resulting `public/portfolio/<slug>.webp`. `src/__tests__/portfolio-thumbnails.test.tsx` fails if any of the three is missing. Thumbnails are captured from production URLs, not localhost, so they never carry the dev indicator; a card with nothing live to screenshot (e.g. BriefBridge) omits `thumb` and renders text-only. The script requires each capture to end on exactly the URL it asked for (trailing slash aside), so a redirect to a login, an error page, or another host such as `www.` aborts the run instead of shipping the wrong picture; put the canonical host in both the data and the script (mTrain currently trips this, see TODOS.md). `ITEMS` is a curated order: the two GTM engineering cards lead it, fintech first, and `src/__tests__/gtm-cards.test.tsx` pins that, so add new cards below them.
 
 ## Do not
 - Add auth to this repo (private tools belong in oshin-os / oshin-jobsearch).
-- Push directly to `main` — every change goes through a PR with green CI.
+- Push directly to `main`; every change goes through a PR with green CI.
 - Commit `.env*` files.
 
 ## Testing
