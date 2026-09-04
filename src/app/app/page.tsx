@@ -28,8 +28,8 @@ export default function DemosHubPage() {
         </h1>
         <p className="measure mt-4 text-base leading-relaxed text-ink-body sm:text-lg">
           Faithful, clickable recreations of my products, seeded with sample
-          data. Nothing here talks to a live server. Each one is the real
-          interface, rebuilt so you can actually navigate it.
+          data, and a few live builds that open on their own domains. Every
+          one is the real interface, so you can actually navigate it.
         </p>
       </header>
 

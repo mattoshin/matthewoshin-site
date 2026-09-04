@@ -18,10 +18,21 @@ export type DemoCard = {
 
 export const DEMOS: DemoCard[] = [
   {
-    slug: "gtm-engineering",
-    name: "GTM Engineering",
+    slug: "gtm-engineering-fintech",
+    name: "Fintech Banking GTM Engineering",
     tagline:
-      "A go-to-market platform for SDR and AE teams: multi-channel sequences, an AE pipeline with recoverable-revenue math, and an Agent Studio where you build and deploy your own agents, to your own infrastructure instead of a vendor's cloud.",
+      "A signal-based selling engine for business banking: funding rounds and competitor complaints captured, scored on fit, timing, access, and intent, and drafted into persona-specific outreach a person approves.",
+    era: "Current build, live",
+    status: "live",
+    href: "https://fintech.matthewoshin.com",
+    caseStudy: "/projects/gtm-engineering-fintech",
+    accent: "#38bdf8",
+  },
+  {
+    slug: "gtm-engineering",
+    name: "AI Property Management GTM Engineering",
+    tagline:
+      "A go-to-market platform for teams selling AI property management software: multi-channel sequences, an AE pipeline with recoverable-revenue math, and an Agent Studio where you build and deploy your own agents, to your own infrastructure instead of a vendor's cloud.",
     era: "Current build, live",
     status: "live",
     href: "https://gotomarket.matthewoshin.com",

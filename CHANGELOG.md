@@ -2,6 +2,20 @@
 
 Release notes for matthewoshin.com. Versions use MAJOR.MINOR.PATCH.MICRO.
 
+## [1.2.7.0] - 2026-09-04
+
+### Added
+- A second GTM engineering card, Fintech Banking GTM Engineering: a signal-based selling engine for business banking that detects funding rounds and competitor complaints, scores each company on fit, timing, access, and intent, and drafts outreach for a person to approve. Live at fintech.matthewoshin.com, with a case study at /projects/gtm-engineering-fintech, a demos-hub entry, and a thumbnail captured from production.
+
+### Changed
+- The card that was "GTM Engineering" is now AI Property Management GTM Engineering, so the two GTM cards read as two products; its slug, case-study route, and thumbnail are unchanged. Both cards lead /portfolio and the /app demos hub.
+- The /portfolio description, the home-page Portfolio teaser, and OceanAI's grounding all name both platforms. OceanAI also knows the live demo domains and no longer claims clickable demos for builds that only have a case study.
+- The demos hub intro says which entries are live builds on their own domains instead of claiming nothing on the page talks to a live server.
+- Portfolio card headings balance their line breaks, so the longer names wrap the way the case-study titles do.
+
+### Fixed
+- The thumbnail capture script requires the final URL to match the requested page exactly, so a same-origin redirect to a login or error page fails the run instead of shipping as a picture.
+
 ## [1.2.6.0] - 2026-09-03
 
 ### Changed
