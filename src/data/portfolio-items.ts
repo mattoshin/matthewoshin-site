@@ -71,12 +71,15 @@ function fromVenture(slug: string, status: string, opts: { site?: boolean } = {}
 const brachyclip = BUILDS.find((b) => b.slug === "brachyclip");
 const doghouse = BUILDS.find((b) => b.slug === "dog-house");
 
-// Curated order for the "All" view: demo-backed flagships first, then the
-// web/client work, then the remaining case studies. BrachyClip and mTrain are
-// active engagements, so they link to the live site ("View Site").
+// Curated order for the "All" view: the two GTM engineering builds first (the
+// work closest to what Matthew does now, one per vertical, 2026-09-04), then
+// the other demo-backed flagships, then the web/client work, then the
+// remaining case studies. BrachyClip and mTrain are active engagements, so
+// they link to the live site ("View Site").
 export const ITEMS: PortfolioItem[] = [
-  fromVenture("mocean", "Founded & acquired"),
+  fromBuild("gtm-engineering-fintech", "ai-products"),
   fromBuild("gtm-engineering", "ai-products"),
+  fromVenture("mocean", "Founded & acquired"),
   fromBuild("galactic-signals", "ai-products"),
   fromBuild("financial-comms", "ai-products"),
   fromBuild("sec-intelligence", "ai-products"),

@@ -27,8 +27,9 @@ mkdir -p "$OUT"
 
 # slug|url. Internal demos are captured from production so the /app chrome is real.
 SOURCES=(
-  "mocean|https://matthewoshin.com/app/mocean-demo"
+  "gtm-engineering-fintech|https://fintech.matthewoshin.com"
   "gtm-engineering|https://gotomarket.matthewoshin.com"
+  "mocean|https://matthewoshin.com/app/mocean-demo"
   "galactic-signals|https://matthewoshin.com/app/galactic-signals"
   "financial-comms|https://matthewoshin.com/app/financial-comms"
   "sec-intelligence|https://matthewoshin.com/app/sec-intelligence"

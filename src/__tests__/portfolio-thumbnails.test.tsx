@@ -19,7 +19,7 @@ describe("portfolio thumbnails", () => {
   const withoutThumb = ITEMS.filter((i) => !i.thumb);
 
   it("gives every card a thumbnail except the ones with nothing to screenshot", () => {
-    expect(withThumb.length).toBeGreaterThanOrEqual(13);
+    expect(withThumb.length).toBeGreaterThanOrEqual(14);
     // BriefBridge has no live surface yet, so it is the one text-only card.
     expect(withoutThumb.map((i) => i.name)).toEqual(["BriefBridge"]);
   });

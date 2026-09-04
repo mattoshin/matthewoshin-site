@@ -450,9 +450,28 @@ export interface Build {
 
 export const BUILDS: readonly Build[] = [
   {
+    slug: "gtm-engineering-fintech",
+    name: "Fintech Banking GTM Engineering",
+    hook: "A signal-based selling engine for a business banking platform: it detects a funding round or a competitor complaint, scores the company on fit, timing, access, and intent, and drafts the outreach for a person to approve.",
+    demoHref: "https://fintech.matthewoshin.com",
+    summary:
+      "Business banking is won at a moment: the week a startup closes a round, or the day a founder complains in public about their current bank. This engine watches for both. Funding announcements arrive over RSS and a manual live trigger, competitor-displacement complaints are captured the same way, and Claude scores every company on four axes, 0 to 25 each: Fit (is this who the platform serves), Timing (are they choosing a bank right now), Access (can you reach the person who decides), and Intent (are they actively unhappy or actively shopping). Anything at 60 or above gets two drafts, one for the founder and one for the finance lead, each opening on the specific trigger instead of a generic congratulations, and nothing sends until a person approves it. Around that loop sit an Apollo-connected outbound search, a call list ranked by score with the first draft as the opener, a drag-and-drop sequence builder, a monitor library, an agent studio where a rep describes a new agent in plain English, and an in-app assistant that can navigate the product for you. Signals to call list is the verified path and runs live end to end. Sequence execution, agent deployment, and the non-Apollo integrations are built but not yet wired to a provider, and each one says so where it appears. Every company in the demo is sample or public data, and the account values are labeled estimates with their assumptions shown next to the number.",
+    highlights: [
+      "Two signal types, one loop: funding rounds and competitor-displacement complaints are captured, scored, and drafted in about five to eight seconds from headline to email.",
+      "Four-axis ICP scoring (Fit, Timing, Access, Intent, 0 to 25 each) with a rubric matched to the signal type, the sum enforced in code, and a plain-English rationale on every company.",
+      "Persona-specific drafting: a founder email and a finance-lead email per company, each opening on the trigger, under 120 words, with the hard constraints checked after generation.",
+      "Human review before any handoff: a person approves or rejects every draft, and nothing auto-sends.",
+      "Apollo-connected outbound search that turns a plain-English ICP into filters and pushes the candidates into the same call list.",
+      "Extend it without an engineer: an agent studio and a monitor builder where a rep describes what they want in plain English and the system writes the config.",
+      "Account-value estimates priced off deposits and card spend, with the modeling assumptions cited next to every number.",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "Supabase Postgres", "Claude (scoring, drafting, assistant)", "Apollo", "Vercel cron"],
+    status: "Live",
+  },
+  {
     slug: "gtm-engineering",
-    name: "GTM Engineering",
-    hook: "A go-to-market engineering platform for SDR and AE teams: sequences, an AE pipeline, and an Agent Studio, deployable to your own infrastructure instead of a vendor's cloud.",
+    name: "AI Property Management GTM Engineering",
+    hook: "A go-to-market engineering platform for teams selling AI property management software: sequences, an AE pipeline, and an Agent Studio, deployable to your own infrastructure instead of a vendor's cloud.",
     demoHref: "https://gotomarket.matthewoshin.com",
     summary:
       "Most sales-engagement tools rent you a black box. This is the platform underneath one: a Control Plane with real adoption and ROI metrics, Sequences for multi-channel SDR cadences with per-step funnel tracking, an AE Pipeline board with recoverable-revenue math on every deal, and an Enrichment waterfall that resolves contacts the way Clay does. On top sits an Agent Studio: seven SDR/AE agent templates (account research, enrichment, reply triage, scheduling, CRM updates, list building, signal monitoring) that you configure, test, and deploy to a runtime you choose, Managed, your own VPS, or the edge. The flagship example vertical is real estate: the platform watches public social signals for property managers dropping leads, prices the monthly revenue leak, and drafts the outreach; the same mechanic could point at any vertical with a public complaint signal. Every company, dollar figure, and pipeline record in the demo is sample data; the signal monitor's live search hits real public posts.",

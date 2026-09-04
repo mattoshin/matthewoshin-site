@@ -19,7 +19,7 @@ import { ITEMS } from "@/data/portfolio-items";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Products I build, filterable by type: AI products (GTM Engineering, Options-Implied Distribution Terminal, Galactic Signals, Financial Communications Platform, SEC Intelligence, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Dog House), and ventures (Mocean, Element Underground).",
+    "Products I build, filterable by type: AI products (Fintech Banking GTM Engineering, AI Property Management GTM Engineering, Options-Implied Distribution Terminal, Galactic Signals, Financial Communications Platform, SEC Intelligence, Workplace AI, SecOps Command, Observly, BriefBridge), web & client work (BrachyClip, mTrain, Dog House), and ventures (Mocean, Element Underground).",
 };
 
 export default function PortfolioPage() {
