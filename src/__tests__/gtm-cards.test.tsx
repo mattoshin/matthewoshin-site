@@ -1,10 +1,11 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { SYSTEM_PROMPT } from "@/app/api/oceanai/route";
+import DemosHubPage from "@/app/app/page";
 import PortfolioPage, { metadata } from "@/app/portfolio/page";
-import ProjectPage from "@/app/projects/[slug]/page";
-import { BUILDS } from "@/data/content";
-import { DEMOS } from "@/data/demos";
+import ProjectPage, { generateMetadata } from "@/app/projects/[slug]/page";
+import { BUCKETS, BUILDS } from "@/data/content";
+import { DEMOS, matchDemoByPath } from "@/data/demos";
 import { ITEMS } from "@/data/portfolio-items";
 
 /**
@@ -72,10 +73,15 @@ describe("the two GTM engineering cards", () => {
       expect(`${demo.name} ${demo.tagline}`, slug).not.toMatch(CLIENT_NAMES);
       expect(demo.tagline, `${slug} em dash`).not.toContain("—");
     }
-    expect(FINTECH).not.toBe(PROPMGMT);
-    // Both names say what the product is; the vertical is the differentiator.
-    expect(FINTECH).toContain("GTM Engineering");
-    expect(PROPMGMT).toContain("GTM Engineering");
+    // Both real names say what the product is, the vertical is the
+    // differentiator, and the hub name matches the build name.
+    const names = GTM_SLUGS.map((slug) => {
+      const build = BUILDS.find((b) => b.slug === slug)!;
+      expect(build.name, slug).toContain("GTM Engineering");
+      expect(DEMOS.find((d) => d.slug === slug)!.name, `${slug} hub name`).toBe(build.name);
+      return build.name;
+    });
+    expect(new Set(names).size).toBe(GTM_SLUGS.length);
   });
 
   it("reach the copy surfaces: /portfolio metadata and the OceanAI grounding", () => {
@@ -85,6 +91,69 @@ describe("the two GTM engineering cards", () => {
     expect(SYSTEM_PROMPT).toContain(FINTECH);
     expect(SYSTEM_PROMPT).toContain(PROPMGMT);
     expect(SYSTEM_PROMPT).not.toMatch(CLIENT_NAMES);
+    // The home page introduces the portfolio with a teaser; the retired single
+    // name must not survive there as a standalone list item.
+    const teaser = BUCKETS.find((b) => b.id === "portfolio")?.teaser ?? "";
+    expect(teaser).not.toMatch(/now: GTM Engineering,/);
+    expect(teaser).toMatch(/fintech banking/i);
+    expect(teaser).toMatch(/property management/i);
+    expect(teaser).not.toMatch(CLIENT_NAMES);
+  });
+
+  it("render the rendered card CTAs: View Demo to each live domain, Case study to each route", () => {
+    render(<PortfolioPage />);
+    const demoLinks = screen.getAllByRole("link", { name: /view demo/i }).map((a) => a.getAttribute("href"));
+    expect(demoLinks.slice(0, 2)).toEqual(["https://fintech.matthewoshin.com", "https://gotomarket.matthewoshin.com"]);
+    const caseLinks = screen.getAllByRole("link", { name: /case study/i }).map((a) => a.getAttribute("href"));
+    expect(caseLinks.slice(0, 2)).toEqual(["/projects/gtm-engineering-fintech", "/projects/gtm-engineering"]);
+    // Long names break on a balanced line, like the case-study h1 does.
+    for (const name of [FINTECH, PROPMGMT]) {
+      const heading = screen.getByRole("heading", { name });
+      expect((heading.getAttribute("class") ?? "").split(/\s+/), name).toContain("text-balance");
+    }
+  });
+
+  it("lead the /app demos hub, open on their own domains, and the hub intro no longer denies it", () => {
+    render(<DemosHubPage />);
+    const headings = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
+    expect(headings.slice(0, 2)).toEqual([FINTECH, PROPMGMT]);
+    expect(screen.getByRole("link", { name: `Open ${FINTECH} demo` }).getAttribute("href")).toBe(
+      "https://fintech.matthewoshin.com",
+    );
+    expect(screen.getByRole("link", { name: `Open ${PROPMGMT} demo` }).getAttribute("href")).toBe(
+      "https://gotomarket.matthewoshin.com",
+    );
+    // Two live builds now sit first under the intro, so the intro must not
+    // claim that nothing on the page talks to a live server.
+    expect(screen.queryByText(/nothing here talks to a live server/i)).toBeNull();
+    expect(screen.getByText(/live builds that open on their own domains/i)).toBeTruthy();
+    // External demos never own a breadcrumb: an /app path shaped like their
+    // slug matches nothing.
+    expect(matchDemoByPath("/app/gtm-engineering")).toBeNull();
+    expect(matchDemoByPath("/app/gtm-engineering-fintech")).toBeNull();
+  });
+
+  it("carry the new names into each case study's tab title and description", async () => {
+    for (const slug of GTM_SLUGS) {
+      const build = BUILDS.find((b) => b.slug === slug)!;
+      const meta = await generateMetadata({
+        params: Promise.resolve({ slug }),
+      } as unknown as Parameters<typeof generateMetadata>[0]);
+      expect(meta.title, slug).toBe(build.name);
+      expect(meta.description, slug).toBe(build.hook);
+    }
+  });
+
+  it("render the renamed property-management case study under its original slug", async () => {
+    const props = {
+      params: Promise.resolve({ slug: "gtm-engineering" }),
+    } as unknown as Parameters<typeof ProjectPage>[0];
+    render(await ProjectPage(props));
+    expect(screen.getByRole("heading", { level: 1, name: PROPMGMT })).toBeTruthy();
+    const build = BUILDS.find((b) => b.slug === "gtm-engineering")!;
+    expect(screen.getByText(build.hook)).toBeTruthy();
+    const demo = screen.getByRole("link", { name: /view demo/i });
+    expect(demo.getAttribute("href")).toBe("https://gotomarket.matthewoshin.com");
   });
 
   it("render the fintech case study with its highlights, stack, and View Demo link", async () => {
