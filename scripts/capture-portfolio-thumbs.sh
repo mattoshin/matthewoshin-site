@@ -57,9 +57,10 @@ for entry in "${SOURCES[@]}"; do
   # Let loaders, fonts and any entrance animation settle.
   sleep 4
   # The page we are about to capture must still be the page we asked for: a
-  # redirect to a login, consent or error page on another origin is a failure.
+  # redirect to a login, consent or error page, on this origin or another, is
+  # a failure. Exact match, with or without a trailing slash.
   final=$("$B" js "location.origin + location.pathname" 2>&1 | tail -1 | tr -d '"')
-  if [[ "$final" != "${url%/}"* ]]; then echo "   !! $slug ended at $final, expected $url" >&2; exit 1; fi
+  if [[ "$final" != "${url%/}" && "$final" != "${url%/}/" ]]; then echo "   !! $slug ended at $final, expected $url" >&2; exit 1; fi
   # On this site's own /app demos, hide the demo strip so the capture is the
   # product, not the site chrome. Never run it on the external sites: a real
   # sticky header there would be deleted from the thumbnail without a trace.

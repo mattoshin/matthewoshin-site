@@ -8,7 +8,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## What this is
 - Public portfolio at **matthewoshin.com**: ocean WebGL descent, project demos, blog, about.
-- Fully public. No auth. Demos live under `/app/*` (Mocean, Galactic, Sigma, etc.).
+- Fully public. No auth. Demos live under `/app/*` (Mocean, Galactic, Sigma, etc.) or on their own matthewoshin.com subdomains (the two GTM engineering builds, Riptide); `src/data/demos.ts` is the registry.
 
 ## Stack
 - **Next.js 16** + React 19 + TypeScript + Tailwind v4
